@@ -35,12 +35,17 @@ public class QuestUI : MonoBehaviour
         {
             _buttonQuestComplitedList.Add(ButtonQuestComplited.transform.GetChild(j).gameObject);
         }
+
         QuestManager.Instance.NewQuestGenerate += ShowQuestInfo;
         QuestManager.Instance.UpdateAdvancementQuest += UpdateCurrentAdvancementQuest;
         QuestManager.Instance.QuestComplited += QuestComplited;
         QuestManager.Instance.ResetQuestText += ResetQuestText;
     }
 
+    /// <summary>
+    /// Show the quest info, description and objectifs.
+    /// </summary>
+    /// <param name="_quest"></param>
     public void ShowQuestInfo(Quest _quest)
     {
         _actualQuest = _quest;
@@ -75,6 +80,9 @@ public class QuestUI : MonoBehaviour
         ObjectPool.Instance.ReturnThisObject(_actualQuest.gameObject);
     }
 
+    /// <summary>
+    /// Update the actual quest and there avancement with the actual storage of this object type
+    /// </summary>
     public void UpdateCurrentAdvancementQuest()
     {
         for (int i = 0; i < QuestManager.Instance.CurrentQuestList.Count; i++)
@@ -84,33 +92,41 @@ public class QuestUI : MonoBehaviour
 
             if (_currentQuest.QuestData.NumberOfObject.Count == 1)
             {
-                _objectifCurrentQuestTextList[i].text = $"{QuestManager.Instance.StockOfThisObjectTemp}/{_currentQuest.QuestData.NumberOfObject[0]} {_currentQuest.QuestData.Object[0]}";
+                _objectifCurrentQuestTextList[i].text = $"{ItemStorage.Instance.ReturnNumberOfThisObject(_currentQuest.QuestData.Object[0])} / {_currentQuest.QuestData.NumberOfObject[0]} {_currentQuest.QuestData.Object[0]}";
             }
 
             if (_currentQuest.QuestData.NumberOfObject.Count == 2)
             {
-                _objectifCurrentQuestTextList[i].text = $"{QuestManager.Instance.StockOfThisObjectTemp}/{_currentQuest.QuestData.NumberOfObject[0]} {_currentQuest.QuestData.Object[0]} \n{QuestManager.Instance.StockOfThisObjectTemp}/{_currentQuest.QuestData.NumberOfObject[1]} {_currentQuest.QuestData.Object[1]}";
+                _objectifCurrentQuestTextList[i].text = $"{ItemStorage.Instance.ReturnNumberOfThisObject(_currentQuest.QuestData.Object[0])} / {_currentQuest.QuestData.NumberOfObject[0]} {_currentQuest.QuestData.Object[0]} \n{ItemStorage.Instance.ReturnNumberOfThisObject(_currentQuest.QuestData.Object[1])} / {_currentQuest.QuestData.NumberOfObject[1]} {_currentQuest.QuestData.Object[1]}";
             }
 
             if (_currentQuest.QuestData.NumberOfObject.Count == 3)
             {
-                _objectifCurrentQuestTextList[i].text = $"{QuestManager.Instance.StockOfThisObjectTemp}/{_currentQuest.QuestData.NumberOfObject[0]} {_currentQuest.QuestData.Object[0]} \n{QuestManager.Instance.StockOfThisObjectTemp}/{_currentQuest.QuestData.NumberOfObject[1]} {_currentQuest.QuestData.Object[1]} \n{QuestManager.Instance.StockOfThisObjectTemp}/{_currentQuest.QuestData.NumberOfObject[2]} {_currentQuest.QuestData.Object[2]}";
+                _objectifCurrentQuestTextList[i].text = $"{ItemStorage.Instance.ReturnNumberOfThisObject(_currentQuest.QuestData.Object[0])} / {_currentQuest.QuestData.NumberOfObject[0]} {_currentQuest.QuestData.Object[0]} \n{ItemStorage.Instance.ReturnNumberOfThisObject(_currentQuest.QuestData.Object[1])} / {_currentQuest.QuestData.NumberOfObject[1]} {_currentQuest.QuestData.Object[1]} \n{ItemStorage.Instance.ReturnNumberOfThisObject(_currentQuest.QuestData.Object[2])} / {_currentQuest.QuestData.NumberOfObject[2]} {_currentQuest.QuestData.Object[2]}";
             }
         }
     }
-    public void ResetQuestText(int _questID)
-    {
-        _nameCurrentQuestTextList[_questID].color = Color.black;
-        _objectifCurrentQuestTextList[_questID].color = Color.black;
-        _buttonQuestComplitedList[_questID].SetActive(false);
 
+    /// <summary>
+    /// Reset all text for a new quest
+    /// </summary>
+    public void ResetQuestText()
+    {
         for (int i = 0; i < _objectifCurrentQuestTextList.Count; i++)
         {
+            _nameCurrentQuestTextList[i].color = Color.black;
+            _objectifCurrentQuestTextList[i].color = Color.black;
+
+            _buttonQuestComplitedList[i].SetActive(false);
             _nameCurrentQuestTextList[i].text = " ";
             _objectifCurrentQuestTextList[i].text = " ";
         }
     }
 
+    /// <summary>
+    /// Change the text color if the quest is complited and active button to give object
+    /// </summary>
+    /// <param name="_currentQuestID"></param>
     public void QuestComplited(int _currentQuestID)
     {
         _nameCurrentQuestTextList[_currentQuestID].color = QuestComplitedColorText;
