@@ -11,20 +11,25 @@ public class RecyclingRoom : MonoBehaviour, IRoomBehaviour
     /// <summary>
     /// A reference to the item storage.
     /// </summary>
-    private ItemStorage _itemStorage;
+    private RawMaterialStorage _rawMaterialStorage;
 
     /// <summary>
     /// Reference to the main component of the room.
     /// </summary>
     private RoomTemp _roomMain;
 
-
-
     public void InitRoomBehaviour(IRoomBehaviourData behaviourData, RoomTemp roomMain)
     {
         RecyclingRoomData = (RecyclingRoomData)behaviourData;
-        _itemStorage = ItemStorage.Instance;
+        _rawMaterialStorage = RawMaterialStorage.Instance;
         _roomMain = roomMain;
+
+        _rawMaterialStorage.RawMaterialToRecycle += Recycle;
     }
 
+    public void Recycle(int _rawMaterialToRecycle)
+    {
+        _rawMaterialStorage.AddRawMaterials(_rawMaterialToRecycle);
+        _rawMaterialStorage.TotalRecyclingRawMaterial += _rawMaterialToRecycle;
+    }
 }

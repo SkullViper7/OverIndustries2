@@ -159,6 +159,4 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
             _itemStorage.AddComponents(_currentComponentManufactured.ComponentType, 1);
         }
     }
-
-
 }

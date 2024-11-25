@@ -26,6 +26,12 @@ public class ComponentData : ScriptableObject
     /// </summary>
     [Space, Header("Stats"), SerializeField, Tooltip("Cost of the component (in raw material).")]
     private int _cost;
+    
+    /// <summary>
+    /// Trash of the component (in raw material).
+    /// </summary>
+    [Space, SerializeField, Tooltip("Trash of the component (in raw material).")]
+    private int _trash;
 
     /// <summary>
     /// Time to product the component (in seconds) at lvl 1.
@@ -64,6 +70,11 @@ public class ComponentData : ScriptableObject
     /// Gets the cost of the component.
     /// </summary>
     public int Cost { get { return _cost; } private set { } }
+    
+    /// <summary>
+    /// Gets the cost of the component.
+    /// </summary>
+    public int Trash { get { return _trash; } private set { } }
 
     /// <summary>
     /// Gets the time to product the component for a room at lvl 1.
