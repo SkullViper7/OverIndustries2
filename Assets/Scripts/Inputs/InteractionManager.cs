@@ -8,6 +8,11 @@ public class InteractionManager : MonoBehaviour
     public static InteractionManager Instance => _instance;
 
     /// <summary>
+    /// Current room selected by the player.
+    /// </summary>
+    public RoomTemp CurrentRoomSelected { get; private set; }
+
+    /// <summary>
     /// A reference to the input manager.
     /// </summary>
     private InputsManager _inputsManager;
@@ -16,9 +21,7 @@ public class InteractionManager : MonoBehaviour
     /// Events to indicate that there is an interaction with a room.
     /// </summary>
     /// <param name="roomMain"> Main component of the room. </param>
-    /// <param name="roomData"> Generic datas of the room. </param>
-    /// <param name="roomBehaviourData"> Datas of the room's behaviour. </param>
-    public delegate void RoomInteractionDelegate(RoomTemp roomMain, RoomData roomData, IRoomBehaviourData roomBehaviourData);
+    public delegate void RoomInteractionDelegate(RoomTemp roomMain);
     public event RoomInteractionDelegate RoomInteraction;
 
     /// <summary>
@@ -74,7 +77,8 @@ public class InteractionManager : MonoBehaviour
             // If the ray hits an object with a room component, trigger its event with datas of the room
             if (hit.collider.transform.parent.TryGetComponent<RoomTemp>(out RoomTemp room))
             {
-                RoomInteraction?.Invoke(room, room.RoomData, (IRoomBehaviourData)room.RoomBehaviourData);
+                CurrentRoomSelected = room;
+                RoomInteraction?.Invoke(room);
             }
             //If the ray hits an object with a employee component, trigger its event with datas of the employee
             //else if (hit.collider.gameObject.TryGetComponent<RoomTemp>(out RoomTemp room))

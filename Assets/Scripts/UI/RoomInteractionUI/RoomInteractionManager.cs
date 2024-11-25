@@ -37,17 +37,14 @@ public class RoomInteractionManager : MonoBehaviour
     /// Called to show some buttons when an interaction on a room is triggered.
     /// </summary>
     /// <param name="roomMain"> Main component of the room. </param>
-    /// <param name="roomData"> Generic datas of the room. </param>
-    /// <param name="roomBehaviourData"> Datas of the room's behaviour. </param>
-    private void ShowButtons(RoomTemp roomMain, RoomData roomData, IRoomBehaviourData roomBehaviourData)
+    private void ShowButtons(RoomTemp roomMain)
     {
-        switch (roomData.RoomType)
+        switch (roomMain.RoomData.RoomType)
         {
             case RoomType.Elevator:
             case RoomType.Recycling:
                 DesactivateAllButtons();
                 _infoButton.gameObject.SetActive(true);
-                _infoButton.GetComponent<RoomInfoButton>().IniButton(roomMain, roomData, roomBehaviourData);
                 break;
 
             case RoomType.Delivery:
@@ -56,7 +53,6 @@ public class RoomInteractionManager : MonoBehaviour
             case RoomType.Director:
                 DesactivateAllButtons();
                 _infoButton.gameObject.SetActive(true);
-                _infoButton.GetComponent<RoomInfoButton>().IniButton(roomMain, roomData, roomBehaviourData);
                 _upgradeButton.gameObject.SetActive(true);
                 break;
 
@@ -65,7 +61,6 @@ public class RoomInteractionManager : MonoBehaviour
             case RoomType.Research:
                 DesactivateAllButtons();
                 _infoButton.gameObject.SetActive(true);
-                _infoButton.GetComponent<RoomInfoButton>().IniButton(roomMain, roomData, roomBehaviourData);
                 _upgradeButton.gameObject.SetActive(true);
                 _productionButton.gameObject.SetActive(true);
                 break;

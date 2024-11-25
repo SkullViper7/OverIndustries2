@@ -1,10 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RoomInfoButton : MonoBehaviour
+public class RoomProductionButton : MonoBehaviour
 {
     /// <summary>
-    /// The pop up which displays room's infos.
+    /// The pop up where player can launch a production.
     /// </summary>
     [SerializeField]
     private GameObject _popUp;
@@ -12,11 +12,11 @@ public class RoomInfoButton : MonoBehaviour
     /// <summary>
     /// A reference to the script which manage the pop up.
     /// </summary>
-    private RoomInfoPopUp _roomInfoPopUp;
+    private RoomProductionPopUp _roomProductionPopUp;
 
     private void Start()
     {
-        _roomInfoPopUp = _popUp.GetComponent<RoomInfoPopUp>();
+        _roomProductionPopUp = _popUp.GetComponent<RoomProductionPopUp>();
         GetComponent<Button>().onClick.AddListener(OnButtonClicked);
     }
 
@@ -34,6 +34,6 @@ public class RoomInfoButton : MonoBehaviour
     private void OnButtonClicked()
     {
         _popUp.SetActive(true);
-        _roomInfoPopUp.DisplayDatas();
+        _roomProductionPopUp.DisplayDatas();
     }
 }

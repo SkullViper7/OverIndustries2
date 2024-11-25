@@ -4,9 +4,15 @@ using UnityEngine;
 public class ComponentData : ScriptableObject
 {
     /// <summary>
+    /// Pictogram of the component.
+    /// </summary>
+    [SerializeField, Tooltip("Pictogram of the component.")]
+    private Sprite _componentPicto;
+
+    /// <summary>
     /// Type of the component.
     /// </summary>
-    [Header("Component"), SerializeField, Tooltip("Type of the component.")]
+    [Space, Header("Component"), SerializeField, Tooltip("Type of the component.")]
     private ComponentType _componentType;
 
     /// <summary>
@@ -38,6 +44,11 @@ public class ComponentData : ScriptableObject
     /// </summary>
     [SerializeField, Tooltip("Time to product the component (in seconds) at lvl 3.")]
     private int _productionTimeAtLvl3;
+
+    /// <summary>
+    /// Gets the pictogram of the component.
+    /// </summary>
+    public Sprite ComponentPicto { get { return _componentPicto; } private set { } }
 
     /// <summary>
     /// Gets the type of the component.

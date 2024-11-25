@@ -39,11 +39,6 @@ public class ItemStorage : MonoBehaviour
     /// </summary>
     public int CurrentStorage { get { return _currentStorage; } private set { } }
 
-    /// <summary>
-    /// Event for update the quest advancement 
-    /// </summary>
-    public event System.Action<ObjectType, int> StorageChanged;
-
     private void Awake()
     {
         // Singleton
@@ -214,23 +209,6 @@ public class ItemStorage : MonoBehaviour
         else
         {
             return false;
-        }
-    }
-    
-    /// <summary>
-    /// Called to know the number of this object type in the storage.
-    /// </summary>
-    /// <param name="objectType"> Type of the object. </param>
-    /// <returns></returns>
-    public int ReturnNumberOfThisObject(ObjectType objectType)
-    {
-        if (_objectStorage.ContainsKey(objectType))
-        {
-            return _objectStorage[objectType];
-        }
-        else
-        {
-            return 0;
         }
     }
 

@@ -22,7 +22,7 @@ public class AssemblyRoom : MonoBehaviour, IRoomBehaviour
     /// <summary>
     /// All objects that the room can assembled.
     /// </summary>
-    private List<ObjectData> _assemblableObjects = new();
+    public List<ObjectData> AssemblableObjects { get; private set; } = new();
 
     /// <summary>
     /// Current object that the room is assembling.
@@ -51,10 +51,10 @@ public class AssemblyRoom : MonoBehaviour, IRoomBehaviour
         // Init manufacturable components
         for (int i = 0; i < AssemblyRoomData.AssemblableObjectsByDefault.Count; i++)
         {
-            _assemblableObjects.Add(AssemblyRoomData.AssemblableObjectsByDefault[i]);
+            AssemblableObjects.Add(AssemblyRoomData.AssemblableObjectsByDefault[i]);
         }
 
-        StartNewProduction(_assemblableObjects[0]);
+        StartNewProduction(AssemblableObjects[0]);
     }
 
     /// <summary>
