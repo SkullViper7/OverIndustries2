@@ -229,7 +229,7 @@ public class ItemStorage : MonoBehaviour
             return _objectStorage[objectType];
         }
         else
-        {
+        { 
             return 0;
         }
     }
