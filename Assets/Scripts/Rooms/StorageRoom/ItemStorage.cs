@@ -216,6 +216,23 @@ public class ItemStorage : MonoBehaviour
             return false;
         }
     }
+    
+    /// <summary>
+    /// Called to know the number of this object type in the storage.
+    /// </summary>
+    /// <param name="objectType"> Type of the object. </param>
+    /// <returns></returns>
+    public int ReturnNumberOfThisObject(ObjectType objectType)
+    {
+        if (_objectStorage.ContainsKey(objectType))
+        {
+            return _objectStorage[objectType];
+        }
+        else
+        {
+            return 0;
+        }
+    }
 
     /// <summary>
     /// Called to add capacity when a storage room is build or upgraded;
