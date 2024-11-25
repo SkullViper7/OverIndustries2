@@ -359,11 +359,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -1997616358666212538, guid: cc57bf8fffea7ff4a86b71c31c0b8779,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 2147483647
-      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: cc57bf8fffea7ff4a86b71c31c0b8779,
         type: 3}
       propertyPath: m_Name
@@ -374,25 +369,20 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
-    - target: {fileID: 2762012800542959500, guid: cc57bf8fffea7ff4a86b71c31c0b8779,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 2147483647
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: cc57bf8fffea7ff4a86b71c31c0b8779,
         type: 3}
-      insertIndex: 0
+      insertIndex: -1
       addedObject: {fileID: 3869002575858108075}
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: cc57bf8fffea7ff4a86b71c31c0b8779,
         type: 3}
-      insertIndex: 1
+      insertIndex: -1
       addedObject: {fileID: 2528501864161585930}
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: cc57bf8fffea7ff4a86b71c31c0b8779,
         type: 3}
-      insertIndex: 2
+      insertIndex: -1
       addedObject: {fileID: 8828369393111256550}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cc57bf8fffea7ff4a86b71c31c0b8779,
@@ -400,9 +390,9 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 8348286485861426984}
   m_SourcePrefab: {fileID: 100100000, guid: cc57bf8fffea7ff4a86b71c31c0b8779, type: 3}
---- !u!23 &3377995788252606839 stripped
+--- !u!23 &2406202272155321859 stripped
 MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 1748545454894951408, guid: cc57bf8fffea7ff4a86b71c31c0b8779,
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: cc57bf8fffea7ff4a86b71c31c0b8779,
     type: 3}
   m_PrefabInstance: {fileID: 3937581581697079943}
   m_PrefabAsset: {fileID: 0}
@@ -425,27 +415,21 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4207611406396286934}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 21625ece6b22d3049af2e49fdffd900f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   releaseShaders: 1
   m_RendererInfo:
-  - renderer: {fileID: 3377995788252606839}
+  - renderer: {fileID: 2406202272155321859}
     lightmapIndex: 0
-    lightmapOffsetScale: {x: 0.14760053, y: 0.14760053, z: 0.8315991, w: 0.8522324}
-  - renderer: {fileID: 8740244563894622918}
-    lightmapIndex: 1
-    lightmapOffsetScale: {x: 0.256138, y: 0.256138, z: 0.30064195, w: -0.0001393061}
+    lightmapOffsetScale: {x: 0.19573635, y: 0.19573635, z: 0.7242094, w: 0.5016377}
   m_Lightmaps:
   - {fileID: 2800000, guid: 40372dd5e0268a74ba6dbce759a33207, type: 3}
-  - {fileID: 2800000, guid: defb05c67441ccc44bcc28bea1acc68f, type: 3}
   m_LightmapsDir:
   - {fileID: 2800000, guid: 86476ef28b5b7994481a162d1a88d1c8, type: 3}
-  - {fileID: 2800000, guid: 1b4ae3f01b6d9c749bba7f8e196c6ba4, type: 3}
   m_ShadowMasks:
-  - {fileID: 0}
   - {fileID: 0}
   m_LightInfo:
   - light: {fileID: 3463829577220238056}
@@ -454,9 +438,3 @@ MonoBehaviour:
   - light: {fileID: 4631756613336004300}
     lightmapBaketype: 2
     mixedLightingMode: 0
---- !u!23 &8740244563894622918 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 5759698794641260609, guid: cc57bf8fffea7ff4a86b71c31c0b8779,
-    type: 3}
-  m_PrefabInstance: {fileID: 3937581581697079943}
-  m_PrefabAsset: {fileID: 0}
