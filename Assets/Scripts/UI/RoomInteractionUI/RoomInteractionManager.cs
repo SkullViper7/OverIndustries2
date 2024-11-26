@@ -39,7 +39,7 @@ public class RoomInteractionManager : MonoBehaviour
     /// <param name="roomMain"> Main component of the room. </param>
     /// <param name="roomData"> Generic datas of the room. </param>
     /// <param name="roomBehaviourData"> Datas of the room's behaviour. </param>
-    private void ShowButtons(RoomTemp roomMain, RoomData roomData, IRoomBehaviourData roomBehaviourData)
+    private void ShowButtons(Room roomMain, RoomData roomData, IRoomBehaviourData roomBehaviourData)
     {
         switch (roomData.RoomType)
         {

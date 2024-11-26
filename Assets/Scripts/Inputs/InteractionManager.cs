@@ -18,7 +18,7 @@ public class InteractionManager : MonoBehaviour
     /// <param name="roomMain"> Main component of the room. </param>
     /// <param name="roomData"> Generic datas of the room. </param>
     /// <param name="roomBehaviourData"> Datas of the room's behaviour. </param>
-    public delegate void RoomInteractionDelegate(RoomTemp roomMain, RoomData roomData, IRoomBehaviourData roomBehaviourData);
+    public delegate void RoomInteractionDelegate(Room roomMain, RoomData roomData, IRoomBehaviourData roomBehaviourData);
     public event RoomInteractionDelegate RoomInteraction;
 
     /// <summary>
@@ -72,7 +72,7 @@ public class InteractionManager : MonoBehaviour
         if (Physics.Raycast(Camera.main.transform.position, direction, out hit, 200))
         {
             // If the ray hits an object with a room component, trigger its event with datas of the room
-            if (hit.collider.transform.parent.TryGetComponent<RoomTemp>(out RoomTemp room))
+            if (hit.collider.transform.parent.TryGetComponent<Room>(out Room room))
             {
                 RoomInteraction?.Invoke(room, room.RoomData, (IRoomBehaviourData)room.RoomBehaviourData);
             }

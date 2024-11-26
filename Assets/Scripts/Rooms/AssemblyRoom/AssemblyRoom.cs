@@ -17,7 +17,7 @@ public class AssemblyRoom : MonoBehaviour, IRoomBehaviour
     /// <summary>
     /// Reference to the main component of the room.
     /// </summary>
-    private RoomTemp _roomMain;
+    private Room _roomMain;
 
     /// <summary>
     /// All objects that the room can assembled.
@@ -42,7 +42,7 @@ public class AssemblyRoom : MonoBehaviour, IRoomBehaviour
     /// <summary>
     /// Called at the start to initialize the assembling room.
     /// </summary>
-    public void InitRoomBehaviour(IRoomBehaviourData behaviourData, RoomTemp roomMain)
+    public void InitRoomBehaviour(IRoomBehaviourData behaviourData, Room roomMain)
     {
         AssemblyRoomData = (AssemblyRoomData)behaviourData;
         _itemStorage = ItemStorage.Instance;

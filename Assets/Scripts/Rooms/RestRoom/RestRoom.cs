@@ -8,18 +8,18 @@ public class RestRoom : MonoBehaviour, IRoomBehaviour
     [field: SerializeField]
     public RestRoomData RestRoomData { get; private set; }
     public Room _rooms;
-    private RoomTemp _roomMain;
+    private Room _roomMain;
 
     void Start()
     {
-        InitRoomBehaviour(RestRoomData, gameObject.GetComponent<RoomTemp>());
+        InitRoomBehaviour(RestRoomData, gameObject.GetComponent<Room>());
         _rooms = gameObject.GetComponent<Room>();
     }
 
     /// <summary>
     /// Called at the start to initialize the break room.
     /// </summary>
-    public void InitRoomBehaviour(IRoomBehaviourData roomBehaviourData, RoomTemp roomMain)
+    public void InitRoomBehaviour(IRoomBehaviourData roomBehaviourData, Room roomMain)
     {
         RestRoomData = (RestRoomData)roomBehaviourData;
         _roomMain = roomMain;
@@ -31,14 +31,14 @@ public class RestRoom : MonoBehaviour, IRoomBehaviour
     {
         SpotChecker.Instance.CheckOccupiedSpots();
 
-        if (SpotChecker.Instance._occupiedSpots[(int)_rooms.Coordinates.x, (int)_rooms.Coordinates.y + _rooms.Size] && _rooms.Coordinates.y + _rooms.Size < SpotChecker.Instance.GridSize)
+        if (SpotChecker.Instance.OccupiedSpots[(int)_rooms.Coordinates.x, (int)_rooms.Coordinates.y + _rooms.Size] && _rooms.Coordinates.y + _rooms.Size < SpotChecker.Instance.GridSize)
         {
-            Debug.Log("Augmente la productivité de la salle droite");
+            Debug.Log("Augmente la productivitï¿½ de la salle droite");
         }
-        if (_rooms.Coordinates.y - _rooms.Size > 0 && SpotChecker.Instance._occupiedSpots[(int)_rooms.Coordinates.x, (int)_rooms.Coordinates.y - _rooms.Size])
+        if (_rooms.Coordinates.y - _rooms.Size > 0 && SpotChecker.Instance.OccupiedSpots[(int)_rooms.Coordinates.x, (int)_rooms.Coordinates.y - _rooms.Size])
         {
-            // augmente la productivité de la salle
-            Debug.Log("Augmente la productivité de la salle gauche");
+            // augmente la productivitï¿½ de la salle
+            Debug.Log("Augmente la productivitï¿½ de la salle gauche");
         }
     }
 

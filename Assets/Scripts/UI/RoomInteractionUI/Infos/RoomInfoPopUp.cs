@@ -40,7 +40,7 @@ public class RoomInfoPopUp : MonoBehaviour
     /// <param name="roomMain"> Main component of the room. </param>
     /// <param name="roomData"> Generic data of the room. </param>
     /// <param name="roomBehaviourData"> Data of the room's behaviour. </param>
-    public void DisplayDatas(RoomTemp roomMain, RoomData roomData, IRoomBehaviourData roomBehaviourData)
+    public void DisplayDatas(Room roomMain, RoomData roomData, IRoomBehaviourData roomBehaviourData)
     {
         _nameLvl.text = roomData.Name + " (Niveau " + roomMain.CurrentLvl.ToString() + ")";
         _description.text = roomData.Description;

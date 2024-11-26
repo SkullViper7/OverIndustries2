@@ -17,7 +17,7 @@ public class RoomInfoButton : MonoBehaviour
     /// <summary>
     /// Current main component of the room.
     /// </summary>
-    private RoomTemp _roomMain;
+    private Room _roomMain;
 
     /// <summary>
     /// Current data of the room.
@@ -41,7 +41,7 @@ public class RoomInfoButton : MonoBehaviour
     ///  <param name="roomMain"> Main component of the room. </param>
     /// <param name="roomData"> Generic data of the room. </param>
     /// <param name="roomBehaviourData"> Data of the room's behaviour. </param>
-    public void IniButton(RoomTemp roomMain, RoomData roomData, IRoomBehaviourData roomBehaviourData)
+    public void IniButton(Room roomMain, RoomData roomData, IRoomBehaviourData roomBehaviourData)
     {
         _roomMain = roomMain;
         _roomData = roomData;
