@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEditor;
 using System.Runtime.InteropServices;
 
-public class RoomTemp : MonoBehaviour
+public class Room : MonoBehaviour
 {
     /// <summary>
     /// Data of the room.

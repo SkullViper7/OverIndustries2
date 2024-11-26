@@ -38,7 +38,7 @@ public class RoomInteractionManager : MonoBehaviour
     /// Called to show some buttons when an interaction on a room is triggered.
     /// </summary>
     /// <param name="roomMain"> Main component of the room. </param>
-    private void ShowButtons(RoomTemp roomMain)
+    private void ShowButtons(Room roomMain)
     {
         switch (roomMain.RoomData.RoomType)
         {

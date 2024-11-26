@@ -22,7 +22,7 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
     /// <summary>
     /// Reference to the main component of the room.
     /// </summary>
-    private RoomTemp _roomMain;
+    private Room _roomMain;
 
     /// <summary>
     /// All components that the room can manufacture.
@@ -47,7 +47,7 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
     /// <summary>
     /// Called at the start to initialize the machining room.
     /// </summary>
-    public void InitRoomBehaviour(IRoomBehaviourData behaviourData, RoomTemp roomMain)
+    public void InitRoomBehaviour(IRoomBehaviourData behaviourData, Room roomMain)
     {
         MachiningRoomData = (MachiningRoomData)behaviourData;
         _itemStorage = ItemStorage.Instance;
@@ -159,6 +159,4 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
             _itemStorage.AddComponents(_currentComponentManufactured.ComponentType, 1);
         }
     }
-
-
 }

@@ -51,7 +51,7 @@ public class RoomProductionPopUp : MonoBehaviour
     /// </summary>
     public void DisplayDatas()
     {
-        RoomTemp currentRoomSelected = InteractionManager.Instance.CurrentRoomSelected;
+        Room currentRoomSelected = InteractionManager.Instance.CurrentRoomSelected;
 
         if (currentRoomSelected != null)
         {
