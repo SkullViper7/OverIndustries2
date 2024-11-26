@@ -58,7 +58,7 @@ public class ProductionButton : MonoBehaviour
     /// </summary>
     private void ComponentButtonClicked()
     {
-        RoomTemp currentRoomSelected = InteractionManager.Instance.CurrentRoomSelected;
+        Room currentRoomSelected = InteractionManager.Instance.CurrentRoomSelected;
 
         if (currentRoomSelected != null)
         {
@@ -72,7 +72,7 @@ public class ProductionButton : MonoBehaviour
     /// </summary>
     private void ObjectButtonClicked()
     {
-        RoomTemp currentRoomSelected = InteractionManager.Instance.CurrentRoomSelected;
+        Room currentRoomSelected = InteractionManager.Instance.CurrentRoomSelected;
 
         if (currentRoomSelected != null)
         {

@@ -10,7 +10,7 @@ public class InteractionManager : MonoBehaviour
     /// <summary>
     /// Current room selected by the player.
     /// </summary>
-    public RoomTemp CurrentRoomSelected { get; private set; }
+    public Room CurrentRoomSelected { get; private set; }
 
     /// <summary>
     /// A reference to the input manager.
@@ -21,7 +21,7 @@ public class InteractionManager : MonoBehaviour
     /// Events to indicate that there is an interaction with a room.
     /// </summary>
     /// <param name="roomMain"> Main component of the room. </param>
-    public delegate void RoomInteractionDelegate(RoomTemp roomMain);
+    public delegate void RoomInteractionDelegate(Room roomMain);
     public event RoomInteractionDelegate RoomInteraction;
 
     /// <summary>
@@ -75,7 +75,7 @@ public class InteractionManager : MonoBehaviour
         if (Physics.Raycast(Camera.main.transform.position, direction, out hit, 200))
         {
             // If the ray hits an object with a room component, trigger its event with datas of the room
-            if (hit.collider.transform.parent.TryGetComponent<RoomTemp>(out RoomTemp room))
+            if (hit.collider.transform.parent.TryGetComponent<Room>(out Room room))
             {
                 CurrentRoomSelected = room;
                 RoomInteraction?.Invoke(room);

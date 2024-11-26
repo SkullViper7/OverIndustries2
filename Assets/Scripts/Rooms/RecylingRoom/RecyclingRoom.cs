@@ -16,9 +16,9 @@ public class RecyclingRoom : MonoBehaviour, IRoomBehaviour
     /// <summary>
     /// Reference to the main component of the room.
     /// </summary>
-    private RoomTemp _roomMain;
+    private Room _roomMain;
 
-    public void InitRoomBehaviour(IRoomBehaviourData behaviourData, RoomTemp roomMain)
+    public void InitRoomBehaviour(IRoomBehaviourData behaviourData, Room roomMain)
     {
         RecyclingRoomData = (RecyclingRoomData)behaviourData;
         _rawMaterialStorage = RawMaterialStorage.Instance;
