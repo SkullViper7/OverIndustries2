@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CreateNewRoom : MonoBehaviour
 {
-    [SerializeField] SpotChecker _spotChecker;
+    [SerializeField] GridManager _spotChecker;
     GameObject _newRoom;
 
     public Vector2 CoordinatesNewRoom;

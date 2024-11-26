@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PanelManager : MonoBehaviour
 {
-    [SerializeField] SpotChecker _spotChecker;
+    [SerializeField] GridManager _spotChecker;
 
     [SerializeField] GameObject _panelPrefab;
 

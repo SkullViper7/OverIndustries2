@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class SpotUIManager : MonoBehaviour
 {
-    SpotChecker _spotChecker;
+    GridManager _spotChecker;
 
     void Start()
     {
-        _spotChecker = GetComponent<SpotChecker>();
+        _spotChecker = GetComponent<GridManager>();
     }
 
     public void ShowAvailableSmallSpots()

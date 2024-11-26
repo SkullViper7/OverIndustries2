@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEditor;
-using System.Runtime.InteropServices;
 
 public class Room : MonoBehaviour
 {
@@ -25,6 +23,11 @@ public class Room : MonoBehaviour
     /// Current lvl of the room.
     /// </summary>
     public int CurrentLvl { get; private set; }
+
+    /// <summary>
+    /// Position of the room in the grid (leftmost slot of the room)
+    /// </summary>
+    public Vector2 RoomPosition { get; private set; }
 
     /// <summary>
     /// Events to get the lvl when the room is upgraded.
@@ -73,9 +76,18 @@ public class Room : MonoBehaviour
     }
 
     /// <summary>
-    /// Called to update the room.
+    /// Called to set the position in the grid of the room.
     /// </summary>
-    public void UpdateRoom()
+    /// <param name="position"> Position of the room in the grid. </param>
+    public void SetRoomPosition(Vector2 position)
+    {
+        RoomPosition = position;
+    }
+
+    /// <summary>
+    /// Called to upgrade the room.
+    /// </summary>
+    public void UpgradeRoom()
     {
         CurrentLvl++;
         NewLvl?.Invoke(CurrentLvl);

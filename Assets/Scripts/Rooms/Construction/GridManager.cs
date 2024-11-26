@@ -1,119 +1,193 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public struct AvailableSpot
+public class GridManager : MonoBehaviour
 {
-    public Vector2 Position;
-    public bool IsToTheLeft;
-}
+    // Singleton
+    private static GridManager _instance = null;
+    public static GridManager Instance => _instance;
 
-public class SpotChecker : MonoBehaviour
-{
-    public Vector2 GridSize = new Vector2(16, 6);
+    /// <summary>
+    /// Size of the grid.
+    /// </summary>
+    [SerializeField]
+    private Vector2 _gridSize;
 
-    public Dictionary<string, Dictionary<string, Room>> OccupiedSpots = new();
+    /// <summary>
+    /// List of the room already in the scene at the start of the game.
+    /// </summary>
+    [SerializeField]
+    private List<Room> _roomsByDefault = new();
 
-    private static SpotChecker _instance;
-
-    public static SpotChecker Instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = FindObjectOfType<SpotChecker>();
-            }
-            return _instance;
-        }
-    }
+    /// <summary>
+    /// Dictionnary which represents the grid.
+    /// </summary>
+    private Dictionary<string, Dictionary<string, Room>> _grid = new();
 
     /// <summary>
     /// List of rooms already instantiated.
     /// </summary>
-    [SerializeField] 
-    private List<Room> _instantiatedRooms;
-
-    //public bool[,] OccupiedSpots;
+    private List<Room> _instantiatedRooms = new();
 
     GameObject _uiSpots;
 
     const string _rowFormat = "row{0}";
     const string _columnFormat = "column{0}";
 
+    private void Awake()
+    {
+        // Singleton
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+        else
+        {
+            _instance = this;
+        }
+    }
+
     private void Start()
     {
         InitGrid();
     }
 
-    void InitGrid()
+    private void InitGrid()
     {
-        for (int i = 0; i < GridSize.y; i++)
+        // Create all slots in the dictionnary
+        for (int i = 1; i <= _gridSize.y; i++)
         {
-            OccupiedSpots.Add(string.Format(_rowFormat, i + 1), new Dictionary<string, Room>());
-            for (int j = 0; j < GridSize.x; j++)
+            _grid.Add(string.Format(_rowFormat, i), new Dictionary<string, Room>());
+
+            for (int j = 1; j <= _gridSize.x; j++)
             {
-                OccupiedSpots[string.Format(_rowFormat, i + 1)].Add(string.Format(_columnFormat, j + 1), null);
+                _grid[string.Format(_rowFormat, i)].Add(string.Format(_columnFormat, j), null);
+            }
+        }
+
+        // Set the two default rooms in the grid
+        for (int i = 0; i < _roomsByDefault.Count; i++)
+        {
+            if (_roomsByDefault[i].RoomData.RoomType == RoomType.Director)
+            {
+                AddARoomInTheGrid(_roomsByDefault[i], new Vector2(1, 1));
+            }
+            else if (_roomsByDefault[i].RoomData.RoomType == RoomType.Delivery)
+            {
+                AddARoomInTheGrid(_roomsByDefault[i], new Vector2(3, 1));
             }
         }
     }
 
-    public bool CheckOccupiedSpots(Vector2 position)
+    /// <summary>
+    /// Called to add a new room in the grid.
+    /// </summary>
+    /// <param name="room"> Main component of the room. </param>
+    /// <param name="position"> Position of the room. </param>
+    public void AddARoomInTheGrid(Room room, Vector2 position)
     {
-        return OccupiedSpots[string.Format(_rowFormat, position.x)][string.Format(_columnFormat, position.y)] != null;
+        room.SetRoomPosition(position);
+
+        // Set all slots of the room as not available
+        for (int i = 0; i < room.RoomData.Size; i++)
+        {
+            _grid[string.Format(_rowFormat, position.x + i)][string.Format(_columnFormat, position.y)] = room;
+        }
+
+        // Add the room to the list of instantiated rooms
+        _instantiatedRooms.Add(room);
     }
 
-    public List<AvailableSpot> GetAvailableSpots(Room room)
+    /// <summary>
+    /// Called to remove a room of the grid.
+    /// </summary>
+    /// <param name="room"> Main component of the room. </param>
+    public void RemoveARoomofTheGrid(Room room)
     {
-        List<AvailableSpot> availableSpots = new();
-        RoomType roomType = room.RoomData.RoomType;
-        int size = room.RoomData.Size;
+        Vector2 roomPosition = room.RoomPosition;
 
-        // Browse each row
-        for (int i = 0; i < OccupiedSpots.Count; i++)
+        // Set all slots of the room as available
+        for (int i = 0; i < room.RoomData.Size; i++)
         {
-            // Browse each column
-            for (int j = 0; j < OccupiedSpots[string.Format(_rowFormat, i + 1)].Count; j++)
+            _grid[string.Format(_rowFormat, roomPosition.x + i)][string.Format(_columnFormat, roomPosition.y)] = null;
+        }
+
+        // Add the room to the list of instantiated rooms
+        _instantiatedRooms.Remove(room);
+    }
+
+    /// <summary>
+    /// Return if a spot at a position is available.
+    /// </summary>
+    /// <param name="position"> Position to check. </param>
+    /// <returns></returns>
+    public bool CheckOccupiedSpots(Vector2 position)
+    {
+        return _grid[string.Format(_rowFormat, position.x)][string.Format(_columnFormat, position.y)] != null;
+    }
+
+    /// <summary>
+    /// Called to get a list of available spots to construct a room.
+    /// </summary>
+    /// <param name="room"></param>
+    /// <returns></returns>
+    public List<Vector2> GetAvailableSpots(Room room)
+    {
+        List<Vector2> availableSpots = new();
+        RoomType roomToConstructType = room.RoomData.RoomType;
+        int roomToConstructSize = room.RoomData.Size;
+
+        // Browse each room
+        for (int i = 0; i < _instantiatedRooms.Count; i++)
+        {
+            Vector2 instantiatedRoomPosition = _instantiatedRooms[i].RoomPosition;
+            bool isLeftAvailable = true;
+            bool isRightAvailable = true;
+
+            // Check to the left
+            for (int j = 0; j < roomToConstructSize; j++)
             {
-
-                // If there is an occupied spot, check if left and right are available
-                if (CheckOccupiedSpots(new Vector2(j, i)))
+                // Check if position is not outside the limits.
+                if (instantiatedRoomPosition.x - j < 0)
                 {
-                    bool isLeftAvailable = true;
-                    bool isRightAvailable = true;
-
-                    // Check to the left
-                    for (int k = 1; k <= size; k++)
-                    {
-                        if (CheckOccupiedSpots(new Vector2(j - k, i)))
-                        {
-                            isLeftAvailable = false;
-                            break;
-                        }
-                    }
-
-                    if (isLeftAvailable)
-                    {
-                        availableSpots.Add(new AvailableSpot{Position = new Vector2(j - 1, i), IsToTheLeft = true});
-                    }
-
-                    // Check to the right
-                    for (int k = 1; k <= size; k++)
-                    {
-                        if (CheckOccupiedSpots(new Vector2(j + (size-1) + k, i)))
-                        {
-                            isRightAvailable = false;
-                            break;
-                        }
-                    }
-
-                    if (isRightAvailable)
-                    {
-                        availableSpots.Add(new AvailableSpot{Position = new Vector2(j + (size-1) + 1, i), IsToTheLeft = false});
-                    }
-
-                    // Skip room's size checked
-                    j += (size-1);
+                    isLeftAvailable = false;
+                    break;
                 }
+
+                // Check if their is enough space
+                if (CheckOccupiedSpots(new Vector2(instantiatedRoomPosition.x - j, instantiatedRoomPosition.y)))
+                {
+                    isLeftAvailable = false;
+                    break;
+                }
+            }
+
+            if (isLeftAvailable)
+            {
+                availableSpots.Add(new Vector2(instantiatedRoomPosition.x - roomToConstructSize, instantiatedRoomPosition.y));
+            }
+
+            // Check to the right
+            for (int j = 0; j < roomToConstructSize; j++)
+            {
+                // Check if position is not outside the limits.
+                if (instantiatedRoomPosition.x + (_instantiatedRooms[i].RoomData.Size - 1) + j > _gridSize.x)
+                {
+                    isLeftAvailable = false;
+                    break;
+                }
+
+                if (CheckOccupiedSpots(new Vector2(instantiatedRoomPosition.x + (_instantiatedRooms[i].RoomData.Size - 1) + j, instantiatedRoomPosition.y)))
+                {
+                    isRightAvailable = false;
+                    break;
+                }
+            }
+
+            if (isRightAvailable)
+            {
+                availableSpots.Add(new Vector2(instantiatedRoomPosition.x + (_instantiatedRooms[i].RoomData.Size - 1), instantiatedRoomPosition.y));
             }
         }
 
