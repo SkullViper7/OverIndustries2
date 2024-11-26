@@ -5,6 +5,12 @@ using System.Collections.Generic;
 public class ObjectData : ScriptableObject
 {
     /// <summary>
+    /// Pictogram of the object.
+    /// </summary>
+    [SerializeField, Tooltip("Pictogram of the object.")]
+    private Sprite _objectPicto;
+
+    /// <summary>
     /// Type of the object.
     /// </summary>
     [Header("Object"), SerializeField, Tooltip("Type of the object.")]
@@ -39,6 +45,11 @@ public class ObjectData : ScriptableObject
     /// </summary>
     [SerializeField, Tooltip("Time to product the object (in seconds) at lvl 3.")]
     private int _productionTimeAtLvl3;
+
+    /// <summary>
+    /// Gets the pictogram of the object.
+    /// </summary>
+    public Sprite ObjectPicto { get { return _objectPicto; } private set { } }
 
     /// <summary>
     /// Gets the type of the object.

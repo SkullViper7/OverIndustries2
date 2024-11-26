@@ -19,7 +19,7 @@ public class RoomInfoPopUp : MonoBehaviour
     /// <summary>
     /// The text where name and lvl are displayed.
     /// </summary>
-    [SerializeField]
+    [Space, Header("Infos"), SerializeField]
     private TMP_Text _nameLvl;
 
     /// <summary>
@@ -37,13 +37,23 @@ public class RoomInfoPopUp : MonoBehaviour
     /// <summary>
     /// Called to display data of the room.
     /// </summary>
-    /// <param name="roomMain"> Main component of the room. </param>
-    /// <param name="roomData"> Generic data of the room. </param>
-    /// <param name="roomBehaviourData"> Data of the room's behaviour. </param>
-    public void DisplayDatas(Room roomMain, RoomData roomData, IRoomBehaviourData roomBehaviourData)
+    public void DisplayDatas()
     {
-        _nameLvl.text = roomData.Name + " (Niveau " + roomMain.CurrentLvl.ToString() + ")";
-        _description.text = roomData.Description;
+        RoomTemp currentRoomSelected = InteractionManager.Instance.CurrentRoomSelected;
+
+        if (currentRoomSelected != null)
+        {
+            if (currentRoomSelected.RoomData.RoomType == RoomType.Elevator || currentRoomSelected.RoomData.RoomType == RoomType.Recycling)
+            {
+                _nameLvl.text = currentRoomSelected.RoomData.Name;
+                _description.text = currentRoomSelected.RoomData.Description;
+            }
+            else
+            {
+                _nameLvl.text = currentRoomSelected.RoomData.Name + " (Niveau " + currentRoomSelected.CurrentLvl.ToString() + ")";
+                _description.text = currentRoomSelected.RoomData.Description;
+            }
+        }
     }
 
     /// <summary>

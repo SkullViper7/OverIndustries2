@@ -17,6 +17,11 @@ public class Room : MonoBehaviour
     public ScriptableObject RoomBehaviourData { get; private set; }
 
     /// <summary>
+    /// Component of the room behaviour.
+    /// </summary>
+    public IRoomBehaviour RoomBehaviour { get; private set; }
+
+    /// <summary>
     /// Current lvl of the room.
     /// </summary>
     public int CurrentLvl { get; private set; }
@@ -46,18 +51,22 @@ public class Room : MonoBehaviour
         {
             case RoomType.Delivery:
                 DeliveryRoom deliveryRoom = (DeliveryRoom)gameObject.AddComponent(typeof(DeliveryRoom));
+                RoomBehaviour = deliveryRoom;
                 deliveryRoom.InitRoomBehaviour(roomBehaviourData, this);
                 break;
             case RoomType.Machining:
                 MachiningRoom machiningRoom = (MachiningRoom)gameObject.AddComponent(typeof(MachiningRoom));
+                RoomBehaviour = machiningRoom;
                 machiningRoom.InitRoomBehaviour(roomBehaviourData, this);
                 break;
             case RoomType.Storage:
                 StorageRoom storageRoom = (StorageRoom)gameObject.AddComponent(typeof(StorageRoom));
+                RoomBehaviour = storageRoom;
                 storageRoom.InitRoomBehaviour(roomBehaviourData, this);
                 break;
             case RoomType.Assembly:
                 AssemblyRoom assemblyRoom = (AssemblyRoom)gameObject.AddComponent(typeof(AssemblyRoom));
+                RoomBehaviour = assemblyRoom;
                 assemblyRoom.InitRoomBehaviour(roomBehaviourData, this);
                 break;
         }

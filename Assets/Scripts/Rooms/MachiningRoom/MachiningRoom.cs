@@ -27,7 +27,7 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
     /// <summary>
     /// All components that the room can manufacture.
     /// </summary>
-    private List<ComponentData> _manufacturableComponents = new();
+    public List<ComponentData> ManufacturableComponents { get; private set; } = new();
 
     /// <summary>
     /// Current component that the room is manufacturing.
@@ -57,10 +57,8 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
         // Init manufacturable components
         for (int i = 0; i < MachiningRoomData.ManufacturableComponentsByDefault.Count; i++)
         {
-            _manufacturableComponents.Add(MachiningRoomData.ManufacturableComponentsByDefault[i]);
+            ManufacturableComponents.Add(MachiningRoomData.ManufacturableComponentsByDefault[i]);
         }
-
-        StartNewProduction(_manufacturableComponents[0]);
     }
 
     /// <summary>
@@ -161,6 +159,4 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
             _itemStorage.AddComponents(_currentComponentManufactured.ComponentType, 1);
         }
     }
-
-
 }

@@ -4,9 +4,15 @@ using UnityEngine;
 public class ComponentData : ScriptableObject
 {
     /// <summary>
+    /// Pictogram of the component.
+    /// </summary>
+    [SerializeField, Tooltip("Pictogram of the component.")]
+    private Sprite _componentPicto;
+
+    /// <summary>
     /// Type of the component.
     /// </summary>
-    [Header("Component"), SerializeField, Tooltip("Type of the component.")]
+    [Space, Header("Component"), SerializeField, Tooltip("Type of the component.")]
     private ComponentType _componentType;
 
     /// <summary>
@@ -20,6 +26,12 @@ public class ComponentData : ScriptableObject
     /// </summary>
     [Space, Header("Stats"), SerializeField, Tooltip("Cost of the component (in raw material).")]
     private int _cost;
+    
+    /// <summary>
+    /// Trash of the component (in raw material).
+    /// </summary>
+    [Space, SerializeField, Tooltip("Trash of the component (in raw material).")]
+    private int _trash;
 
     /// <summary>
     /// Time to product the component (in seconds) at lvl 1.
@@ -40,6 +52,11 @@ public class ComponentData : ScriptableObject
     private int _productionTimeAtLvl3;
 
     /// <summary>
+    /// Gets the pictogram of the component.
+    /// </summary>
+    public Sprite ComponentPicto { get { return _componentPicto; } private set { } }
+
+    /// <summary>
     /// Gets the type of the component.
     /// </summary>
     public ComponentType ComponentType { get { return _componentType; } private set { } }
@@ -53,6 +70,11 @@ public class ComponentData : ScriptableObject
     /// Gets the cost of the component.
     /// </summary>
     public int Cost { get { return _cost; } private set { } }
+    
+    /// <summary>
+    /// Gets the cost of the component.
+    /// </summary>
+    public int Trash { get { return _trash; } private set { } }
 
     /// <summary>
     /// Gets the time to product the component for a room at lvl 1.
