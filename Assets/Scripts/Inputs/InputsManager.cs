@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class InputsManager : MonoBehaviour
@@ -47,57 +48,60 @@ public class InputsManager : MonoBehaviour
 
     private void OnAction(InputAction.CallbackContext context)
     {
-        switch (context.action.name)
+        if (!GameManager.Instance.UIIsOpen)
         {
-            case "Tap":
-                if (context.performed)
-                {
-                    Tap?.Invoke();
-                    TapContext?.Invoke(context);
-                }
-                break;
+            switch (context.action.name)
+            {
+                case "Tap":
+                    if (context.performed)
+                    {
+                        Tap?.Invoke();
+                        TapContext?.Invoke(context);
+                    }
+                    break;
 
-            case "TouchContact0":
-                if (context.started)
-                {
-                    Touch0ContactStarted?.Invoke();
-                    Touch0ContactStartedContext?.Invoke(context);
-                }
-                if (context.canceled)
-                {
-                    Touch0ContactCanceled?.Invoke();
-                    Touch0ContactCanceledContext?.Invoke(context);
-                }
-                break;
+                case "TouchContact0":
+                    if (context.started)
+                    {
+                        Touch0ContactStarted?.Invoke();
+                        Touch0ContactStartedContext?.Invoke(context);
+                    }
+                    if (context.canceled)
+                    {
+                        Touch0ContactCanceled?.Invoke();
+                        Touch0ContactCanceledContext?.Invoke(context);
+                    }
+                    break;
 
-            case "TouchContact1":
-                if (context.started)
-                {
-                    Touch1ContactStarted?.Invoke();
-                    Touch1ContactStartedContext?.Invoke(context);
-                }
-                if (context.canceled)
-                {
-                    Touch1ContactCanceled?.Invoke();
-                    Touch1ContactCanceledContext?.Invoke(context);
-                }
-                break;
+                case "TouchContact1":
+                    if (context.started)
+                    {
+                        Touch1ContactStarted?.Invoke();
+                        Touch1ContactStartedContext?.Invoke(context);
+                    }
+                    if (context.canceled)
+                    {
+                        Touch1ContactCanceled?.Invoke();
+                        Touch1ContactCanceledContext?.Invoke(context);
+                    }
+                    break;
 
-            case "Hold0":
-                if (context.performed)
-                {
-                    Hold0?.Invoke();
-                    Hold0Context?.Invoke(context);
-                }
-                break;
+                case "Hold0":
+                    if (context.performed)
+                    {
+                        Hold0?.Invoke();
+                        Hold0Context?.Invoke(context);
+                    }
+                    break;
 
-            case "Hold1":
-                if (context.performed)
-                {
-                    Hold1?.Invoke();
-                    Hold1Context?.Invoke(context);
-                }
-                break;
+                case "Hold1":
+                    if (context.performed)
+                    {
+                        Hold1?.Invoke();
+                        Hold1Context?.Invoke(context);
+                    }
+                    break;
+            }
         }
     }
 }

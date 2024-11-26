@@ -64,5 +64,7 @@ public class RoomInfoPopUp : MonoBehaviour
         _nameLvl.text = "";
         _description.text = "";
         gameObject.SetActive(false);
+
+        GameManager.Instance.CloseUI();
     }
 }

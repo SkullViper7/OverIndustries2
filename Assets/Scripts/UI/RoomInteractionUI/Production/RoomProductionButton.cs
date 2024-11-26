@@ -33,6 +33,7 @@ public class RoomProductionButton : MonoBehaviour
     /// </summary>
     private void OnButtonClicked()
     {
+        GameManager.Instance.OpenUI();
         _popUp.SetActive(true);
         _roomProductionPopUp.DisplayDatas();
     }
