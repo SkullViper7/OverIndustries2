@@ -5,8 +5,7 @@ public class RecyclingRoom : MonoBehaviour, IRoomBehaviour
     /// <summary>
     /// Datas of the recycling room.
     /// </summary>
-    [field: SerializeField]
-    public RecyclingRoomData RecyclingRoomData { get; private set; }
+    [field: SerializeField] public RecyclingRoomData RecyclingRoomData { get; private set; }
 
     /// <summary>
     /// A reference to the item storage.
