@@ -17,12 +17,12 @@ public class AssemblyRoom : MonoBehaviour, IRoomBehaviour
     /// <summary>
     /// Reference to the main component of the room.
     /// </summary>
-    private RoomTemp _roomMain;
+    private Room _roomMain;
 
     /// <summary>
     /// All objects that the room can assembled.
     /// </summary>
-    private List<ObjectData> _assemblableObjects = new();
+    public List<ObjectData> AssemblableObjects { get; private set; } = new();
 
     /// <summary>
     /// Current object that the room is assembling.
@@ -42,7 +42,7 @@ public class AssemblyRoom : MonoBehaviour, IRoomBehaviour
     /// <summary>
     /// Called at the start to initialize the assembling room.
     /// </summary>
-    public void InitRoomBehaviour(IRoomBehaviourData behaviourData, RoomTemp roomMain)
+    public void InitRoomBehaviour(IRoomBehaviourData behaviourData, Room roomMain)
     {
         AssemblyRoomData = (AssemblyRoomData)behaviourData;
         _itemStorage = ItemStorage.Instance;
@@ -51,10 +51,10 @@ public class AssemblyRoom : MonoBehaviour, IRoomBehaviour
         // Init manufacturable components
         for (int i = 0; i < AssemblyRoomData.AssemblableObjectsByDefault.Count; i++)
         {
-            _assemblableObjects.Add(AssemblyRoomData.AssemblableObjectsByDefault[i]);
+            AssemblableObjects.Add(AssemblyRoomData.AssemblableObjectsByDefault[i]);
         }
 
-        StartNewProduction(_assemblableObjects[0]);
+        StartNewProduction(AssemblableObjects[0]);
     }
 
     /// <summary>
@@ -154,5 +154,14 @@ public class AssemblyRoom : MonoBehaviour, IRoomBehaviour
         {
             _itemStorage.AddObjects(_currentObjectAssembled.ObjectType, 1);
         }
+    }
+
+    /// <summary>
+    /// Work with the research room, when a new object is unlock add this object to the assemblable object list
+    /// </summary>
+    /// <param name="_newObject"></param>
+    public void AddNewAssemblableObject(ObjectData _newObject)
+    {
+        AssemblableObjects.Add(_newObject);
     }
 }

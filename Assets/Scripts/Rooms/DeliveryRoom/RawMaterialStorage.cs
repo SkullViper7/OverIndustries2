@@ -28,6 +28,13 @@ public class RawMaterialStorage : MonoBehaviour
     /// </summary>
     public int AmoutOfRawMaterial { get { return _amoutOfRawMaterial; } private set { } }
 
+    /// <summary>
+    /// Get the amount of raw material recycling
+    /// </summary>
+    public int TotalRecyclingRawMaterial;
+
+    public event System.Action<int> RawMaterialToRecycle;
+
     private void Awake()
     {
         // Singleton
@@ -79,5 +86,14 @@ public class RawMaterialStorage : MonoBehaviour
     public void IncreaseCapacity(int capacityToAdd)
     {
         _storageCapacity += capacityToAdd;
+    }
+    
+   /// <summary>
+   /// Call th recycling room to recycle trash
+   /// </summary>
+   /// <param name="rawMaterialTrash"></param>
+    public void TrashMaterial(int rawMaterialTrash)
+    {
+        RawMaterialToRecycle.Invoke(rawMaterialTrash);
     }
 }

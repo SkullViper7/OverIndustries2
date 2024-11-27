@@ -5,7 +5,7 @@ using UnityEngine;
 public class DirectorRoom : MonoBehaviour, IRoomBehaviour
 {
     public DirectorRoomData DirectorRoomData { get; private set; }
-    private RoomTemp _roomMain;
+    private Room _roomMain;
 
     private GameObject _newEmployee;
     public List<GameObject> _recrutementList;
@@ -19,7 +19,7 @@ public class DirectorRoom : MonoBehaviour, IRoomBehaviour
         StartCoroutine(WaitNewEmployee());
     }
 
-    public void InitRoomBehaviour(IRoomBehaviourData roomBehaviourData, RoomTemp roomMain)
+    public void InitRoomBehaviour(IRoomBehaviourData roomBehaviourData, Room roomMain)
     {
         DirectorRoomData = (DirectorRoomData)roomBehaviourData;
         _roomMain = roomMain;
@@ -30,7 +30,7 @@ public class DirectorRoom : MonoBehaviour, IRoomBehaviour
     {
         if (_recrutementList.Count < 5)
         {
-            _newEmployee = ObjectPool.Instance.RequestObject(3);
+            //_newEmployee = ObjectPoolManager.Instance.RequestObject(3);
             _recrutementList.Add(_newEmployee);
         }
 

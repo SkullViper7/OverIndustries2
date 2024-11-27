@@ -12,11 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80c7f1bd272a03540b3f54254c200947, type: 3}
   m_Name: Test
   m_EditorClassIdentifier: 
+  _objectPicto: {fileID: 0}
   _objectType: 0
   _name: Trotinette
   _ingredients:
-  - <Component>k__BackingField: 0
+  - <Component>k__BackingField: {fileID: 11400000, guid: 3fa4133a41f65364683938617ed802a4,
+      type: 2}
     <Quantity>k__BackingField: 2
+  _timeToUnlock: 2
+  _costToUnlock: 10
   _productionTimeAtLvl1: 20
   _productionTimeAtLvl2: 15
   _productionTimeAtLvl3: 10

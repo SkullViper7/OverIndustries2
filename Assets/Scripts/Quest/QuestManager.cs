@@ -19,7 +19,7 @@ public class QuestManager : MonoBehaviour
 
     public event System.Action<Quest> NewQuestGenerate;
     public event System.Action UpdateAdvancementQuest;
-    public event System.Action<int> ResetQuestText;
+    public event System.Action ResetQuestText;
     public event System.Action<int> QuestComplited;
 
     private void Awake()
@@ -48,7 +48,7 @@ public class QuestManager : MonoBehaviour
     {
         if (QuestList.Count > 0 && MaxCurrentQuest > CurrentQuestList.Count)
         {
-            _newQuest = ObjectPool.Instance.RequestObject(4).GetComponent<Quest>();
+            //_newQuest = ObjectPoolManager.Instance.RequestObject(4).GetComponent<Quest>();
 
 
             int randomQuest = Random.Range(0, QuestList.Count);
@@ -83,18 +83,16 @@ public class QuestManager : MonoBehaviour
 
         for (int i = 0; i < CurrentQuestList.Count; i++)
         {
-            for (int j = 1; j < CurrentQuestList[i].QuestData.Object.Count; j++)
+            for (int j = 0; j < CurrentQuestList[i].QuestData.Object.Count; j++)
             {
-                Debug.Log("taiyakiii");
-
-                if (ItemStorage.Instance.ThereIsEnoughObjectsInStorage(CurrentQuestList[i].QuestData.Object[j], CurrentQuestList[i].QuestData.NumberOfObject[j]) && ItemStorage.Instance.ThereIsEnoughObjectsInStorage(CurrentQuestList[i].QuestData.Object[j-1], CurrentQuestList[i].QuestData.NumberOfObject[j-1]))
+                if (CurrentQuestList[i].QuestData.Object.Count > 1 && j == 0 && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Object[j]) >= CurrentQuestList[i].QuestData.NumberOfObject[j] && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Object[j + 1]) >= CurrentQuestList[i].QuestData.NumberOfObject[j + 1])
                 {
                     Debug.Log("Objectifs completed");
                     QuestComplited.Invoke(i);
 
                     Debug.Log($"Point de satisfations gagné : {CurrentQuestList[i].QuestData.PS}");
                 }
-                else if (ItemStorage.Instance.ThereIsEnoughObjectsInStorage(CurrentQuestList[i].QuestData.Object[j-1], CurrentQuestList[i].QuestData.NumberOfObject[j-1]))
+                if (CurrentQuestList[i].QuestData.Object.Count == 1 && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Object[j]) >= CurrentQuestList[i].QuestData.NumberOfObject[j])
                 {
                     Debug.Log("Objectifs completed");
                     QuestComplited.Invoke(i);
@@ -116,7 +114,7 @@ public class QuestManager : MonoBehaviour
             if (_quest.QuestData.Name == CurrentQuestList[i].QuestData.Name)
             {
                 CurrentQuestList.Remove(CurrentQuestList[i]);
-                ResetQuestText.Invoke(i);
+                ResetQuestText.Invoke();
             }
         }
 
@@ -126,8 +124,6 @@ public class QuestManager : MonoBehaviour
         {
             ItemStorage.Instance.SubstractObject(_quest.QuestData.Object[j], _quest.QuestData.NumberOfObject[j]);
         }
-
-        StockOfThisObjectTemp = StockOfThisObjectTemp - _quest.QuestData.NumberOfObject[0]; //tempo
 
         UpdateAdvancementQuest.Invoke();
     }

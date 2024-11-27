@@ -22,12 +22,12 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
     /// <summary>
     /// Reference to the main component of the room.
     /// </summary>
-    private RoomTemp _roomMain;
+    private Room _roomMain;
 
     /// <summary>
     /// All components that the room can manufacture.
     /// </summary>
-    private List<ComponentData> _manufacturableComponents = new();
+    public List<ComponentData> ManufacturableComponents { get; private set; } = new();
 
     /// <summary>
     /// Current component that the room is manufacturing.
@@ -47,7 +47,7 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
     /// <summary>
     /// Called at the start to initialize the machining room.
     /// </summary>
-    public void InitRoomBehaviour(IRoomBehaviourData behaviourData, RoomTemp roomMain)
+    public void InitRoomBehaviour(IRoomBehaviourData behaviourData, Room roomMain)
     {
         MachiningRoomData = (MachiningRoomData)behaviourData;
         _itemStorage = ItemStorage.Instance;
@@ -57,10 +57,8 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
         // Init manufacturable components
         for (int i = 0; i < MachiningRoomData.ManufacturableComponentsByDefault.Count; i++)
         {
-            _manufacturableComponents.Add(MachiningRoomData.ManufacturableComponentsByDefault[i]);
+            ManufacturableComponents.Add(MachiningRoomData.ManufacturableComponentsByDefault[i]);
         }
-
-        StartNewProduction(_manufacturableComponents[0]);
     }
 
     /// <summary>
@@ -162,5 +160,12 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
         }
     }
 
-
+    /// <summary>
+    /// Work with the research room, when a new object is unlock add his components to the Manufacturable Components list
+    /// </summary>
+    /// <param name="_newComponents"></param>
+    public void AddNewManufacturableComponents(ComponentData _newComponents)
+    {
+        ManufacturableComponents.Add(_newComponents);
+    }
 }

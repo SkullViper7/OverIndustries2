@@ -181,14 +181,14 @@ public class ItemStorage : MonoBehaviour
 
         for (int i = 0; i < ingredients.Count; i++)
         {
-            if (!_componentStorage.ContainsKey(ingredients[i].Component))
+            if (!_componentStorage.ContainsKey(ingredients[i].ComponentData.ComponentType))
             {
                 recipeIsPossible = false;
                 break;
             }
             else
             {
-                if (_componentStorage[ingredients[i].Component] < ingredients[i].Quantity)
+                if (_componentStorage[ingredients[i].ComponentData.ComponentType] < ingredients[i].Quantity)
                 {
                     recipeIsPossible = false;
                     break;
@@ -214,6 +214,23 @@ public class ItemStorage : MonoBehaviour
         else
         {
             return false;
+        }
+    }
+    
+    /// <summary>
+    /// Called to know the number of this object type in the storage.
+    /// </summary>
+    /// <param name="objectType"> Type of the object. </param>
+    /// <returns></returns>
+    public int ReturnNumberOfThisObject(ObjectType objectType)
+    {
+        if (_objectStorage.ContainsKey(objectType))
+        {
+            return _objectStorage[objectType];
+        }
+        else
+        { 
+            return 0;
         }
     }
 

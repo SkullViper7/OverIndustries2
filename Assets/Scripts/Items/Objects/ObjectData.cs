@@ -5,6 +5,12 @@ using System.Collections.Generic;
 public class ObjectData : ScriptableObject
 {
     /// <summary>
+    /// Pictogram of the object.
+    /// </summary>
+    [SerializeField, Tooltip("Pictogram of the object.")]
+    private Sprite _objectPicto;
+
+    /// <summary>
     /// Type of the object.
     /// </summary>
     [Header("Object"), SerializeField, Tooltip("Type of the object.")]
@@ -21,6 +27,18 @@ public class ObjectData : ScriptableObject
     /// </summary>
     [Space, Header("Stats"), SerializeField, Tooltip("Ingredients needed to product this object.")]
     private List<Ingredient> _ingredients;
+
+    /// <summary>
+    /// Time to unlock in the research room.
+    /// </summary>
+    [SerializeField, Tooltip("Time to unlock in the research room.")]
+    private int _timeToUnlock;
+
+    /// <summary>
+    /// Cost in raw material to unlock in the research room.
+    /// </summary>
+    [SerializeField, Tooltip("Cost in raw material to unlock in the research room.")]
+    private int _costToUnlock;
 
     /// <summary>
     /// Time to product the object (in seconds) at lvl 1.
@@ -41,6 +59,11 @@ public class ObjectData : ScriptableObject
     private int _productionTimeAtLvl3;
 
     /// <summary>
+    /// Gets the pictogram of the object.
+    /// </summary>
+    public Sprite ObjectPicto { get { return _objectPicto; } private set { } }
+
+    /// <summary>
     /// Gets the type of the object.
     /// </summary>
     public ObjectType ObjectType { get { return _objectType; } private set { } }
@@ -54,6 +77,16 @@ public class ObjectData : ScriptableObject
     /// Gets ingredients needed to product this object.
     /// </summary>
     public List<Ingredient> Ingredients { get { return _ingredients; } private set { } }
+
+    /// <summary>
+    /// Time to unlock in the research room.
+    /// </summary>
+    public int TimeToUnlock { get { return _timeToUnlock; } private set { } }
+
+    /// <summary>
+    /// Cost in raw material to unlock in the research room.
+    /// </summary>
+    public int CostToUnlock { get { return _costToUnlock; } private set { } }
 
     /// <summary>
     /// Gets the time to product the object for a room at lvl 1.
