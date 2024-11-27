@@ -5,14 +5,12 @@ public class Room : MonoBehaviour
     /// <summary>
     /// Data of the room.
     /// </summary>
-    [field : SerializeField]
     public RoomData RoomData { get; private set; }
 
     /// <summary>
-    /// Data of the room.
+    /// Data of the room behaviour.
     /// </summary>
-    [field: SerializeField, InterfaceType(typeof(IRoomBehaviourData))]
-    public ScriptableObject RoomBehaviourData { get; private set; }
+    public IRoomBehaviourData RoomBehaviourData { get; private set; }
 
     /// <summary>
     /// Component of the room behaviour.
@@ -35,20 +33,19 @@ public class Room : MonoBehaviour
     public delegate void UpgradeDelegate(int newLvl);
     public event UpgradeDelegate NewLvl;
 
-    private void Start()
-    {
-        InitRoom(RoomData, (IRoomBehaviourData)RoomBehaviourData);
-    }
-
     /// <summary>
     /// Called at the start to initialize the room.
     /// </summary>
     /// <param name="roomData"> Generic data of the room. </param>
     /// <param name="roomBehaviourData"> Specific data of the room's behaviour. </param>
-    public void InitRoom(RoomData roomData, IRoomBehaviourData roomBehaviourData)
+    /// <param name="worldPosition"> Position of the room in the world. </param>
+    public void InitRoom(RoomData roomData, IRoomBehaviourData roomBehaviourData, Vector2 worldPosition)
     {
         CurrentLvl = 1;
-        //RoomData = roomData;
+        RoomData = roomData;
+        RoomBehaviourData = roomBehaviourData;
+
+        transform.position = worldPosition;
 
         switch (roomData.RoomType)
         {

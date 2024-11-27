@@ -1,16 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ConstructionSelectionButton : MonoBehaviour
 {
-    /// <summary>
-    /// Prefab of a room without datas.
-    /// </summary>
-    [SerializeField]
-    private GameObject _emptyRoom;
-
     /// <summary>
     /// Data of the room.
     /// </summary>
@@ -23,6 +15,12 @@ public class ConstructionSelectionButton : MonoBehaviour
     [SerializeField, InterfaceType(typeof(IRoomBehaviourData))]
     private ScriptableObject _roomBehaviourData;
 
+    /// <summary>
+    /// Pop up where buttons are.
+    /// </summary>
+    [SerializeField]
+    private GameObject _popUp;
+
     private Button _selectionButton;
 
     private void Awake()
@@ -32,7 +30,7 @@ public class ConstructionSelectionButton : MonoBehaviour
 
     private void Start()
     {
-        _selectionButton.onClick.AddListener(StartSearchingForAnAvailableSpot);
+        _selectionButton.onClick.AddListener(() => { StartSearchingForAnAvailableSpot(); _popUp.SetActive(false); });
     }
 
     /// <summary>
@@ -40,6 +38,6 @@ public class ConstructionSelectionButton : MonoBehaviour
     /// </summary>
     private void StartSearchingForAnAvailableSpot()
     {
-
+        GridManager.Instance.LaunchAResearch(_roomData, (IRoomBehaviourData)_roomBehaviourData);
     }
 }

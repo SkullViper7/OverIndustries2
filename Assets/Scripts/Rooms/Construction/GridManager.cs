@@ -29,10 +29,24 @@ public class GridManager : MonoBehaviour
     /// </summary>
     private List<Room> _instantiatedRooms = new();
 
-    GameObject _uiSpots;
-
+    /// <summary>
+    /// Row name format.
+    /// </summary>
     const string _rowFormat = "row{0}";
+
+    /// <summary>
+    /// Column name format.
+    /// </summary>
     const string _columnFormat = "column{0}";
+
+    /// <summary>
+    /// Events to get the list of available spots.
+    /// </summary>
+    /// <param name="roomData"> Data of the room to construct. </param>
+    /// <param name="roomBehaviourData"> Data of the room behaviour. </param>
+    /// <param name="availableSpots"> List of available spot positions. </param>
+    public delegate void AvailableSpotsDelegate(RoomData roomData, IRoomBehaviourData roomBehaviourData, List<Vector2> availableSpots);
+    public event AvailableSpotsDelegate AvailableSpotsResult;
 
     private void Awake()
     {
@@ -56,11 +70,11 @@ public class GridManager : MonoBehaviour
     private void InitGrid()
     {
         // Create all slots in the dictionnary
-        for (int i = 1; i <= _gridSize.y; i++)
+        for (int i = 0; i < _gridSize.y; i++)
         {
             _grid.Add(string.Format(_rowFormat, i), new Dictionary<string, Room>());
 
-            for (int j = 1; j <= _gridSize.x; j++)
+            for (int j = 0; j < _gridSize.x; j++)
             {
                 _grid[string.Format(_rowFormat, i)].Add(string.Format(_columnFormat, j), null);
             }
@@ -71,13 +85,23 @@ public class GridManager : MonoBehaviour
         {
             if (_roomsByDefault[i].RoomData.RoomType == RoomType.Director)
             {
-                AddARoomInTheGrid(_roomsByDefault[i], new Vector2(1, 1));
+                AddARoomInTheGrid(_roomsByDefault[i], new Vector2(0, 0));
             }
             else if (_roomsByDefault[i].RoomData.RoomType == RoomType.Delivery)
             {
-                AddARoomInTheGrid(_roomsByDefault[i], new Vector2(3, 1));
+                AddARoomInTheGrid(_roomsByDefault[i], new Vector2(4, 0));
             }
         }
+    }
+
+    /// <summary>
+    /// Called to Launch a research of available spots.
+    /// </summary>
+    /// <param name="roomData"> Data of the room to construct. </param>
+    ///     /// <param name="roomBehaviourData"> Data of the room behaviour. </param>
+    public void LaunchAResearch(RoomData roomData, IRoomBehaviourData roomBehaviourData)
+    {
+        AvailableSpotsResult?.Invoke(roomData, roomBehaviourData, GetAvailableSpots(roomData));
     }
 
     /// <summary>
@@ -92,7 +116,7 @@ public class GridManager : MonoBehaviour
         // Set all slots of the room as not available
         for (int i = 0; i < room.RoomData.Size; i++)
         {
-            _grid[string.Format(_rowFormat, position.x + i)][string.Format(_columnFormat, position.y)] = room;
+            _grid[string.Format(_rowFormat, position.y)][string.Format(_columnFormat, position.x + i)] = room;
         }
 
         // Add the room to the list of instantiated rooms
@@ -110,7 +134,7 @@ public class GridManager : MonoBehaviour
         // Set all slots of the room as available
         for (int i = 0; i < room.RoomData.Size; i++)
         {
-            _grid[string.Format(_rowFormat, roomPosition.x + i)][string.Format(_columnFormat, roomPosition.y)] = null;
+            _grid[string.Format(_rowFormat, roomPosition.y)][string.Format(_columnFormat, roomPosition.x + i)] = null;
         }
 
         // Add the room to the list of instantiated rooms
@@ -124,19 +148,19 @@ public class GridManager : MonoBehaviour
     /// <returns></returns>
     public bool CheckOccupiedSpots(Vector2 position)
     {
-        return _grid[string.Format(_rowFormat, position.x)][string.Format(_columnFormat, position.y)] != null;
+        return _grid[string.Format(_rowFormat, position.y)][string.Format(_columnFormat, position.x)] != null;
     }
 
     /// <summary>
     /// Called to get a list of available spots to construct a room.
     /// </summary>
-    /// <param name="room"></param>
+    /// <param name="roomData"> Data of the room to construct. </param>
     /// <returns></returns>
-    public List<Vector2> GetAvailableSpots(Room room)
+    public List<Vector2> GetAvailableSpots(RoomData roomData)
     {
         List<Vector2> availableSpots = new();
-        RoomType roomToConstructType = room.RoomData.RoomType;
-        int roomToConstructSize = room.RoomData.Size;
+        RoomType roomToConstructType = roomData.RoomType;
+        int roomToConstructSize = roomData.Size;
 
         // Browse each room
         for (int i = 0; i < _instantiatedRooms.Count; i++)
@@ -146,7 +170,7 @@ public class GridManager : MonoBehaviour
             bool isRightAvailable = true;
 
             // Check to the left
-            for (int j = 0; j < roomToConstructSize; j++)
+            for (int j = 1; j <= roomToConstructSize; j++)
             {
                 // Check if position is not outside the limits.
                 if (instantiatedRoomPosition.x - j < 0)
@@ -169,12 +193,12 @@ public class GridManager : MonoBehaviour
             }
 
             // Check to the right
-            for (int j = 0; j < roomToConstructSize; j++)
+            for (int j = 1; j <= roomToConstructSize; j++)
             {
                 // Check if position is not outside the limits.
                 if (instantiatedRoomPosition.x + (_instantiatedRooms[i].RoomData.Size - 1) + j > _gridSize.x)
                 {
-                    isLeftAvailable = false;
+                    isRightAvailable = false;
                     break;
                 }
 
@@ -187,157 +211,20 @@ public class GridManager : MonoBehaviour
 
             if (isRightAvailable)
             {
-                availableSpots.Add(new Vector2(instantiatedRoomPosition.x + (_instantiatedRooms[i].RoomData.Size - 1), instantiatedRoomPosition.y));
+                availableSpots.Add(new Vector2(instantiatedRoomPosition.x + (_instantiatedRooms[i].RoomData.Size), instantiatedRoomPosition.y));
             }
+        }
+
+        for (int i = 0; i < availableSpots.Count; i++)
+        {
+            Debug.Log(availableSpots[i]);
         }
 
         return availableSpots;
     }
 
-    // public void ShowSpotsUI(int roomSize)
-    // {
-    //     int k = 0;
-
-    //     for (int i = 0; i < GridSize.x; i++)
-    //     {
-    //         for (int j = 0; j < GridSize.y; j++)
-    //         {
-    //             switch (roomSize) // instancie l'UI et transmet la taille et les donn�es de la salle adjacente
-    //             {
-    //                 case 0: //SmallSpots --> largeur = 6  --> size = 4
-    //                     {
-    //                         if (i != k && i < _instantiatedRooms.Count)
-    //                         {
-    //                             k = i;
-
-    //                             if (!OccupiedSpots[i, j] && !OccupiedSpots[i - 1, j]) //check si il y a de la place apr�s une salle 
-    //                             {
-    //                                 if (_instantiatedRooms[i].Coordinates.y + 2 < GridSize.x) //v�rifie que la salle ne va pas d�passer de la grille
-    //                                 {
-    //                                     _uiSpots = ObjectPool.Instance.RequestObject(roomSize);
-    //                                     _uiSpots.GetComponent<CreateNewRoom>().RightRoom = true;
-
-    //                                     SetButtonParameter(i, _instantiatedRooms[i].DifferenceBetweenXPosition);
-    //                                     CheckOccupiedPosition(_uiSpots, i);
-
-    //                                 }
-
-    //                                 if (_instantiatedRooms[i].Coordinates.y - 2 >= 0) //v�rifie que la salle ne va pas d�passer de la grille
-    //                                 {
-    //                                     _uiSpots = ObjectPool.Instance.RequestObject(roomSize);
-    //                                     _uiSpots.GetComponent<CreateNewRoom>().RightRoom = false;
-
-    //                                     SetButtonParameter(i, 6);
-    //                                     CheckOccupiedPosition(_uiSpots, i);
-    //                                 }
-    //                             }
-    //                         }
-    //                     }
-    //                     break;
-
-    //                 case 1: //LargeSpots --> largeur = 12  --> size = 6
-    //                     {
-    //                         if (i != k && i < _instantiatedRooms.Count) //check s'il y a de la place avant une salle 
-    //                         {
-    //                             k = i;
-
-    //                             if (!OccupiedSpots[i, j] /*&& _occupiedSpots[i - 1, j]*/ && !OccupiedSpots[i + 1, j] && !OccupiedSpots[i + 2, j] && !OccupiedSpots[i + 3, j])
-    //                             {
-    //                                 if (_instantiatedRooms[i].Coordinates.y + 4 < GridSize.x)
-    //                                 {
-    //                                     Debug.Log(_instantiatedRooms[i].Coordinates.y + 4);
-    //                                     _uiSpots = ObjectPool.Instance.RequestObject(roomSize);
-    //                                     _uiSpots.GetComponent<CreateNewRoom>().RightRoom = true;
-
-    //                                     SetButtonParameter(i, _instantiatedRooms[i].DifferenceBetweenXPosition);
-    //                                     CheckOccupiedPosition(_uiSpots, i);
-    //                                 }
-
-    //                                 if (_instantiatedRooms[i].Coordinates.y - 4 >= 0)
-    //                                 {
-    //                                     _uiSpots = ObjectPool.Instance.RequestObject(roomSize);
-    //                                     _uiSpots.GetComponent<CreateNewRoom>().RightRoom = false;
-
-    //                                     SetButtonParameter(i, 12);
-    //                                     CheckOccupiedPosition(_uiSpots, i);
-    //                                 }
-    //                             }
-    //                         }
-    //                     }
-    //                     break;
-
-    //                 case 2: //ElevatorSpots --> largeur = 2  --> size = 1
-    //                     {
-    //                         if (i != k && !OccupiedSpots[i, j] /*&& _occupiedSpots[i - 1, j]*/ && i < _instantiatedRooms.Count) //check s'il y a de la place avant une salle 
-    //                         {
-    //                             k = i;
-    //                             if (_instantiatedRooms[i].Coordinates.y + 1 < GridSize.x)
-    //                             {
-    //                                 _uiSpots = ObjectPool.Instance.RequestObject(roomSize);
-    //                                 _uiSpots.GetComponent<CreateNewRoom>().RightRoom = true;
-
-    //                                 SetButtonParameter(i, _instantiatedRooms[i].DifferenceBetweenXPosition);
-    //                                 CheckOccupiedPosition(_uiSpots, i);
-    //                             }
-
-    //                             if (_instantiatedRooms[i].Coordinates.y - 1 >= 0)
-    //                             {
-    //                                 _uiSpots = ObjectPool.Instance.RequestObject(roomSize);
-    //                                 _uiSpots.GetComponent<CreateNewRoom>().RightRoom = false;
-
-    //                                 SetButtonParameter(i, 3);
-    //                                 CheckOccupiedPosition(_uiSpots, i);
-    //                             }
-    //                         }
-    //                     }
-    //                     break;
-    //             }
-    //         }
-    //     }
-    // }
-
-    // public void SetButtonParameter(int i, int differenceXPos)
-    // {
-    //     if (_uiSpots.GetComponent<CreateNewRoom>().RightRoom)
-    //     {
-    //         _uiSpots.transform.position = new Vector3(_instantiatedRooms[i].transform.position.x + differenceXPos, _instantiatedRooms[i].transform.position.y, 0);
-    //     }
-    //     else
-    //     {
-    //         _uiSpots.transform.position = new Vector3(_instantiatedRooms[i].transform.position.x - differenceXPos, _instantiatedRooms[i].transform.position.y, 0);
-    //     }
-
-    //     _uiSpots.GetComponent<CreateNewRoom>().CoordinatesNewRoom = _instantiatedRooms[i].Coordinates;
-    //     _uiSpots.GetComponent<CreateNewRoom>().SizeRoomPast = _instantiatedRooms[i].Size;
-    // }
-
-    // public void AddRoomToList(Room NewRoom)
-    // {
-    //     _instantiatedRooms.Add(NewRoom);
-    // }
-
-    // public void CheckOccupiedPosition(GameObject _uiSpots, int i)
-    // {
-    //     for (int l = 0; l < _instantiatedRooms.Count; l++) //recheck si la place est bien libre
-    //     {
-    //         if (_instantiatedRooms[l].Size > 2)
-    //         {
-    //             if (_uiSpots.transform.position == new Vector3(_instantiatedRooms[l].transform.position.x + _instantiatedRooms[l].DifferenceBetweenXPosition / 2, _instantiatedRooms[l].transform.position.y))
-    //             {
-    //                 _uiSpots.SetActive(false);
-    //             }
-    //         }
-    //         if (_instantiatedRooms[l].Size < 2)
-    //         {
-    //             if (_uiSpots.transform.position == new Vector3(_instantiatedRooms[l].transform.position.x - _instantiatedRooms[l].DifferenceBetweenXPosition, _instantiatedRooms[l].transform.position.y))
-    //             {
-    //                 _uiSpots.SetActive(false);
-    //             }
-    //         }
-    //         if (_uiSpots.transform.position == _instantiatedRooms[l].transform.position)
-    //         {
-    //             _uiSpots.SetActive(false);
-    //         }
-    //     }
-    // }
+    public Vector2 ConvertGridPosIntoWorldPos(Vector2 gridPos)
+    {
+        return new Vector2(gridPos.x * 3, gridPos.y * 4);
+    }
 }
