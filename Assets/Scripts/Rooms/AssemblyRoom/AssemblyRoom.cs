@@ -155,4 +155,13 @@ public class AssemblyRoom : MonoBehaviour, IRoomBehaviour
             _itemStorage.AddObjects(_currentObjectAssembled.ObjectType, 1);
         }
     }
+
+    /// <summary>
+    /// Work with the research room, when a new object is unlock add this object to the assemblable object list
+    /// </summary>
+    /// <param name="_newObject"></param>
+    public void AddNewAssemblableObject(ObjectData _newObject)
+    {
+        AssemblableObjects.Add(_newObject);
+    }
 }

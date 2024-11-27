@@ -159,4 +159,13 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
             _itemStorage.AddComponents(_currentComponentManufactured.ComponentType, 1);
         }
     }
+
+    /// <summary>
+    /// Work with the research room, when a new object is unlock add his components to the Manufacturable Components list
+    /// </summary>
+    /// <param name="_newComponents"></param>
+    public void AddNewManufacturableComponents(ComponentData _newComponents)
+    {
+        ManufacturableComponents.Add(_newComponents);
+    }
 }
