@@ -66,7 +66,7 @@ public class ResearchRoom : MonoBehaviour, IRoomBehaviour
 
         for (int i = 0; i < _objectToUnlock.Ingredients.Count; i++)
         {
-            _machiningRoom.AddNewManufacturableComponents(_objectToUnlock.Ingredients[i].Component);
+            _machiningRoom.AddNewManufacturableComponents(_objectToUnlock.Ingredients[i].ComponentData);
         }
         NewObjectUnlock.Invoke();
     }

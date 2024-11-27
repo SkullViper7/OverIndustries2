@@ -10,7 +10,7 @@ public struct Ingredient
     /// A component needed in a recipe.
     /// </summary>
     [field: SerializeField, Tooltip("A component needed in a recipe.")]
-    public ComponentType Component { get; private set; }
+    public ComponentData ComponentData { get; private set; }
 
     /// <summary>
     /// Quantity of this component needed in the recipe.
