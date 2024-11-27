@@ -5,7 +5,7 @@ using UnityEngine;
 public class ResearchRoom : MonoBehaviour, IRoomBehaviour
 {
     [field: SerializeField] public ResearchRoomData ResearchRoomData { get; private set; }
-    private RoomTemp _roomMain;
+    private Room _roomMain;
 
     /// <summary>
     /// Reference to the assembly and machining room for add the object ans components unlock
@@ -32,7 +32,7 @@ public class ResearchRoom : MonoBehaviour, IRoomBehaviour
         _machiningRoom = FindAnyObjectByType<MachiningRoom>();
     }
 
-    public void InitRoomBehaviour(IRoomBehaviourData behaviourData, RoomTemp roomMain)
+    public void InitRoomBehaviour(IRoomBehaviourData behaviourData, Room roomMain)
     {
         ResearchRoomData = (ResearchRoomData)behaviourData;
         _roomMain = roomMain;
