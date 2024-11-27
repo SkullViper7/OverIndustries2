@@ -30,7 +30,7 @@ public class DirectorRoom : MonoBehaviour, IRoomBehaviour
     {
         if (_recrutementList.Count < 5)
         {
-            _newEmployee = ObjectPool.Instance.RequestObject(3);
+            //_newEmployee = ObjectPoolManager.Instance.RequestObject(3);
             _recrutementList.Add(_newEmployee);
         }
 

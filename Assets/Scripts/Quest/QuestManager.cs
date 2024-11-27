@@ -48,7 +48,7 @@ public class QuestManager : MonoBehaviour
     {
         if (QuestList.Count > 0 && MaxCurrentQuest > CurrentQuestList.Count)
         {
-            _newQuest = ObjectPool.Instance.RequestObject(4).GetComponent<Quest>();
+            //_newQuest = ObjectPoolManager.Instance.RequestObject(4).GetComponent<Quest>();
 
 
             int randomQuest = Random.Range(0, QuestList.Count);
