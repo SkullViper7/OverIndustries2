@@ -38,14 +38,15 @@ public class Room : MonoBehaviour
     /// </summary>
     /// <param name="roomData"> Generic data of the room. </param>
     /// <param name="roomBehaviourData"> Specific data of the room's behaviour. </param>
-    /// <param name="worldPosition"> Position of the room in the world. </param>
-    public void InitRoom(RoomData roomData, IRoomBehaviourData roomBehaviourData, Vector2 worldPosition)
+    /// <param name="gridPosition"> Position of the room in the world. </param>
+    public void InitRoom(RoomData roomData, IRoomBehaviourData roomBehaviourData, Vector2 gridPosition)
     {
         CurrentLvl = 1;
         RoomData = roomData;
         RoomBehaviourData = roomBehaviourData;
+        RoomPosition = gridPosition;
 
-        transform.position = worldPosition;
+        transform.position = GridManager.Instance.ConvertGridPosIntoWorldPos(RoomPosition);
 
         switch (roomData.RoomType)
         {
@@ -70,15 +71,6 @@ public class Room : MonoBehaviour
                 assemblyRoom.InitRoomBehaviour(roomBehaviourData, this);
                 break;
         }
-    }
-
-    /// <summary>
-    /// Called to set the position in the grid of the room.
-    /// </summary>
-    /// <param name="position"> Position of the room in the grid. </param>
-    public void SetRoomPosition(Vector2 position)
-    {
-        RoomPosition = position;
     }
 
     /// <summary>

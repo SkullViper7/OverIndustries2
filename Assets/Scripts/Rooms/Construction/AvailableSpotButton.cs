@@ -35,12 +35,12 @@ public class AvailableSpotButton : MonoBehaviour
     /// <summary>
     /// Called to construct a room
     /// </summary>
-    /// <param name="roomData"></param>
-    /// <param name="roomBehaviourData"></param>
-    /// <param name="worldPos"></param>
-    private void ConstructRoom(RoomData roomData, IRoomBehaviourData roomBehaviourData, Vector2 worldPos)
+    /// <param name="roomData"> Data of the room. </param>
+    /// <param name="roomBehaviourData"> Data of the room behaviour. </param>
+    /// <param name="gridPos"> Position in the grid. </param>
+    private void ConstructRoom(RoomData roomData, IRoomBehaviourData roomBehaviourData, Vector2 gridPos)
     {
         GameObject newRoom = Instantiate(_emptyRoom);
-        newRoom.GetComponent<Room>().InitRoom(roomData, roomBehaviourData, worldPos);
+        GridManager.Instance.AddARoomInTheGrid(newRoom.GetComponent<Room>(), roomData, roomBehaviourData, gridPos);
     }
 }
