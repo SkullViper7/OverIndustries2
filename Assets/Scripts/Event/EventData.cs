@@ -22,7 +22,7 @@ public class EventData : ScriptableObject
     [Header("Positif"), SerializeField, Tooltip("Total points de satisfaction win when this event end")]
     private int _psWin;
     [SerializeField, Tooltip("Multiplicator value of PS win in this event")]
-    private int _psMultiplicator;
+    private float _psMultiplicator;
     [SerializeField, Tooltip("Total raw material win when this event end")]
     private int _rawMaterialWin;
 
@@ -31,6 +31,23 @@ public class EventData : ScriptableObject
     /// </summary>
     [Header("Negatif"), SerializeField, Tooltip("Total raw material lost during this event")]
     private int _rawMaterialLost;
+
+    /// <summary>
+    /// Condition need to start this event
+    /// </summary>
+    [Space, Header("Condition")]
+    [SerializeField, Tooltip("This event have condition to start ?")]
+    private bool _condition;
+    [SerializeField, Tooltip("Number of Room need to start this event, if(condition)")] 
+    private int _numberOfRoom;
+    [SerializeField, Tooltip("Minimum level of room need to start this event, if(condition)")] 
+    private int _minRoomLevel;
+    [SerializeField, Tooltip("Minimum of point de satisfaction need to start this event, if(condition)")] 
+    private int _minNumberPS;
+    [Space,SerializeField, Tooltip("This event need a special room type instanciates to start, if(condition)")] 
+    private bool _specialRoomType;
+    [SerializeField, Tooltip("Instantiates room type need to start this event, if(specialRoomType)")] 
+    private RoomType _roomTypeNeed;
 
     /// <summary>
     /// Get event name
@@ -55,7 +72,7 @@ public class EventData : ScriptableObject
     /// <summary>
     /// Get multiplicator value of PS win in this event
     /// </summary>
-    public int PSMultiplicator { get { return _psMultiplicator; } }
+    public float PSMultiplicator { get { return _psMultiplicator; } }
     
     /// <summary>
     /// Get raw material win at event end
@@ -66,4 +83,34 @@ public class EventData : ScriptableObject
     /// Get raw material lost during this event
     /// </summary>
     public int RawMaterialLost { get { return _rawMaterialLost; } }
+    
+    /// <summary>
+    /// Get if this event need condition to start
+    /// </summary>
+    public bool Condition { get { return _condition; } }
+
+    /// <summary>
+    /// Get the condition, number of room need to start this event
+    /// </summary>
+    public int NumberOfRoom { get { return _numberOfRoom; } }
+
+    /// <summary>
+    /// Get the condition, min room level need to start this event
+    /// </summary>
+    public int MinRoomLevel { get { return _minRoomLevel; } }
+
+    /// <summary>
+    /// Get the condition, min PS need to start this event
+    /// </summary>
+    public int MinNumberPS { get { return _minNumberPS; } }
+
+    /// <summary>
+    /// Get if this event need a special room type instanciate to start
+    /// </summary>
+    public bool SpecialRoomType { get { return _specialRoomType; } }
+    
+    /// <summary>
+    /// Get the condition, instantiates room type need to start this event
+    /// </summary>
+    public RoomType RoomTypeNeed { get { return _roomTypeNeed; } }
 }
