@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using UnityEngine;
 
 /// <summary>
@@ -17,4 +18,27 @@ public struct Ingredient
     /// </summary>
     [field: SerializeField, Tooltip("Quantity of this component needed in the recipe.")]
     public int Quantity { get; private set; }
+}
+
+/// <summary>
+/// A pool of objects.
+/// </summary>
+public struct ObjectPool
+{
+    /// <summary>
+    /// Concurrent bag which stocks objects.
+    /// </summary>
+    public ConcurrentBag<GameObject> Pool { get; private set; }
+
+    /// <summary>
+    /// Prefab of the object stocked.
+    /// </summary>
+    public GameObject ObjectPrefab { get; private set; }
+
+    // Explicit constructor.
+    public ObjectPool(ConcurrentBag<GameObject> pool, GameObject objectPrefab)
+    {
+        Pool = pool;
+        ObjectPrefab = objectPrefab;
+    }
 }

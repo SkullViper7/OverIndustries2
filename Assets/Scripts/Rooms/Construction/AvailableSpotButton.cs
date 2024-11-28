@@ -19,13 +19,17 @@ public class AvailableSpotButton : MonoBehaviour
         _button = GetComponent<Button>();
     }
 
-    public void InitButton(RoomData roomData, IRoomBehaviourData roomBehaviourData, Vector2 position)
+    public void InitButton(RoomData roomData, IRoomBehaviourData roomBehaviourData, Vector2 position, AvailableSpotsUI availableSpotsUI)
     {
         RectTransform rectTransform = GetComponent<RectTransform>();
         rectTransform.position = GridManager.Instance.ConvertGridPosIntoWorldPos(position);
         rectTransform.sizeDelta = new Vector2(roomData.Size * 3, 4);
 
-        _button.onClick.AddListener(() => ConstructRoom(roomData, roomBehaviourData, transform.position));
+        _button.onClick.AddListener(() =>
+        {
+            ConstructRoom(roomData, roomBehaviourData, transform.position);
+            availableSpotsUI.CloseUI();
+        });
     }
 
     /// <summary>

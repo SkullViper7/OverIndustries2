@@ -215,11 +215,6 @@ public class GridManager : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < availableSpots.Count; i++)
-        {
-            Debug.Log(availableSpots[i]);
-        }
-
         return availableSpots;
     }
 

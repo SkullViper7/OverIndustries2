@@ -1,30 +1,5 @@
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class ObjectPool
-{
-    private static int _idCounter = 0;
-
-    /// <summary>
-    /// Instance ID of the pool.
-    /// </summary>
-    public int PoolId { get; private set; }
-    
-    /// <summary>
-    /// Concurrent bag which stocks objects.
-    /// </summary>
-    private ConcurrentBag<GameObject> _pool;
-
-    /// <summary>
-    /// A pool of object.
-    /// </summary>
-    public ObjectPool()
-    {
-        this.PoolId = _idCounter++;
-        this._pool = new();
-    }
-}
 
 /// <summary>
 /// The pool of all IPoolable objects
@@ -35,16 +10,18 @@ public class ObjectPoolManager : MonoBehaviour
     private static ObjectPoolManager _instance = null;
     public static ObjectPoolManager Instance => _instance;
 
+    private static int _idCounter = 0;
+
     /// <summary>
     /// GameObject where all objects in pools go.
     /// </summary>
     [SerializeField]
-    private GameObject _poolParent;
+    private Transform _poolParent;
 
     /// <summary>
-    /// List which stocks all object pools.
+    /// Dictionnary which stocks object pools with an ID.
     /// </summary>
-    private List<ObjectPool> _objectPools = new();
+    private Dictionary<int, ObjectPool> _objectPools = new();
 
     private void Awake()
     {
@@ -58,76 +35,63 @@ public class ObjectPoolManager : MonoBehaviour
         {
             _instance = this;
         }
+
+        Debug.Log(_idCounter);
     }
 
     /// <summary>
     /// Called to create a new object pool and get its ID.
     /// </summary>
+    /// <param name="objectPrefab"> Prefab of the object stocked in the pool. </param>
     /// <returns></returns>
-    public int NewObjectPool()
+    public int NewObjectPool(GameObject objectPrefab)
     {
-        ObjectPool newObjectPool = new();
-        _objectPools.Add(newObjectPool);
-        return newObjectPool.PoolId;
+        Debug.Log(_idCounter);
+        _objectPools.Add(_idCounter++, new(new(), objectPrefab));
+        Debug.Log(_idCounter);
+        return _idCounter;
     }
 
-    //private void GenerateObjects(ObjectPool pooledObject)
-    //{
-    //    for (int i = 0; i < pooledObject.InitialSize; i++)
-    //    {
-    //        GameObject obj = Instantiate(pooledObject._objectToStock);
-    //        obj.transform.parent = _poolParent.transform;
-    //        obj.SetActive(false);
-    //        pooledObject.PooledObjects.Add(obj);
-    //    }
-    //}
+    /// <summary>
+    /// Called to get an object in a pool.
+    /// </summary>
+    /// <param name="poolId"> ID of the pool where get the object. </param>
+    /// <returns></returns>
+    public GameObject GetObjectInPool(int poolId)
+    {
+        if (_objectPools.ContainsKey(poolId))
+        {
+            if (_objectPools[poolId].Pool.TryTake(out GameObject objectPicked))
+            {
+                return objectPicked;
+            }
+            else
+            {
+                GameObject newObject = Instantiate(_objectPools[poolId].ObjectPrefab, _poolParent);
+                return newObject;
+            }
+        }
+        else
+        {
+            Debug.LogError(poolId + " is not an existing ID !");
+            return null;
+        }
+    }
 
-    //public GameObject RequestObject(int prefab)
-    //{
-    //    foreach (var pooledObject in _pooledObjects)
-    //    {
-    //        if (pooledObject.PoolId == prefab) // Match pooled object by Id instead
-    //        {
-    //            foreach (var obj in pooledObject._pool)
-    //            {
-    //                if (!obj.activeInHierarchy)
-    //                {
-    //                    obj.SetActive(true);
-    //                    return obj;
-    //                }
-    //            }
-
-    //            If no object is available, instantiate a new one
-    //            GameObject newObj = Instantiate(pooledObject._objectToStock);
-    //            newObj.transform.parent = _poolParent.transform;
-    //            pooledObject.PooledObjects.Add(newObj);
-    //            return newObj;
-    //        }
-    //    }
-
-    //    Debug.LogWarning("No pool available for this prefab: " + prefab);
-    //    return null;
-    //}
-
-    //public void ReturnAllObjects()
-    //{
-    //    foreach (var pooledObject in _pooledObjects)
-    //    {
-    //        foreach (var obj in pooledObject._pool)
-    //        {
-    //            if (obj.activeInHierarchy)
-    //            {
-    //                obj.SetActive(false);
-    //            }
-    //        }
-    //    }
-    //}
-
-    //public void ReturnThisObject(GameObject _object)
-    //{
-    //    if (_object.activeInHierarchy)
-    //    {
-    //        _object.SetActive(false);
-    //    }
-    //}
+    /// <summary>
+    /// Called to return an object to its pool.
+    /// </summary>
+    /// <param name="poolId"> ID of the pool where return the object. </param>
+    /// <param name="objectToReturn"> The object to return. </param>
+    public void ReturnObjectToThePool(int poolId, GameObject objectToReturn)
+    {
+        if (_objectPools.ContainsKey(poolId))
+        {
+            _objectPools[poolId].Pool.Add(objectToReturn);
+        }
+        else
+        {
+            Debug.LogError(poolId + " is not an existing ID !");
+        }
+    }
 }
