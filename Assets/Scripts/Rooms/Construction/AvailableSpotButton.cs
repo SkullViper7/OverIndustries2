@@ -27,7 +27,7 @@ public class AvailableSpotButton : MonoBehaviour
 
         _button.onClick.AddListener(() =>
         {
-            ConstructRoom(roomData, roomBehaviourData, transform.position);
+            ConstructRoom(roomData, roomBehaviourData, position);
             availableSpotsUI.CloseUI();
         });
     }

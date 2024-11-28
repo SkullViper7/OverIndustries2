@@ -28,6 +28,11 @@ public class Room : MonoBehaviour
     public Vector2 RoomPosition { get; private set; }
 
     /// <summary>
+    /// Prefab of the room with mesh in children.
+    /// </summary>
+    private GameObject _currentVisualRoom;
+
+    /// <summary>
     /// Events to get the lvl when the room is upgraded.
     /// </summary>
     public delegate void UpgradeDelegate(int newLvl);
@@ -71,6 +76,8 @@ public class Room : MonoBehaviour
                 assemblyRoom.InitRoomBehaviour(roomBehaviourData, this);
                 break;
         }
+
+        UpgradeVisualRoom(CurrentLvl);
     }
 
     /// <summary>
@@ -80,5 +87,33 @@ public class Room : MonoBehaviour
     {
         CurrentLvl++;
         NewLvl?.Invoke(CurrentLvl);
+        UpgradeVisualRoom(CurrentLvl);
+    }
+
+    private void UpgradeVisualRoom(int currentLvl)
+    {
+        if (_currentVisualRoom != null)
+        {
+            Destroy(_currentVisualRoom);
+        }
+
+        switch (currentLvl)
+        {
+            case 1:
+                {
+                    GameObject newVisualRoom = Instantiate(RoomData.RoomLvl1, transform);
+                    break;
+                }
+            case 2:
+                {
+                    GameObject newVisualRoom = Instantiate(RoomData.RoomLvl2, transform);
+                    break;
+                }
+            case 3:
+                {
+                    GameObject newVisualRoom = Instantiate(RoomData.RoomLvl3, transform);
+                    break;
+                }
+        }
     }
 }

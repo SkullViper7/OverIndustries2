@@ -4,6 +4,18 @@ using UnityEngine;
 public class AvailableSpotsUI : MonoBehaviour
 {
     /// <summary>
+    /// HUD.
+    /// </summary>
+    [SerializeField]
+    private GameObject _HUD;
+
+    /// <summary>
+    /// UI displayed when player is constructing.
+    /// </summary>
+    [SerializeField]
+    private GameObject _constructionUI;
+
+    /// <summary>
     /// Prefab of the button.
     /// </summary>
     [SerializeField]
@@ -12,7 +24,6 @@ public class AvailableSpotsUI : MonoBehaviour
     /// <summary>
     /// Id of the pool where buttons are stocked.
     /// </summary>
-    [SerializeField]
     private int _buttonsPoolID;
 
     /// <summary>
@@ -41,7 +52,7 @@ public class AvailableSpotsUI : MonoBehaviour
             // Get a button
             GameObject button = ObjectPoolManager.Instance.GetObjectInPool(_buttonsPoolID);
             _spotButtons.Add(button);
-            button.GetComponent<RectTransform>().parent = transform;
+            button.GetComponent<RectTransform>().SetParent(transform);
 
             button.SetActive(true);
             button.GetComponent<AvailableSpotButton>().InitButton(roomData, roomBehaviourData, availableSpots[i], this);
@@ -60,5 +71,8 @@ public class AvailableSpotsUI : MonoBehaviour
         }
 
         _spotButtons.Clear();
+
+        _constructionUI.SetActive(false);
+        _HUD.SetActive(true);
     }
 }

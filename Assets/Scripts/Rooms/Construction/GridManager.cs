@@ -200,7 +200,7 @@ public class GridManager : MonoBehaviour
             for (int j = 1; j <= roomToConstructSize; j++)
             {
                 // Check if position is not outside the limits.
-                if (instantiatedRoomPosition.x + (InstantiatedRooms[i].RoomData.Size - 1) + j > GridSize.x)
+                if (instantiatedRoomPosition.x + (InstantiatedRooms[i].RoomData.Size - 1) + j > GridSize.x - 1)
                 {
                     isRightAvailable = false;
                     break;

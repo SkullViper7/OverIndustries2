@@ -21,6 +21,15 @@ public class ConstructionSelectionButton : MonoBehaviour
     [SerializeField]
     private GameObject _popUp;
 
+    /// <summary>
+    /// UI displayed when player is constructing.
+    /// </summary>
+    [SerializeField]
+    private GameObject _constructionUI;
+
+    /// <summary>
+    /// Button component.
+    /// </summary>
     private Button _selectionButton;
 
     private void Awake()
@@ -30,7 +39,7 @@ public class ConstructionSelectionButton : MonoBehaviour
 
     private void Start()
     {
-        _selectionButton.onClick.AddListener(() => { StartSearchingForAnAvailableSpot(); _popUp.SetActive(false); });
+        _selectionButton.onClick.AddListener(() => { StartSearchingForAnAvailableSpot(); _popUp.SetActive(false); _constructionUI.SetActive(true); });
     }
 
     /// <summary>

@@ -35,8 +35,6 @@ public class ObjectPoolManager : MonoBehaviour
         {
             _instance = this;
         }
-
-        Debug.Log(_idCounter);
     }
 
     /// <summary>
@@ -46,9 +44,8 @@ public class ObjectPoolManager : MonoBehaviour
     /// <returns></returns>
     public int NewObjectPool(GameObject objectPrefab)
     {
-        Debug.Log(_idCounter);
-        _objectPools.Add(_idCounter++, new(new(), objectPrefab));
-        Debug.Log(_idCounter);
+        _idCounter++;
+        _objectPools.Add(_idCounter, new(new(), objectPrefab));
         return _idCounter;
     }
 
