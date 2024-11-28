@@ -6,15 +6,15 @@ public class ScoreManager : MonoBehaviour
     private static ScoreManager _instance = null;
     public static ScoreManager Instance => _instance;
 
-    [Space, Header("Affect Score"), Tooltip("Mutiplacateur of information which affect the final score, entre 0 and 1.")]
+    [Space, Header("Affect Score"), Tooltip("Mutiplacator of information which affect the final score, entre 0 and 1.")]
     [SerializeField] private float _psImportance;
     [SerializeField] private float _employeeImportance;
     [SerializeField] private float _roomLevelMaxImportance;
 
     [Space, Header("Info Score"), Tooltip("Information which affect the final score.")]
-    [SerializeField] private int _totalPS;
     [SerializeField] private int _totalEmployee;
     [SerializeField] private int _totalRoomLevelMax;
+    [SerializeField] public float TotalPS { get; private set; }
 
     [SerializeField] public float FinalScore { get; private set; }
 
@@ -37,8 +37,15 @@ public class ScoreManager : MonoBehaviour
         CalculateScore();
     }
 
-    public void AddPS()
-    { _totalPS++; }
+    public void AddPS(float _psWin)
+    {
+        if (EventManager.Instance.CurrentEvent && EventManager.Instance.ActualEvent.PSMultiplicator > 0)
+        {
+            TotalPS = Mathf.Round(TotalPS + (_psWin * EventManager.Instance.ActualEvent.PSMultiplicator));
+        }
+        else
+        { TotalPS = TotalPS + _psWin; }
+    }
 
     public void AddTotalEmployee()
     { _totalEmployee++; }
@@ -49,7 +56,7 @@ public class ScoreManager : MonoBehaviour
 
     public void CalculateScore()
     {
-        FinalScore = Mathf.Round((_totalPS * _psImportance) + (_totalEmployee * _employeeImportance) + (_totalRoomLevelMax * _roomLevelMaxImportance));
+        FinalScore = Mathf.Round((TotalPS * _psImportance) + (_totalEmployee * _employeeImportance) + (_totalRoomLevelMax * _roomLevelMaxImportance));
         Debug.Log("Score : " + FinalScore);
     }
 }

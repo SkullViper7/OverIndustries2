@@ -33,7 +33,15 @@ public class RawMaterialStorage : MonoBehaviour
     /// </summary>
     public int TotalRecyclingRawMaterial;
 
+    /// <summary>
+    /// For the recycling room
+    /// </summary>
     public event System.Action<int> RawMaterialToRecycle;
+
+    /// <summary>
+    /// For event with add raw material
+    /// </summary>
+    public event System.Action<int> RawMaterialProduct;
 
     private void Awake()
     {
@@ -57,6 +65,8 @@ public class RawMaterialStorage : MonoBehaviour
     {
         _amoutOfRawMaterial += amountToAdd;
         Mathf.Clamp(_amoutOfRawMaterial, 0, _storageCapacity);
+
+        RawMaterialProduct.Invoke(amountToAdd);
     }
 
     /// <summary>

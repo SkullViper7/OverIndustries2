@@ -10,11 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 624060487fc8a7544aa556735dfd693d, type: 3}
-  m_Name: EventTest
+  m_Name: PSAbundanceEvent
   m_EditorClassIdentifier: 
-  _name: Test
-  _description: zerdtyuiopinubyvtcr
-  _duration: 50
-  _PSWin: 100
-  _rawMaterialWin: 50
+  _name: Point de Satisfaction en abondance !
+  _description: Les point de satisfaction gagner sont multiplier par 1.5 !
+  _duration: 60
+  _psWin: 0
+  _psMultiplicator: 1.5
+  _rawMaterialWin: 0
   _rawMaterialLost: 0
+  _condition: 1
+  _numberOfRoom: 2
+  _minRoomLevel: 1
+  _minNumberPS: 100
+  _specialRoomType: 0
+  _roomTypeNeed: 0
