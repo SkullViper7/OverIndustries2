@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +12,11 @@ public class GridManager : MonoBehaviour
     /// Size of the grid.
     /// </summary>
     public Vector2 GridSize;
+
+    public event Action GridInitializedEvent;
+
+    public delegate void GridModificationDelegate(Vector2 position);
+    public event GridModificationDelegate RoomAddEvent, RoomRemoveEvent;
 
     /// <summary>
     /// List of the room already in the scene at the start of the game.
@@ -85,11 +91,11 @@ public class GridManager : MonoBehaviour
             // Get component of the room.
             Room _room = _roomsByDefault[i].GetComponent<Room>();
             RoomByDefault _roomsByDefaultComponent = _roomsByDefault[i].GetComponent<RoomByDefault>();
-      
+
             AddARoomInTheGrid(_room, _roomsByDefaultComponent.RoomData, (IRoomBehaviourData)_roomsByDefaultComponent.RoomBehaviourData, _roomsByDefaultComponent.RoomPosition);
         }
 
-        // PanelManager.Instance.InitPanel();
+        GridInitializedEvent?.Invoke();
     }
 
     /// <summary>
@@ -117,12 +123,11 @@ public class GridManager : MonoBehaviour
         for (int i = 0; i < room.RoomData.Size; i++)
         {
             _grid[string.Format(_rowFormat, position.y)][string.Format(_columnFormat, position.x + i)] = room;
+            RoomRemoveEvent?.Invoke(position + new Vector2(i, 0));
         }
 
         // Add the room to the list of instantiated rooms
         InstantiatedRooms.Add(room);
-
-        // PanelManager.Instance.AddPanel(position);
     }
 
     /// <summary>
@@ -137,12 +142,11 @@ public class GridManager : MonoBehaviour
         for (int i = 0; i < room.RoomData.Size; i++)
         {
             _grid[string.Format(_rowFormat, roomPosition.y)][string.Format(_columnFormat, roomPosition.x + i)] = null;
+            RoomAddEvent?.Invoke(roomPosition + new Vector2(i, 0));
         }
 
         // Add the room to the list of instantiated rooms
         InstantiatedRooms.Remove(room);
-
-        PanelManager.Instance.RemovePanel(roomPosition);
     }
 
     /// <summary>
