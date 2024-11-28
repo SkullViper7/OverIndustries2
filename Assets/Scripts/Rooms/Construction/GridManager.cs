@@ -10,14 +10,13 @@ public class GridManager : MonoBehaviour
     /// <summary>
     /// Size of the grid.
     /// </summary>
-    [SerializeField]
-    private Vector2 _gridSize;
+    public Vector2 GridSize;
 
     /// <summary>
     /// List of the room already in the scene at the start of the game.
     /// </summary>
     [SerializeField]
-    private List<Room> _roomsByDefault = new();
+    private List<GameObject> _roomsByDefault = new();
 
     /// <summary>
     /// Dictionnary which represents the grid.
@@ -27,7 +26,7 @@ public class GridManager : MonoBehaviour
     /// <summary>
     /// List of rooms already instantiated.
     /// </summary>
-    private List<Room> _instantiatedRooms = new();
+    public List<Room> InstantiatedRooms { get; private set; } = new();
 
     /// <summary>
     /// Row name format.
@@ -70,11 +69,11 @@ public class GridManager : MonoBehaviour
     private void InitGrid()
     {
         // Create all slots in the dictionnary
-        for (int i = 0; i < _gridSize.y; i++)
+        for (int i = 0; i < GridSize.y; i++)
         {
             _grid.Add(string.Format(_rowFormat, i), new Dictionary<string, Room>());
 
-            for (int j = 0; j < _gridSize.x; j++)
+            for (int j = 0; j < GridSize.x; j++)
             {
                 _grid[string.Format(_rowFormat, i)].Add(string.Format(_columnFormat, j), null);
             }
@@ -83,15 +82,14 @@ public class GridManager : MonoBehaviour
         // Set the two default rooms in the grid
         for (int i = 0; i < _roomsByDefault.Count; i++)
         {
-            if (_roomsByDefault[i].RoomData.RoomType == RoomType.Director)
-            {
-                AddARoomInTheGrid(_roomsByDefault[i], new Vector2(0, 0));
-            }
-            else if (_roomsByDefault[i].RoomData.RoomType == RoomType.Delivery)
-            {
-                AddARoomInTheGrid(_roomsByDefault[i], new Vector2(4, 0));
-            }
+            // Get component of the room.
+            Room _room = _roomsByDefault[i].GetComponent<Room>();
+            RoomByDefault _roomsByDefaultComponent = _roomsByDefault[i].GetComponent<RoomByDefault>();
+      
+            AddARoomInTheGrid(_room, _roomsByDefaultComponent.RoomData, (IRoomBehaviourData)_roomsByDefaultComponent.RoomBehaviourData, _roomsByDefaultComponent.RoomPosition);
         }
+
+        // PanelManager.Instance.InitPanel();
     }
 
     /// <summary>
@@ -108,10 +106,12 @@ public class GridManager : MonoBehaviour
     /// Called to add a new room in the grid.
     /// </summary>
     /// <param name="room"> Main component of the room. </param>
+    /// <param name="roomData"> Data of the room. </param> 
+    /// <param name="roomBehaviourData"> Data of the room behaviour. </param>
     /// <param name="position"> Position of the room. </param>
-    public void AddARoomInTheGrid(Room room, Vector2 position)
+    public void AddARoomInTheGrid(Room room, RoomData roomData, IRoomBehaviourData roomBehaviourData, Vector2 position)
     {
-        room.SetRoomPosition(position);
+        room.InitRoom(roomData, roomBehaviourData, position);
 
         // Set all slots of the room as not available
         for (int i = 0; i < room.RoomData.Size; i++)
@@ -120,7 +120,9 @@ public class GridManager : MonoBehaviour
         }
 
         // Add the room to the list of instantiated rooms
-        _instantiatedRooms.Add(room);
+        InstantiatedRooms.Add(room);
+
+        // PanelManager.Instance.AddPanel(position);
     }
 
     /// <summary>
@@ -138,7 +140,9 @@ public class GridManager : MonoBehaviour
         }
 
         // Add the room to the list of instantiated rooms
-        _instantiatedRooms.Remove(room);
+        InstantiatedRooms.Remove(room);
+
+        PanelManager.Instance.RemovePanel(roomPosition);
     }
 
     /// <summary>
@@ -163,9 +167,9 @@ public class GridManager : MonoBehaviour
         int roomToConstructSize = roomData.Size;
 
         // Browse each room
-        for (int i = 0; i < _instantiatedRooms.Count; i++)
+        for (int i = 0; i < InstantiatedRooms.Count; i++)
         {
-            Vector2 instantiatedRoomPosition = _instantiatedRooms[i].RoomPosition;
+            Vector2 instantiatedRoomPosition = InstantiatedRooms[i].RoomPosition;
             bool isLeftAvailable = true;
             bool isRightAvailable = true;
 
@@ -196,13 +200,13 @@ public class GridManager : MonoBehaviour
             for (int j = 1; j <= roomToConstructSize; j++)
             {
                 // Check if position is not outside the limits.
-                if (instantiatedRoomPosition.x + (_instantiatedRooms[i].RoomData.Size - 1) + j > _gridSize.x)
+                if (instantiatedRoomPosition.x + (InstantiatedRooms[i].RoomData.Size - 1) + j > GridSize.x)
                 {
                     isRightAvailable = false;
                     break;
                 }
 
-                if (CheckOccupiedSpots(new Vector2(instantiatedRoomPosition.x + (_instantiatedRooms[i].RoomData.Size - 1) + j, instantiatedRoomPosition.y)))
+                if (CheckOccupiedSpots(new Vector2(instantiatedRoomPosition.x + (InstantiatedRooms[i].RoomData.Size - 1) + j, instantiatedRoomPosition.y)))
                 {
                     isRightAvailable = false;
                     break;
@@ -211,7 +215,7 @@ public class GridManager : MonoBehaviour
 
             if (isRightAvailable)
             {
-                availableSpots.Add(new Vector2(instantiatedRoomPosition.x + (_instantiatedRooms[i].RoomData.Size), instantiatedRoomPosition.y));
+                availableSpots.Add(new Vector2(instantiatedRoomPosition.x + (InstantiatedRooms[i].RoomData.Size), instantiatedRoomPosition.y));
             }
         }
 

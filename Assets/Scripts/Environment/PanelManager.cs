@@ -3,26 +3,50 @@ using UnityEngine;
 
 public class PanelManager : MonoBehaviour
 {
-    [SerializeField] GridManager _spotChecker;
+    private static PanelManager _instance;
 
-    [SerializeField] GameObject _panelPrefab;
+    public static PanelManager Instance;
 
-    List<Panel> _panels;
+    [SerializeField] GameObject _panel;
+    Dictionary<string, Dictionary<string, Panel>> _grid = new();
 
-    // void Start()
-    // {
-    //     _panels = new List<Panel>();
+    const string _rowFormat = "row{0}";
+    const string _columnFormat = "column{0}";
 
-    //     for (int i = 0; i < _spotChecker.OccupiedSpots.GetLength(0); i++)
-    //     {
-    //         for (int j = 0; j < _spotChecker.OccupiedSpots.GetLength(1); j++)
-    //         {
-    //             if (!_spotChecker.OccupiedSpots[i, j])
-    //             {
-    //                 GameObject panel = Instantiate(_panelPrefab);
-    //                 _panels.Add(panel.GetComponent<Panel>());
-    //             }
-    //         }
-    //     }
-    // }
+    private void Awake()
+    {
+        if (_instance == null)
+        {
+            _instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else if (_instance != this)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    public void InitPanel()
+    {
+        // Create all slots in the dictionnary
+        for (int i = 0; i < GridManager.Instance.GridSize.y; i++)
+        {
+            _grid.Add(string.Format(_rowFormat, i), new Dictionary<string, Panel>());
+
+            for (int j = 0; j < GridManager.Instance.GridSize.x; j++)
+            {
+                _grid[string.Format(_rowFormat, i)].Add(string.Format(_columnFormat, j), null);
+            }
+        }
+    }
+
+    public void AddPanel(Vector2 position)
+    {
+
+    }
+
+    public void RemovePanel(Vector2 position)
+    {
+        
+    }
 }
