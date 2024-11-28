@@ -5,23 +5,18 @@ public class RoomByDefault : MonoBehaviour
     /// <summary>
     /// Data of the room.
     /// </summary>
-    [SerializeField]
-    private RoomData _roomData;
+    [field : SerializeField]
+    public RoomData RoomData { get; private set; }
 
     /// <summary>
     /// Data of the room behaviour.
     /// </summary>
-    [SerializeField, InterfaceType(typeof(IRoomBehaviourData))]
-    private ScriptableObject _roomBehaviourData;
+    [field : SerializeField, InterfaceType(typeof(IRoomBehaviourData))]
+    public ScriptableObject RoomBehaviourData { get; private set; }
 
     /// <summary>
     /// Position of the room in the grid.
     /// </summary>
-    [SerializeField]
-    private Vector2 _roomPosition;
-
-    public void Start()
-    {
-        GetComponent<Room>().InitRoom(_roomData, (IRoomBehaviourData)_roomBehaviourData, GridManager.Instance.ConvertGridPosIntoWorldPos(_roomPosition));
-    }
+    [field : SerializeField]
+    public Vector2 RoomPosition { get; private set; }
 }
