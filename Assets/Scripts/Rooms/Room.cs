@@ -75,6 +75,11 @@ public class Room : MonoBehaviour
                 RoomBehaviour = assemblyRoom;
                 assemblyRoom.InitRoomBehaviour(roomBehaviourData, this);
                 break;
+            case RoomType.Elevator:
+                Elevator elevator = (Elevator)gameObject.AddComponent(typeof(Elevator));
+                RoomBehaviour = elevator;
+                elevator.InitRoomBehaviour(roomBehaviourData, this);
+                break;
         }
 
         UpgradeVisualRoom(CurrentLvl);

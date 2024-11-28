@@ -221,6 +221,45 @@ public class GridManager : MonoBehaviour
             {
                 availableSpots.Add(new Vector2(instantiatedRoomPosition.x + (InstantiatedRooms[i].RoomData.Size), instantiatedRoomPosition.y));
             }
+
+            // Special cases with elevators
+            if (roomToConstructType == RoomType.Elevator && InstantiatedRooms[i].RoomData.RoomType == RoomType.Elevator)
+            {
+                bool isUpAvailable = true;
+                bool isDownAvailable = true;
+
+                // Check upward
+                // Check if position is not outside the limits.
+                if (instantiatedRoomPosition.y + 1 > GridSize.y - 1)
+                {
+                    isUpAvailable = false;
+                }
+
+                if (CheckOccupiedSpots(new Vector2(instantiatedRoomPosition.x, instantiatedRoomPosition.y + 1)))
+                {
+                    isUpAvailable = false;
+                }
+                else if (isUpAvailable)
+                {
+                    availableSpots.Add(new Vector2(instantiatedRoomPosition.x, instantiatedRoomPosition.y + 1));
+                }
+
+                // Check downward
+                // Check if position is not outside the limits.
+                if (instantiatedRoomPosition.y - 1 < 0)
+                {
+                    isDownAvailable = false;
+                }
+                else if (CheckOccupiedSpots(new Vector2(instantiatedRoomPosition.x, instantiatedRoomPosition.y - 1)))
+                {
+                    isDownAvailable = false;
+                }
+
+                if (isDownAvailable)
+                {
+                    availableSpots.Add(new Vector2(instantiatedRoomPosition.x, instantiatedRoomPosition.y - 1));
+                }
+            }
         }
 
         return availableSpots;
