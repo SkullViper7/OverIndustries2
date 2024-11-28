@@ -1492,12 +1492,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 6353268549451964087}
   m_SourcePrefab: {fileID: 100100000, guid: 801f2ecdf6124fa4e96194b324087c45, type: 3}
---- !u!23 &7760420105676025401 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 801f2ecdf6124fa4e96194b324087c45,
-    type: 3}
-  m_PrefabInstance: {fileID: 8967539156963881661}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8120676807724879852 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 801f2ecdf6124fa4e96194b324087c45,
@@ -1539,16 +1533,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   releaseShaders: 1
-  m_RendererInfo:
-  - renderer: {fileID: 7760420105676025401}
-    lightmapIndex: 0
-    lightmapOffsetScale: {x: 0.40478235, y: 0.40478235, z: 0.50122213, w: -0.00073101383}
-  m_Lightmaps:
-  - {fileID: 2800000, guid: 40372dd5e0268a74ba6dbce759a33207, type: 3}
-  m_LightmapsDir:
-  - {fileID: 2800000, guid: 86476ef28b5b7994481a162d1a88d1c8, type: 3}
-  m_ShadowMasks:
-  - {fileID: 0}
+  m_RendererInfo: []
+  m_Lightmaps: []
+  m_LightmapsDir: []
+  m_ShadowMasks: []
   m_LightInfo:
   - light: {fileID: 386522281193061936}
     lightmapBaketype: 2
