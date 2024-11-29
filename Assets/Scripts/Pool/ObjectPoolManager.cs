@@ -1,9 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// The pool of all IPoolable objects
-/// </summary>
 public class ObjectPoolManager : MonoBehaviour
 {
     // Singleton

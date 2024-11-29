@@ -267,6 +267,11 @@ public class GridManager : MonoBehaviour
         return availableSpots;
     }
 
+    /// <summary>
+    /// Called to convert a grid position into a world position.
+    /// </summary>
+    /// <param name="gridPos"> Position in the grid. </param>
+    /// <returns></returns>
     public Vector2 ConvertGridPosIntoWorldPos(Vector2 gridPos)
     {
         return new Vector2(gridPos.x * 3, gridPos.y * 4);

@@ -84,7 +84,7 @@ public class ChronoManager : MonoBehaviour
         {
             lastMinute = currentMinute;
             NewMinuteTick?.Invoke();
-            NewMinute?.Invoke(currentSecond);
+            NewMinute?.Invoke(currentMinute);
         }
     }
 
