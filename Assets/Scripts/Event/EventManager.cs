@@ -34,8 +34,9 @@ public class EventManager : MonoBehaviour
     public bool CurrentEvent { get; private set; }
     private int _eventNumber;
 
+    public event System.Action<EventData> NewEventStart;
     public event System.Action EventConditionCompleted;
-    public event System.Action CurrentEventIsFinish;
+    public event System.Action<EventData> CurrentEventIsFinish;
 
     private void Awake()
     {
@@ -67,6 +68,7 @@ public class EventManager : MonoBehaviour
     /// <param name="_minute"></param>
     public void RandomEvent(int _minute)
     {
+        Debug.Log("taiyakii");
         if (!CurrentEvent && (_minute - _lastEvent > _timeBetweenEvent))
         {
             _eventNumber = Random.Range(0, _eventList.Count);
@@ -78,6 +80,8 @@ public class EventManager : MonoBehaviour
     {
         CurrentEvent = true;
         ActualEvent = _eventData;
+
+        NewEventStart.Invoke(_eventData);
         EventConditionCompleted.Invoke();
 
         StartCoroutine(EventDuration(_eventData.Duration));
@@ -120,7 +124,7 @@ public class EventManager : MonoBehaviour
             {
                 StartEvent(_eventData);
             }
-            else //All conditions are uncompleted
+            else //All conditions are not completed
             {
                 _eventList[_eventNumber].SetActive(false);
             }
@@ -133,7 +137,7 @@ public class EventManager : MonoBehaviour
 
     public void CloseCurrentEvent()
     {
-        CurrentEventIsFinish.Invoke();
+        CurrentEventIsFinish.Invoke(ActualEvent);
 
         _eventList[_eventNumber].SetActive(false);
         CurrentEvent = false;

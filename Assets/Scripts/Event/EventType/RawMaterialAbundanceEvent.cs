@@ -19,7 +19,6 @@ public class RawMaterialAbundanceEvent : MonoBehaviour
     public void EventComportement()
     {
         RawMaterialStorage.Instance.RawMaterialProduct += MultiplieRawMaterialProduct;
-
     }
 
     public void MultiplieRawMaterialProduct(int _amountProduct)
