@@ -42,5 +42,38 @@ public class AvailableSpotButton : MonoBehaviour
     {
         GameObject newRoom = Instantiate(_emptyRoom);
         GridManager.Instance.AddARoomInTheGrid(newRoom.GetComponent<Room>(), roomData, roomBehaviourData, gridPos);
+
+        // Special case with elevator
+        if (roomData.RoomType == RoomType.Elevator)
+        {
+            if (gridPos.y - 1 >= 0)
+            {
+                if (GridManager.Instance.TryGetRoomAtPosition(gridPos - new Vector2(0, 1), out Room roomUnder))
+                {
+                    if (roomUnder.RoomData.RoomType != RoomType.Elevator)
+                    {
+                        if (gridPos.y + 1 <= GridManager.Instance.GridSize.y - 1)
+                        {
+                            if (!GridManager.Instance.CheckOccupiedSpots(gridPos + new Vector2(0, 1)))
+                            {
+                                GameObject newElevator = Instantiate(_emptyRoom);
+                                GridManager.Instance.AddARoomInTheGrid(newElevator.GetComponent<Room>(), roomData, roomBehaviourData, gridPos + new Vector2(0, 1));
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (gridPos.y + 1 <= GridManager.Instance.GridSize.y - 1)
+                {
+                    if (!GridManager.Instance.CheckOccupiedSpots(gridPos + new Vector2(0, 1)))
+                    {
+                        GameObject newElevator = Instantiate(_emptyRoom);
+                        GridManager.Instance.AddARoomInTheGrid(newElevator.GetComponent<Room>(), roomData, roomBehaviourData, gridPos + new Vector2(0, 1));
+                    }
+                }
+            }
+        }
     }
 }

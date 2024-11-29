@@ -6,18 +6,6 @@ using UnityEngine.UI;
 public class RoomProductionPopUp : MonoBehaviour
 {
     /// <summary>
-    /// The button to close the pop up.
-    /// </summary>
-    [SerializeField]
-    private Button _closeButton;
-
-    /// <summary>
-    /// The background which close the pop up when clicked.
-    /// </summary>
-    [SerializeField]
-    private Button _background;
-
-    /// <summary>
     /// The text where name and lvl are displayed.
     /// </summary>
     [Space, Header("Infos"), SerializeField]
@@ -40,16 +28,7 @@ public class RoomProductionPopUp : MonoBehaviour
     /// </summary>
     private List<GameObject> _productionButtons = new();
 
-    private void Start()
-    {
-        _closeButton.onClick.AddListener(ClosePopUp);
-        _background.onClick.AddListener(ClosePopUp);
-    }
-
-    /// <summary>
-    /// Called to display data of the room.
-    /// </summary>
-    public void DisplayDatas()
+    private void OnEnable()
     {
         Room currentRoomSelected = InteractionManager.Instance.CurrentRoomSelected;
 
@@ -83,20 +62,15 @@ public class RoomProductionPopUp : MonoBehaviour
     }
 
     /// <summary>
-    /// Called to close the pop up.
+    /// Called to reset production buttons.
     /// </summary>
-    public void ClosePopUp()
+    public void ResetButtons()
     {
-        _nameLvl.text = "";
-
         for (int i =0; i< _productionButtons.Count; i++)
         {
             Destroy(_productionButtons[i]);
         }
 
         _productionButtons.Clear();
-        gameObject.SetActive(false);
-
-        GameManager.Instance.CloseUI();
     }
 }

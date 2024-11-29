@@ -100,7 +100,7 @@ public class Room : MonoBehaviour
     {
         if (_currentVisualRoom != null)
         {
-            Destroy(_currentVisualRoom);
+            _currentVisualRoom.SetActive(false);
         }
 
         switch (currentLvl)
@@ -108,16 +108,19 @@ public class Room : MonoBehaviour
             case 1:
                 {
                     GameObject newVisualRoom = Instantiate(RoomData.RoomLvl1, transform);
+                    _currentVisualRoom = newVisualRoom;
                     break;
                 }
             case 2:
                 {
                     GameObject newVisualRoom = Instantiate(RoomData.RoomLvl2, transform);
+                    _currentVisualRoom = newVisualRoom;
                     break;
                 }
             case 3:
                 {
                     GameObject newVisualRoom = Instantiate(RoomData.RoomLvl3, transform);
+                    _currentVisualRoom = newVisualRoom;
                     break;
                 }
         }

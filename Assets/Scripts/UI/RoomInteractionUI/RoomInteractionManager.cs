@@ -1,34 +1,21 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class RoomInteractionManager : MonoBehaviour
 {
-    /// <summary>
-    /// Button to show informations about a room.
-    /// </summary>
-    [SerializeField]
-    private Button _infoButton;
-
-    /// <summary>
-    /// Button to upgrade a room.
-    /// </summary>
-    [SerializeField]
-    private Button _upgradeButton;
-
-    /// <summary>
-    /// Button to start a production in a room.
-    /// </summary>
-    [SerializeField]
-    private Button _productionButton;
-
     /// <summary>
     /// A reference to the interaction manager.
     /// </summary>
     private InteractionManager _interactionManager;
 
+    /// <summary>
+    /// A reference to the UI manager.
+    /// </summary>
+    private UIManager _uiManager;
+
     private void Start()
     {
         _interactionManager = InteractionManager.Instance;
+        _uiManager = UIManager.Instance;
 
         _interactionManager.RoomInteraction += ShowButtons;
         _interactionManager.NoInteraction += DesactivateAllButtons;
@@ -45,7 +32,7 @@ public class RoomInteractionManager : MonoBehaviour
             case RoomType.Elevator:
             case RoomType.Recycling:
                 DesactivateAllButtons();
-                _infoButton.gameObject.SetActive(true);
+                _uiManager.InfoButton.SetActive(true);
                 break;
 
             case RoomType.Delivery:
@@ -53,17 +40,28 @@ public class RoomInteractionManager : MonoBehaviour
             case RoomType.Rest:
             case RoomType.Director:
                 DesactivateAllButtons();
-                _infoButton.gameObject.SetActive(true);
-                _upgradeButton.gameObject.SetActive(true);
+                _uiManager.InfoButton.SetActive(true);
+
+                // Show upgrade button only if the room is not at max lvl
+                if(roomMain.CurrentLvl < 3)
+                {
+                    _uiManager.UpgradeButton.SetActive(true);
+                }
                 break;
 
             case RoomType.Machining:
             case RoomType.Assembly:
             case RoomType.Research:
                 DesactivateAllButtons();
-                _infoButton.gameObject.SetActive(true);
-                _upgradeButton.gameObject.SetActive(true);
-                _productionButton.gameObject.SetActive(true);
+                _uiManager.InfoButton.SetActive(true);
+
+                // Show upgrade button only if the room is not at max lvl
+                if (roomMain.CurrentLvl < 3)
+                {
+                    _uiManager.UpgradeButton.SetActive(true);
+                }
+
+                _uiManager.ProductionButton.SetActive(true);
                 break;
         }
     }
@@ -73,8 +71,8 @@ public class RoomInteractionManager : MonoBehaviour
     /// </summary>
     private void DesactivateAllButtons()
     {
-        _infoButton.GetComponent<RoomInfoButton>().DesactivateButton();
-        _upgradeButton.gameObject.SetActive(false);
-        _productionButton.gameObject.SetActive(false);
+        _uiManager.InfoButton.SetActive(false);
+        _uiManager.UpgradeButton.SetActive(false);
+        _uiManager.ProductionButton.SetActive(false);
     }
 }
