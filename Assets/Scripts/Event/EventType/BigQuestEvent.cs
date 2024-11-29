@@ -17,6 +17,7 @@ public class BigQuestEvent : MonoBehaviour
 
     public void EventComportement()
     {
+        Debug.Log("big quest event");
 
     }
 }

@@ -68,8 +68,9 @@ public class EventManager : MonoBehaviour
     /// <param name="_minute"></param>
     public void RandomEvent(int _minute)
     {
-        Debug.Log("taiyakii");
-        if (!CurrentEvent && (_minute - _lastEvent > _timeBetweenEvent))
+        Debug.Log("random event");
+
+        if (!CurrentEvent /*&& (_minute - _lastEvent > _timeBetweenEvent)*/)
         {
             _eventNumber = Random.Range(0, _eventList.Count);
             _eventList[_eventNumber].gameObject.SetActive(true);
@@ -78,6 +79,8 @@ public class EventManager : MonoBehaviour
 
     public void StartEvent(EventData _eventData)
     {
+        Debug.Log("event Start");
+
         CurrentEvent = true;
         ActualEvent = _eventData;
 
@@ -91,6 +94,8 @@ public class EventManager : MonoBehaviour
     {
         if (_eventData.Condition)
         {
+            Debug.Log("event condition");
+
             int _room = 0;
             bool _goodRoomType = false;
 

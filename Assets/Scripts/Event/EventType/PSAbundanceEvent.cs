@@ -11,5 +11,11 @@ public class PSAbundanceEvent : MonoBehaviour
     void Start()
     {
         EventManager.Instance.CheckCondition(_eventData);
+        EventManager.Instance.EventConditionCompleted += EventComportement;
+    }
+
+    public void EventComportement()
+    {
+        Debug.Log("PS abundance event");
     }
 }

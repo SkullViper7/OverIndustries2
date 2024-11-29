@@ -23,6 +23,8 @@ public class MachineMaintenaceEvent : MonoBehaviour
 
     public void EventComportement()
     {
+        Debug.Log("machine maintenance event");
+
         for (int i = 0; i < GridManager.Instance.InstantiatedRooms.Count; i++)
         {
             if (GridManager.Instance.InstantiatedRooms[i].RoomData.RoomType == RoomType.Machining)
