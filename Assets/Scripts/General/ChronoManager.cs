@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class ChronoManager : MonoBehaviour
@@ -7,16 +6,6 @@ public class ChronoManager : MonoBehaviour
     // Singleton
     private static ChronoManager _instance = null;
     public static ChronoManager Instance => _instance;
-
-    /// <summary>
-    /// Current number of minutes, seconds and centiseconds.
-    /// </summary>
-    private int _nbrOfMinutes, _nbrOfSeconds, _nbrOfCentiseconds;
-
-    /// <summary>
-    /// Coroutine which increase the time.
-    /// </summary>
-    private Coroutine _increaseChrono;
 
     /// <summary>
     /// Events to indicate that there is a new time.
@@ -30,6 +19,21 @@ public class ChronoManager : MonoBehaviour
     /// </summary>
     public delegate void TickDelegate();
     public event TickDelegate NewCentisecondTick, NewSecondTick, NewMinuteTick;
+
+    // Time variables
+    private float elapsedTime = 0f;
+    private int lastCentisecond = 0;
+    private int lastSecond = 0;
+    private int lastMinute = 0;
+
+    /// <summary>
+    /// Value to control the chrono.
+    /// </summary>
+    private bool isRunning = false;
+
+    // Get if the chrono is running and the current time
+    public bool IsRunning => isRunning;
+    public TimeSpan CurrentTime => TimeSpan.FromSeconds(elapsedTime);
 
     private void Awake()
     {
@@ -47,80 +51,66 @@ public class ChronoManager : MonoBehaviour
 
     private void Start()
     {
-        _nbrOfCentiseconds = 0;
-        _nbrOfSeconds = 0;
-        _nbrOfMinutes = 0;
-
-        StartChrono();
+        StartChronometer();
     }
 
-    /// <summary>
-    /// Called to start the chrono.
-    /// </summary>
-    private void StartChrono()
+    private void Update()
     {
-        _increaseChrono = StartCoroutine(IncreaseChrono());
-    }
+        if (!isRunning) return;
 
-    /// <summary>
-    /// Called to increase the chrono.
-    /// </summary>
-    /// <returns></returns>
-    private IEnumerator IncreaseChrono()
-    {
-        yield return new WaitForSeconds(0.01f);
+        elapsedTime += Time.deltaTime;
 
-        // Increases centiseconds
-        // Increases seconds when centiseconds are above 99
-        // Increases minutes when seconds are above 59
-        if (_nbrOfCentiseconds + 1 == 100 && _nbrOfSeconds + 1 == 60)
+        // Check for centiseconds
+        int currentCentisecond = (int)(elapsedTime * 100) % 100;
+        if (currentCentisecond != lastCentisecond)
         {
-            _nbrOfCentiseconds = 0;
-            _nbrOfSeconds = 0;
-            _nbrOfMinutes++;
-
-            NewCentisecond?.Invoke(_nbrOfCentiseconds);
+            lastCentisecond = currentCentisecond;
             NewCentisecondTick?.Invoke();
-            NewSecond?.Invoke(_nbrOfSeconds);
+            NewCentisecond?.Invoke(currentCentisecond);
+        }
+
+        // Check for seconds
+        int currentSecond = (int)elapsedTime % 60;
+        if (currentSecond != lastSecond)
+        {
+            lastSecond = currentSecond;
             NewSecondTick?.Invoke();
-            NewMinute?.Invoke(_nbrOfMinutes);
+            NewSecond?.Invoke(currentSecond);
+        }
+
+        // Check for minutes
+        int currentMinute = (int)(elapsedTime / 60);
+        if (currentMinute != lastMinute)
+        {
+            lastMinute = currentMinute;
             NewMinuteTick?.Invoke();
-            _increaseChrono = StartCoroutine(IncreaseChrono());
+            NewMinute?.Invoke(currentSecond);
         }
-        else if (_nbrOfCentiseconds + 1 == 100 && _nbrOfSeconds < 60)
-        {
-            _nbrOfCentiseconds = 0;
-            _nbrOfSeconds++;
+    }
 
-            NewCentisecond?.Invoke(_nbrOfCentiseconds);
-            NewCentisecondTick?.Invoke();
-            NewSecond?.Invoke(_nbrOfSeconds);
-            NewSecondTick?.Invoke();
-            _increaseChrono = StartCoroutine(IncreaseChrono());
-        }
-        else
-        {
-            _nbrOfCentiseconds++;
-            NewCentisecond?.Invoke(_nbrOfCentiseconds);
-            NewCentisecondTick?.Invoke();
-            _increaseChrono = StartCoroutine(IncreaseChrono());
-        }
+    // Called to start the chrono.
+    public void StartChronometer()
+    {
+        isRunning = true;
     }
 
     /// <summary>
     /// Called to stop the chrono.
     /// </summary>
-    public void StopChrono()
+    public void StopChronometer()
     {
-        StopCoroutine(_increaseChrono);
+        isRunning = false;
     }
 
     /// <summary>
-    /// Called to get the chrono.
+    /// Called to reset the chrono.
     /// </summary>
-    /// <returns></returns>
-    public List<int> GetChrono()
+    public void ResetChronometer()
     {
-        return new List<int> { _nbrOfMinutes, _nbrOfSeconds, _nbrOfCentiseconds };
+        isRunning = false;
+        elapsedTime = 0f;
+        lastCentisecond = 0;
+        lastSecond = 0;
+        lastMinute = 0;
     }
 }

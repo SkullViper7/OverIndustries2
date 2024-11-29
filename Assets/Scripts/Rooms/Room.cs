@@ -46,6 +46,7 @@ public class Room : MonoBehaviour
     /// <param name="gridPosition"> Position of the room in the world. </param>
     public void InitRoom(RoomData roomData, IRoomBehaviourData roomBehaviourData, Vector2 gridPosition)
     {
+        gameObject.name = roomData.RoomType.ToString();
         CurrentLvl = 1;
         RoomData = roomData;
         RoomBehaviourData = roomBehaviourData;
@@ -74,6 +75,11 @@ public class Room : MonoBehaviour
                 AssemblyRoom assemblyRoom = (AssemblyRoom)gameObject.AddComponent(typeof(AssemblyRoom));
                 RoomBehaviour = assemblyRoom;
                 assemblyRoom.InitRoomBehaviour(roomBehaviourData, this);
+                break;
+            case RoomType.Elevator:
+                Elevator elevator = (Elevator)gameObject.AddComponent(typeof(Elevator));
+                RoomBehaviour = elevator;
+                elevator.InitRoomBehaviour(roomBehaviourData, this);
                 break;
         }
 

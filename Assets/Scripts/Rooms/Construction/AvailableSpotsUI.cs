@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AvailableSpotsUI : MonoBehaviour
 {
@@ -66,6 +67,7 @@ public class AvailableSpotsUI : MonoBehaviour
     {
         for (int i = 0; i < _spotButtons.Count; i++)
         {
+            _spotButtons[i].GetComponent<Button>().onClick.RemoveAllListeners();
             ObjectPoolManager.Instance.ReturnObjectToThePool(_buttonsPoolID, _spotButtons[i]);
             _spotButtons[i].SetActive(false);
         }

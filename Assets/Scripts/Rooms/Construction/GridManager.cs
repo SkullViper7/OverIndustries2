@@ -150,7 +150,7 @@ public class GridManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Return if a spot at a position is available.
+    /// Return true if a spot at a position is occupied.
     /// </summary>
     /// <param name="position"> Position to check. </param>
     /// <returns></returns>
@@ -220,6 +220,28 @@ public class GridManager : MonoBehaviour
             if (isRightAvailable)
             {
                 availableSpots.Add(new Vector2(instantiatedRoomPosition.x + (InstantiatedRooms[i].RoomData.Size), instantiatedRoomPosition.y));
+            }
+
+            // Special cases with elevators
+            if (roomToConstructType == RoomType.Elevator && InstantiatedRooms[i].RoomData.RoomType == RoomType.Elevator)
+            {
+                // Check upward
+                if (instantiatedRoomPosition.y + 1 <= GridSize.y - 1)
+                {
+                    if (!CheckOccupiedSpots(new Vector2(instantiatedRoomPosition.x, instantiatedRoomPosition.y + 1)))
+                    {
+                        availableSpots.Add(new Vector2(instantiatedRoomPosition.x, instantiatedRoomPosition.y + 1));
+                    }
+                }
+
+                // Check downward
+                if (instantiatedRoomPosition.y - 1 >= 0)
+                {
+                    if (!CheckOccupiedSpots(new Vector2(instantiatedRoomPosition.x, instantiatedRoomPosition.y - 1)))
+                    {
+                        availableSpots.Add(new Vector2(instantiatedRoomPosition.x, instantiatedRoomPosition.y - 1));
+                    }
+                }
             }
         }
 

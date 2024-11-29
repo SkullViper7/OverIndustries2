@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class DirectorRoomData : MonoBehaviour, IRoomBehaviourData
+public class DirectorRoomData : ScriptableObject, IRoomBehaviourData
 {
     /// <summary>
     /// Capacity to add to the director room at lvl 1.
