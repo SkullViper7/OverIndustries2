@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 624060487fc8a7544aa556735dfd693d, type: 3}
+  m_Name: MachineMaintenanceEvent
+  m_EditorClassIdentifier: 
+  _name: Maintenance d'une machine
+  _description: "Une machine \xE0 besoin d'une maintenance, appel un technicien de
+    maintenance !"
+  _duration: 180
+  _psWin: 0
+  _psMultiplicator: 0
+  _rawMaterialWin: 0
+  _rawMaterialLost: 0
+  _condition: 1
+  _numberOfRoom: 1
+  _minRoomLevel: 1
+  _minNumberPS: 0
+  _specialRoomType: 1
+  _roomTypeNeed: 0
