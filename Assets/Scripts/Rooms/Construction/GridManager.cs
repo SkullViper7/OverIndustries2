@@ -160,6 +160,25 @@ public class GridManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Return a room at a position given if there is one.
+    /// </summary>
+    /// <param name="position"> Position to check. </param>
+    /// <param name="result"> A room. </param>
+    /// <returns></returns>
+    public bool TryGetRoomAtPosition(Vector2 position, out Room room)
+    {
+        room = null;
+
+        if (CheckOccupiedSpots(position))
+        {
+            room = _grid[string.Format(_rowFormat, position.y)][string.Format(_columnFormat, position.x)];
+            return true;
+        }
+
+        return false;
+    }
+
+    /// <summary>
     /// Called to get a list of available spots to construct a room.
     /// </summary>
     /// <param name="roomData"> Data of the room to construct. </param>

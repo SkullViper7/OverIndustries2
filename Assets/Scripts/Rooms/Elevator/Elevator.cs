@@ -14,7 +14,7 @@ public class Elevator : MonoBehaviour, IRoomBehaviour
 
     public void InitRoomBehaviour(IRoomBehaviourData roomBehaviourData, Room roomMain)
     {
-        ElevatorData  = (ElevatorData)roomBehaviourData;
+        ElevatorData = (ElevatorData)roomBehaviourData;
         _roomMain = roomMain;
     }
 }

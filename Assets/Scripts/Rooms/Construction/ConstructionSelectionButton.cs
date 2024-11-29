@@ -16,16 +16,9 @@ public class ConstructionSelectionButton : MonoBehaviour
     private ScriptableObject _roomBehaviourData;
 
     /// <summary>
-    /// Pop up where buttons are.
+    /// A reference to the UI manager.
     /// </summary>
-    [SerializeField]
-    private GameObject _popUp;
-
-    /// <summary>
-    /// UI displayed when player is constructing.
-    /// </summary>
-    [SerializeField]
-    private GameObject _constructionUI;
+    private UIManager _uiManager;
 
     /// <summary>
     /// Button component.
@@ -39,7 +32,14 @@ public class ConstructionSelectionButton : MonoBehaviour
 
     private void Start()
     {
-        _selectionButton.onClick.AddListener(() => { StartSearchingForAnAvailableSpot(); _popUp.SetActive(false); _constructionUI.SetActive(true); });
+        _uiManager = UIManager.Instance;
+        _selectionButton.onClick.AddListener(() =>
+        {
+            StartSearchingForAnAvailableSpot();
+            _uiManager.ConstructionPopUp.SetActive(false);
+            _uiManager.ConstructionUI.SetActive(true);
+            _uiManager.CloseUI();
+        });
     }
 
     /// <summary>
