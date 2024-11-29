@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[CreateAssetMenu(menuName = "Room/Create new director room data")]
 public class DirectorRoomData : ScriptableObject, IRoomBehaviourData
 {
     /// <summary>

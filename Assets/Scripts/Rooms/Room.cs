@@ -61,25 +61,53 @@ public class Room : MonoBehaviour
                 RoomBehaviour = deliveryRoom;
                 deliveryRoom.InitRoomBehaviour(roomBehaviourData, this);
                 break;
+
             case RoomType.Machining:
                 MachiningRoom machiningRoom = (MachiningRoom)gameObject.AddComponent(typeof(MachiningRoom));
                 RoomBehaviour = machiningRoom;
                 machiningRoom.InitRoomBehaviour(roomBehaviourData, this);
                 break;
+
             case RoomType.Storage:
                 StorageRoom storageRoom = (StorageRoom)gameObject.AddComponent(typeof(StorageRoom));
                 RoomBehaviour = storageRoom;
                 storageRoom.InitRoomBehaviour(roomBehaviourData, this);
                 break;
+
             case RoomType.Assembly:
                 AssemblyRoom assemblyRoom = (AssemblyRoom)gameObject.AddComponent(typeof(AssemblyRoom));
                 RoomBehaviour = assemblyRoom;
                 assemblyRoom.InitRoomBehaviour(roomBehaviourData, this);
                 break;
+
             case RoomType.Elevator:
                 Elevator elevator = (Elevator)gameObject.AddComponent(typeof(Elevator));
                 RoomBehaviour = elevator;
                 elevator.InitRoomBehaviour(roomBehaviourData, this);
+                break;
+
+            case RoomType.Director:
+                DirectorRoom directorRoom = (DirectorRoom)gameObject.AddComponent(typeof(DirectorRoom));
+                RoomBehaviour = directorRoom;
+                directorRoom.InitRoomBehaviour(roomBehaviourData, this);
+                break;
+
+            case RoomType.Research:
+                ResearchRoom researchRoom = (ResearchRoom)gameObject.AddComponent(typeof(ResearchRoom));
+                RoomBehaviour = researchRoom;
+                researchRoom.InitRoomBehaviour(roomBehaviourData, this);
+                break;
+
+            case RoomType.Recycling:
+                RecyclingRoom recyclingRoom = (RecyclingRoom)gameObject.AddComponent(typeof(RecyclingRoom));
+                RoomBehaviour = recyclingRoom;
+                recyclingRoom.InitRoomBehaviour(roomBehaviourData, this);
+                break;
+
+            case RoomType.Rest:
+                RestRoom restRoom = (RestRoom)gameObject.AddComponent(typeof(RestRoom));
+                RoomBehaviour = restRoom;
+                restRoom.InitRoomBehaviour(roomBehaviourData, this);
                 break;
         }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DirectorRoom : MonoBehaviour, IRoomBehaviour
 {
-    public DirectorRoomData DirectorRoomData { get; private set; }
+    [field :SerializeField] public DirectorRoomData DirectorRoomData { get; private set; }
     private Room _roomMain;
 
     private GameObject _newEmployee;
