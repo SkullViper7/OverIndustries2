@@ -150,7 +150,7 @@ public class GridManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Return if a spot at a position is available.
+    /// Return true if a spot at a position is occupied.
     /// </summary>
     /// <param name="position"> Position to check. </param>
     /// <returns></returns>
@@ -225,39 +225,22 @@ public class GridManager : MonoBehaviour
             // Special cases with elevators
             if (roomToConstructType == RoomType.Elevator && InstantiatedRooms[i].RoomData.RoomType == RoomType.Elevator)
             {
-                bool isUpAvailable = true;
-                bool isDownAvailable = true;
-
                 // Check upward
-                // Check if position is not outside the limits.
-                if (instantiatedRoomPosition.y + 1 > GridSize.y - 1)
+                if (instantiatedRoomPosition.y + 1 <= GridSize.y - 1)
                 {
-                    isUpAvailable = false;
-                }
-
-                if (CheckOccupiedSpots(new Vector2(instantiatedRoomPosition.x, instantiatedRoomPosition.y + 1)))
-                {
-                    isUpAvailable = false;
-                }
-                else if (isUpAvailable)
-                {
-                    availableSpots.Add(new Vector2(instantiatedRoomPosition.x, instantiatedRoomPosition.y + 1));
+                    if (!CheckOccupiedSpots(new Vector2(instantiatedRoomPosition.x, instantiatedRoomPosition.y + 1)))
+                    {
+                        availableSpots.Add(new Vector2(instantiatedRoomPosition.x, instantiatedRoomPosition.y + 1));
+                    }
                 }
 
                 // Check downward
-                // Check if position is not outside the limits.
-                if (instantiatedRoomPosition.y - 1 < 0)
+                if (instantiatedRoomPosition.y - 1 >= 0)
                 {
-                    isDownAvailable = false;
-                }
-                else if (CheckOccupiedSpots(new Vector2(instantiatedRoomPosition.x, instantiatedRoomPosition.y - 1)))
-                {
-                    isDownAvailable = false;
-                }
-
-                if (isDownAvailable)
-                {
-                    availableSpots.Add(new Vector2(instantiatedRoomPosition.x, instantiatedRoomPosition.y - 1));
+                    if (!CheckOccupiedSpots(new Vector2(instantiatedRoomPosition.x, instantiatedRoomPosition.y - 1)))
+                    {
+                        availableSpots.Add(new Vector2(instantiatedRoomPosition.x, instantiatedRoomPosition.y - 1));
+                    }
                 }
             }
         }

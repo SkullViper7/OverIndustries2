@@ -46,6 +46,7 @@ public class Room : MonoBehaviour
     /// <param name="gridPosition"> Position of the room in the world. </param>
     public void InitRoom(RoomData roomData, IRoomBehaviourData roomBehaviourData, Vector2 gridPosition)
     {
+        gameObject.name = roomData.RoomType.ToString();
         CurrentLvl = 1;
         RoomData = roomData;
         RoomBehaviourData = roomBehaviourData;
