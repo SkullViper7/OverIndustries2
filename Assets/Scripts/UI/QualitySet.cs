@@ -9,18 +9,18 @@ public class QualitySet : MonoBehaviour
     {
         switch (_text.text)
         {
-            case "Low":
-                _text.text = "Medium";
+            case "Faible":
+                _text.text = "Moyen";
                 QualitySettings.SetQualityLevel(1);
                 break;
 
-            case "Medium":
-                _text.text = "High";
+            case "Moyen":
+                _text.text = "Elevé";
                 QualitySettings.SetQualityLevel(2);
                 break;
 
-            case "High":
-                _text.text = "Low";
+            case "Elevé":
+                _text.text = "Faible";
                 QualitySettings.SetQualityLevel(0);
                 break;
         }
@@ -30,18 +30,18 @@ public class QualitySet : MonoBehaviour
     {
         switch (_text.text)
         {
-            case "Low":
-                _text.text = "High";
+            case "Faible":
+                _text.text = "Elevé";
                 QualitySettings.SetQualityLevel(2);
                 break;
 
-            case "Medium":
-                _text.text = "Low";
+            case "Moyen":
+                _text.text = "Faible";
                 QualitySettings.SetQualityLevel(0);
                 break;
 
-            case "High":
-                _text.text = "Medium";
+            case "Elevé":
+                _text.text = "Moyen";
                 QualitySettings.SetQualityLevel(1);
                 break;
         }
