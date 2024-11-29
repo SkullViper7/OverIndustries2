@@ -194,7 +194,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 9435eb5b1c2c4a740ae94dd9afcad715,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 140
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9435eb5b1c2c4a740ae94dd9afcad715,
         type: 3}
@@ -214,17 +214,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 9435eb5b1c2c4a740ae94dd9afcad715,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9435eb5b1c2c4a740ae94dd9afcad715,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9435eb5b1c2c4a740ae94dd9afcad715,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9435eb5b1c2c4a740ae94dd9afcad715,
         type: 3}
@@ -275,10 +275,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 9435eb5b1c2c4a740ae94dd9afcad715,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2389869006798124273}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 9435eb5b1c2c4a740ae94dd9afcad715,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 2272751406624271176}
   m_SourcePrefab: {fileID: 100100000, guid: 9435eb5b1c2c4a740ae94dd9afcad715, type: 3}
 --- !u!23 &5445265859118117709 stripped
@@ -315,21 +311,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 3261217208143047621, guid: 9435eb5b1c2c4a740ae94dd9afcad715, type: 3}
---- !u!114 &2389869006798124273
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5805566542789972632}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c979c54aee024d442a6b2da03934cb12, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Coordinates: {x: 0, y: 0}
-  Size: 0
-  DifferenceBetweenXPosition: 0
 --- !u!114 &2272751406624271176
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -563,7 +563,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: cb3b43761172c1644a3a8a5df26a9a36,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 39
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cb3b43761172c1644a3a8a5df26a9a36,
         type: 3}
@@ -583,17 +583,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: cb3b43761172c1644a3a8a5df26a9a36,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cb3b43761172c1644a3a8a5df26a9a36,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cb3b43761172c1644a3a8a5df26a9a36,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cb3b43761172c1644a3a8a5df26a9a36,
         type: 3}
@@ -652,10 +652,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1545137822899913296}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cb3b43761172c1644a3a8a5df26a9a36,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 3876674933880097566}
   m_SourcePrefab: {fileID: 100100000, guid: cb3b43761172c1644a3a8a5df26a9a36, type: 3}
 --- !u!4 &116577189490631485 stripped
 Transform:
@@ -727,21 +723,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 3336544284111130922, guid: cb3b43761172c1644a3a8a5df26a9a36, type: 3}
---- !u!114 &3876674933880097566
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 780806064385882503}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c979c54aee024d442a6b2da03934cb12, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Coordinates: {x: 0, y: 0}
-  Size: 2
-  DifferenceBetweenXPosition: 6
 --- !u!23 &1284940461623957586 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: cb3b43761172c1644a3a8a5df26a9a36,
