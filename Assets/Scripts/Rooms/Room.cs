@@ -28,6 +28,11 @@ public class Room : MonoBehaviour
     public Vector2 RoomPosition { get; private set; }
 
     /// <summary>
+    /// Prefab of the room with mesh in children.
+    /// </summary>
+    private GameObject _currentVisualRoom;
+
+    /// <summary>
     /// Events to get the lvl when the room is upgraded.
     /// </summary>
     public delegate void UpgradeDelegate(int newLvl);
@@ -41,6 +46,7 @@ public class Room : MonoBehaviour
     /// <param name="gridPosition"> Position of the room in the world. </param>
     public void InitRoom(RoomData roomData, IRoomBehaviourData roomBehaviourData, Vector2 gridPosition)
     {
+        gameObject.name = roomData.RoomType.ToString();
         CurrentLvl = 1;
         RoomData = roomData;
         RoomBehaviourData = roomBehaviourData;
@@ -55,22 +61,57 @@ public class Room : MonoBehaviour
                 RoomBehaviour = deliveryRoom;
                 deliveryRoom.InitRoomBehaviour(roomBehaviourData, this);
                 break;
+
             case RoomType.Machining:
                 MachiningRoom machiningRoom = (MachiningRoom)gameObject.AddComponent(typeof(MachiningRoom));
                 RoomBehaviour = machiningRoom;
                 machiningRoom.InitRoomBehaviour(roomBehaviourData, this);
                 break;
+
             case RoomType.Storage:
                 StorageRoom storageRoom = (StorageRoom)gameObject.AddComponent(typeof(StorageRoom));
                 RoomBehaviour = storageRoom;
                 storageRoom.InitRoomBehaviour(roomBehaviourData, this);
                 break;
+
             case RoomType.Assembly:
                 AssemblyRoom assemblyRoom = (AssemblyRoom)gameObject.AddComponent(typeof(AssemblyRoom));
                 RoomBehaviour = assemblyRoom;
                 assemblyRoom.InitRoomBehaviour(roomBehaviourData, this);
                 break;
+
+            case RoomType.Elevator:
+                Elevator elevator = (Elevator)gameObject.AddComponent(typeof(Elevator));
+                RoomBehaviour = elevator;
+                elevator.InitRoomBehaviour(roomBehaviourData, this);
+                break;
+
+            case RoomType.Director:
+                DirectorRoom directorRoom = (DirectorRoom)gameObject.AddComponent(typeof(DirectorRoom));
+                RoomBehaviour = directorRoom;
+                directorRoom.InitRoomBehaviour(roomBehaviourData, this);
+                break;
+
+            case RoomType.Research:
+                ResearchRoom researchRoom = (ResearchRoom)gameObject.AddComponent(typeof(ResearchRoom));
+                RoomBehaviour = researchRoom;
+                researchRoom.InitRoomBehaviour(roomBehaviourData, this);
+                break;
+
+            case RoomType.Recycling:
+                RecyclingRoom recyclingRoom = (RecyclingRoom)gameObject.AddComponent(typeof(RecyclingRoom));
+                RoomBehaviour = recyclingRoom;
+                recyclingRoom.InitRoomBehaviour(roomBehaviourData, this);
+                break;
+
+            case RoomType.Rest:
+                RestRoom restRoom = (RestRoom)gameObject.AddComponent(typeof(RestRoom));
+                RoomBehaviour = restRoom;
+                restRoom.InitRoomBehaviour(roomBehaviourData, this);
+                break;
         }
+
+        UpgradeVisualRoom(CurrentLvl);
     }
 
     /// <summary>
@@ -80,5 +121,36 @@ public class Room : MonoBehaviour
     {
         CurrentLvl++;
         NewLvl?.Invoke(CurrentLvl);
+        UpgradeVisualRoom(CurrentLvl);
+    }
+
+    private void UpgradeVisualRoom(int currentLvl)
+    {
+        if (_currentVisualRoom != null)
+        {
+            _currentVisualRoom.SetActive(false);
+        }
+
+        switch (currentLvl)
+        {
+            case 1:
+                {
+                    GameObject newVisualRoom = Instantiate(RoomData.RoomLvl1, transform);
+                    _currentVisualRoom = newVisualRoom;
+                    break;
+                }
+            case 2:
+                {
+                    GameObject newVisualRoom = Instantiate(RoomData.RoomLvl2, transform);
+                    _currentVisualRoom = newVisualRoom;
+                    break;
+                }
+            case 3:
+                {
+                    GameObject newVisualRoom = Instantiate(RoomData.RoomLvl3, transform);
+                    _currentVisualRoom = newVisualRoom;
+                    break;
+                }
+        }
     }
 }

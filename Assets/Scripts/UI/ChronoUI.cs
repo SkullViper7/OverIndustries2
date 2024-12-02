@@ -7,13 +7,12 @@ public class ChronoUI : MonoBehaviour
     /// Minutes, seconds and centiseconds on screen.
     /// </summary>
     [SerializeField]
-    private TMP_Text _minutes, _seconds, _centiseconds;
+    private TMP_Text _minutes, _seconds;
 
     private void Start()
     {
         ChronoManager.Instance.NewMinute += UpdateMinutes;
         ChronoManager.Instance.NewSecond += UpdateSeconds;
-        ChronoManager.Instance.NewCentisecond += UpdateCentiseconds;
     }
 
     /// <summary>
@@ -32,15 +31,6 @@ public class ChronoUI : MonoBehaviour
     private void UpdateSeconds(int newSeconds)
     {
         _seconds.SetText(ConvertToString(newSeconds));
-    }
-
-    /// <summary>
-    /// Called to update centiseconds.
-    /// </summary>
-    /// <param name="newCentiseconds"> New centiseconds to update. </param>
-    private void UpdateCentiseconds(int newCentiseconds)
-    {
-        _centiseconds.SetText(ConvertToString(newCentiseconds));
     }
 
     /// <summary>

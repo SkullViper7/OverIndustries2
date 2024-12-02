@@ -35,7 +35,7 @@ public struct ObjectPool
     /// </summary>
     public GameObject ObjectPrefab { get; private set; }
 
-    // Explicit constructor.
+    // Explicit constructor
     public ObjectPool(ConcurrentBag<GameObject> pool, GameObject objectPrefab)
     {
         Pool = pool;

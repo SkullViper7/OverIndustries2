@@ -1,6 +1,7 @@
 using UnityEngine;
 
-public class DirectorRoomData : MonoBehaviour, IRoomBehaviourData
+[CreateAssetMenu(menuName = "Room/Create new director room data")]
+public class DirectorRoomData : ScriptableObject, IRoomBehaviourData
 {
     /// <summary>
     /// Capacity to add to the director room at lvl 1.

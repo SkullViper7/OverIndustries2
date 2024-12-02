@@ -312,7 +312,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: e01b43c0e17ad1d42a0cbc5c3e5d3916,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -72
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e01b43c0e17ad1d42a0cbc5c3e5d3916,
         type: 3}
@@ -332,17 +332,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: e01b43c0e17ad1d42a0cbc5c3e5d3916,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e01b43c0e17ad1d42a0cbc5c3e5d3916,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e01b43c0e17ad1d42a0cbc5c3e5d3916,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e01b43c0e17ad1d42a0cbc5c3e5d3916,
         type: 3}
@@ -404,6 +404,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 986149860768256079}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e01b43c0e17ad1d42a0cbc5c3e5d3916,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4804900452947886389}
   m_SourcePrefab: {fileID: 100100000, guid: e01b43c0e17ad1d42a0cbc5c3e5d3916, type: 3}
 --- !u!23 &5664549098213740143 stripped
 MeshRenderer:
@@ -433,11 +437,11 @@ MonoBehaviour:
   m_RendererInfo:
   - renderer: {fileID: 5664549098213740143}
     lightmapIndex: 0
-    lightmapOffsetScale: {x: 0.13104288, y: 0.13104288, z: 0.86671185, w: -0.000091762486}
+    lightmapOffsetScale: {x: 0.13104288, y: 0.13104288, z: 0.47838897, w: 0.8660376}
   m_Lightmaps:
-  - {fileID: 2800000, guid: defb05c67441ccc44bcc28bea1acc68f, type: 3}
+  - {fileID: 2800000, guid: 40372dd5e0268a74ba6dbce759a33207, type: 3}
   m_LightmapsDir:
-  - {fileID: 2800000, guid: 1b4ae3f01b6d9c749bba7f8e196c6ba4, type: 3}
+  - {fileID: 2800000, guid: 86476ef28b5b7994481a162d1a88d1c8, type: 3}
   m_ShadowMasks:
   - {fileID: 0}
   m_LightInfo:
@@ -447,6 +451,28 @@ MonoBehaviour:
   - light: {fileID: 8415204422733513800}
     lightmapBaketype: 2
     mixedLightingMode: 0
+--- !u!64 &4804900452947886389
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7404641673639239030}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -1757175530201013071, guid: e01b43c0e17ad1d42a0cbc5c3e5d3916, type: 3}
 --- !u!4 &7892913431188228044 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e01b43c0e17ad1d42a0cbc5c3e5d3916,

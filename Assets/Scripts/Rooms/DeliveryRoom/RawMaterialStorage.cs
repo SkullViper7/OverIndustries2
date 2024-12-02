@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class RawMaterialStorage : MonoBehaviour
 {
@@ -33,7 +34,10 @@ public class RawMaterialStorage : MonoBehaviour
     /// </summary>
     public int TotalRecyclingRawMaterial;
 
-    public event System.Action<int> RawMaterialToRecycle;
+    /// <summary>
+    /// For the recycling room
+    /// </summary>
+    public event Action<int> RawMaterialToRecycle, RawMaterialProduct;
 
     private void Awake()
     {
@@ -57,6 +61,8 @@ public class RawMaterialStorage : MonoBehaviour
     {
         _amoutOfRawMaterial += amountToAdd;
         Mathf.Clamp(_amoutOfRawMaterial, 0, _storageCapacity);
+
+        RawMaterialProduct?.Invoke(amountToAdd);
     }
 
     /// <summary>
@@ -94,6 +100,6 @@ public class RawMaterialStorage : MonoBehaviour
    /// <param name="rawMaterialTrash"></param>
     public void TrashMaterial(int rawMaterialTrash)
     {
-        RawMaterialToRecycle.Invoke(rawMaterialTrash);
+        RawMaterialToRecycle?.Invoke(rawMaterialTrash);
     }
 }

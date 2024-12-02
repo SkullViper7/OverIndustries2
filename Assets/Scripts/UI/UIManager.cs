@@ -1,0 +1,88 @@
+using UnityEngine;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
+
+public class UIManager : MonoBehaviour
+{
+    // Singleton
+    private static UIManager _instance = null;
+    public static UIManager Instance => _instance;
+
+    private void Awake()
+    {
+        // Singleton
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+        else
+        {
+            _instance = this;
+        }
+    }
+
+    /// <summary>
+    /// Main UI of the game.
+    /// </summary>
+    [field : SerializeField, Header("Main"), Tooltip("Main UI of the game.")]
+    public GameObject HUD { get; private set; }
+
+    /// <summary>
+    /// Button to show informations about a room.
+    /// </summary>
+    [field : SerializeField, Space, Header("Interactions"), Tooltip("Button to show informations about a room.")]
+    public GameObject InfoButton { get; private set; }
+
+    /// <summary>
+    /// Button to upgrade a room.
+    /// </summary>
+    [field : SerializeField, Tooltip("Button to upgrade a room.")]
+    public GameObject UpgradeButton { get; private set; }
+
+    /// <summary>
+    /// Button to start a production in a room.
+    /// </summary>
+    [field : SerializeField, Tooltip("Button to start a production in a room.")]
+    public GameObject ProductionButton { get; private set; }
+
+    /// <summary>
+    /// The pop up which displays room infos.
+    /// </summary>
+    [field : SerializeField, Space, Tooltip("The pop up which displays room infos.")]
+    public GameObject RoomInfoPopUp { get; private set; }
+
+    /// <summary>
+    /// The pop up where player can launch a production.
+    /// </summary>
+    [field : SerializeField, Tooltip("The pop up where player can launch a production.")]
+    public GameObject RoomProductionPopUp { get; private set; }
+
+    /// <summary>
+    /// The pop up where player can construct a new room.
+    /// </summary>
+    [field: SerializeField, Space, Header("Construction"), Tooltip("The pop up where player can construct a new room.")]
+    public GameObject ConstructionPopUp { get; private set; }
+
+    /// <summary>
+    /// The UI on screen whene player is constructing a room.
+    /// </summary>
+    [field: SerializeField, Tooltip("The UI on screen whene player is constructing a room.")]
+    public GameObject ConstructionUI { get; private set; }
+
+    /// <summary>
+    /// Called when a UI is open.
+    /// </summary>
+    public void OpenUI()
+    {
+        GameManager.Instance.OpenUI();
+    }
+
+    /// <summary>
+    /// Called when a UI is closed.
+    /// </summary>
+    public void CloseUI()
+    {
+        GameManager.Instance.CloseUI();
+    }
+}

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +12,11 @@ public class GridManager : MonoBehaviour
     /// Size of the grid.
     /// </summary>
     public Vector2 GridSize;
+
+    public event Action GridInitializedEvent;
+
+    public delegate void GridModificationDelegate(Vector2 position);
+    public event GridModificationDelegate RoomAddEvent, RoomRemoveEvent;
 
     /// <summary>
     /// List of the room already in the scene at the start of the game.
@@ -85,11 +91,11 @@ public class GridManager : MonoBehaviour
             // Get component of the room.
             Room _room = _roomsByDefault[i].GetComponent<Room>();
             RoomByDefault _roomsByDefaultComponent = _roomsByDefault[i].GetComponent<RoomByDefault>();
-      
+
             AddARoomInTheGrid(_room, _roomsByDefaultComponent.RoomData, (IRoomBehaviourData)_roomsByDefaultComponent.RoomBehaviourData, _roomsByDefaultComponent.RoomPosition);
         }
 
-        // PanelManager.Instance.InitPanel();
+        GridInitializedEvent?.Invoke();
     }
 
     /// <summary>
@@ -117,12 +123,11 @@ public class GridManager : MonoBehaviour
         for (int i = 0; i < room.RoomData.Size; i++)
         {
             _grid[string.Format(_rowFormat, position.y)][string.Format(_columnFormat, position.x + i)] = room;
+            RoomRemoveEvent?.Invoke(position + new Vector2(i, 0));
         }
 
         // Add the room to the list of instantiated rooms
         InstantiatedRooms.Add(room);
-
-        // PanelManager.Instance.AddPanel(position);
     }
 
     /// <summary>
@@ -137,22 +142,40 @@ public class GridManager : MonoBehaviour
         for (int i = 0; i < room.RoomData.Size; i++)
         {
             _grid[string.Format(_rowFormat, roomPosition.y)][string.Format(_columnFormat, roomPosition.x + i)] = null;
+            RoomAddEvent?.Invoke(roomPosition + new Vector2(i, 0));
         }
 
         // Add the room to the list of instantiated rooms
         InstantiatedRooms.Remove(room);
-
-        PanelManager.Instance.RemovePanel(roomPosition);
     }
 
     /// <summary>
-    /// Return if a spot at a position is available.
+    /// Return true if a spot at a position is occupied.
     /// </summary>
     /// <param name="position"> Position to check. </param>
     /// <returns></returns>
     public bool CheckOccupiedSpots(Vector2 position)
     {
         return _grid[string.Format(_rowFormat, position.y)][string.Format(_columnFormat, position.x)] != null;
+    }
+
+    /// <summary>
+    /// Return a room at a position given if there is one.
+    /// </summary>
+    /// <param name="position"> Position to check. </param>
+    /// <param name="result"> A room. </param>
+    /// <returns></returns>
+    public bool TryGetRoomAtPosition(Vector2 position, out Room room)
+    {
+        room = null;
+
+        if (CheckOccupiedSpots(position))
+        {
+            room = _grid[string.Format(_rowFormat, position.y)][string.Format(_columnFormat, position.x)];
+            return true;
+        }
+
+        return false;
     }
 
     /// <summary>
@@ -200,7 +223,7 @@ public class GridManager : MonoBehaviour
             for (int j = 1; j <= roomToConstructSize; j++)
             {
                 // Check if position is not outside the limits.
-                if (instantiatedRoomPosition.x + (InstantiatedRooms[i].RoomData.Size - 1) + j > GridSize.x)
+                if (instantiatedRoomPosition.x + (InstantiatedRooms[i].RoomData.Size - 1) + j > GridSize.x - 1)
                 {
                     isRightAvailable = false;
                     break;
@@ -217,11 +240,38 @@ public class GridManager : MonoBehaviour
             {
                 availableSpots.Add(new Vector2(instantiatedRoomPosition.x + (InstantiatedRooms[i].RoomData.Size), instantiatedRoomPosition.y));
             }
+
+            // Special cases with elevators
+            if (roomToConstructType == RoomType.Elevator && InstantiatedRooms[i].RoomData.RoomType == RoomType.Elevator)
+            {
+                // Check upward
+                if (instantiatedRoomPosition.y + 1 <= GridSize.y - 1)
+                {
+                    if (!CheckOccupiedSpots(new Vector2(instantiatedRoomPosition.x, instantiatedRoomPosition.y + 1)))
+                    {
+                        availableSpots.Add(new Vector2(instantiatedRoomPosition.x, instantiatedRoomPosition.y + 1));
+                    }
+                }
+
+                // Check downward
+                if (instantiatedRoomPosition.y - 1 >= 0)
+                {
+                    if (!CheckOccupiedSpots(new Vector2(instantiatedRoomPosition.x, instantiatedRoomPosition.y - 1)))
+                    {
+                        availableSpots.Add(new Vector2(instantiatedRoomPosition.x, instantiatedRoomPosition.y - 1));
+                    }
+                }
+            }
         }
 
         return availableSpots;
     }
 
+    /// <summary>
+    /// Called to convert a grid position into a world position.
+    /// </summary>
+    /// <param name="gridPos"> Position in the grid. </param>
+    /// <returns></returns>
     public Vector2 ConvertGridPosIntoWorldPos(Vector2 gridPos)
     {
         return new Vector2(gridPos.x * 3, gridPos.y * 4);
