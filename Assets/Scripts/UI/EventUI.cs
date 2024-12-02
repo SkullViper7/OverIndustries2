@@ -13,7 +13,7 @@ public class EventUI : MonoBehaviour
 
     //accès demande technicien de maintenace
     //amination warning des salles
-    //effet spécifique durant un event ?
+    //effet spécifique durant un event ??
 
     void Start()
     {

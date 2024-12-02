@@ -22,13 +22,13 @@ public class EventManager : MonoBehaviour
     /// <summary>
     /// Time Difference between 2 event
     /// </summary>
-    [SerializeField] private int _timeBetweenEvent;
-    [SerializeField] private int _lastEvent;
+    [SerializeField] private int _timeEnterEvent;
+    private int _lastEvent;
 
     /// <summary>
     /// List of all event
     /// </summary>
-    [field: SerializeField] private List<GameObject> _eventList = new List<GameObject>();
+    private List<GameObject> _eventList = new List<GameObject>();
 
     public EventData ActualEvent { get; private set; }
     public bool CurrentEvent { get; private set; }
@@ -63,41 +63,31 @@ public class EventManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Choose random event tout les x minutes suivant le chrono
+    /// Choose random event tout les minutes
     /// </summary>
     /// <param name="_minute"></param>
     public void RandomEvent(int _minute)
     {
         Debug.Log("random event");
 
-        if (!CurrentEvent /*&& (_minute - _lastEvent > _timeBetweenEvent)*/)
+        if (!CurrentEvent && (_minute - _lastEvent > _timeEnterEvent))
         {
             _eventNumber = Random.Range(0, _eventList.Count);
             _eventList[_eventNumber].gameObject.SetActive(true);
         }
     }
 
-    public void StartEvent(EventData _eventData)
-    {
-        Debug.Log("event Start");
-
-        CurrentEvent = true;
-        ActualEvent = _eventData;
-
-        NewEventStart.Invoke(_eventData);
-        EventConditionCompleted.Invoke();
-
-        StartCoroutine(EventDuration(_eventData.Duration));
-    }
-
+    /// <summary>
+    /// Check if event condition are completed
+    /// </summary>
+    /// <param name="_eventData"></param>
     public void CheckCondition(EventData _eventData)
     {
         if (_eventData.Condition)
         {
-            Debug.Log("event condition");
-
             int _room = 0;
             bool _goodRoomType = false;
+            bool _canCreatQuest = false;
 
             //Check number of room with level >= min room level for start this event
             for (int i = 0; i < GridManager.Instance.InstantiatedRooms.Count; i++)
@@ -120,12 +110,27 @@ public class EventManager : MonoBehaviour
                 }
             }
 
+            //Check if this event need to create a quest
+            if (_eventData.CanCreateQuest)
+            {
+                if (QuestManager.Instance.CurrentQuestList.Count < QuestManager.Instance.MaxCurrentQuest)
+                {
+                    _canCreatQuest = true;
+                }
+            }
+
             //Check if all conditions are completed and start event
             if (_room >= _eventData.NumberOfRoom && _goodRoomType && _eventData.MinNumberPS <= ScoreManager.Instance.TotalPS)
             {
                 StartEvent(_eventData);
             }
-            else if (_room >= _eventData.NumberOfRoom && !_eventData.SpecialRoomType && _eventData.MinNumberPS <= ScoreManager.Instance.TotalPS)
+            //Condition : number of room + no room type need + minimum number PS + event need to create quest + can create quest
+            else if (_room >= _eventData.NumberOfRoom && !_eventData.SpecialRoomType && _eventData.MinNumberPS <= ScoreManager.Instance.TotalPS && _eventData.CanCreateQuest && _canCreatQuest)
+            {
+                StartEvent(_eventData);
+            }
+            //Condition : number of room + no room type need + minimum number PS + event don't need to create quest
+            else if (_room >= _eventData.NumberOfRoom && !_eventData.SpecialRoomType && _eventData.MinNumberPS <= ScoreManager.Instance.TotalPS && !_eventData.CanCreateQuest)
             {
                 StartEvent(_eventData);
             }
@@ -140,14 +145,40 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// All condition are completed, start the event choose
+    /// </summary>
+    /// <param name="_eventData"></param>
+    public void StartEvent(EventData _eventData)
+    {
+        Debug.Log("Event Start");
+
+        CurrentEvent = true;
+        ActualEvent = _eventData;
+
+        NewEventStart.Invoke(_eventData);
+        EventConditionCompleted.Invoke();
+
+        StartCoroutine(EventDuration(_eventData.Duration));
+    }
+
+    /// <summary>
+    /// Current event is finish, reset parameter
+    /// </summary>
     public void CloseCurrentEvent()
     {
         CurrentEventIsFinish.Invoke(ActualEvent);
 
         _eventList[_eventNumber].SetActive(false);
         CurrentEvent = false;
+
+        Debug.Log("Current event finish");
     }
 
+    /// <summary>
+    /// Duration of current event
+    /// </summary>
+    /// <param name="_time"></param>
     IEnumerator EventDuration(int _time)
     {
         yield return new WaitForSeconds(_time);

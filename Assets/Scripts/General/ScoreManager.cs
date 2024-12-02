@@ -14,7 +14,7 @@ public class ScoreManager : MonoBehaviour
     [Space, Header("Info Score"), Tooltip("Information which affect the final score.")]
     [SerializeField] private int _totalEmployee;
     [SerializeField] private int _totalRoomLevelMax;
-    [SerializeField] public float TotalPS { get; private set; }
+    [SerializeField] public int TotalPS { get; private set; }
 
     [SerializeField] public float FinalScore { get; private set; }
 
@@ -37,11 +37,11 @@ public class ScoreManager : MonoBehaviour
         CalculateScore();
     }
 
-    public void AddPS(float _psWin)
+    public void AddPS(int _psWin)
     {
         if (EventManager.Instance.CurrentEvent && EventManager.Instance.ActualEvent.PSMultiplicator > 0)
         {
-            TotalPS = Mathf.Round(TotalPS + (_psWin * EventManager.Instance.ActualEvent.PSMultiplicator));
+            TotalPS = TotalPS + (int)Mathf.Round(_psWin * EventManager.Instance.ActualEvent.PSMultiplicator);
         }
         else
         { TotalPS = TotalPS + _psWin; }
@@ -52,7 +52,6 @@ public class ScoreManager : MonoBehaviour
 
     public void AddRoomLevelMax()
     { _totalRoomLevelMax++; }
-
 
     public void CalculateScore()
     {
