@@ -3,12 +3,16 @@ using UnityEngine;
 
 public class JobProfileGenerator : MonoBehaviour
 {
-    [field: SerializeField] public List<JobData> JobsListSave;
+    // Singleton
+    private static JobProfileGenerator _instance = null;
+    public static JobProfileGenerator Instance => _instance;
+
+    [field: SerializeField, Tooltip("Tout les métier sauf technicien de maintenace")] public List<JobData> JobsListSave;
     private List<JobData> _jobsList = new List<JobData>();
 
     [field: SerializeField] public List<string> RandomNameList { get; private set; }
 
-    public string Name { get; private set; }
+    private string _name;
     private int _numberOfJob;
 
     [field: SerializeField] public float PourcentageHasTwoJob { get; private set; }
@@ -18,9 +22,23 @@ public class JobProfileGenerator : MonoBehaviour
     public event System.Action<JobData> NewJob;
     public event System.Action<int> NumberOfJobs;
 
+    private void Awake()
+    {
+        // Singleton
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+        else
+        {
+            _instance = this;
+        }
+    }
+
 
     /// <summary>
-    /// Generate random name + random job and number of jobs
+    /// Generate random name + random number of jobs
     /// </summary>
     public void GenerateProfile()
     {
@@ -28,8 +46,8 @@ public class JobProfileGenerator : MonoBehaviour
 
         //Random Name
         int i = Random.Range(0, RandomNameList.Count);
-        Name = RandomNameList[i];
-        NewName.Invoke(Name);
+        _name = RandomNameList[i];
+        NewName.Invoke(_name);
 
         //Calcule pourcentage d'avoir tant de jobs
         int k = Random.Range(0, 100);
@@ -55,6 +73,10 @@ public class JobProfileGenerator : MonoBehaviour
         NumberOfJobs.Invoke(_numberOfJob);
     }
 
+    /// <summary>
+    /// Add random job to employee, with number of jobs
+    /// </summary>
+    /// <param name="_numberOfJobs"></param>
     public void RandomJob(int _numberOfJobs)
     {
         for (int i = 0; i < _numberOfJobs; i++)
@@ -65,6 +87,9 @@ public class JobProfileGenerator : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Reset parameter for create a new profile
+    /// </summary>
     public void ResetForNewProfile()
     {
         _numberOfJob = 0;

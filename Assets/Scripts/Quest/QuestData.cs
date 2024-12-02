@@ -33,7 +33,7 @@ public class QuestData : ScriptableObject
     /// Number of PS add to player PS if quest are complited.    
     /// </summary>
     [Space, SerializeField, Tooltip("Number of PS add to player PS.")]
-    private int _ps;
+    private int _psWin;
 
     /// <summary>
     /// Gets the name of the quest.
@@ -58,5 +58,5 @@ public class QuestData : ScriptableObject
     /// <summary>
     /// Number of PS add to player PS if quest are complited.    
     /// </summary>
-    public int PS { get { return _ps; } private set { } }
+    public int PSWin { get { return _psWin; } private set { } }
 }

@@ -17,20 +17,24 @@ public class EventData : ScriptableObject
     private int _duration;
 
     /// <summary>
-    /// Event with positive action, number of PS and raw material win
+    /// Event with positive action
     /// </summary>
-    [Header("Positif"), SerializeField, Tooltip("Total points de satisfaction win when this event end")]
+    [Header("Positif Rewards"), SerializeField, Tooltip("Total points de satisfaction win when this event end")]
     private int _psWin;
     [SerializeField, Tooltip("Multiplicator value of PS win in this event")]
     private float _psMultiplicator;
     [SerializeField, Tooltip("Total raw material win when this event end")]
     private int _rawMaterialWin;
+    [SerializeField, Tooltip("Multiplicator of raw material product during this event")]
+    private float _rawMaterialMultiplicator;
 
     /// <summary>
-    /// Event with negative action, number of raw material lose
+    /// Event with negative action
     /// </summary>
-    [Header("Negatif"), SerializeField, Tooltip("Total raw material lost during this event")]
+    [Header("Negatif Rewards"), SerializeField, Tooltip("Total raw material lost when this event end")]
     private int _rawMaterialLost;
+    [SerializeField, Tooltip("Divider of raw material product during this event")]
+    private float _rawMaterialDivider;
 
     /// <summary>
     /// Condition need to start this event
@@ -44,6 +48,8 @@ public class EventData : ScriptableObject
     private int _minRoomLevel;
     [SerializeField, Tooltip("Minimum of point de satisfaction need to start this event, if(condition)")] 
     private int _minNumberPS;
+    [SerializeField, Tooltip("This event need to create a quest, if(condition)")] 
+    private bool _canCreateQuest ;
     [Space,SerializeField, Tooltip("This event need a special room type instanciates to start, if(condition)")] 
     private bool _specialRoomType;
     [SerializeField, Tooltip("Instantiates room type need to start this event, if(specialRoomType)")] 
@@ -80,9 +86,19 @@ public class EventData : ScriptableObject
     public int RawMaterialWin { get { return _rawMaterialWin; } }
 
     /// <summary>
-    /// Get raw material lost during this event
+    /// Get multiplicator of raw material win during this event
+    /// </summary>
+    public float RawMaterialMultiplicator { get { return _rawMaterialMultiplicator; } }
+
+    /// <summary>
+    /// Get raw material lost at event end
     /// </summary>
     public int RawMaterialLost { get { return _rawMaterialLost; } }
+    
+    /// <summary>
+    /// Get divider of raw material lost during this event
+    /// </summary>
+    public float RawMaterialDivider { get { return _rawMaterialDivider; } }
     
     /// <summary>
     /// Get if this event need condition to start
@@ -104,6 +120,11 @@ public class EventData : ScriptableObject
     /// </summary>
     public int MinNumberPS { get { return _minNumberPS; } }
 
+    /// <summary>
+    /// Get if this event need to create a quest
+    /// </summary>
+    public bool CanCreateQuest { get { return _canCreateQuest; } }
+    
     /// <summary>
     /// Get if this event need a special room type instanciate to start
     /// </summary>
