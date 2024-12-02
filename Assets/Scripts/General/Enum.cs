@@ -5,13 +5,7 @@ public enum Job
 {
     Boilermaker, //Chaudronnier
     Welder, //Soudeur
-    MetalLocksmith, //Serrurier Métallier
-    Machinist, //Usineur
     MachiningTechnician, //Technicien d'usinage
-    Scrapper, //Ferrailleur
-    Carpenter, //Charpentier
-    TrimmerMechanicFitter, //Ajusteur Mécanicien/Monteur
-    MetalCuttingAgent, //Agent de Découpage des métaux
     DraftsMan, //Dessinateur industriel
     MaintenanceTechnician, //Technicien de Maintenance
     ElectronicsTechnician //Technicien en électronique
