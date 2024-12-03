@@ -25,11 +25,22 @@ public class TutorialManager : MonoBehaviour
 
     public void ShowTutorialStep()
     {
-        if (_currentStep < _tutorialSteps.Length)
+        if (_currentStep <= _tutorialSteps.Length)
         {
             _currentCharIndex = 0; // Reset character index for the new step
             _tutoralText.text = ""; // Clear the text initially
             StartCoroutine(RevealText(_tutorialSteps[_currentStep])); // Start revealing the text
+
+            switch (_currentStep)
+            {
+                case 0:
+                    Step1();
+                    break;
+            }
+        }
+        else
+        {
+            HideTutorialStep();
         }
     }
 
@@ -41,6 +52,7 @@ public class TutorialManager : MonoBehaviour
             _currentCharIndex++;
             yield return new WaitForSeconds(0.025f); // Adjust the delay as necessary
         }
+        _currentCharIndex = 0; // Reset character index for the new step
     }
 
     public void NextStep()
@@ -53,23 +65,15 @@ public class TutorialManager : MonoBehaviour
         }
         else
         {
-            switch (_currentStep)
-            {
-                case 0:
-                    Step1();
-                    break;
-                case 2:
-                    Step2();
-                    break;
-                default:
-                    ShowTutorialStep();
-                    break;
-            }
             _currentStep++;
 
             if (_currentStep >= _tutorialSteps.Length)
             {
                 HideTutorialStep();
+            }
+            else
+            {
+                ShowTutorialStep();
             }
         }
     }
@@ -77,14 +81,7 @@ public class TutorialManager : MonoBehaviour
     void Step1()
     {
         _nextButton.SetActive(true);
-        HideTutorialStep();
     }
-
-    void Step2()
-    {
-        _nextButton.SetActive(true);
-    }
-
 
     public void HideTutorialStep()
     {
@@ -94,5 +91,5 @@ public class TutorialManager : MonoBehaviour
     public void ShowTutorial()
     {
         _tutorialPanel.SetActive(true);
-    }   
+    }
 }
