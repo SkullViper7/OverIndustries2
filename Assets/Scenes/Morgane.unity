@@ -780,6 +780,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 216be78f3308b4840a58e87f5b12d7d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <DirectorRoomData>k__BackingField: {fileID: 0}
   _recrutementList: []
   _waitNewEmployee: 2
   _jobProfileGenerator: {fileID: 1902462372}
@@ -3520,18 +3521,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 791338410}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &791338412 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2389869006798124273, guid: 7eccb817698b42146865a57e3b0fce34,
-    type: 3}
-  m_PrefabInstance: {fileID: 791338410}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 791338413}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c979c54aee024d442a6b2da03934cb12, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &791338413 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5805566542789972632, guid: 7eccb817698b42146865a57e3b0fce34,
@@ -3552,7 +3541,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <RestRoomData>k__BackingField: {fileID: 11400000, guid: c81a9bcb6ad599349b8b9669f6e6e39b,
     type: 2}
-  _rooms: {fileID: 791338412}
+  _rooms: {fileID: 0}
 --- !u!114 &791338418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7773,18 +7762,6 @@ MonoBehaviour:
       - m_Target: {fileID: 1561089892}
         m_TargetAssemblyTypeName: TutorialManager, Assembly-CSharp
         m_MethodName: ShowTutorial
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1561089892}
-        m_TargetAssemblyTypeName: TutorialManager, Assembly-CSharp
-        m_MethodName: NextStep
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
