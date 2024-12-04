@@ -10,17 +10,12 @@ public class Employee : MonoBehaviour
     public List<JobData> EmployeeJob;
 
     /// <summary>
-    /// name of the employee.
+    /// Name of the employee.
     /// </summary>
     public string EmployeeName;
-
-    ///// <summary>
-    ///// XP of the employee.
-    ///// </summary>
-    //public int _xp;
-
-    ///// <summary>
-    ///// Lvl of the employee.
-    ///// </summary>
-    //public int _lvl;
+    
+    /// <summary>
+    /// Room who employee is assign
+    /// </summary>
+    public GameObject AssignRoom;
 }
