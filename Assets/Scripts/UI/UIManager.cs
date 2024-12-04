@@ -1,6 +1,5 @@
+using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
-using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -32,8 +31,8 @@ public class UIManager : MonoBehaviour
     /// Button to show informations about a room.
     /// </summary>
     [field : SerializeField, Space, Header("Interactions"), Tooltip("Button to show informations about a room.")]
-    public GameObject InfoButton { get; private set; }
-
+    public GameObject InfoRoomButton { get; private set; }
+    
     /// <summary>
     /// Button to upgrade a room.
     /// </summary>
@@ -46,6 +45,18 @@ public class UIManager : MonoBehaviour
     [field : SerializeField, Tooltip("Button to start a production in a room.")]
     public GameObject ProductionButton { get; private set; }
 
+    /// <summary>
+    /// Button to show informations about a employee.
+    /// </summary>
+    [field: SerializeField, Tooltip("Button to show informations about a employee.")]
+    public GameObject InfoEmployeeButton { get; private set; }
+    
+    /// <summary>
+    /// Button to move this employee.
+    /// </summary>
+    [field: SerializeField, Tooltip("Button to move this employee.")]
+    public GameObject MoveEmployeeButton { get; private set; }
+    
     /// <summary>
     /// The pop up which displays room infos.
     /// </summary>

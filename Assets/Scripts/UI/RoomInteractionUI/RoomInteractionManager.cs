@@ -32,7 +32,7 @@ public class RoomInteractionManager : MonoBehaviour
             case RoomType.Elevator:
             case RoomType.Recycling:
                 DesactivateAllButtons();
-                _uiManager.InfoButton.SetActive(true);
+                _uiManager.InfoRoomButton.SetActive(true);
                 break;
 
             case RoomType.Delivery:
@@ -40,7 +40,7 @@ public class RoomInteractionManager : MonoBehaviour
             case RoomType.Rest:
             case RoomType.Director:
                 DesactivateAllButtons();
-                _uiManager.InfoButton.SetActive(true);
+                _uiManager.InfoRoomButton.SetActive(true);
 
                 // Show upgrade button only if the room is not at max lvl
                 if(roomMain.CurrentLvl < 3)
@@ -53,7 +53,7 @@ public class RoomInteractionManager : MonoBehaviour
             case RoomType.Assembly:
             case RoomType.Research:
                 DesactivateAllButtons();
-                _uiManager.InfoButton.SetActive(true);
+                _uiManager.InfoRoomButton.SetActive(true);
 
                 // Show upgrade button only if the room is not at max lvl
                 if (roomMain.CurrentLvl < 3)
@@ -71,7 +71,7 @@ public class RoomInteractionManager : MonoBehaviour
     /// </summary>
     private void DesactivateAllButtons()
     {
-        _uiManager.InfoButton.SetActive(false);
+        _uiManager.InfoRoomButton.SetActive(false);
         _uiManager.UpgradeButton.SetActive(false);
         _uiManager.ProductionButton.SetActive(false);
     }

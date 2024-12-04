@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Room : MonoBehaviour
@@ -31,6 +32,12 @@ public class Room : MonoBehaviour
     /// Prefab of the room with mesh in children.
     /// </summary>
     private GameObject _currentVisualRoom;
+
+    /// <summary>
+    /// List of employee assign to the room.
+    /// </summary>
+    [field: SerializeField]
+    public List<Employee> EmployeeAssign { get; private set; } = new List<Employee>();
 
     /// <summary>
     /// Events to get the lvl when the room is upgraded.
@@ -122,6 +129,40 @@ public class Room : MonoBehaviour
         CurrentLvl++;
         NewLvl?.Invoke(CurrentLvl);
         UpgradeVisualRoom(CurrentLvl);
+    }
+
+    /// <summary>
+    /// Add this employee in the list of employee assign in this room
+    /// </summary>
+    /// <param name="employee"></param>
+    public void AssignEmployeeInThisRoom(Employee employee)
+    {
+        //Check if the room can add a employee
+        if (EmployeeAssign.Count != RoomData.Capacity)
+        {
+            //Check if this employee is not already in this room
+            if(employee.AssignRoom != this.gameObject)
+            {
+                EmployeeAssign.Add(employee);
+            }
+        }
+    }
+    
+    /// <summary>
+    /// Add this employee in the list of employee assign in this room
+    /// </summary>
+    /// <param name="employee"></param>
+    public void RemoveAssignEmployeeInThisRoom(Employee employee)
+    {
+        //Check if the room can add a employee
+        if (EmployeeAssign.Count != 0)
+        {
+            //Check if this employee is not already in this room
+            if(employee.AssignRoom == this.gameObject)
+            {
+                EmployeeAssign.Remove(employee);
+            }
+        }
     }
 
     private void UpgradeVisualRoom(int currentLvl)
