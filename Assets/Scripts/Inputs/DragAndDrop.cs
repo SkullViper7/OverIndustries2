@@ -9,7 +9,6 @@ public class DragAndDrop : MonoBehaviour
     private Vector3 _position;
     private Vector3 _startPosition;
     public bool EmployeeSelect { get; private set; } = false;
-    private bool _holdOn = false;
 
     void Start()
     {
@@ -28,30 +27,7 @@ public class DragAndDrop : MonoBehaviour
 
     void OnHold0(InputAction.CallbackContext context)
     {
-        _holdOn = true;
-    }
-
-    /// <summary>
-    /// Get the employee select
-    /// </summary>
-    /// <param name="_employee"></param>
-    public void GetEmployeeToMove(Employee _employee)
-    {
-        _startPosition = _employee.gameObject.transform.position;
-        EmployeeToMove = _employee;
-    }
-
-    /// <summary>
-    /// Set parameter to start move employee select
-    /// </summary>
-    public void MoveEmployee()
-    {
-        EmployeeSelect = true;
-    }
-
-    void Update()
-    {
-        if (EmployeeSelect && _holdOn)
+        if (EmployeeSelect)
         {
             RaycastHit hit;
             GameManager.Instance.InDragAndDrop = true;
@@ -77,10 +53,32 @@ public class DragAndDrop : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Get the employee select
+    /// </summary>
+    /// <param name="_employee"></param>
+    public void GetEmployeeToMove(Employee _employee)
+    {
+        _startPosition = _employee.gameObject.transform.position;
+        EmployeeToMove = _employee;
+    }
+
+    /// <summary>
+    /// Set parameter to start move employee select
+    /// </summary>
+    public void MoveEmployee()
+    {
+        EmployeeSelect = true;
+    }
+
+    
+    /// <summary>
+    /// Quand le joueur relache l'écran
+    /// </summary>
+    /// <param name="context"></param>
     void OnTouchContact0Canceled(InputAction.CallbackContext context)
     {
         GameManager.Instance.InDragAndDrop = false;
-        _holdOn = false;
 
         //check si la position est une salle + si elle a de la place pour l'employer, sinon retourne a sa place d'origine
         if (EmployeeSelect)

@@ -13243,7 +13243,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 073229af288fd9446a45242bae868b53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &1264144991
 GameObject:
   m_ObjectHideFlags: 0
@@ -20012,6 +20011,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <EmployeeAssign>k__BackingField:
   - {fileID: 2024891236}
+  - {fileID: 54606455}
 --- !u!4 &1848194285
 Transform:
   m_ObjectHideFlags: 0
@@ -20423,6 +20423,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 188961205}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: CloseUI
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -21232,7 +21244,7 @@ MonoBehaviour:
   EmployeeJob:
   - {fileID: 11400000, guid: 1bdf18d2c9049484080a153d66d5df93, type: 2}
   EmployeeName: Jack
-  AssignRoom: {fileID: 0}
+  AssignRoom: {fileID: 1848194282}
 --- !u!65 &2024891237
 BoxCollider:
   m_ObjectHideFlags: 0
