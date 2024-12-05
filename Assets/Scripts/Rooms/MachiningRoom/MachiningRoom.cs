@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MachiningRoom : MonoBehaviour, IRoomBehaviour
 {
@@ -32,17 +34,44 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
     /// <summary>
     /// Current component that the room is manufacturing.
     /// </summary>
-    private ComponentData _currentComponentManufactured;
+    public ComponentData CurrentComponentManufactured { get; private set; }
 
     /// <summary>
-    /// Current chrono of the production.
+    /// Current chrono of the delivery.
     /// </summary>
+    [SerializeField]
     private int _currentChrono;
+
+    /// <summary>
+    /// Current time to product the current component manufactured.
+    /// </summary>
+    [field: SerializeField]
+    public int CurrentProductionTime { get; private set; }
+
+    /// <summary>
+    /// Current amount of components in internal capacity of the room.
+    /// </summary>
+    [SerializeField]
+    private int _currentAmountInInternalCapacity;
+
+    /// <summary>
+    /// Current internal capacity of the room.
+    /// </summary>
+    [SerializeField]
+    private int _currentInternalCapacity;
+
+    /// <summary>
+    /// Notification of the room when a production is launched.
+    /// </summary>
+    [SerializeField]
+    private RoomNotifiction _roomNotification;
 
     /// <summary>
     /// A reference to the lambda who tries to launch a production each second.
     /// </summary>
     private ChronoManager.TickDelegate _productionOnHold;
+
+    public event Action<int> NewChrono, NewProductionCount;
 
     /// <summary>
     /// Called at the start to initialize the machining room.
@@ -59,37 +88,71 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
         {
             ManufacturableComponents.Add(MachiningRoomData.ManufacturableComponentsByDefault[i]);
         }
+
+        UpgradeRoom(1);
+        _roomMain.NewLvl += UpgradeRoom;
     }
 
     /// <summary>
-    /// Called to start a new production.
+    /// Called to try to start a new production.
     /// </summary>
     /// <param name="componentToProduct"> The component we want to product. </param>
     public void StartNewProduction(ComponentData componentToProduct)
     {
         // Reset production if there is already one
-        if (_currentComponentManufactured != null || _currentChrono != 0)
+        if (CurrentComponentManufactured != null || _currentChrono != 0)
         {
             StopProduction();
         }
 
-        // If there is enough raw material in storage, launch production, else, checks each second if it is possible
-        if (_rawMaterialStorage.ThereIsEnoughRawMaterialInStorage(componentToProduct.Cost))
+        // Set component manufactured and production time depending on the room lvl
+        CurrentComponentManufactured = componentToProduct;
+
+        switch (_roomMain.CurrentLvl)
         {
+            case 1:
+                CurrentProductionTime = CurrentComponentManufactured.ProductionTimeAtLvl1;
+                break;
+            case 2:
+                CurrentProductionTime = CurrentComponentManufactured.ProductionTimeAtLvl2;
+                break;
+            case 3:
+                CurrentProductionTime = CurrentComponentManufactured.ProductionTimeAtLvl3;
+                break;
+        }
+
+        // If there is already not a notification on the room add a notification and add a listener for when player will clicks on.
+        if (_roomNotification == null)
+        {
+            _roomNotification = RoomNotificationManager.Instance.NewNotification(_roomMain);
+            _roomNotification.GetComponent<Button>().onClick.AddListener(AddComponentsInStorage);
+        }
+
+        TryStartProductionCycle();
+    }
+
+    private void TryStartProductionCycle()
+    {
+        // If there is enough raw material in storage, launch production, else, checks each second if it is possible
+        if (_currentAmountInInternalCapacity < _currentInternalCapacity && _rawMaterialStorage.ThereIsEnoughRawMaterialInStorage(CurrentComponentManufactured.Cost))
+        {
+            // Remove production on hold if there is one
             if (_productionOnHold != null)
             {
                 ChronoManager.Instance.NewSecondTick -= _productionOnHold;
                 _productionOnHold = null;
             }
 
-            _currentComponentManufactured = componentToProduct;
+            // Remove cost of the component from the raw material storage
+            _rawMaterialStorage.SubstractRawMaterials(CurrentComponentManufactured.Cost);
+
             ChronoManager.Instance.NewSecondTick += ProductionUpdateChrono;
         }
         else
         {
             if (_productionOnHold == null)
             {
-                _productionOnHold = () => StartNewProduction(componentToProduct);
+                _productionOnHold = () => TryStartProductionCycle();
                 ChronoManager.Instance.NewSecondTick += _productionOnHold;
             }
         }
@@ -100,43 +163,62 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
     /// </summary>
     private void ProductionUpdateChrono()
     {
-        switch (_roomMain.CurrentLvl)
+        if (_currentChrono + 1 >= CurrentProductionTime)
         {
-            case 1:
-                if (_currentChrono + 1 >= _currentComponentManufactured.ProductionTimeAtLvl1)
-                {
-                    _currentChrono = 0;
-                    ProductComponent();
-                }
-                else
-                {
-                    _currentChrono++;
-                }
-                break;
+            _currentChrono = 0;
+            NewChrono?.Invoke(_currentChrono);
+            AddComponentInInternalStorage();
 
-            case 2:
-                if (_currentChrono + 1 >= _currentComponentManufactured.ProductionTimeAtLvl2)
-                {
-                    _currentChrono = 0;
-                    ProductComponent();
-                }
-                else
-                {
-                    _currentChrono++;
-                }
-                break;
+            ChronoManager.Instance.NewSecondTick -= ProductionUpdateChrono;
+            TryStartProductionCycle();
+        }
+        else
+        {
+            _currentChrono++;
+            NewChrono?.Invoke(_currentChrono);
+        }
+    }
 
-            case 3:
-                if (_currentChrono + 1 >= _currentComponentManufactured.ProductionTimeAtLvl3)
-                {
-                    _currentChrono = 0;
-                    ProductComponent();
-                }
-                else
-                {
-                    _currentChrono++;
-                }
-                break;
+    /// <summary>
+    /// Called at the end of a production to add a component in the internal storage.
+    /// </summary>
+    private void AddComponentInInternalStorage()
+    {
+        _currentAmountInInternalCapacity++;
+        Mathf.Clamp(_currentAmountInInternalCapacity, 0, _currentInternalCapacity);
+        NewProductionCount?.Invoke(_currentAmountInInternalCapacity);
+    }
+
+    /// <summary>
+    /// Called when components are added to the storage to substracte it from the internal storage.
+    /// </summary>
+    /// <param name="amount"> Amount to substract from the internal storage. </param>
+    private void RemoveComponentFromInternalStorage(int amount)
+    {
+        _currentAmountInInternalCapacity -= amount;
+        Mathf.Clamp(_currentAmountInInternalCapacity, 0, _currentInternalCapacity);
+        NewProductionCount?.Invoke(_currentAmountInInternalCapacity);
+    }
+
+    /// <summary>
+    /// Called to add components to the storage when player interact with the room.
+    /// </summary>
+    private void AddComponentsInStorage()
+    {
+        if (!_itemStorage.IsStorageFull())
+        {
+            int remainingStorage = _itemStorage.GetRemainingStorage();
+
+            if (remainingStorage >= _currentAmountInInternalCapacity)
+            {
+                _itemStorage.AddComponents(CurrentComponentManufactured.ComponentType, _currentAmountInInternalCapacity);
+                RemoveComponentFromInternalStorage(_currentAmountInInternalCapacity);
+            }
+            else
+            {
+                _itemStorage.AddComponents(CurrentComponentManufactured.ComponentType, remainingStorage);
+                RemoveComponentFromInternalStorage(remainingStorage);
+            }
         }
     }
 
@@ -145,18 +227,33 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
     /// </summary>
     public void StopProduction()
     {
+        _roomNotification.DesactivateNotification();
+        _roomNotification = null;
+
         _currentChrono = 0;
-        _currentComponentManufactured = null;
+        CurrentComponentManufactured = null;
     }
 
     /// <summary>
-    /// Called to add a component to the storage.
+    /// Called to upgrad some values when the room is upgraded.
     /// </summary>
-    private void ProductComponent()
+    /// <param name="newLvl"> New lvl of the room. </param>
+    private void UpgradeRoom(int newLvl)
     {
-        if (!_itemStorage.WillExceedCapacity(1))
+        switch (newLvl)
         {
-            _itemStorage.AddComponents(_currentComponentManufactured.ComponentType, 1);
+            case 1:
+                _currentChrono = 0;
+                _currentInternalCapacity = MachiningRoomData.InternalStorageAtLvl1;
+                break;
+            case 2:
+                _currentChrono = 0;
+                _currentInternalCapacity = MachiningRoomData.InternalStorageAtLvl2;
+                break;
+            case 3:
+                _currentChrono = 0;
+                _currentInternalCapacity = MachiningRoomData.InternalStorageAtLvl3;
+                break;
         }
     }
 

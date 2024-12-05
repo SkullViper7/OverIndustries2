@@ -109,6 +109,11 @@ public class Room : MonoBehaviour
                 RoomBehaviour = restRoom;
                 restRoom.InitRoomBehaviour(roomBehaviourData, this);
                 break;
+            case RoomType.RawMaterialStorage:
+                RawMaterialStorageRoom rawMaterialStorageRoom = (RawMaterialStorageRoom)gameObject.AddComponent(typeof(RawMaterialStorageRoom));
+                RoomBehaviour = rawMaterialStorageRoom;
+                rawMaterialStorageRoom.InitRoomBehaviour(roomBehaviourData, this);
+                break;
         }
 
         UpgradeVisualRoom(CurrentLvl);

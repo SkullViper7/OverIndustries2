@@ -4,22 +4,28 @@ using UnityEngine;
 public class DeliveryRoomData : ScriptableObject, IRoomBehaviourData
 {
     /// <summary>
-    /// Capacity to add to the storage at lvl 1.
+    /// Picto of the raw material.
     /// </summary>
-    [Header("Capacity bonus"), SerializeField, Tooltip("Capacity to add to the storage at lvl 1. (not the total)")]
-    private int _capacityBonusAtLvl1;
+    [Header("Picto"), SerializeField, Tooltip("Picto of the raw material.")]
+    private Sprite _rawMaterialPicto;
 
     /// <summary>
-    /// Capacity to add to the storage at lvl 2.
+    /// Internal storage at lvl 1.
     /// </summary>
-    [SerializeField, Tooltip("Capacity to add to the storage at lvl 2. (not the total)")]
-    private int _capacityBonusAtLvl2;
+    [Space, Header("Internal storage"), SerializeField, Tooltip("Internal storage at lvl 1.")]
+    private int _internalStorageAtLvl1;
 
     /// <summary>
-    /// Capacity to add to the storage at lvl 3.
+    /// Internal storage at lvl 2.
+    /// </summary>
+    [SerializeField, Tooltip("Internal storage at lvl 2.")]
+    private int _internalStorageAtLvl2;
+
+    /// <summary>
+    /// Internal storage at lvl 3.
     /// </summary> 
-    [SerializeField, Tooltip("Capacity to add to the storage at lvl 3. (not the total)")]
-    private int _capacityBonusAtLvl3;
+    [SerializeField, Tooltip("Internal storage at lvl 3.")]
+    private int _internalStorageAtLvl3;
 
     /// <summary>
     /// Time needed by the room to deliver an amount of raw materials (in seconds) at lvl 1.
@@ -58,19 +64,24 @@ public class DeliveryRoomData : ScriptableObject, IRoomBehaviourData
     private int _productionPerDeliveryAtLvl3;
 
     /// <summary>
-    /// Gets the capacity to add to the storage at lvl 1.
+    /// Gets the picto of the raw material.
     /// </summary>
-    public int CapacityBonusAtLvl1 { get { return _capacityBonusAtLvl1; } private set { } }
+    public Sprite RawMaterialPicto { get { return _rawMaterialPicto; } private set { } }
 
     /// <summary>
-    /// Gets the capacity to add to the storage at lvl 2.
+    /// Gets the internal storage at lvl 1.
     /// </summary>
-    public int CapacityBonusAtLvl2 { get { return _capacityBonusAtLvl2; } private set { } }
+    public int InternalStorageAtLvl1 { get { return _internalStorageAtLvl1; } private set { } }
 
     /// <summary>
-    /// Gets the capacity to add to the storage at lvl 3.
+    /// Gets the internal storage at lvl 2.
     /// </summary>
-    public int CapacityBonusAtLvl3 { get { return _capacityBonusAtLvl3; } private set { } }
+    public int InternalStorageAtLvl2 { get { return _internalStorageAtLvl2; } private set { } }
+
+    /// <summary>
+    /// Gets the internal storage at lvl 3.
+    /// </summary>
+    public int InternalStorageAtLvl3 { get { return _internalStorageAtLvl3; } private set { } }
 
     /// <summary>
     /// Gets the time needed by the room to deliver an amount of raw materials (in seconds) at lvl 1.

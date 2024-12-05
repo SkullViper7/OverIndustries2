@@ -62,15 +62,19 @@ public class RoomProductionPopUp : MonoBehaviour
     }
 
     /// <summary>
-    /// Called to reset production buttons.
+    /// Called to reset production buttons and close pop up.
     /// </summary>
-    public void ResetButtons()
+    public void ClosePopUp()
     {
         for (int i =0; i< _productionButtons.Count; i++)
         {
+            _productionButtons[i].GetComponent<Button>().onClick.RemoveAllListeners();
             Destroy(_productionButtons[i]);
         }
 
         _productionButtons.Clear();
+
+        UIManager.Instance.HUD.SetActive(true);
+        gameObject.SetActive(false);
     }
 }

@@ -16,6 +16,12 @@ public class RoomData : ScriptableObject
     private string _name;
 
     /// <summary>
+    /// Preview of the room.
+    /// </summary>
+    [SerializeField, Tooltip("Preview of the room.")]
+    private Sprite _roomPreview;
+
+    /// <summary>
     /// Description of the room.
     /// </summary>
     [SerializeField, Tooltip("Description of the room."), TextArea]
@@ -51,15 +57,26 @@ public class RoomData : ScriptableObject
     [SerializeField, Tooltip("Prefab of the room at lvl 3.")]
     private GameObject _roomLvl3;
 
+
+    /// <summary>
+    /// Gets the type of the room.
+    /// </summary>
+    public RoomType RoomType { get { return _roomType; } private set { } }
+
     /// <summary>
     /// Gets the name of the room.
     /// </summary>
     public string Name { get { return _name; } private set { } }
 
     /// <summary>
-    /// Gets the type of the room.
+    /// Gets the preview of the room.
     /// </summary>
-    public RoomType RoomType { get { return _roomType; } private set { } }
+    public Sprite RoomPreview { get { return _roomPreview; } private set { } }
+
+    /// <summary>
+    /// Gets the description of the room.
+    /// </summary>
+    public string Description { get { return _description; } private set { } }
 
     /// <summary>
     /// Gets the name of the room.
@@ -85,9 +102,4 @@ public class RoomData : ScriptableObject
     /// Gets the prefab of the room.
     /// </summary>
     public GameObject RoomLvl3 { get { return _roomLvl3; } private set { } }
-
-    /// <summary>
-    /// Gets the description of the room.
-    /// </summary>
-    public string Description { get { return _description; } private set { } }
 }

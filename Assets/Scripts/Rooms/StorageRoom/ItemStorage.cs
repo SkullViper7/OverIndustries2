@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -40,6 +41,11 @@ public class ItemStorage : MonoBehaviour
     public int CurrentStorage { get { return _currentStorage; } private set { } }
 
     /// <summary>
+    /// Events to indicate changes about the storage.
+    /// </summary>
+    public event Action<int> AmountHasChanged, CapacityHasChanged;
+
+    /// <summary>
     /// Event for update the quest advancement 
     /// </summary>
     public event System.Action<ObjectType, int> StorageChanged;
@@ -78,6 +84,7 @@ public class ItemStorage : MonoBehaviour
 
             // Update storage
             _currentStorage += amount;
+            AmountHasChanged?.Invoke(_currentStorage);
         }
     }
 
@@ -96,6 +103,7 @@ public class ItemStorage : MonoBehaviour
 
                 // Update storage
                 _currentStorage -= amountToSubstract;
+                AmountHasChanged?.Invoke(_currentStorage);
             }
         }
     }
@@ -120,6 +128,7 @@ public class ItemStorage : MonoBehaviour
 
             // Update storage
             _currentStorage += amount;
+            AmountHasChanged?.Invoke(_currentStorage);
         }
     }
 
@@ -138,6 +147,7 @@ public class ItemStorage : MonoBehaviour
 
                 // Update storage
                 _currentStorage -= amountToSubstract;
+                AmountHasChanged?.Invoke(_currentStorage);
             }
         }
     }
@@ -150,6 +160,24 @@ public class ItemStorage : MonoBehaviour
     public bool WillExceedCapacity(int amountToCheck)
     {
         return _currentStorage + amountToCheck > _storageCapacity;
+    }
+
+    /// <summary>
+    /// Called to get the remaining storage.
+    /// </summary>
+    /// <returns></returns>
+    public int GetRemainingStorage()
+    {
+        return _storageCapacity - _currentStorage;
+    }
+
+    /// <summary>
+    /// Return true if the storage is full.
+    /// </summary>
+    /// <returns></returns>
+    public bool IsStorageFull()
+    {
+        return _currentStorage == _storageCapacity;
     }
 
     /// <summary>
@@ -241,5 +269,6 @@ public class ItemStorage : MonoBehaviour
     public void IncreaseCapacity(int capacityToAdd)
     {
         _storageCapacity += capacityToAdd;
+        CapacityHasChanged?.Invoke(_storageCapacity);
     }
 }

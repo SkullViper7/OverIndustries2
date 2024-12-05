@@ -24,7 +24,8 @@ public enum RoomType
     Director,
     Recycling,
     Research,
-    Elevator
+    Elevator,
+    RawMaterialStorage
 }
 
 /// <summary>

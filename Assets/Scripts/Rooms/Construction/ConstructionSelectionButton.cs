@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,19 +22,38 @@ public class ConstructionSelectionButton : MonoBehaviour
     private UIManager _uiManager;
 
     /// <summary>
-    /// Button component.
+    /// Name of the room.
     /// </summary>
-    private Button _selectionButton;
+    [Space, Header("Informations"), SerializeField]
+    private TMP_Text _name;
 
-    private void Awake()
-    {
-        _selectionButton = GetComponent<Button>();
-    }
+    /// <summary>
+    /// Preview of the room.
+    /// </summary>
+    [SerializeField]
+    private Image _roomPreview;
+
+    /// <summary>
+    /// Description of the room.
+    /// </summary>
+    [SerializeField]
+    private TMP_Text _description;
+
+    /// <summary>
+    /// Button to construct the room.
+    /// </summary>
+    [SerializeField]
+    private Button _constructionButton;
 
     private void Start()
     {
         _uiManager = UIManager.Instance;
-        _selectionButton.onClick.AddListener(() =>
+
+        _name.text = _roomData.name;
+        _roomPreview.sprite = _roomData.RoomPreview;
+        _description.text = _roomData.Description;
+
+        _constructionButton.onClick.AddListener(() =>
         {
             StartSearchingForAnAvailableSpot();
             _uiManager.ConstructionPopUp.SetActive(false);

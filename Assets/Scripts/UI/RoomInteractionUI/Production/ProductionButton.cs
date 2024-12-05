@@ -64,6 +64,8 @@ public class ProductionButton : MonoBehaviour
         {
             MachiningRoom machiningRoom = (MachiningRoom)currentRoomSelected.RoomBehaviour;
             machiningRoom.StartNewProduction(_componentData);
+            UIManager.Instance.RoomProductionPopUp.GetComponent<RoomProductionPopUp>().ClosePopUp();
+            UIManager.Instance.CloseUI();
         }
     }
 
@@ -78,6 +80,8 @@ public class ProductionButton : MonoBehaviour
         {
             AssemblyRoom assemblyRoom = (AssemblyRoom)currentRoomSelected.RoomBehaviour;
             assemblyRoom.StartNewProduction(_objectData);
+            UIManager.Instance.RoomProductionPopUp.GetComponent<RoomProductionPopUp>().ClosePopUp();
+            UIManager.Instance.CloseUI();
         }
     }
 }

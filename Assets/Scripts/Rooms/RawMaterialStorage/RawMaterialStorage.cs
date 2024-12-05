@@ -35,6 +35,11 @@ public class RawMaterialStorage : MonoBehaviour
     public int TotalRecyclingRawMaterial;
 
     /// <summary>
+    /// Events to indicate changes about the raw material storage.
+    /// </summary>
+    public event Action<int> AmountHasChanged, CapacityHasChanged;
+
+    /// <summary>
     /// For the recycling room
     /// </summary>
     public event Action<int> RawMaterialToRecycle, RawMaterialProduct;
@@ -62,6 +67,7 @@ public class RawMaterialStorage : MonoBehaviour
         _amoutOfRawMaterial += amountToAdd;
         Mathf.Clamp(_amoutOfRawMaterial, 0, _storageCapacity);
 
+        AmountHasChanged?.Invoke(_amoutOfRawMaterial);
         RawMaterialProduct?.Invoke(amountToAdd);
     }
 
@@ -73,6 +79,8 @@ public class RawMaterialStorage : MonoBehaviour
     {
         _amoutOfRawMaterial -= amountToSubstract;
         Mathf.Clamp(_amoutOfRawMaterial, 0, _storageCapacity);
+
+        AmountHasChanged?.Invoke(_amoutOfRawMaterial);
     }
 
     /// <summary>
@@ -86,12 +94,32 @@ public class RawMaterialStorage : MonoBehaviour
     }
 
     /// <summary>
+    /// Called to get the remaining storage.
+    /// </summary>
+    /// <returns></returns>
+    public int GetRemainingStorage()
+    {
+        return _storageCapacity - _amoutOfRawMaterial;
+    }
+
+    /// <summary>
+    /// Return true if the storage is full.
+    /// </summary>
+    /// <returns></returns>
+    public bool IsStorageFull()
+    {
+        return _amoutOfRawMaterial == _storageCapacity;
+    }
+
+    /// <summary>
     /// Called to add capacity when a delivery room is build or upgraded;
     /// </summary>
     /// <param name="capacityToAdd"> Capacity to add. </param>
     public void IncreaseCapacity(int capacityToAdd)
     {
         _storageCapacity += capacityToAdd;
+
+        CapacityHasChanged?.Invoke(_storageCapacity);
     }
     
    /// <summary>
