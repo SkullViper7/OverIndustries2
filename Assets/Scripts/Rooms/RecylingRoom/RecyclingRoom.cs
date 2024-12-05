@@ -28,7 +28,16 @@ public class RecyclingRoom : MonoBehaviour, IRoomBehaviour
 
     public void Recycle(int _rawMaterialToRecycle)
     {
-        _rawMaterialStorage.AddRawMaterials(_rawMaterialToRecycle);
-        _rawMaterialStorage.TotalRecyclingRawMaterial += _rawMaterialToRecycle;
+        //Reclycling event
+        if (EventManager.Instance.CurrentEvent && EventManager.Instance.ActualEvent.RoomTypeNeed == RoomType.Recycling)
+        {
+            _rawMaterialStorage.AddRawMaterials(_rawMaterialToRecycle * 2);
+            _rawMaterialStorage.TotalRecyclingRawMaterial += _rawMaterialToRecycle * 2;
+        }
+        else
+        {
+            _rawMaterialStorage.AddRawMaterials(_rawMaterialToRecycle);
+            _rawMaterialStorage.TotalRecyclingRawMaterial += _rawMaterialToRecycle;
+        }
     }
 }

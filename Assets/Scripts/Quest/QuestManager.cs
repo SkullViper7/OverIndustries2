@@ -7,19 +7,17 @@ public class QuestManager : MonoBehaviour
     public static QuestManager Instance => _instance;
 
     [field: SerializeField] public List<QuestData> QuestList { get; private set; }
-    [field: SerializeField] public List<Quest> CurrentQuestList { get; private set; }
-    [field: SerializeField] public int MaxCurrentQuest { get; private set; }
+    public List<Quest> CurrentQuestList { get; private set; }
+    [field: SerializeField, Tooltip("Maximum number of current quest")] public int MaxCurrentQuest { get; private set; }
 
-    [field: SerializeField] public int MinNumberQuestObject { get; private set; }
-    [field: SerializeField] public int MaxNumberQuestObject { get; private set; }
+    [Space, Header("Quest Stats")]
     private Quest _newQuest;
+    [field: SerializeField, Tooltip("Minimum number of object need to all quest")] public int MinNumberQuestObject { get; private set; }
+    [field: SerializeField, Tooltip("Maximum number of object need to all quest")] public int MaxNumberQuestObject { get; private set; }
 
-    public int StockOfThisObjectTemp;
-    public ObjectType ObjectTemp;
 
     public event System.Action<Quest> NewQuestGenerate;
-    public event System.Action UpdateAdvancementQuest;
-    public event System.Action ResetQuestText;
+    public event System.Action UpdateAdvancementQuest, ResetQuestText;
     public event System.Action<int> QuestComplited;
 
     private void Awake()
@@ -90,14 +88,14 @@ public class QuestManager : MonoBehaviour
                     Debug.Log("Objectifs completed");
                     QuestComplited.Invoke(i);
 
-                    Debug.Log($"Point de satisfations gagné : {CurrentQuestList[i].QuestData.PS}");
+                    Debug.Log($"Point de satisfations gagné : {CurrentQuestList[i].QuestData.PSWin}");
                 }
                 if (CurrentQuestList[i].QuestData.Object.Count == 1 && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Object[j]) >= CurrentQuestList[i].QuestData.NumberOfObject[j])
                 {
                     Debug.Log("Objectifs completed");
                     QuestComplited.Invoke(i);
 
-                    Debug.Log($"Point de satisfations gagné : {CurrentQuestList[i].QuestData.PS}");
+                    Debug.Log($"Point de satisfations gagné : {CurrentQuestList[i].QuestData.PSWin}");
                 }
                 else
                 {
@@ -107,6 +105,10 @@ public class QuestManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Donne la commande au client, retire les objet du stockage 
+    /// </summary>
+    /// <param name="_quest"></param>
     public void GiveQuestObject(Quest _quest)
     {
         for (int i = 0; i < CurrentQuestList.Count; i++)
@@ -126,11 +128,5 @@ public class QuestManager : MonoBehaviour
         }
 
         UpdateAdvancementQuest.Invoke();
-    }
-
-    public void TempStockage()
-    {
-        ItemStorage.Instance.AddObjects(ObjectTemp, 1);
-        QuestAdvancement(ObjectTemp, StockOfThisObjectTemp);
     }
 }

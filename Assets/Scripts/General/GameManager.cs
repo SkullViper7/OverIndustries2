@@ -17,6 +17,11 @@ public class GameManager : MonoBehaviour
     [field : SerializeField]
     public bool UIIsOpen { get; private set; }
 
+    /// <summary>
+    /// True if the player drag and drop an employee
+    /// </summary>
+    public bool InDragAndDrop = false;
+
     private void Awake()
     {
         // Singleton

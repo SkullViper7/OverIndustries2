@@ -28,7 +28,7 @@ public class InteractionManager : MonoBehaviour
     /// <summary>
     /// Events to indicate that there is an interaction with an employee.
     /// </summary>
-    public delegate void EmployeeInteractionDelegate();
+    public delegate void EmployeeInteractionDelegate(Employee employee);
     public event EmployeeInteractionDelegate EmployeeInteraction;
 
     /// <summary>
@@ -87,17 +87,36 @@ public class InteractionManager : MonoBehaviour
                 if (hit.collider.transform.parent.TryGetComponent<Room>(out Room room))
                 {
                     CurrentRoomSelected = room;
-                    RoomInteraction?.Invoke(room);
+
+                    //Check if the room selected has a employee assign
+                    if (CurrentRoomSelected.EmployeeAssign.Count > 0)
+                    {
+                        CurrentRoomSelected.transform.GetComponentInChildren<BoxCollider>().enabled = false;
+
+                        if (Physics.Raycast(Camera.main.transform.position, direction, out hit, 200))
+                        {
+                            //If the ray hits an object with a employee component, trigger its event with datas of the employee
+                            if (hit.collider.gameObject.TryGetComponent<Employee>(out Employee employee))
+                            {
+                                EmployeeInteraction?.Invoke(employee);
+                            }
+                            else
+                            {
+                                RoomInteraction?.Invoke(room);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        RoomInteraction?.Invoke(room);
+                    }
+
+                    CurrentRoomSelected.transform.GetComponentInChildren<BoxCollider>().enabled = true;
                 }
                 else
                 {
                     NoInteraction?.Invoke();
                 }
-                //If the ray hits an object with a employee component, trigger its event with datas of the employee
-                //else if (hit.collider.gameObject.TryGetComponent<RoomTemp>(out RoomTemp room))
-                //{
-                //  EmployeeInteraction?.Invoke;
-                //}
             }
             else
             {

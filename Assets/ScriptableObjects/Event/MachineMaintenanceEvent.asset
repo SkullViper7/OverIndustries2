@@ -15,14 +15,17 @@ MonoBehaviour:
   _name: Maintenance d'une machine
   _description: "Une machine \xE0 besoin d'une maintenance, appel un technicien de
     maintenance !"
-  _duration: 180
+  _duration: 30
   _psWin: 0
   _psMultiplicator: 0
   _rawMaterialWin: 0
+  _rawMaterialMultiplicator: 0
   _rawMaterialLost: 0
+  _rawMaterialDivider: 0
   _condition: 1
   _numberOfRoom: 1
   _minRoomLevel: 1
   _minNumberPS: 0
+  _canCreateQuest: 0
   _specialRoomType: 1
   _roomTypeNeed: 0

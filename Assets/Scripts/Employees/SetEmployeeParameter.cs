@@ -13,7 +13,7 @@ public class SetEmployeeParameter : MonoBehaviour
 
     public void Start()
     {
-        _jobProfileGenerator = gameObject.GetComponent<JobProfileGenerator>();
+        _jobProfileGenerator = JobProfileGenerator.Instance;
 
         _jobProfileGenerator.NewName += SetName;
         _jobProfileGenerator.NumberOfJobs += JobNumber;

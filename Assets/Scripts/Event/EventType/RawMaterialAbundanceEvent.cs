@@ -11,9 +11,7 @@ public class RawMaterialAbundanceEvent : MonoBehaviour
     void Start()
     {
         EventManager.Instance.CheckCondition(_eventData);
-
         EventManager.Instance.EventConditionCompleted += EventComportement;
-
     }
 
     public void EventComportement()
@@ -24,6 +22,8 @@ public class RawMaterialAbundanceEvent : MonoBehaviour
 
     public void MultiplieRawMaterialProduct(int _amountProduct)
     {
-        RawMaterialStorage.Instance.AddRawMaterials(_amountProduct / 2);
+        int _multiplie = (int)Mathf.Round(_amountProduct * _eventData.RawMaterialMultiplicator);
+
+        RawMaterialStorage.Instance.AddRawMaterials(_multiplie);
     }
 }

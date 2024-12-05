@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -169,15 +168,18 @@ public class NavigationManager : MonoBehaviour
     /// </summary>
     private void Scroll(Vector2 delta)
     {
-        // Utilise la distance entre la caméra et le plan de déplacement
-        float distance = Mathf.Abs(_camera.transform.position.z);
+        if (!GameManager.Instance.InDragAndDrop)
+        {
+            // Utilise la distance entre la caméra et le plan de déplacement
+            float distance = Mathf.Abs(_camera.transform.position.z);
 
-        // Applique une fonction exponentielle pour ajuster le facteur d'échelle
-        float scaleFactor = Mathf.Pow(distance, 0.5f) * 2f / Screen.height; // Racine carrée pour rendre le scroll plus sensible à faible distance
+            // Applique une fonction exponentielle pour ajuster le facteur d'échelle
+            float scaleFactor = Mathf.Pow(distance, 0.5f) * 2f / Screen.height; // Racine carrée pour rendre le scroll plus sensible à faible distance
 
-        // Applique le delta pour déplacer la caméra en suivant le mouvement du doigt
-        Vector3 cameraDelta = new Vector3(delta.x * scaleFactor, delta.y * scaleFactor, 0) * _scrollSpeed;
-        _camera.transform.position -= _camera.transform.TransformDirection(cameraDelta);
+            // Applique le delta pour déplacer la caméra en suivant le mouvement du doigt
+            Vector3 cameraDelta = new Vector3(delta.x * scaleFactor, delta.y * scaleFactor, 0) * _scrollSpeed;
+            _camera.transform.position -= _camera.transform.TransformDirection(cameraDelta);
+        }
     }
 
     /// <summary>
