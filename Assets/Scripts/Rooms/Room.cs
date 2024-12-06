@@ -34,6 +34,11 @@ public class Room : MonoBehaviour
     private GameObject _currentVisualRoom;
 
     /// <summary>
+    /// Box collider of the room.
+    /// </summary>
+    private BoxCollider _boxCollider;
+
+    /// <summary>
     /// List of employee assign to the room.
     /// </summary>
     [field: SerializeField]
@@ -44,6 +49,11 @@ public class Room : MonoBehaviour
     /// </summary>
     public delegate void UpgradeDelegate(int newLvl);
     public event UpgradeDelegate NewLvl;
+
+    private void Awake()
+    {
+        _boxCollider = GetComponent<BoxCollider>();
+    }
 
     /// <summary>
     /// Called at the start to initialize the room.
@@ -116,6 +126,7 @@ public class Room : MonoBehaviour
                 RoomBehaviour = restRoom;
                 restRoom.InitRoomBehaviour(roomBehaviourData, this);
                 break;
+
             case RoomType.RawMaterialStorage:
                 RawMaterialStorageRoom rawMaterialStorageRoom = (RawMaterialStorageRoom)gameObject.AddComponent(typeof(RawMaterialStorageRoom));
                 RoomBehaviour = rawMaterialStorageRoom;

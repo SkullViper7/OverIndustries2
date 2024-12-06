@@ -124,7 +124,7 @@ public class QuestManager : MonoBehaviour
 
         for (int j = 0; j < _quest.QuestData.NumberOfObject.Count; j++)
         {
-            ItemStorage.Instance.SubstractObject(_quest.QuestData.Object[j], _quest.QuestData.NumberOfObject[j]);
+            ItemStorage.Instance.SubstractObjects(_quest.QuestData.Object[j], _quest.QuestData.NumberOfObject[j]);
         }
 
         UpdateAdvancementQuest.Invoke();

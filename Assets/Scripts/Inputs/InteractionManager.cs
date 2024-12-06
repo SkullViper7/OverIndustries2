@@ -14,6 +14,11 @@ public class InteractionManager : MonoBehaviour
     public Room CurrentRoomSelected { get; private set; }
 
     /// <summary>
+    /// Current employee selected by the player.
+    /// </summary>
+    public Employee CurrentEmployeeSelected { get; private set; }
+
+    /// <summary>
     /// A reference to the input manager.
     /// </summary>
     private InputsManager _inputsManager;
@@ -87,31 +92,12 @@ public class InteractionManager : MonoBehaviour
                 if (hit.collider.transform.parent.TryGetComponent<Room>(out Room room))
                 {
                     CurrentRoomSelected = room;
-
-                    //Check if the room selected has a employee assign
-                    if (CurrentRoomSelected.EmployeeAssign.Count > 0)
-                    {
-                        CurrentRoomSelected.transform.GetComponentInChildren<BoxCollider>().enabled = false;
-
-                        if (Physics.Raycast(Camera.main.transform.position, direction, out hit, 200))
-                        {
-                            //If the ray hits an object with a employee component, trigger its event with datas of the employee
-                            if (hit.collider.gameObject.TryGetComponent<Employee>(out Employee employee))
-                            {
-                                EmployeeInteraction?.Invoke(employee);
-                            }
-                            else
-                            {
-                                RoomInteraction?.Invoke(room);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        RoomInteraction?.Invoke(room);
-                    }
-
-                    CurrentRoomSelected.transform.GetComponentInChildren<BoxCollider>().enabled = true;
+                    RoomInteraction?.Invoke(room);
+                }
+                else if (hit.collider.TryGetComponent<Employee>(out Employee employee))
+                {
+                    CurrentEmployeeSelected = employee;
+                    EmployeeInteraction?.Invoke(employee);
                 }
                 else
                 {

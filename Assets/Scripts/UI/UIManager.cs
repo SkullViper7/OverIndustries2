@@ -1,4 +1,3 @@
-using TMPro;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
@@ -46,6 +45,18 @@ public class UIManager : MonoBehaviour
     public GameObject ProductionButton { get; private set; }
 
     /// <summary>
+    /// Button to stop a production in a room.
+    /// </summary>
+    [field: SerializeField, Tooltip("Button to stop a production in a room.")]
+    public GameObject StopProductionButton { get; private set; }
+
+    /// <summary>
+    /// Button to start a research in a room.
+    /// </summary>
+    [field: SerializeField, Tooltip("Button to start a research in a room.")]
+    public GameObject ResearchButton { get; private set; }
+
+    /// <summary>
     /// Button to show informations about a employee.
     /// </summary>
     [field: SerializeField, Tooltip("Button to show informations about a employee.")]
@@ -68,6 +79,18 @@ public class UIManager : MonoBehaviour
     /// </summary>
     [field : SerializeField, Tooltip("The pop up where player can launch a production.")]
     public GameObject RoomProductionPopUp { get; private set; }
+
+    /// <summary>
+    /// Pop up to warn the player that he will loose ressources if he stops the production.
+    /// </summary>
+    [field: SerializeField, Tooltip("Pop up to warn the player that he will loose ressources if he stops the production.")]
+    public GameObject StopProductionPopUp { get; private set; }
+
+    /// <summary>
+    /// The pop up where player can launch a research.
+    /// </summary>
+    [field: SerializeField, Tooltip("The pop up where player can launch a research.")]
+    public GameObject RoomResearchPopUp { get; private set; }
 
     /// <summary>
     /// The pop up where player can construct a new room.

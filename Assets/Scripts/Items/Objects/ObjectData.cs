@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-[CreateAssetMenu(fileName = "Object", menuName = "Object/Create new object data")]
+[CreateAssetMenu(fileName = "Items", menuName = "Items/Create new object data")]
 public class ObjectData : ScriptableObject
 {
     /// <summary>
@@ -13,7 +13,7 @@ public class ObjectData : ScriptableObject
     /// <summary>
     /// Type of the object.
     /// </summary>
-    [Header("Object"), SerializeField, Tooltip("Type of the object.")]
+    [SerializeField, Tooltip("Type of the object.")]
     private ObjectType _objectType;
 
     /// <summary>
@@ -25,20 +25,8 @@ public class ObjectData : ScriptableObject
     /// <summary>
     /// Ingredients needed to product this object.
     /// </summary>
-    [Space, Header("Stats"), SerializeField, Tooltip("Ingredients needed to product this object.")]
+    [Space, Header("Production"), SerializeField, Tooltip("Ingredients needed to product this object.")]
     private List<Ingredient> _ingredients;
-
-    /// <summary>
-    /// Time to unlock in the research room.
-    /// </summary>
-    [SerializeField, Tooltip("Time to unlock in the research room.")]
-    private int _timeToUnlock;
-
-    /// <summary>
-    /// Cost in raw material to unlock in the research room.
-    /// </summary>
-    [SerializeField, Tooltip("Cost in raw material to unlock in the research room.")]
-    private int _costToUnlock;
 
     /// <summary>
     /// Time to product the object (in seconds) at lvl 1.
@@ -57,6 +45,18 @@ public class ObjectData : ScriptableObject
     /// </summary>
     [SerializeField, Tooltip("Time to product the object (in seconds) at lvl 3.")]
     private int _productionTimeAtLvl3;
+
+    /// <summary>
+    /// Raw material and components needed to unlock this object in the research room.
+    /// </summary>
+    [Space, Header("Research"), SerializeField, Tooltip("Raw material and components needed to unlock this object in the research room.")]
+    private ObjectResearchCost _researchCost;
+
+    /// <summary>
+    /// Time to unlock this object in the research room.
+    /// </summary>
+    [SerializeField, Tooltip("Time to unlock this object in the research room.")]
+    private int _researchTime;
 
     /// <summary>
     /// Gets the pictogram of the object.
@@ -79,16 +79,6 @@ public class ObjectData : ScriptableObject
     public List<Ingredient> Ingredients { get { return _ingredients; } private set { } }
 
     /// <summary>
-    /// Time to unlock in the research room.
-    /// </summary>
-    public int TimeToUnlock { get { return _timeToUnlock; } private set { } }
-
-    /// <summary>
-    /// Cost in raw material to unlock in the research room.
-    /// </summary>
-    public int CostToUnlock { get { return _costToUnlock; } private set { } }
-
-    /// <summary>
     /// Gets the time to product the object for a room at lvl 1.
     /// </summary>
     public int ProductionTimeAtLvl1 { get { return _productionTimeAtLvl1; } private set { } }
@@ -96,10 +86,20 @@ public class ObjectData : ScriptableObject
     /// <summary>
     /// Gets the time to product the object for a room at lvl 2.
     /// </summary>
-    public int ProductionTimeAtLvl2 { get { return _productionTimeAtLvl1; } private set { } }
+    public int ProductionTimeAtLvl2 { get { return _productionTimeAtLvl2; } private set { } }
 
     /// <summary>
     /// Gets the time to product the object for a room at lvl 3.
     /// </summary>
     public int ProductionTimeAtLvl3 { get { return _productionTimeAtLvl3; } private set { } }
+
+    /// <summary>
+    /// Gets raw material and components needed to unlock this object in the research room.
+    /// </summary>
+    public ObjectResearchCost ResearchCost { get { return _researchCost; } private set { } }
+
+    /// <summary>
+    /// Gets time to unlock this object in the research room.
+    /// </summary>
+    public int ResearchTime { get { return _researchTime; } private set { } }
 }

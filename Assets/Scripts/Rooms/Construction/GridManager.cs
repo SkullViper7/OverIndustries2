@@ -179,6 +179,34 @@ public class GridManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Return a list of rooms with the given type.
+    /// </summary>
+    /// <param name="roomType"> Type of the room to search. </param>
+    /// <param name="rooms"> List of rooms with the type given. </param>
+    /// <returns></returns>
+    public bool TryGetRoomsWithThisType(RoomType roomType, out List<Room> rooms)
+    {
+        rooms = new();
+
+        for (int i = 0; i < InstantiatedRooms.Count; i++)
+        {
+            if (InstantiatedRooms[i].RoomData.RoomType == roomType)
+            {
+                rooms.Add(InstantiatedRooms[i]);
+            }
+        }
+
+        if (rooms.Count == 0)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    /// <summary>
     /// Called to get a list of available spots to construct a room.
     /// </summary>
     /// <param name="roomData"> Data of the room to construct. </param>

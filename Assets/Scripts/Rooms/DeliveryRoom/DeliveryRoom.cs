@@ -34,9 +34,9 @@ public class DeliveryRoom : MonoBehaviour, IRoomBehaviour
     private int _currentProductionPerDelivery;
 
     /// <summary>
-    /// Current amount of raw material in internal capacity of the room.
+    /// Current amount of raw material in internal storage of the room.
     /// </summary>
-    private int _currentAmountInInternalCapacity;
+    private int _currentAmountInInternalStorage;
 
     /// <summary>
     /// Current internal capacity of the room.
@@ -68,7 +68,7 @@ public class DeliveryRoom : MonoBehaviour, IRoomBehaviour
     /// </summary>
     private void DeliveryUpdateChrono()
     {
-        if (_currentAmountInInternalCapacity < _currentInternalCapacity)
+        if (_currentAmountInInternalStorage < _currentInternalCapacity)
         {
             if (_currentChrono + 1 >= _currentDeliveryTime)
             {
@@ -88,8 +88,8 @@ public class DeliveryRoom : MonoBehaviour, IRoomBehaviour
     /// <param name="amount"> Amount to add in the internal storage. </param>
     private void AddRawMaterialInInternalStorage(int amount)
     {
-        _currentAmountInInternalCapacity += amount;
-        Mathf.Clamp(_currentAmountInInternalCapacity, 0, _currentInternalCapacity);
+        _currentAmountInInternalStorage += amount;
+        Mathf.Clamp(_currentAmountInInternalStorage, 0, _currentInternalCapacity);
 
         // If there is already not a notification on the room add a notification and add a listener for when player will clicks on.
         if (_roomNotification == null)
@@ -105,8 +105,8 @@ public class DeliveryRoom : MonoBehaviour, IRoomBehaviour
     /// <param name="amount"> Amount to substract from the internal storage. </param>
     private void RemoveRawMaterialFromInternalStorage(int amount)
     {
-        _currentAmountInInternalCapacity -= amount;
-        Mathf.Clamp(_currentAmountInInternalCapacity, 0, _currentInternalCapacity);
+        _currentAmountInInternalStorage -= amount;
+        Mathf.Clamp(_currentAmountInInternalStorage, 0, _currentInternalCapacity);
     }
 
     /// <summary>
@@ -118,10 +118,10 @@ public class DeliveryRoom : MonoBehaviour, IRoomBehaviour
         {
             int remainingStorage = _storage.GetRemainingStorage();
 
-            if(remainingStorage >= _currentAmountInInternalCapacity)
+            if(remainingStorage >= _currentAmountInInternalStorage)
             {
-                _storage.AddRawMaterials(_currentAmountInInternalCapacity);
-                RemoveRawMaterialFromInternalStorage(_currentAmountInInternalCapacity);
+                _storage.AddRawMaterials(_currentAmountInInternalStorage);
+                RemoveRawMaterialFromInternalStorage(_currentAmountInInternalStorage);
                 _roomNotification.DesactivateNotification();
                 _roomNotification = null;
             }

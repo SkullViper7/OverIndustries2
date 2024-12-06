@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Component", menuName = "Component/Create new component")]
+[CreateAssetMenu(fileName = "Items", menuName = "Items/Create new component")]
 public class ComponentData : ScriptableObject
 {
     /// <summary>
@@ -12,7 +12,7 @@ public class ComponentData : ScriptableObject
     /// <summary>
     /// Type of the component.
     /// </summary>
-    [Space, Header("Component"), SerializeField, Tooltip("Type of the component.")]
+    [SerializeField, Tooltip("Type of the component.")]
     private ComponentType _componentType;
 
     /// <summary>
@@ -24,7 +24,7 @@ public class ComponentData : ScriptableObject
     /// <summary>
     /// Cost of the component (in raw material).
     /// </summary>
-    [Space, Header("Stats"), SerializeField, Tooltip("Cost of the component (in raw material).")]
+    [Space, Header("Production"), SerializeField, Tooltip("Cost of the component (in raw material).")]
     private int _cost;
     
     /// <summary>
@@ -50,6 +50,18 @@ public class ComponentData : ScriptableObject
     /// </summary>
     [SerializeField, Tooltip("Time to product the component (in seconds) at lvl 3.")]
     private int _productionTimeAtLvl3;
+
+    /// <summary>
+    /// Raw material needed to unlock this component in the research room.
+    /// </summary>
+    [Space, Header("Research"), SerializeField, Tooltip("Raw material needed to unlock this component in the research room.")]
+    private int _researchCost;
+
+    /// <summary>
+    /// Time to unlock this component in the research room.
+    /// </summary>
+    [SerializeField, Tooltip("Time to unlock this component in the research room.")]
+    private int _researchTime;
 
     /// <summary>
     /// Gets the pictogram of the component.
@@ -90,4 +102,14 @@ public class ComponentData : ScriptableObject
     /// Gets the time to product the component for a room at lvl 3.
     /// </summary>
     public int ProductionTimeAtLvl3 { get { return _productionTimeAtLvl3; } private set { } }
+
+    /// <summary>
+    /// Gets raw material needed to unlock this component in the research room.
+    /// </summary>
+    public int ResearchCost { get { return _researchCost; } private set { } }
+
+    /// <summary>
+    /// Gets time to unlock this component in the research room.
+    /// </summary>
+    public int ResearchTime { get { return _researchTime; } private set { } }
 }

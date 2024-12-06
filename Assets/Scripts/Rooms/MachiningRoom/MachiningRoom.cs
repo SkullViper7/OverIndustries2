@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,17 +26,12 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
     private Room _roomMain;
 
     /// <summary>
-    /// All components that the room can manufacture.
-    /// </summary>
-    public List<ComponentData> ManufacturableComponents { get; private set; } = new();
-
-    /// <summary>
     /// Current component that the room is manufacturing.
     /// </summary>
     public ComponentData CurrentComponentManufactured { get; private set; }
 
     /// <summary>
-    /// Current chrono of the delivery.
+    /// Current chrono of the production.
     /// </summary>
     [SerializeField]
     private int _currentChrono;
@@ -49,10 +43,10 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
     public int CurrentProductionTime { get; private set; }
 
     /// <summary>
-    /// Current amount of components in internal capacity of the room.
+    /// Current amount of components in internal storage of the room.
     /// </summary>
     [SerializeField]
-    private int _currentAmountInInternalCapacity;
+    public int CurrentAmountInInternalStorage { get; private set; }
 
     /// <summary>
     /// Current internal capacity of the room.
@@ -71,6 +65,9 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
     /// </summary>
     private ChronoManager.TickDelegate _productionOnHold;
 
+    // Lock object shared between all instances
+    private static readonly object _lockObject = new object();
+
     public event Action<int> NewChrono, NewProductionCount;
 
     /// <summary>
@@ -82,12 +79,6 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
         _itemStorage = ItemStorage.Instance;
         _rawMaterialStorage = RawMaterialStorage.Instance;
         _roomMain = roomMain;
-
-        // Init manufacturable components
-        for (int i = 0; i < MachiningRoomData.ManufacturableComponentsByDefault.Count; i++)
-        {
-            ManufacturableComponents.Add(MachiningRoomData.ManufacturableComponentsByDefault[i]);
-        }
 
         UpgradeRoom(1);
         _roomMain.NewLvl += UpgradeRoom;
@@ -133,27 +124,31 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
 
     private void TryStartProductionCycle()
     {
-        // If there is enough raw material in storage, launch production, else, checks each second if it is possible
-        if (_currentAmountInInternalCapacity < _currentInternalCapacity && _rawMaterialStorage.ThereIsEnoughRawMaterialInStorage(CurrentComponentManufactured.Cost))
+        // Synchronization between instances
+        lock (_lockObject)
         {
-            // Remove production on hold if there is one
-            if (_productionOnHold != null)
+            // If there is enough raw material in storage, launch production, else, checks each second if it is possible
+            if (CurrentAmountInInternalStorage < _currentInternalCapacity && _rawMaterialStorage.ThereIsEnoughRawMaterialInStorage(CurrentComponentManufactured.Cost))
             {
-                ChronoManager.Instance.NewSecondTick -= _productionOnHold;
-                _productionOnHold = null;
+                // Remove production on hold if there is one
+                if (_productionOnHold != null)
+                {
+                    ChronoManager.Instance.NewSecondTick -= _productionOnHold;
+                    _productionOnHold = null;
+                }
+
+                // Remove cost of the component from the raw material storage
+                _rawMaterialStorage.SubstractRawMaterials(CurrentComponentManufactured.Cost);
+
+                ChronoManager.Instance.NewSecondTick += ProductionUpdateChrono;
             }
-
-            // Remove cost of the component from the raw material storage
-            _rawMaterialStorage.SubstractRawMaterials(CurrentComponentManufactured.Cost);
-
-            ChronoManager.Instance.NewSecondTick += ProductionUpdateChrono;
-        }
-        else
-        {
-            if (_productionOnHold == null)
+            else
             {
-                _productionOnHold = () => TryStartProductionCycle();
-                ChronoManager.Instance.NewSecondTick += _productionOnHold;
+                if (_productionOnHold == null)
+                {
+                    _productionOnHold = () => TryStartProductionCycle();
+                    ChronoManager.Instance.NewSecondTick += _productionOnHold;
+                }
             }
         }
     }
@@ -184,20 +179,20 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
     /// </summary>
     private void AddComponentInInternalStorage()
     {
-        _currentAmountInInternalCapacity++;
-        Mathf.Clamp(_currentAmountInInternalCapacity, 0, _currentInternalCapacity);
-        NewProductionCount?.Invoke(_currentAmountInInternalCapacity);
+        CurrentAmountInInternalStorage++;
+        Mathf.Clamp(CurrentAmountInInternalStorage, 0, _currentInternalCapacity);
+        NewProductionCount?.Invoke(CurrentAmountInInternalStorage);
     }
 
     /// <summary>
     /// Called when components are added to the storage to substracte it from the internal storage.
     /// </summary>
     /// <param name="amount"> Amount to substract from the internal storage. </param>
-    private void RemoveComponentFromInternalStorage(int amount)
+    private void RemoveComponentsFromInternalStorage(int amount)
     {
-        _currentAmountInInternalCapacity -= amount;
-        Mathf.Clamp(_currentAmountInInternalCapacity, 0, _currentInternalCapacity);
-        NewProductionCount?.Invoke(_currentAmountInInternalCapacity);
+        CurrentAmountInInternalStorage -= amount;
+        Mathf.Clamp(CurrentAmountInInternalStorage, 0, _currentInternalCapacity);
+        NewProductionCount?.Invoke(CurrentAmountInInternalStorage);
     }
 
     /// <summary>
@@ -209,15 +204,15 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
         {
             int remainingStorage = _itemStorage.GetRemainingStorage();
 
-            if (remainingStorage >= _currentAmountInInternalCapacity)
+            if (remainingStorage >= CurrentAmountInInternalStorage)
             {
-                _itemStorage.AddComponents(CurrentComponentManufactured.ComponentType, _currentAmountInInternalCapacity);
-                RemoveComponentFromInternalStorage(_currentAmountInInternalCapacity);
+                _itemStorage.AddComponents(CurrentComponentManufactured.ComponentType, CurrentAmountInInternalStorage);
+                RemoveComponentsFromInternalStorage(CurrentAmountInInternalStorage);
             }
             else
             {
                 _itemStorage.AddComponents(CurrentComponentManufactured.ComponentType, remainingStorage);
-                RemoveComponentFromInternalStorage(remainingStorage);
+                RemoveComponentsFromInternalStorage(remainingStorage);
             }
         }
     }
@@ -227,11 +222,21 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
     /// </summary>
     public void StopProduction()
     {
+        // Remove production on hold if there is one
+        if (_productionOnHold != null)
+        {
+            ChronoManager.Instance.NewSecondTick -= _productionOnHold;
+            _productionOnHold = null;
+        }
+
+        ChronoManager.Instance.NewSecondTick -= ProductionUpdateChrono;
+
         _roomNotification.DesactivateNotification();
         _roomNotification = null;
 
         _currentChrono = 0;
         CurrentComponentManufactured = null;
+        CurrentAmountInInternalStorage = 0;
     }
 
     /// <summary>
@@ -255,14 +260,5 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
                 _currentInternalCapacity = MachiningRoomData.InternalStorageAtLvl3;
                 break;
         }
-    }
-
-    /// <summary>
-    /// Work with the research room, when a new object is unlock add his components to the Manufacturable Components list
-    /// </summary>
-    /// <param name="_newComponents"></param>
-    public void AddNewManufacturableComponents(ComponentData _newComponents)
-    {
-        ManufacturableComponents.Add(_newComponents);
     }
 }

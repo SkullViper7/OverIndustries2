@@ -38,24 +38,24 @@ public class RoomProductionPopUp : MonoBehaviour
 
             if (currentRoomSelected.RoomBehaviour is MachiningRoom)
             {
-                MachiningRoom machiningRoom = (MachiningRoom)currentRoomSelected.RoomBehaviour;
+                List<ComponentData> manufacturableComponents = ResearchManager.Instance.ManufacturableComponents;
 
-                for (int i = 0; i < machiningRoom.ManufacturableComponents.Count; i++)
+                for (int i = 0; i < manufacturableComponents.Count; i++)
                 {
                     GameObject newProductionButton = Instantiate(_productionButtonPrefab, _raw);
                     _productionButtons.Add(newProductionButton);
-                    newProductionButton.GetComponent<ProductionButton>().InitButtonForComponent(machiningRoom.ManufacturableComponents[i]);
+                    newProductionButton.GetComponent<ProductionButton>().InitButtonForComponent(manufacturableComponents[i]);
                 }
             }
             else
             {
-                AssemblyRoom assemblyRoom = (AssemblyRoom)currentRoomSelected.RoomBehaviour;
+                List<ObjectData> manufacturableObjects = ResearchManager.Instance.ManufacturableObjects;
 
-                for (int i = 0; i < assemblyRoom.AssemblableObjects.Count; i++)
+                for (int i = 0; i < manufacturableObjects.Count; i++)
                 {
                     GameObject newProductionButton = Instantiate(_productionButtonPrefab, _raw);
                     _productionButtons.Add(newProductionButton);
-                    newProductionButton.GetComponent<ProductionButton>().InitButtonForObject(assemblyRoom.AssemblableObjects[i]);
+                    newProductionButton.GetComponent<ProductionButton>().InitButtonForObject(manufacturableObjects[i]);
                 }
             }
         }

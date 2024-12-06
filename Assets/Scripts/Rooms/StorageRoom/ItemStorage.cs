@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemStorage : MonoBehaviour
-{   
+{
     // Singleton
     private static ItemStorage _instance = null;
     public static ItemStorage Instance => _instance;
@@ -109,6 +109,18 @@ public class ItemStorage : MonoBehaviour
     }
 
     /// <summary>
+    /// Called to substract an amount of component in the storage from a recipe.
+    /// </summary>
+    /// <param name="recipe"> The recipe to remove from the storage. </param>
+    public void SubstractRecipe(List<Ingredient> recipe)
+    {
+        for (int i = 0; i < recipe.Count; i++)
+        {
+            SubstractComponents(recipe[i].ComponentData.ComponentType, recipe[i].Quantity);
+        }
+    }
+
+    /// <summary>
     /// Called to add objects in storage.
     /// </summary>
     /// <param name="objectType"> Type of the object. </param>
@@ -137,7 +149,7 @@ public class ItemStorage : MonoBehaviour
     /// </summary>
     /// <param name="objectType"> Type of the object. </param>
     /// <param name="amountToSubstract"> Amount to substract. </param>
-    public void SubstractObject(ObjectType objectType, int amountToSubstract)
+    public void SubstractObjects(ObjectType objectType, int amountToSubstract)
     {
         if (_objectStorage.ContainsKey(objectType))
         {
@@ -244,7 +256,7 @@ public class ItemStorage : MonoBehaviour
             return false;
         }
     }
-    
+
     /// <summary>
     /// Called to know the number of this object type in the storage.
     /// </summary>
@@ -257,7 +269,7 @@ public class ItemStorage : MonoBehaviour
             return _objectStorage[objectType];
         }
         else
-        { 
+        {
             return 0;
         }
     }

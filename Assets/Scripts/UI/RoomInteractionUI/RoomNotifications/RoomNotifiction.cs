@@ -76,6 +76,7 @@ public class RoomNotifiction : MonoBehaviour
                 InitForMachiningRoom();
                 break;
             case RoomType.Assembly:
+                InitForAssemblyRoom();
                 break;
             case RoomType.Research:
                 break;
@@ -142,21 +143,56 @@ public class RoomNotifiction : MonoBehaviour
         CheckItemStorage(0);
 
         itemStorage.CapacityHasChanged += CheckItemStorage;
-
         itemStorage.AmountHasChanged += CheckItemStorage;
 
-        machiningRoom.NewChrono += UpdateGauge;
+        machiningRoom.NewChrono += UpdateGaugeForComponent;
         machiningRoom.NewProductionCount += UpdateProductionCount;
     }
 
     /// <summary>
-    /// Called to update the fill amount of the gauge.
+    /// Called to update the fill amount of the gauge for component.
     /// </summary>
     /// <param name="newChrono"> New chrono of the room. </param>
-    private void UpdateGauge(int newChrono)
+    private void UpdateGaugeForComponent(int newChrono)
     {
-        _gauge.fillAmount = 1f / (float)((MachiningRoom)_currentRoom.RoomBehaviour).CurrentProductionTime * (float)newChrono;
+        _gauge.fillAmount = 1f / ((MachiningRoom)_currentRoom.RoomBehaviour).CurrentProductionTime * newChrono;
     }
+    #endregion
+
+    #region Assembly Room
+    /// <summary>
+    /// Called to initialize the notification especially for an assembly room.
+    /// </summary>
+    private void InitForAssemblyRoom()
+    {
+        AssemblyRoom assemblyRoom = (AssemblyRoom)_currentRoom.RoomBehaviour;
+
+        _gaugeObject.SetActive(true);
+        _gaugePicto.sprite = assemblyRoom.CurrentObjectManufactured.ObjectPicto;
+        _gauge.fillAmount = 0;
+        _productionCount.text = "";
+
+        ItemStorage itemStorage = ItemStorage.Instance;
+
+        // Check if item storage is already full to change color
+        CheckItemStorage(0);
+
+        itemStorage.CapacityHasChanged += CheckItemStorage;
+        itemStorage.AmountHasChanged += CheckItemStorage;
+
+        assemblyRoom.NewChrono += UpdateGaugeForObject;
+        assemblyRoom.NewProductionCount += UpdateProductionCount;
+    }
+
+    /// <summary>
+    /// Called to update the fill amount of the gauge for object.
+    /// </summary>
+    /// <param name="newChrono"> New chrono of the room. </param>
+    private void UpdateGaugeForObject(int newChrono)
+    {
+        _gauge.fillAmount = 1f / ((AssemblyRoom)_currentRoom.RoomBehaviour).CurrentProductionTime * newChrono;
+    }
+    #endregion
 
     /// <summary>
     /// Called to update the production count.
@@ -186,16 +222,17 @@ public class RoomNotifiction : MonoBehaviour
     {
         if (ItemStorage.Instance.IsStorageFull())
         {
+            _image.raycastTarget = false;
             _image.color = new Color32(255, 0, 0, 175);
             _button.interactable = false;
         }
         else
         {
+            _image.raycastTarget = true;
             _image.color = new Color32(0, 255, 0, 175);
             _button.interactable = true;
         }
     }
-    #endregion
 
     /// <summary>
     /// Called to reset the notification.
@@ -204,16 +241,39 @@ public class RoomNotifiction : MonoBehaviour
     {
         // Desactivate notification components
         _image.enabled = false;
+        _image.raycastTarget = true;
         _notificationPicto.gameObject.SetActive(false);
         _button.interactable = false;
         _gaugeObject.SetActive(false);
 
         // Remove all listeners
-        _button.onClick.RemoveAllListeners();
-        RawMaterialStorage.Instance.CapacityHasChanged -= CheckRawMaterialStorage;
-        RawMaterialStorage.Instance.AmountHasChanged -= CheckRawMaterialStorage;
-        ItemStorage.Instance.CapacityHasChanged += CheckItemStorage;
-        ItemStorage.Instance.AmountHasChanged += CheckItemStorage;
+        switch (_currentRoom.RoomData.RoomType)
+        {
+            case RoomType.Delivery:
+                _button.onClick.RemoveAllListeners();
+                RawMaterialStorage.Instance.CapacityHasChanged -= CheckRawMaterialStorage;
+                RawMaterialStorage.Instance.AmountHasChanged -= CheckRawMaterialStorage;
+                break;
+
+            case RoomType.Machining:
+                _button.onClick.RemoveAllListeners();
+                ItemStorage.Instance.CapacityHasChanged -= CheckItemStorage;
+                ItemStorage.Instance.AmountHasChanged -= CheckItemStorage;
+                ((MachiningRoom)_currentRoom.RoomBehaviour).NewChrono -= UpdateGaugeForComponent;
+                ((MachiningRoom)_currentRoom.RoomBehaviour).NewProductionCount -= UpdateProductionCount;
+                break;
+
+            case RoomType.Assembly:
+                _button.onClick.RemoveAllListeners();
+                ItemStorage.Instance.CapacityHasChanged -= CheckItemStorage;
+                ItemStorage.Instance.AmountHasChanged -= CheckItemStorage;
+                ((AssemblyRoom)_currentRoom.RoomBehaviour).NewChrono -= UpdateGaugeForComponent;
+                ((AssemblyRoom)_currentRoom.RoomBehaviour).NewProductionCount -= UpdateProductionCount;
+                break;
+
+            case RoomType.Research:
+                break;
+        }
 
         // Remove the notification
         RoomNotificationManager.Instance.RemoveNotification(gameObject);

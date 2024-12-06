@@ -1,36 +1,48 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ResearchRoom : MonoBehaviour, IRoomBehaviour
 {
-    [field: SerializeField] public ResearchRoomData ResearchRoomData { get; private set; }
+    /// <summary>
+    /// Datas of the assembly room.
+    /// </summary>
+    public ResearchRoomData ResearchRoomData { get; private set; }
+
+    /// <summary>
+    /// Reference to the main component of the room.
+    /// </summary>
     private Room _roomMain;
 
     /// <summary>
-    /// Reference to the assembly and machining room for add the object ans components unlock
+    /// Current component that the room is researching.
     /// </summary>
-    private AssemblyRoom _assemblyRoom;
-    private MachiningRoom _machiningRoom;
-
-    [field: SerializeField] public List<ObjectData> ObjectToUnlockList { get; private set; } = new List<ObjectData>();
+    public ComponentData CurrentComponentResearched { get; private set; }
 
     /// <summary>
-    /// Event for UI
+    /// Current object that the room is researching.
     /// </summary>
-    public event System.Action CantUnlockThisObject;
-    public event System.Action NewObjectUnlock;
-    public event System.Action<int> RoomUpgrade;
+    public ObjectData CurrentObjectResearched { get; private set; }
 
-    public void Start()
-    {
-        for (int i = 0; i < ResearchRoomData.ObjectToUnlock.Count; i++)
-        {
-            ObjectToUnlockList.Add(ResearchRoomData.ObjectToUnlock[i]);
-        }
-        _assemblyRoom = FindAnyObjectByType<AssemblyRoom>();
-        _machiningRoom = FindAnyObjectByType<MachiningRoom>();
-    }
+    /// <summary>
+    /// Current chrono of the research.
+    /// </summary>
+    private int _currentChrono;
+
+    /// <summary>
+    /// Current time to research the current object researched.
+    /// </summary>
+    public int CurrentResearchTime { get; private set; }
+
+    /// <summary>
+    /// Notification of the room when a research is launched.
+    /// </summary>
+    private RoomNotifiction _roomNotification;
+
+    public event Action ResearchCompleted;
+    public event Action<int> NewChrono;
+    public event Action<ComponentData> ComponentResearchStarted, ComponentResearchCanceled, ComponentResearchCompleted;
+    public event Action<ObjectData> ObjectResearchStarted, ObjectResearchCanceled, ObjectResearchCompleted;
 
     public void InitRoomBehaviour(IRoomBehaviourData behaviourData, Room roomMain)
     {
@@ -39,54 +51,110 @@ public class ResearchRoom : MonoBehaviour, IRoomBehaviour
     }
 
     /// <summary>
-    /// Check if player can unlock this object
+    /// Called to start the research of a component.
     /// </summary>
-    /// <param name="_objectToUnlock"></param>
-    public void StartNewResearch(ObjectData _objectToUnlock)
+    /// <param name="componentToUnlock"> The component to unlock. </param>
+    public void StartNewComponentResearch(ComponentData componentToUnlock)
     {
-        if (_objectToUnlock.Name == ObjectToUnlockList[0].Name && RawMaterialStorage.Instance.ThereIsEnoughRawMaterialInStorage(_objectToUnlock.CostToUnlock))
+        // Set object researched
+        CurrentComponentResearched = componentToUnlock;
+
+        ComponentResearchStarted?.Invoke(CurrentComponentResearched);
+
+        // Set research time
+        CurrentResearchTime = CurrentComponentResearched.ResearchTime;
+
+        // If there is already not a notification on the room add a notification and add a listener for when player will clicks on.
+        if (_roomNotification == null)
         {
-            StartCoroutine(WaitUnlockTime(_objectToUnlock));
+            _roomNotification = RoomNotificationManager.Instance.NewNotification(_roomMain);
+            _roomNotification.GetComponent<Button>().onClick.AddListener(ValidateResearch);
+        }
+
+        ChronoManager.Instance.NewSecondTick += ResearchUpdateChrono;
+    }
+
+    /// <summary>
+    /// Called to start the research of an object.
+    /// </summary>
+    /// <param name="objectToUnlock"> The object to unlock. </param>
+    public void StartNewObjectResearch(ObjectData objectToUnlock)
+    {
+        // Set object researched
+        CurrentObjectResearched = objectToUnlock;
+
+        ObjectResearchStarted?.Invoke(CurrentObjectResearched);
+
+        // Set research time
+        CurrentResearchTime = CurrentObjectResearched.ResearchTime;
+
+        // If there is already not a notification on the room add a notification and add a listener for when player will clicks on.
+        if (_roomNotification == null)
+        {
+            _roomNotification = RoomNotificationManager.Instance.NewNotification(_roomMain);
+            _roomNotification.GetComponent<Button>().onClick.AddListener(ValidateResearch);
+        }
+
+        ChronoManager.Instance.NewSecondTick += ResearchUpdateChrono;
+    }
+
+    /// <summary>
+    /// Called each second to update the research chrono.
+    /// </summary>
+    private void ResearchUpdateChrono()
+    {
+        if (_currentChrono + 1 >= CurrentResearchTime)
+        {
+            _currentChrono = 0;
+            NewChrono?.Invoke(_currentChrono);
+
+            ChronoManager.Instance.NewSecondTick -= ResearchUpdateChrono;
+            ResearchCompleted?.Invoke();
         }
         else
         {
-            CantUnlockThisObject.Invoke();
+            _currentChrono++;
+            NewChrono?.Invoke(_currentChrono);
         }
     }
 
-    /// <summary>
-    /// Call UI event and call assembly room and machining room to add new object and new component to here list.
-    /// </summary>
-    /// <param name="_objectToUnlock"></param>
-    public void UnlockObject(ObjectData _objectToUnlock)
-    {
-        ObjectToUnlockList.Remove(ObjectToUnlockList[0]);
-        _assemblyRoom.AddNewAssemblableObject(_objectToUnlock);
-        RawMaterialStorage.Instance.SubstractRawMaterials(_objectToUnlock.CostToUnlock);
 
-        for (int i = 0; i < _objectToUnlock.Ingredients.Count; i++)
+    /// <summary>
+    /// Called when the player clicked on the notification when the research is completed.
+    /// </summary>
+    private void ValidateResearch()
+    {
+        if (CurrentComponentResearched != null)
         {
-            _machiningRoom.AddNewManufacturableComponents(_objectToUnlock.Ingredients[i].ComponentData);
+            ComponentResearchCompleted?.Invoke(CurrentComponentResearched);
         }
-        NewObjectUnlock.Invoke();
+        else if (CurrentObjectResearched != null)
+        {
+            ObjectResearchCompleted?.Invoke(CurrentObjectResearched);
+        }
     }
-
 
     /// <summary>
-    /// A completer avec l'amélioration des salles
+    /// Called to cancel the current research.
     /// </summary>
-    public void UpgradeRoom()
+    public void CancelResearch()
     {
+        ChronoManager.Instance.NewSecondTick -= ResearchUpdateChrono;
 
-        //RoomUpgrade.Invoke(_level);
-    }
+        if (CurrentComponentResearched != null)
+        {
+            ComponentResearchCanceled?.Invoke(CurrentComponentResearched);
+        }
+        else if (CurrentObjectResearched != null)
+        {
+            ObjectResearchCanceled?.Invoke(CurrentObjectResearched);
+        }
 
-    IEnumerator WaitUnlockTime(ObjectData _objectToUnlock)
-    {
-        RawMaterialStorage.Instance.SubstractRawMaterials(_objectToUnlock.CostToUnlock);
-        Debug.Log($"- {_objectToUnlock.CostToUnlock} ");
+        _roomNotification.DesactivateNotification();
+        _roomNotification = null;
 
-        yield return new WaitForSeconds(_objectToUnlock.TimeToUnlock);
-        UnlockObject(_objectToUnlock);
+        _currentChrono = 0;
+        CurrentComponentResearched = null;
+        CurrentObjectResearched = null;
     }
 }

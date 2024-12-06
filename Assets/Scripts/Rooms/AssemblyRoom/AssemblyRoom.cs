@@ -1,12 +1,12 @@
-using System.Collections.Generic;
+using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AssemblyRoom : MonoBehaviour, IRoomBehaviour
 {
     /// <summary>
     /// Datas of the assembly room.
     /// </summary>
-    [field: SerializeField]
     public AssemblyRoomData AssemblyRoomData { get; private set; }
 
     /// <summary>
@@ -20,14 +20,9 @@ public class AssemblyRoom : MonoBehaviour, IRoomBehaviour
     private Room _roomMain;
 
     /// <summary>
-    /// All objects that the room can assembled.
+    /// Current object that the room is manufacturing.
     /// </summary>
-    public List<ObjectData> AssemblableObjects { get; private set; } = new();
-
-    /// <summary>
-    /// Current object that the room is assembling.
-    /// </summary>
-    private ObjectData _currentObjectAssembled;
+    public ObjectData CurrentObjectManufactured { get; private set; }
 
     /// <summary>
     /// Current chrono of the production.
@@ -35,9 +30,34 @@ public class AssemblyRoom : MonoBehaviour, IRoomBehaviour
     private int _currentChrono;
 
     /// <summary>
+    /// Current time to product the current object manufactured.
+    /// </summary>
+    public int CurrentProductionTime { get; private set; }
+
+    /// <summary>
+    /// Current amount of objects in internal storage of the room.
+    /// </summary>
+    public int CurrentAmountInInternalStorage { get; private set; }
+
+    /// <summary>
+    /// Current internal capacity of the room.
+    /// </summary>
+    private int _currentInternalCapacity;
+
+    /// <summary>
+    /// Notification of the room when a production is launched.
+    /// </summary>
+    private RoomNotifiction _roomNotification;
+
+    /// <summary>
     /// A reference to the lambda who tries to launch a production each second.
     /// </summary>
     private ChronoManager.TickDelegate _productionOnHold;
+
+    // Lock object shared between all instances
+    private static readonly object _lockObject = new object();
+
+    public event Action<int> NewChrono, NewProductionCount;
 
     /// <summary>
     /// Called at the start to initialize the assembling room.
@@ -48,13 +68,8 @@ public class AssemblyRoom : MonoBehaviour, IRoomBehaviour
         _itemStorage = ItemStorage.Instance;
         _roomMain = roomMain;
 
-        // Init manufacturable components
-        for (int i = 0; i < AssemblyRoomData.AssemblableObjectsByDefault.Count; i++)
-        {
-            AssemblableObjects.Add(AssemblyRoomData.AssemblableObjectsByDefault[i]);
-        }
-
-        StartNewProduction(AssemblableObjects[0]);
+        UpgradeRoom(1);
+        _roomMain.NewLvl += UpgradeRoom;
     }
 
     /// <summary>
@@ -64,29 +79,67 @@ public class AssemblyRoom : MonoBehaviour, IRoomBehaviour
     public void StartNewProduction(ObjectData objectToProduct)
     {
         // Reset production if there is already one
-        if (_currentObjectAssembled != null || _currentChrono != 0)
+        if (CurrentObjectManufactured != null || _currentChrono != 0)
         {
             StopProduction();
         }
 
-        // If there is enough components in storage, launch production, else, checks each second if it is possible
-        if (_itemStorage.ThereIsEnoughIngredientsInStorage(objectToProduct.Ingredients))
-        {
-            if (_productionOnHold != null)
-            {
-                ChronoManager.Instance.NewSecondTick -= _productionOnHold;
-                _productionOnHold = null;
-            }
+        // Set object manufactured and production time depending on the room lvl
+        CurrentObjectManufactured = objectToProduct;
 
-            _currentObjectAssembled = objectToProduct;
-            ChronoManager.Instance.NewSecondTick += ProductionUpdateChrono;
-        }
-        else
+        switch (_roomMain.CurrentLvl)
         {
-            if (_productionOnHold == null)
+            case 1:
+                CurrentProductionTime = CurrentObjectManufactured.ProductionTimeAtLvl1;
+                break;
+            case 2:
+                CurrentProductionTime = CurrentObjectManufactured.ProductionTimeAtLvl2;
+                break;
+            case 3:
+                CurrentProductionTime = CurrentObjectManufactured.ProductionTimeAtLvl3;
+                break;
+        }
+
+        // If there is already not a notification on the room add a notification and add a listener for when player will clicks on.
+        if (_roomNotification == null)
+        {
+            _roomNotification = RoomNotificationManager.Instance.NewNotification(_roomMain);
+            _roomNotification.GetComponent<Button>().onClick.AddListener(AddObjectsInStorage);
+        }
+
+        TryStartProductionCycle();
+    }
+
+    /// <summary>
+    /// Called to try to start a production cycle.
+    /// </summary>
+    private void TryStartProductionCycle()
+    {
+        // Synchronization between instances
+        lock (_lockObject)
+        {
+            // If there is enough components in storage, launch production, else, checks each second if it is possible
+            if (CurrentAmountInInternalStorage < _currentInternalCapacity && _itemStorage.ThereIsEnoughIngredientsInStorage(CurrentObjectManufactured.Ingredients))
             {
-                _productionOnHold = () => StartNewProduction(objectToProduct);
-                ChronoManager.Instance.NewSecondTick += _productionOnHold;
+                // Remove production on hold if there is one
+                if (_productionOnHold != null)
+                {
+                    ChronoManager.Instance.NewSecondTick -= _productionOnHold;
+                    _productionOnHold = null;
+                }
+
+                // Remove recipe of the object from the raw material storage
+                _itemStorage.SubstractRecipe(CurrentObjectManufactured.Ingredients);
+
+                ChronoManager.Instance.NewSecondTick += ProductionUpdateChrono;
+            }
+            else
+            {
+                if (_productionOnHold == null)
+                {
+                    _productionOnHold = () => TryStartProductionCycle();
+                    ChronoManager.Instance.NewSecondTick += _productionOnHold;
+                }
             }
         }
     }
@@ -96,43 +149,62 @@ public class AssemblyRoom : MonoBehaviour, IRoomBehaviour
     /// </summary>
     private void ProductionUpdateChrono()
     {
-        switch (_roomMain.CurrentLvl)
+        if (_currentChrono + 1 >= CurrentProductionTime)
         {
-            case 1:
-                if (_currentChrono + 1 >= _currentObjectAssembled.ProductionTimeAtLvl1)
-                {
-                    _currentChrono = 0;
-                    ProductComponent();
-                }
-                else
-                {
-                    _currentChrono++;
-                }
-                break;
+            _currentChrono = 0;
+            NewChrono?.Invoke(_currentChrono);
+            AddObjectInInternalStorage();
 
-            case 2:
-                if (_currentChrono + 1 >= _currentObjectAssembled.ProductionTimeAtLvl2)
-                {
-                    _currentChrono = 0;
-                    ProductComponent();
-                }
-                else
-                {
-                    _currentChrono++;
-                }
-                break;
+            ChronoManager.Instance.NewSecondTick -= ProductionUpdateChrono;
+            TryStartProductionCycle();
+        }
+        else
+        {
+            _currentChrono++;
+            NewChrono?.Invoke(_currentChrono);
+        }
+    }
 
-            case 3:
-                if (_currentChrono + 1 >= _currentObjectAssembled.ProductionTimeAtLvl3)
-                {
-                    _currentChrono = 0;
-                    ProductComponent();
-                }
-                else
-                {
-                    _currentChrono++;
-                }
-                break;
+    /// <summary>
+    /// Called at the end of a production to add an object in the internal storage.
+    /// </summary>
+    private void AddObjectInInternalStorage()
+    {
+        CurrentAmountInInternalStorage++;
+        Mathf.Clamp(CurrentAmountInInternalStorage, 0, _currentInternalCapacity);
+        NewProductionCount?.Invoke(CurrentAmountInInternalStorage);
+    }
+
+    /// <summary>
+    /// Called when objects are added to the storage to substracte it from the internal storage.
+    /// </summary>
+    /// <param name="amount"> Amount to substract from the internal storage. </param>
+    private void RemoveObjectsFromInternalStorage(int amount)
+    {
+        CurrentAmountInInternalStorage -= amount;
+        Mathf.Clamp(CurrentAmountInInternalStorage, 0, _currentInternalCapacity);
+        NewProductionCount?.Invoke(CurrentAmountInInternalStorage);
+    }
+
+    /// <summary>
+    /// Called to add objects to the storage when player interact with the room.
+    /// </summary>
+    private void AddObjectsInStorage()
+    {
+        if (!_itemStorage.IsStorageFull())
+        {
+            int remainingStorage = _itemStorage.GetRemainingStorage();
+
+            if (remainingStorage >= CurrentAmountInInternalStorage)
+            {
+                _itemStorage.AddObjects(CurrentObjectManufactured.ObjectType, CurrentAmountInInternalStorage);
+                RemoveObjectsFromInternalStorage(CurrentAmountInInternalStorage);
+            }
+            else
+            {
+                _itemStorage.AddObjects(CurrentObjectManufactured.ObjectType, remainingStorage);
+                RemoveObjectsFromInternalStorage(remainingStorage);
+            }
         }
     }
 
@@ -141,27 +213,43 @@ public class AssemblyRoom : MonoBehaviour, IRoomBehaviour
     /// </summary>
     public void StopProduction()
     {
-        _currentChrono = 0;
-        _currentObjectAssembled = null;
-    }
-
-    /// <summary>
-    /// Called to add a object to the storage.
-    /// </summary>
-    private void ProductComponent()
-    {
-        if (!_itemStorage.WillExceedCapacity(1))
+        // Remove production on hold if there is one
+        if (_productionOnHold != null)
         {
-            _itemStorage.AddObjects(_currentObjectAssembled.ObjectType, 1);
+            ChronoManager.Instance.NewSecondTick -= _productionOnHold;
+            _productionOnHold = null;
         }
+
+        ChronoManager.Instance.NewSecondTick -= ProductionUpdateChrono;
+
+        _roomNotification.DesactivateNotification();
+        _roomNotification = null;
+
+        _currentChrono = 0;
+        CurrentObjectManufactured = null;
+        CurrentAmountInInternalStorage = 0;
     }
 
     /// <summary>
-    /// Work with the research room, when a new object is unlock add this object to the assemblable object list
+    /// Called to upgrad some values when the room is upgraded.
     /// </summary>
-    /// <param name="_newObject"></param>
-    public void AddNewAssemblableObject(ObjectData _newObject)
+    /// <param name="newLvl"> New lvl of the room. </param>
+    private void UpgradeRoom(int newLvl)
     {
-        AssemblableObjects.Add(_newObject);
+        switch (newLvl)
+        {
+            case 1:
+                _currentChrono = 0;
+                _currentInternalCapacity = AssemblyRoomData.InternalStorageAtLvl1;
+                break;
+            case 2:
+                _currentChrono = 0;
+                _currentInternalCapacity = AssemblyRoomData.InternalStorageAtLvl2;
+                break;
+            case 3:
+                _currentChrono = 0;
+                _currentInternalCapacity = AssemblyRoomData.InternalStorageAtLvl3;
+                break;
+        }
     }
 }

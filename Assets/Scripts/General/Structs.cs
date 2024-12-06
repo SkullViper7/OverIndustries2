@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using UnityEngine;
+using System.Collections.Generic;
 
 /// <summary>
 /// A structure to stock a component and a quantity.
@@ -18,6 +19,25 @@ public struct Ingredient
     /// </summary>
     [field: SerializeField, Tooltip("Quantity of this component needed in the recipe.")]
     public int Quantity { get; private set; }
+}
+
+/// <summary>
+/// A structure to stock a research cost for an objet.
+/// </summary>
+[System.Serializable]
+public struct ObjectResearchCost
+{
+    /// <summary>
+    /// Quantity of raw material needed for the research.
+    /// </summary>
+    [field: SerializeField, Tooltip("Quantity of raw material needed for the research.")]
+    public int RawMaterialCost { get; private set; }
+
+    /// <summary>
+    /// A list of ingredients needed for the research.
+    /// </summary>
+    [field: SerializeField, Tooltip("A list of ingredients needed for the research.")]
+    public List<Ingredient> IngredientsCost { get; private set; }
 }
 
 /// <summary>

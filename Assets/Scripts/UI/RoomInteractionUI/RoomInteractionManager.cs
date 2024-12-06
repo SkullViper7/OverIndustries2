@@ -39,6 +39,7 @@ public class RoomInteractionManager : MonoBehaviour
             case RoomType.Storage:
             case RoomType.Rest:
             case RoomType.Director:
+            case RoomType.RawMaterialStorage:
                 DesactivateAllButtons();
                 _uiManager.InfoRoomButton.SetActive(true);
 
@@ -50,18 +51,72 @@ public class RoomInteractionManager : MonoBehaviour
                 break;
 
             case RoomType.Machining:
+                DesactivateAllButtons();
+
+                // Show button to stop a production if there is one
+                if (((MachiningRoom)roomMain.RoomBehaviour).CurrentComponentManufactured != null)
+                {
+                    _uiManager.InfoRoomButton.SetActive(true);
+                    _uiManager.StopProductionButton.SetActive(true);
+                }
+                else
+                {
+                    _uiManager.InfoRoomButton.SetActive(true);
+
+                    // Show upgrade button only if the room is not at max lvl
+                    if (roomMain.CurrentLvl < 3)
+                    {
+                        _uiManager.UpgradeButton.SetActive(true);
+                    }
+
+                    _uiManager.ProductionButton.SetActive(true);
+                }
+                break;
+
             case RoomType.Assembly:
+                DesactivateAllButtons();
+
+                // Show button to stop a production if there is one
+                if (((AssemblyRoom)roomMain.RoomBehaviour).CurrentObjectManufactured != null)
+                {
+                    _uiManager.InfoRoomButton.SetActive(true);
+                    _uiManager.StopProductionButton.SetActive(true);
+                }
+                else
+                {
+                    _uiManager.InfoRoomButton.SetActive(true);
+
+                    // Show upgrade button only if the room is not at max lvl
+                    if (roomMain.CurrentLvl < 3)
+                    {
+                        _uiManager.UpgradeButton.SetActive(true);
+                    }
+
+                    _uiManager.ProductionButton.SetActive(true);
+                }
+                break;
+
             case RoomType.Research:
                 DesactivateAllButtons();
-                _uiManager.InfoRoomButton.SetActive(true);
 
-                // Show upgrade button only if the room is not at max lvl
-                if (roomMain.CurrentLvl < 3)
+                // Show button to stop a research if there is one
+                if (((ResearchRoom)roomMain.RoomBehaviour).CurrentComponentResearched != null || ((ResearchRoom)roomMain.RoomBehaviour).CurrentObjectResearched != null)
                 {
-                    _uiManager.UpgradeButton.SetActive(true);
+                    _uiManager.InfoRoomButton.SetActive(true);
+                    _uiManager.StopProductionButton.SetActive(true);
                 }
+                else
+                {
+                    _uiManager.InfoRoomButton.SetActive(true);
 
-                _uiManager.ProductionButton.SetActive(true);
+                    // Show upgrade button only if the room is not at max lvl
+                    if (roomMain.CurrentLvl < 3)
+                    {
+                        _uiManager.UpgradeButton.SetActive(true);
+                    }
+
+                    _uiManager.ResearchButton.SetActive(true);
+                }
                 break;
         }
     }
@@ -74,5 +129,7 @@ public class RoomInteractionManager : MonoBehaviour
         _uiManager.InfoRoomButton.SetActive(false);
         _uiManager.UpgradeButton.SetActive(false);
         _uiManager.ProductionButton.SetActive(false);
+        _uiManager.StopProductionButton.SetActive(false);
+        _uiManager.ResearchButton.SetActive(false);
     }
 }

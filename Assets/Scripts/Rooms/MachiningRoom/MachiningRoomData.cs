@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Room/Create new machining room data")]
@@ -23,12 +22,6 @@ public class MachiningRoomData : ScriptableObject, IRoomBehaviourData
     private int _internalStorageAtLvl3;
 
     /// <summary>
-    /// Components which can be manufactured at the start of the game.
-    /// </summary>
-    [SerializeField, Tooltip("Components which can be manufactured at the start of the game.")]
-    private List<ComponentData> _manufacturableComponentsByDefault;
-
-    /// <summary>
     /// Gets the internal storage at lvl 1.
     /// </summary>
     public int InternalStorageAtLvl1 { get { return _internalStorageAtLvl1; } private set { } }
@@ -42,9 +35,4 @@ public class MachiningRoomData : ScriptableObject, IRoomBehaviourData
     /// Gets the internal storage at lvl 3.
     /// </summary>
     public int InternalStorageAtLvl3 { get { return _internalStorageAtLvl3; } private set { } }
-
-    /// <summary>
-    /// Gets components which can be manufactured at the start of the game.
-    /// </summary>
-    public List<ComponentData> ManufacturableComponentsByDefault { get { return _manufacturableComponentsByDefault; } private set { } }
 }
