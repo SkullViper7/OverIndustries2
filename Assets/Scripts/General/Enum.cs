@@ -34,7 +34,10 @@ public enum RoomType
 public enum ComponentType
 {
     Gear,
-    Screw
+    Screw,
+    Rim,
+    Fork,
+    Handlebar
 }
 
 /// <summary>
@@ -43,5 +46,9 @@ public enum ComponentType
 public enum ObjectType
 {
     Scooter,
-    Jack
+    Jack,
+    Bike,
+    MilkingRobot,
+    Tractor,
+    Cylinder
 }
