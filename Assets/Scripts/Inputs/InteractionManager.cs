@@ -89,15 +89,16 @@ public class InteractionManager : MonoBehaviour
             if (Physics.Raycast(Camera.main.transform.position, direction, out hit, 200))
             {
                 // If the ray hits an object with a room component, trigger its event with datas of the room
-                if (hit.collider.transform.parent.TryGetComponent<Room>(out Room room))
-                {
-                    CurrentRoomSelected = room;
-                    RoomInteraction?.Invoke(room);
-                }
-                else if (hit.collider.TryGetComponent<Employee>(out Employee employee))
+
+                if (hit.collider.TryGetComponent<Employee>(out Employee employee))
                 {
                     CurrentEmployeeSelected = employee;
                     EmployeeInteraction?.Invoke(employee);
+                }
+                else if (hit.collider.transform.parent.TryGetComponent<Room>(out Room room))
+                {
+                    CurrentRoomSelected = room;
+                    RoomInteraction?.Invoke(room);
                 }
                 else
                 {

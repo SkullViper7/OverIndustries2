@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -46,6 +47,8 @@ public class Employee : MonoBehaviour
     public void SetRoutineParameter()
     {
         _wayPointList.Clear();
+        _navMeshAgent.ResetPath();
+        StopCoroutine(WaitNewDestination());
 
         for (int i = 0; i < AssignRoom.transform.GetChild(0).gameObject.transform.childCount; i++)
         {
@@ -62,11 +65,11 @@ public class Employee : MonoBehaviour
     /// </summary>
     public void RandomWayPoint()
     {
-        if (!GameManager.Instance.InDragAndDrop && !_navMeshAgent.hasPath)
+        if (!GameManager.Instance.InDragAndDrop)
         {
             int i = Random.Range(0, _wayPointList.Count);
 
-            if (_wayPointList[i] != _actualWayPoint)
+            if (_wayPointList[i] != _actualWayPoint && _navMeshAgent.pathStatus == NavMeshPathStatus.PathComplete)
             {
                 _actualWayPoint = _wayPointList[i];
                 _navMeshAgent.destination = _actualWayPoint.transform.position;
@@ -77,17 +80,19 @@ public class Employee : MonoBehaviour
                 StartCoroutine(WaitNewDestination());
             }
             else
-            { 
+            {
                 _navMeshAgent.ResetPath();
-                RandomWayPoint(); 
+
+                RandomWayPoint();
             }
         }
     }
-
+   
     public IEnumerator WaitNewDestination()
     {
         int i = Random.Range(_minTimeBetweenWayPoint, _maxTimeBetweenWayPoint);
         yield return new WaitForSeconds(i);
+        Debug.Log(i);
         RandomWayPoint();
     }
 }
