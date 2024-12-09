@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -7,6 +6,8 @@ public class LightProbeRuntime : MonoBehaviour
 {
     public Color m_Ambient;
     Light[] m_Lights;
+
+    [SerializeField] float _attenuation;
 
     // Start is called before the first frame update
     IEnumerator Start()
@@ -23,8 +24,8 @@ public class LightProbeRuntime : MonoBehaviour
             bakedProbes[i].Clear();
 
         // Add ambient light to all probes
-        for (int i = 0; i < probeCount; i++)
-            bakedProbes[i].AddAmbientLight(m_Ambient);
+        // for (int i = 0; i < probeCount; i++)
+        //     bakedProbes[i].AddAmbientLight(m_Ambient);
 
         // Add directional and point lights' contribution to all probes
         foreach (Light l in m_Lights)
@@ -39,6 +40,11 @@ public class LightProbeRuntime : MonoBehaviour
                 for (int i = 0; i < probeCount; i++)
                     SHAddPointLight(probePositions[i], l.transform.position, l.range, l.color, l.intensity, ref bakedProbes[i]);
             }
+            else if (l.type == LightType.Area)
+            {
+                for (int i = 0; i < probeCount; i++)
+                    SHAddAreaLight(probePositions[i], l.transform.position, l.areaSize, l.color, l.intensity, ref bakedProbes[i]);
+            }
         }
         LightmapSettings.lightProbes.bakedProbes = bakedProbes;
     }
@@ -50,5 +56,34 @@ public class LightProbeRuntime : MonoBehaviour
         Vector3 probeToLight = position - probePosition;
         float attenuation = 1.0F / (1.0F + 25.0F * probeToLight.sqrMagnitude / (range * range));
         sh.AddDirectionalLight(probeToLight.normalized, color, intensity * attenuation);
+    }
+
+    void SHAddAreaLight(Vector3 probePosition, Vector3 position, Vector3 size, Color color, float intensity, ref SphericalHarmonicsL2 sh)
+    {
+        Vector3[] sampleOffsets = {
+        new Vector3(-0.5f, 0f, -0.5f),
+        new Vector3(0.5f, 0f, -0.5f),
+        new Vector3(-0.5f, 0f, 0.5f),
+        new Vector3(0.5f, 0f, 0.5f)
+        };
+
+        for (int i = 0; i < sampleOffsets.Length; i++)
+        {
+            var offset = sampleOffsets[i];
+            Vector3 samplePosition = position + Vector3.Scale(size, offset);
+            Vector3 lightToProbe = probePosition - samplePosition;
+
+
+            if (!Physics.Raycast(samplePosition, lightToProbe.normalized, lightToProbe.magnitude))
+            {
+                // Attenuation
+                float attenuation = 1.0F / Mathf.Max(1f, lightToProbe.sqrMagnitude * _attenuation);
+
+                float contribution = intensity * attenuation / sampleOffsets.Length;
+
+                // Add to SH coefficients
+                sh.AddDirectionalLight(-lightToProbe.normalized, color, contribution);
+            }
+        }
     }
 }
