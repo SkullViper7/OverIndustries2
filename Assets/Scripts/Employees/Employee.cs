@@ -92,7 +92,6 @@ public class Employee : MonoBehaviour
     {
         int i = Random.Range(_minTimeBetweenWayPoint, _maxTimeBetweenWayPoint);
         yield return new WaitForSeconds(i);
-        Debug.Log(i);
         RandomWayPoint();
     }
 }
