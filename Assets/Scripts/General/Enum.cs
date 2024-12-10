@@ -8,7 +8,9 @@ public enum Job
     MachiningTechnician, //Technicien d'usinage
     DraftsMan, //Dessinateur industriel
     MaintenanceTechnician, //Technicien de Maintenance
-    ElectronicsTechnician //Technicien en électronique
+    ElectronicsTechnician, //Technicien en électronique
+    IndustrialElectrician, //Electricien industriel
+    SoftwareEngineer //Ingénieur logiciel embarqué
 }
 
 /// <summary>
