@@ -55,7 +55,7 @@ public class RoomLightInitializer : MonoBehaviour
                 {
                     if (lightProbes[j].ProbePosition.z <= transform.position.z + GetComponent<MeshCollider>().bounds.size.z)
                     {
-                        SHAddAreaLight(lightProbes[j].ProbePosition, lights[i].transform.position, lights[i].areaSize, lights[i].color, lights[i].intensity, ref lightProbes[j].Probe);
+                        SHAddAreaLight(lightProbes[j].ProbePosition, lights[i].transform.position, lights[i].GetComponent<BoxCollider>().size, lights[i].color, lights[i].intensity, ref lightProbes[j].Probe);
                     }
                 }
             }
@@ -95,12 +95,12 @@ public class RoomLightInitializer : MonoBehaviour
     /// Adds the light contribution of an area light to all probes.
     /// </summary>
     /// <param name="probePosition">The position of the probe.</param>
-    /// <param name="position">The position of the light.</param>
+    /// <param name="lightPosition">The position of the light.</param>
     /// <param name="size">The size of the light.</param>
     /// <param name="color">The color of the light.</param>
     /// <param name="intensity">The intensity of the light.</param>
     /// <param name="sh">The SphericalHarmonicsL2 to modify.</param>
-    void SHAddAreaLight(Vector3 probePosition, Vector3 position, Vector3 size, Color color, float intensity, ref SphericalHarmonicsL2 sh)
+    void SHAddAreaLight(Vector3 probePosition, Vector3 lightPosition, Vector3 size, Color color, float intensity, ref SphericalHarmonicsL2 sh)
     {
         // Sample the area light at a few points to get an approximation of the light that reaches the probe.
         Vector3[] sampleOffsets = {
@@ -113,7 +113,8 @@ public class RoomLightInitializer : MonoBehaviour
         for (int i = 0; i < sampleOffsets.Length; i++)
         {
             var offset = sampleOffsets[i];
-            Vector3 samplePosition = position + Vector3.Scale(size, offset);
+            Vector3 realBoxSize = new Vector3(size.x, size.z, size.y);
+            Vector3 samplePosition = lightPosition + Vector3.Scale(realBoxSize, offset);
             Vector3 lightToProbe = probePosition - samplePosition;
 
             Debug.Log("test");
@@ -121,7 +122,7 @@ public class RoomLightInitializer : MonoBehaviour
             // If the probe can see the sample point, add the light contribution to the SH coefficients.
             if (!Physics.Raycast(samplePosition, lightToProbe.normalized, lightToProbe.magnitude))
             {
-                Debug.DrawLine(samplePosition, probePosition, Color.red, 1000);
+                Debug.DrawRay(samplePosition, lightToProbe.normalized * lightToProbe.magnitude, Color.red, 1000);
 
                 // Attenuation
                 float attenuation = 1.0F / Mathf.Max(1f, lightToProbe.sqrMagnitude * LightProbeManager.Instance.Attenuation);
