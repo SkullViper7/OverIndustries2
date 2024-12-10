@@ -1,12 +1,14 @@
-using UnityEngine;
+using System.Collections.Generic;
 
 [System.Serializable]
 public class GameData
 {
-    public bool[,] _occupiedSpots;
+    public Dictionary<string, Dictionary<string, Room>> Grid;
+    public List<Room> InstantiatedRooms;
 
     public GameData()
     {
-        this._occupiedSpots = new bool[16, 16];
+        Grid = new Dictionary<string, Dictionary<string, Room>>();
+        InstantiatedRooms = new List<Room>();
     }
 }
