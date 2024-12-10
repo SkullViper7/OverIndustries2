@@ -304,4 +304,15 @@ public class GridManager : MonoBehaviour
     {
         return new Vector2(gridPos.x * 3, gridPos.y * 4);
     }
+
+    /// <summary>
+    /// Converts a world position into a grid position.
+    /// </summary>
+    /// <param name="worldPos">The position in the world coordinates.</param>
+    /// <returns>The equivalent position in grid coordinates.</returns>
+    public Vector2 ConvertWorldPosIntoGridPos(Vector2 worldPos)
+    {
+        // Divide the world position by the scale factors to get grid position
+        return new Vector2(worldPos.x / 3, worldPos.y / 4);
+    }
 }

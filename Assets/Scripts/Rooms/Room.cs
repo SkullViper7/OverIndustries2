@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -49,6 +50,8 @@ public class Room : MonoBehaviour
     /// </summary>
     public delegate void UpgradeDelegate(int newLvl);
     public event UpgradeDelegate NewLvl;
+
+    public event Action OnInitialized;
 
     private void Awake()
     {
@@ -135,6 +138,8 @@ public class Room : MonoBehaviour
         }
 
         UpgradeVisualRoom(CurrentLvl);
+
+        OnInitialized?.Invoke();
     }
 
     /// <summary>

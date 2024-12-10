@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.InputSystem;
 
 public class DragAndDrop : MonoBehaviour
@@ -69,9 +70,10 @@ public class DragAndDrop : MonoBehaviour
     public void MoveEmployee()
     {
         EmployeeSelect = true;
+        EmployeeToMove.GetComponent<NavMeshAgent>().enabled = false;
     }
 
-    
+
     /// <summary>
     /// Quand le joueur relache l'écran
     /// </summary>
@@ -113,26 +115,29 @@ public class DragAndDrop : MonoBehaviour
                             {
                                 EmployeeToMove.AssignRoom.GetComponent<Room>().RemoveAssignEmployeeInThisRoom(EmployeeToMove);
                             }
-                            
+
                             room.AssignEmployeeInThisRoom(EmployeeToMove);
                             EmployeeToMove.AssignRoom = room.gameObject;
                             EmployeeToMove.transform.position = _position;
+                            EmployeeToMove.GetComponent<NavMeshAgent>().enabled = true;
+                            EmployeeToMove.SetRoutineParameter();
                         }
                         else
-                        {
-                            EmployeeToMove.transform.position = _startPosition;
-                        }
+                        { ResetorParameter(); }
                     }
                     else
-                    {
-                        EmployeeToMove.transform.position = _startPosition;
-                    }
+                    { ResetorParameter(); }
                 }
                 else
-                {
-                    EmployeeToMove.transform.position = _startPosition;
-                }
+                { ResetorParameter(); }
             }
         }
+    }
+
+    public void ResetorParameter()
+    {
+        EmployeeToMove.transform.position = _startPosition;
+        EmployeeToMove.GetComponent<NavMeshAgent>().enabled = true;
+        EmployeeToMove.SetRoutineParameter();
     }
 }
