@@ -18,6 +18,12 @@ public class ResearchPopUp : MonoBehaviour
     private GameObject _researchButtonPrefab;
 
     /// <summary>
+    /// The horizontal layout group which contains grid layout groups.
+    /// </summary>
+    [SerializeField]
+    private HorizontalLayoutGroup _content;
+
+    /// <summary>
     /// Grid where buttons for components are stoked.
     /// </summary>
     [SerializeField]
@@ -65,6 +71,9 @@ public class ResearchPopUp : MonoBehaviour
                 _researchButtons.Add(newresearchButton);
                 newresearchButton.GetComponent<ResearchButton>().InitButtonForObject(researchableObjects[i]);
             }
+
+            // Prevent grids overlap
+            _content.spacing = _content.spacing += 0.01f;
         }
     }
 
@@ -81,7 +90,11 @@ public class ResearchPopUp : MonoBehaviour
 
         _researchButtons.Clear();
 
+        // Prevent grids overlap
+        _content.spacing = _content.spacing -= 0.01f;
+
         UIManager.Instance.HUD.SetActive(true);
+        UIManager.Instance.CloseUI();
         gameObject.SetActive(false);
     }
 }

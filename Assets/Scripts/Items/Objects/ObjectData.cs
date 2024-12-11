@@ -23,6 +23,12 @@ public class ObjectData : ScriptableObject
     private string _name;
 
     /// <summary>
+    /// Description of the object.
+    /// </summary>
+    [SerializeField, Tooltip("Description of the object.")]
+    private string _description;
+
+    /// <summary>
     /// Ingredients needed to product this object.
     /// </summary>
     [Space, Header("Production"), SerializeField, Tooltip("Ingredients needed to product this object.")]
@@ -72,6 +78,11 @@ public class ObjectData : ScriptableObject
     /// Gets the name of the object.
     /// </summary>
     public string Name { get { return _name; } private set { } }
+
+    /// <summary>
+    /// Gets the description of the object.
+    /// </summary>
+    public string Description { get { return _description; } private set { } }
 
     /// <summary>
     /// Gets ingredients needed to product this object.

@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,7 +10,8 @@ public enum AspectType
     WidthControlsHeight
 }
 
-[RequireComponent(typeof(GridLayoutGroup))]
+[ExecuteInEditMode]
+[RequireComponent(typeof(GridLayoutGroup), typeof(RectTransform))]
 public class AspectRatioFitterForGridElements : MonoBehaviour
 {
     /// <summary>
@@ -92,14 +92,4 @@ public class AspectRatioFitterForGridElements : MonoBehaviour
                 }
         }
     }
-
-#if UNITY_EDITOR
-    private void OnDrawGizmos()
-    {
-        _gridLayoutGroup = GetComponent<GridLayoutGroup>();
-        _rectTransform = GetComponent<RectTransform>();
-
-        UpdateAspect();
-    }
-#endif
 }

@@ -45,56 +45,47 @@ public class ResearchButton : MonoBehaviour
         _image = GetComponent<Image>();
     }
 
-    private void Start()
-    {
-        _researchManager = ResearchManager.Instance;
-        _interactionManager = InteractionManager.Instance;
-    }
-
     /// <summary>
     /// Called to initialize the button to research a component.
     /// </summary>
     /// <param name="componentData"> Datas of the component. </param>
     public void InitButtonForComponent(ComponentData componentData)
     {
+        _researchManager = ResearchManager.Instance;
+        _interactionManager = InteractionManager.Instance;
+
         _componentData = componentData;
         _picto.sprite = _componentData.ComponentPicto;
 
-        switch (_interactionManager.CurrentRoomSelected.CurrentLvl)
+        // Check if the component is researchable with the lvl of the room
+        if (_researchManager.IsThisComponentResearchableAtThisLvl(_componentData, _interactionManager.CurrentRoomSelected.CurrentLvl))
         {
-            case 1:
-
-                // Check if the component is researchable with the lvl of the room
-                if (_researchManager.IsThisComponentResearchableAtThisLvl(_componentData, 1))
+            // Check if the component is already searched
+            if (!_researchManager.IsThisComponentAlreadySearched(_componentData))
+            {
+                // Check if the component has already been searched
+                if (!_researchManager.HasThisComponentAlreadyBeenSearched(_componentData))
                 {
-                    // Check if the component is already searched
-                    if (!_researchManager.IsThisComponentAlreadySearched(_componentData))
-                    {
-                        // Check if the component has already been searched
-                        if (!_researchManager.HasThisComponentAlreadyBeenSearched(_componentData))
-                        {
-                            _button.interactable = true;
-                            _image.color = Color.green;
-                            _button.onClick.AddListener(ComponentButtonClicked);
-                        }
-                        else
-                        {
-                            _button.interactable = false;
-                            _image.color = Color.grey;
-                        }
-                    }
-                    else
-                    {
-                        _button.interactable = true;
-                        _image.color = Color.yellow;
-                    }
+                    _button.interactable = true;
+                    _image.color = Color.green;
+                    _button.onClick.AddListener(OpenComponentToResearchPopUp);
                 }
                 else
                 {
-                    _button.interactable = true;
-                    _image.color = Color.red;
+                    _button.interactable = false;
+                    _image.color = Color.grey;
                 }
-                break;
+            }
+            else
+            {
+                _button.interactable = true;
+                _image.color = Color.yellow;
+            }
+        }
+        else
+        {
+            _button.interactable = true;
+            _image.color = Color.magenta;
         }
     }
 
@@ -104,76 +95,59 @@ public class ResearchButton : MonoBehaviour
     /// <param name="objectData"> Datas of the object. </param>
     public void InitButtonForObject(ObjectData objectData)
     {
+        _researchManager = ResearchManager.Instance;
+        _interactionManager = InteractionManager.Instance;
+
         _objectData = objectData;
         _picto.sprite = _objectData.ObjectPicto;
 
-        switch (_interactionManager.CurrentRoomSelected.CurrentLvl)
+        // Check if the object is researchable with the lvl of the room
+        if (_researchManager.IsThisObjectResearchableAtThisLvl(_objectData, _interactionManager.CurrentRoomSelected.CurrentLvl))
         {
-            case 1:
-
-                // Check if the object is researchable with the lvl of the room
-                if (_researchManager.IsThisObjectResearchableAtThisLvl(_objectData, 1))
+            // Check if the component is already searched
+            if (!_researchManager.IsThisObjectAlreadySearched(_objectData))
+            {
+                // Check if the component has already been searched
+                if (!_researchManager.HasThisObjectAlreadyBeenSearched(_objectData))
                 {
-                    // Check if the component is already searched
-                    if (!_researchManager.IsThisObjectAlreadySearched(_objectData))
-                    {
-                        // Check if the component has already been searched
-                        if (!_researchManager.HasThisObjectAlreadyBeenSearched(_objectData))
-                        {
-                            _button.interactable = true;
-                            _image.color = Color.green;
-                            _button.onClick.AddListener(ComponentButtonClicked);
-                        }
-                        else
-                        {
-                            _button.interactable = false;
-                            _image.color = Color.grey;
-                        }
-                    }
-                    else
-                    {
-                        _button.interactable = true;
-                        _image.color = Color.yellow;
-                    }
+                    _button.interactable = true;
+                    _image.color = Color.green;
+                    _button.onClick.AddListener(OpenObjectToResearchPopUp);
                 }
                 else
                 {
-                    _button.interactable = true;
-                    _image.color = Color.red;
+                    _button.interactable = false;
+                    _image.color = Color.grey;
                 }
-                break;
+            }
+            else
+            {
+                _button.interactable = true;
+                _image.color = Color.yellow;
+            }
+        }
+        else
+        {
+            _button.interactable = true;
+            _image.color = Color.magenta;
         }
     }
 
     /// <summary>
     /// Called when button is clicked to launch a component research.
     /// </summary>
-    private void ComponentButtonClicked()
+    private void OpenComponentToResearchPopUp()
     {
-        Room currentRoomSelected = InteractionManager.Instance.CurrentRoomSelected;
-
-        if (currentRoomSelected != null)
-        {
-            ResearchRoom researchRoom = (ResearchRoom)currentRoomSelected.RoomBehaviour;
-            researchRoom.StartNewComponentResearch(_componentData);
-            UIManager.Instance.RoomResearchPopUp.GetComponent<ResearchPopUp>().ClosePopUp();
-            UIManager.Instance.CloseUI();
-        }
+        UIManager.Instance.ItemToResearchPopUp.SetActive(true);
+        UIManager.Instance.ItemToResearchPopUp.GetComponent<ItemToResearchPopUp>().InitPopUpForComponent(_componentData);
     }
 
     /// <summary>
     /// Called when button is clicked to launch an object research.
     /// </summary>
-    private void ObjectButtonClicked()
+    private void OpenObjectToResearchPopUp()
     {
-        Room currentRoomSelected = InteractionManager.Instance.CurrentRoomSelected;
-
-        if (currentRoomSelected != null)
-        {
-            ResearchRoom researchRoom = (ResearchRoom)currentRoomSelected.RoomBehaviour;
-            researchRoom.StartNewObjectResearch(_objectData);
-            UIManager.Instance.RoomResearchPopUp.GetComponent<ResearchPopUp>().ClosePopUp();
-            UIManager.Instance.CloseUI();
-        }
+        UIManager.Instance.ItemToResearchPopUp.SetActive(true);
+        UIManager.Instance.ItemToResearchPopUp.GetComponent<ItemToResearchPopUp>().InitPopUpForObject(_objectData);
     }
 }

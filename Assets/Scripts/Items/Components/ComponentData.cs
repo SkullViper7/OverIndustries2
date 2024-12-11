@@ -22,6 +22,12 @@ public class ComponentData : ScriptableObject
     private string _name;
 
     /// <summary>
+    /// Description of the component.
+    /// </summary>
+    [SerializeField, Tooltip("Description of the component.")]
+    private string _description;
+
+    /// <summary>
     /// Cost of the component (in raw material).
     /// </summary>
     [Space, Header("Production"), SerializeField, Tooltip("Cost of the component (in raw material).")]
@@ -79,6 +85,11 @@ public class ComponentData : ScriptableObject
     public string Name { get { return _name; } private set { } }
 
     /// <summary>
+    /// Gets the description of the component.
+    /// </summary>
+    public string Description { get { return _description; } private set { } }
+
+    /// <summary>
     /// Gets the cost of the component.
     /// </summary>
     public int Cost { get { return _cost; } private set { } }
@@ -96,7 +107,7 @@ public class ComponentData : ScriptableObject
     /// <summary>
     /// Gets the time to product the component for a room at lvl 2.
     /// </summary>
-    public int ProductionTimeAtLvl2 { get { return _productionTimeAtLvl1; } private set { } }
+    public int ProductionTimeAtLvl2 { get { return _productionTimeAtLvl2; } private set { } }
 
     /// <summary>
     /// Gets the time to product the component for a room at lvl 3.
