@@ -8,7 +8,9 @@ public enum Job
     MachiningTechnician, //Technicien d'usinage
     DraftsMan, //Dessinateur industriel
     MaintenanceTechnician, //Technicien de Maintenance
-    ElectronicsTechnician //Technicien en électronique
+    ElectronicsTechnician, //Technicien en électronique
+    IndustrialElectrician, //Electricien industriel
+    SoftwareEngineer //Ingénieur logiciel embarqué
 }
 
 /// <summary>
@@ -33,11 +35,13 @@ public enum RoomType
 /// </summary>
 public enum ComponentType
 {
-    Gear,
-    Screw,
-    Rim,
-    Fork,
-    Handlebar
+    Gear, //Engrenage
+    Rim, //Jante de roue
+    Fork, //Fourche
+    Handlebar, //Guidon
+    Chassis, //Chassis
+    ElectronicBox, //Boiter electronique
+    Cable //Cable
 }
 
 /// <summary>
@@ -45,10 +49,12 @@ public enum ComponentType
 /// </summary>
 public enum ObjectType
 {
-    Scooter,
-    Jack,
-    Bike,
-    MilkingRobot,
-    Tractor,
-    Cylinder
+    Scooter, //Trottinette
+    Bike, 
+    MilkingRobot, //robot de traite
+    Tractor, //tracteur agricole
+    Cylinder, //vérin électro hydraulique
+    Skateboard,
+    Forklift, //Charriot élévateur
+    BackhoeLoader //Tractopelle
 }
