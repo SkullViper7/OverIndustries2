@@ -5,22 +5,22 @@ using UnityEngine;
 public class ItemProgressionData : ScriptableObject
 {
     /// <summary>
-    /// The list of components to unlock in the research room at lvl 1.
+    /// The list of components researchable by a research room at lvl 1.
     /// </summary>
-    [Header("Components"), SerializeField, Tooltip("The list of components to unlock in the research room at lvl 1.")]
-    private List<ComponentData> _componentsToUnlockAtLvl1 = new();
+    [Header("Components"), SerializeField, Tooltip("The list of components researchable by a research room at lvl 1.")]
+    private List<ComponentData> _componentsResearchableAtLvl1 = new();
 
     /// <summary>
-    /// The list of components to unlock in the research room at lvl 2.
+    /// The list of components researchable by a research room at lvl 2.
     /// </summary>
-    [SerializeField, Tooltip("The list of components to unlock in the research room at lvl 2.")]
-    private List<ComponentData> _componentsToUnlockAtLvl2 = new();
+    [SerializeField, Tooltip("The list of components researchable by a research room at lvl 2.")]
+    private List<ComponentData> _componentsResearchableAtLvl2 = new();
 
     /// <summary>
-    /// The list of components to unlock in the research room at lvl 3.
+    /// The list of components researchable by a research room at lvl 3.
     /// </summary>
-    [SerializeField, Tooltip("The list of components to unlock in the research room at lvl 3.")]
-    private List<ComponentData> _componentsToUnlockAtLvl3 = new();
+    [SerializeField, Tooltip("The list of components researchable by a research room at lvl 3.")]
+    private List<ComponentData> _componentsResearchableAtLvl3 = new();
 
     /// <summary>
     /// Components which can be manufactured at the start of the game.
@@ -29,22 +29,22 @@ public class ItemProgressionData : ScriptableObject
     private List<ComponentData> _manufacturableComponentsByDefault;
 
     /// <summary>
-    /// The list of objects to unlock in the research room at lvl 1.
+    /// The list of objects researchable by a research room at lvl 1.
     /// </summary>
-    [Space, Header("Objects"), SerializeField, Tooltip("The list of objects to unlock in the research room at lvl 1.")]
-    private List<ObjectData> _objectsToUnlockAtLvl1 = new();
+    [Space, Header("Objects"), SerializeField, Tooltip("The list of objects researchable by a research room at lvl 1.")]
+    private List<ObjectData> _objectsResearchableAtLvl1 = new();
 
     /// <summary>
-    /// The list of objects to unlock in the research room at lvl 2.
+    /// The list of objects researchable by a research room at lvl 2.
     /// </summary>
-    [SerializeField, Tooltip("The list of objects to unlock in the research room at lvl 2.")]
-    private List<ObjectData> _objectsToUnlockAtLvl2 = new();
+    [SerializeField, Tooltip("The list of objects researchable by a research room at lvl 2.")]
+    private List<ObjectData> _objectsResearchableAtLvl2 = new();
 
     /// <summary>
-    /// The list of objects to unlock in the research room at lvl 3.
+    /// The list of objects researchable by a research room at lvl 3.
     /// </summary>
-    [SerializeField, Tooltip("The list of objects to unlock in the research room at lvl 3.")]
-    private List<ObjectData> _objectsToUnlockAtLvl3 = new();
+    [SerializeField, Tooltip("The list of objects researchable by a research room at lvl 3.")]
+    private List<ObjectData> _objectsResearchableAtLvl3 = new();
 
     /// <summary>
     /// Objects which can be manufactured at the start of the game.
@@ -53,19 +53,19 @@ public class ItemProgressionData : ScriptableObject
     private List<ObjectData> _manufacturableObjectsByDefault;
 
     /// <summary>
-    /// Gets the list of components to unlock in the research room at lvl 1.
+    /// Gets the list of components researchable by a research room at lvl 1.
     /// </summary>
-    public List<ComponentData> ComponentsToUnlockAtLvl1 { get { return _componentsToUnlockAtLvl1; } private set { } }
+    public List<ComponentData> ComponentsResearchableAtLvl1 { get { return _componentsResearchableAtLvl1; } private set { } }
 
     /// <summary>
-    /// Gets the list of components to unlock in the research room at lvl 2.
+    /// Gets the list of components researchable by a research room at lvl 2.
     /// </summary>
-    public List<ComponentData> ComponentsToUnlockAtLvl2 { get { return _componentsToUnlockAtLvl2; } private set { } }
+    public List<ComponentData> ComponentsResearchableAtLvl2 { get { return _componentsResearchableAtLvl2; } private set { } }
 
     /// <summary>
-    /// Gets the list of components to unlock in the research room at lvl 3.
+    /// Gets the list of components researchable by a research room at lvl 3.
     /// </summary>
-    public List<ComponentData> ComponentsToUnlockAtLvl3 { get { return _componentsToUnlockAtLvl3; } private set { } }
+    public List<ComponentData> ComponentsResearchableAtLvl3 { get { return _componentsResearchableAtLvl3; } private set { } }
 
     /// <summary>
     /// Gets components which can be manufactured at the start of the game.
@@ -73,19 +73,19 @@ public class ItemProgressionData : ScriptableObject
     public List<ComponentData> ManufacturableComponentsByDefault { get { return _manufacturableComponentsByDefault; } private set { } }
 
     /// <summary>
-    /// Gets the list of objects to unlock in the research room at lvl 1.
+    /// Gets the list of objects researchable by a research room at lvl 1.
     /// </summary>
-    public List<ObjectData> ObjectsToUnlockAtLvl1 { get { return _objectsToUnlockAtLvl1; } private set { } }
+    public List<ObjectData> ObjectsResearchableAtLvl1 { get { return _objectsResearchableAtLvl1; } private set { } }
 
     /// <summary>
-    /// Gets the list of objects to unlock in the research room at lvl 2.
+    /// Gets the list of objects researchable by a research room at lvl 2.
     /// </summary>
-    public List<ObjectData> ObjectsToUnlockAtLvl2 { get { return _objectsToUnlockAtLvl2; } private set { } }
+    public List<ObjectData> ObjectsResearchableAtLvl2 { get { return _objectsResearchableAtLvl2; } private set { } }
 
     /// <summary>
-    /// Gets the list of objects to unlock in the research room at lvl 3.
+    /// Gets the list of objects researchable by a research room at lvl 3.
     /// </summary>
-    public List<ObjectData> ObjectsToUnlockAtLvl3 { get { return _objectsToUnlockAtLvl3; } private set { } }
+    public List<ObjectData> ObjectsResearchableAtLvl3 { get { return _objectsResearchableAtLvl3; } private set { } }
 
     /// <summary>
     /// Gets objects which can be manufactured at the start of the game.

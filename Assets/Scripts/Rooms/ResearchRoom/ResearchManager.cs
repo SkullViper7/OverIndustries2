@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ResearchManager : MonoBehaviour
@@ -10,48 +11,28 @@ public class ResearchManager : MonoBehaviour
     /// <summary>
     /// Data which contains items progression during the game.
     /// </summary>
-    [field: SerializeField]
-    public ItemProgressionData ItemProgressionData { get; private set; }
+    [SerializeField]
+    private ItemProgressionData _itemProgressionData;
 
     /// <summary>
-    /// All components that the room can manufacture.
+    /// All components that a machining room cans manufacture.
     /// </summary>
     public List<ComponentData> ManufacturableComponents { get; private set; } = new();
 
     /// <summary>
-    /// All objects that the room can manufacture.
+    /// All objects that the an assembly room cans manufacture.
     /// </summary>
     public List<ObjectData> ManufacturableObjects { get; private set; } = new();
 
     /// <summary>
-    /// The list of researchable components by a research rooms at lvl 1.
+    /// The list of all researchable components in the game.
     /// </summary>
-    public List<ComponentData> ResearchableComponentsAtLvl1 { get; private set; } = new();
+    public List<ComponentData> AllResearchableComponents { get; private set; } = new();
 
     /// <summary>
-    /// The list of researchable components by a research rooms at lvl 2.
+    /// The list of all researchable objects in the game.
     /// </summary>
-    public List<ComponentData> ResearchableComponentsAtLvl2 { get; private set; } = new();
-
-    /// <summary>
-    /// The list of researchable components by a research rooms at lvl 3.
-    /// </summary>
-    public List<ComponentData> ResearchableComponentsAtLvl3 { get; private set; } = new();
-
-    /// <summary>
-    /// The list of researchable objects by a research rooms at lvl 1.
-    /// </summary>
-    public List<ObjectData> ResearchableObjectsAtLvl1 { get; private set; } = new();
-
-    /// <summary>
-    /// The list of researchable objects by a research rooms at lvl 2.
-    /// </summary>
-    public List<ObjectData> ResearchableObjectsAtLvl2 { get; private set; } = new();
-
-    /// <summary>
-    /// The list of researchable objects by a research rooms at lvl 3.
-    /// </summary>
-    public List<ObjectData> ResearchableObjectsAtLvl3 { get; private set; } = new();
+    public List<ObjectData> AllResearchableObjects { get; private set; } = new();
 
     /// <summary>
     /// Components currently being searched.
@@ -80,32 +61,14 @@ public class ResearchManager : MonoBehaviour
     private void Start()
     {
         // Set manufacturable components and objects by default
-        ManufacturableComponents.AddRange(ItemProgressionData.ManufacturableComponentsByDefault);
-        ManufacturableObjects.AddRange(ItemProgressionData.ManufacturableObjectsByDefault);
+        ManufacturableComponents.AddRange(_itemProgressionData.ManufacturableComponentsByDefault);
+        ManufacturableObjects.AddRange(_itemProgressionData.ManufacturableObjectsByDefault);
 
-        // Set researchable components for a room at lvl 1
-        ResearchableComponentsAtLvl1.AddRange(ItemProgressionData.ComponentsToUnlockAtLvl1);
+        // Set all researchable components in the game
+        AllResearchableComponents.AddRange(_itemProgressionData.ComponentsResearchableAtLvl3);
 
-        // Set researchable components for a room at lvl 2
-        ResearchableComponentsAtLvl2.AddRange(ItemProgressionData.ComponentsToUnlockAtLvl1);
-        ResearchableComponentsAtLvl2.AddRange(ItemProgressionData.ComponentsToUnlockAtLvl2);
-
-        // Set researchable components for a room at lvl 3
-        ResearchableComponentsAtLvl3.AddRange(ItemProgressionData.ComponentsToUnlockAtLvl1);
-        ResearchableComponentsAtLvl3.AddRange(ItemProgressionData.ComponentsToUnlockAtLvl2);
-        ResearchableComponentsAtLvl3.AddRange(ItemProgressionData.ComponentsToUnlockAtLvl3);
-
-        // Set researchable objects for a room at lvl 1
-        ResearchableObjectsAtLvl1.AddRange(ItemProgressionData.ObjectsToUnlockAtLvl1);
-
-        // Set researchable objects for a room at lvl 2
-        ResearchableObjectsAtLvl2.AddRange(ItemProgressionData.ObjectsToUnlockAtLvl1);
-        ResearchableObjectsAtLvl2.AddRange(ItemProgressionData.ObjectsToUnlockAtLvl2);
-
-        // Set researchable objects for a room at lvl 3
-        ResearchableObjectsAtLvl3.AddRange(ItemProgressionData.ObjectsToUnlockAtLvl1);
-        ResearchableObjectsAtLvl3.AddRange(ItemProgressionData.ObjectsToUnlockAtLvl2);
-        ResearchableObjectsAtLvl3.AddRange(ItemProgressionData.ObjectsToUnlockAtLvl3);
+        // Set all researchable objects in the game
+        AllResearchableObjects.AddRange(_itemProgressionData.ObjectsResearchableAtLvl3);
     }
 
     /// <summary>
@@ -118,13 +81,13 @@ public class ResearchManager : MonoBehaviour
         newResearchRoom.ComponentResearchStarted += AddComponentBeingSearched;
         newResearchRoom.ComponentResearchCanceled += RemoveComponentBeingSearched;
         newResearchRoom.ComponentResearchCompleted += AddManufacturableComponent;
-        newResearchRoom.ComponentResearchCompleted += RemoveResearchableComponent;
+        newResearchRoom.ComponentResearchCompleted += RemoveComponentBeingSearched;
 
         // Init listeners for objects
         newResearchRoom.ObjectResearchStarted += AddObjectBeingSearched;
         newResearchRoom.ObjectResearchCanceled += RemoveObjectBeingSearched;
         newResearchRoom.ObjectResearchCompleted += AddManufacturableObject;
-        newResearchRoom.ObjectResearchCompleted += RemoveResearchableObject;
+        newResearchRoom.ObjectResearchCompleted += RemoveObjectBeingSearched;
     }
 
     /// <summary>
@@ -145,6 +108,68 @@ public class ResearchManager : MonoBehaviour
     public bool IsThisObjectAlreadySearched(ObjectData objectToCheck)
     {
         return _objectsBeingSearched.Contains(objectToCheck);
+    }
+
+    /// <summary>
+    /// Return true if the component given has already been searched.
+    /// </summary>
+    /// <param name="componentToCheck"> Component to check. </param>
+    /// <returns></returns>
+    public bool HasThisComponentAlreadyBeenSearched(ComponentData componentToCheck)
+    {
+        return ManufacturableComponents.Contains(componentToCheck);
+    }
+
+    /// <summary>
+    /// Return true if the object given has already been searched.
+    /// </summary>
+    /// <param name="objectToCheck"> Object to check. </param>
+    /// <returns></returns>
+    public bool HasThisObjectAlreadyBeenSearched(ObjectData objectToCheck)
+    {
+        return ManufacturableObjects.Contains(objectToCheck);
+    }
+
+    /// <summary>
+    /// Return true if the component given is researchable by a room at the lvl given.
+    /// </summary>
+    /// <param name="componentToCheck"> Component to check. </param>
+    /// <param name="lvlOfTheRoom"> Lvl of the room. </param>
+    /// <returns></returns>
+    public bool IsThisComponentResearchableAtThisLvl(ComponentData componentToCheck, int lvlOfTheRoom)
+    {
+        switch (lvlOfTheRoom)
+        {
+            case 1:
+                return _itemProgressionData.ComponentsResearchableAtLvl1.Contains(componentToCheck);
+            case 2:
+                return _itemProgressionData.ComponentsResearchableAtLvl2.Contains(componentToCheck);
+            case 3:
+                return _itemProgressionData.ComponentsResearchableAtLvl3.Contains(componentToCheck);
+            default:
+                return false;
+        }
+    }
+
+    /// <summary>
+    /// Return true if the object given is researchable by a room at the lvl given.
+    /// </summary>
+    /// <param name="objectToCheck"> Object to check. </param>
+    /// <param name="lvlOfTheRoom"> Lvl of the room. </param>
+    /// <returns></returns>
+    public bool IsThisObjectResearchableAtThisLvl(ObjectData objectToCheck, int lvlOfTheRoom)
+    {
+        switch (lvlOfTheRoom)
+        {
+            case 1:
+                return _itemProgressionData.ObjectsResearchableAtLvl1.Contains(objectToCheck);
+            case 2:
+                return _itemProgressionData.ObjectsResearchableAtLvl2.Contains(objectToCheck);
+            case 3:
+                return _itemProgressionData.ObjectsResearchableAtLvl3.Contains(objectToCheck);
+            default:
+                return false;
+        }
     }
 
     /// <summary>
@@ -199,27 +224,5 @@ public class ResearchManager : MonoBehaviour
     private void RemoveObjectBeingSearched(ObjectData objectNoLongerResearched)
     {
         _objectsBeingSearched.Remove(objectNoLongerResearched);
-    }
-
-    /// <summary>
-    /// Called to remove a researchable component from lists.
-    /// </summary>
-    /// <param name="componentNoLongerResearchable"> The component which is no longer researchable. </param>
-    private void RemoveResearchableComponent(ComponentData componentNoLongerResearched)
-    {
-        ResearchableComponentsAtLvl1.Remove(componentNoLongerResearched);
-        ResearchableComponentsAtLvl2.Remove(componentNoLongerResearched);
-        ResearchableComponentsAtLvl3.Remove(componentNoLongerResearched);
-    }
-
-    /// <summary>
-    /// Called to remove a researchable object from lists.
-    /// </summary>
-    /// <param name="objectNoLongerResearchable"> The object which is no longer researchable. </param>
-    private void RemoveResearchableObject(ObjectData objectNoLongerResearched)
-    {
-        ResearchableObjectsAtLvl1.Remove(objectNoLongerResearched);
-        ResearchableObjectsAtLvl2.Remove(objectNoLongerResearched);
-        ResearchableObjectsAtLvl3.Remove(objectNoLongerResearched);
     }
 }

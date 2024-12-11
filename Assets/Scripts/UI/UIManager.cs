@@ -87,10 +87,16 @@ public class UIManager : MonoBehaviour
     public GameObject StopProductionPopUp { get; private set; }
 
     /// <summary>
-    /// The pop up where player can launch a research.
+    /// The pop up where player can choose which research to launch.
     /// </summary>
-    [field: SerializeField, Tooltip("The pop up where player can launch a research.")]
+    [field: SerializeField, Tooltip("The pop up where player can choose which research to launch.")]
     public GameObject RoomResearchPopUp { get; private set; }
+
+    /// <summary>
+    /// The pop up where player can launch the choosen research.
+    /// </summary>
+    [field: SerializeField, Tooltip("The pop up where player can launch the choosen research.")]
+    public GameObject ItemToResearchPopUp { get; private set; }
 
     /// <summary>
     /// The pop up where player can construct a new room.

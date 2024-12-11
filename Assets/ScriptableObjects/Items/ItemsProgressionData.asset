@@ -12,13 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3352e55f1a82fba42b0748c753bad8bb, type: 3}
   m_Name: ItemsProgressionData
   m_EditorClassIdentifier: 
-  _componentsToUnlockAtLvl1: []
-  _componentsToUnlockAtLvl2: []
-  _componentsToUnlockAtLvl3: []
+  _componentsResearchableAtLvl1:
+  - {fileID: 11400000, guid: 3f7e9a303efcb8b44ab6d68b4d2b258a, type: 2}
+  _componentsResearchableAtLvl2:
+  - {fileID: 11400000, guid: 3f7e9a303efcb8b44ab6d68b4d2b258a, type: 2}
+  - {fileID: 11400000, guid: 7e54d13cd6f92bd4ca358765c76152b1, type: 2}
+  _componentsResearchableAtLvl3:
+  - {fileID: 11400000, guid: 3f7e9a303efcb8b44ab6d68b4d2b258a, type: 2}
+  - {fileID: 11400000, guid: 7e54d13cd6f92bd4ca358765c76152b1, type: 2}
+  - {fileID: 11400000, guid: 85015567544834f4c9967190335481d6, type: 2}
+  - {fileID: 11400000, guid: 5511c76185cb0494ca873032b9b7ace8, type: 2}
   _manufacturableComponentsByDefault:
   - {fileID: 11400000, guid: 3fa4133a41f65364683938617ed802a4, type: 2}
-  _objectsToUnlockAtLvl1: []
-  _objectsToUnlockAtLvl2: []
-  _objectsToUnlockAtLvl3: []
+  _objectsResearchableAtLvl1:
+  - {fileID: 11400000, guid: dbf6ec5157f876543bbc314a15866f59, type: 2}
+  - {fileID: 11400000, guid: aa0025f8181a6f84c9b5944957fb97a4, type: 2}
+  _objectsResearchableAtLvl2:
+  - {fileID: 11400000, guid: dbf6ec5157f876543bbc314a15866f59, type: 2}
+  - {fileID: 11400000, guid: aa0025f8181a6f84c9b5944957fb97a4, type: 2}
+  - {fileID: 11400000, guid: 49c5f015386a9a64b97714e41d0b3245, type: 2}
+  _objectsResearchableAtLvl3: []
   _manufacturableObjectsByDefault:
   - {fileID: 11400000, guid: dbf6ec5157f876543bbc314a15866f59, type: 2}
