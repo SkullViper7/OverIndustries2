@@ -80,8 +80,6 @@ public class DragAndDrop : MonoBehaviour
     /// <param name="context"></param>
     void OnTouchContact0Canceled(InputAction.CallbackContext context)
     {
-        GameManager.Instance.InDragAndDrop = false;
-
         //check si la position est une salle + si elle a de la place pour l'employer, sinon retourne a sa place d'origine
         if (EmployeeSelect)
         {
@@ -120,16 +118,24 @@ public class DragAndDrop : MonoBehaviour
                             EmployeeToMove.AssignRoom = room.gameObject;
                             EmployeeToMove.transform.position = _position;
                             EmployeeToMove.GetComponent<NavMeshAgent>().enabled = true;
+                            GameManager.Instance.InDragAndDrop = false;
                             EmployeeToMove.SetRoutineParameter();
+                            Debug.Log("taiyakii");
                         }
                         else
-                        { ResetorParameter(); }
+                        {
+                            ResetorParameter();
+                        }
                     }
                     else
-                    { ResetorParameter(); }
+                    {
+                        ResetorParameter();
+                    }
                 }
                 else
-                { ResetorParameter(); }
+                {
+                    ResetorParameter();
+                }
             }
         }
     }
@@ -138,6 +144,8 @@ public class DragAndDrop : MonoBehaviour
     {
         EmployeeToMove.transform.position = _startPosition;
         EmployeeToMove.GetComponent<NavMeshAgent>().enabled = true;
+        GameManager.Instance.InDragAndDrop = false;
         EmployeeToMove.SetRoutineParameter();
+        Debug.Log("restore parameter");
     }
 }
