@@ -79,6 +79,7 @@ public class RoomNotifiction : MonoBehaviour
                 InitForAssemblyRoom();
                 break;
             case RoomType.Research:
+                InitForResearchRoom();
                 break;
         }
     }
@@ -194,6 +195,57 @@ public class RoomNotifiction : MonoBehaviour
     }
     #endregion
 
+    #region Research Room
+    /// <summary>
+    /// Called to initialize the notification especially for a research room.
+    /// </summary>
+    private void InitForResearchRoom()
+    {
+        ResearchRoom researchRoom = (ResearchRoom)_currentRoom.RoomBehaviour;
+
+        _gaugeObject.SetActive(true);
+        if (researchRoom.CurrentComponentResearched != null)
+        {
+            _gaugePicto.sprite = researchRoom.CurrentComponentResearched.ComponentPicto;
+            _notificationPicto.sprite = researchRoom.CurrentComponentResearched.ComponentPicto;
+        }
+        else if (researchRoom.CurrentObjectResearched != null)
+        {
+            _gaugePicto.sprite = researchRoom.CurrentObjectResearched.ObjectPicto;
+            _notificationPicto.sprite = researchRoom.CurrentObjectResearched.ObjectPicto;
+        }
+
+        _gauge.fillAmount = 0;
+
+        researchRoom.NewChrono += UpdateGaugeForResearch;
+        researchRoom.ResearchCompleted += OnResearchCompleted;
+    }
+
+    /// <summary>
+    /// Called to update the fill amount of the gauge for a research.
+    /// </summary>
+    /// <param name="newChrono"> New chrono of the room. </param>
+    private void UpdateGaugeForResearch(int newChrono)
+    {
+        _gauge.fillAmount = 1f / ((ResearchRoom)_currentRoom.RoomBehaviour).CurrentResearchTime * newChrono;
+    }
+
+    /// <summary>
+    /// Called when the research is completed to notify the player.
+    /// </summary>
+    private void OnResearchCompleted()
+    {
+        _image.color = new Color32(0, 255, 0, 175);
+        _image.enabled = true;
+        _image.raycastTarget = true;
+        _gaugeObject.SetActive(false);
+        _notificationPicto.gameObject.SetActive(true);
+        _button.interactable = true;
+
+        UIManager.Instance.StopProductionButton.SetActive(false);
+    }
+    #endregion
+
     /// <summary>
     /// Called to update the production count.
     /// </summary>
@@ -267,11 +319,14 @@ public class RoomNotifiction : MonoBehaviour
                 _button.onClick.RemoveAllListeners();
                 ItemStorage.Instance.CapacityHasChanged -= CheckItemStorage;
                 ItemStorage.Instance.AmountHasChanged -= CheckItemStorage;
-                ((AssemblyRoom)_currentRoom.RoomBehaviour).NewChrono -= UpdateGaugeForComponent;
+                ((AssemblyRoom)_currentRoom.RoomBehaviour).NewChrono -= UpdateGaugeForObject;
                 ((AssemblyRoom)_currentRoom.RoomBehaviour).NewProductionCount -= UpdateProductionCount;
                 break;
 
             case RoomType.Research:
+                _button.onClick.RemoveAllListeners();
+                ((ResearchRoom)_currentRoom.RoomBehaviour).NewChrono -= UpdateGaugeForResearch;
+                ((ResearchRoom)_currentRoom.RoomBehaviour).ResearchCompleted -= OnResearchCompleted;
                 break;
         }
 

@@ -214,8 +214,8 @@ public class ItemToResearchPopUp : MonoBehaviour
         for (int i = 0; i < recipe.Count; i++)
         {
             _objectRecipe[i].SetActive(true);
-            _objectRecipe[i].GetComponent<Image>().sprite = recipe[i].ComponentData.ComponentPicto;
-            _objectRecipe[i].GetComponent<TMP_Text>().text = recipe[i].Quantity.ToString();
+            _objectRecipe[i].GetComponentInChildren<Image>().sprite = recipe[i].ComponentData.ComponentPicto;
+            _objectRecipe[i].GetComponentInChildren<TMP_Text>().text = recipe[i].Quantity.ToString();
         }
 
         _objectResearchCostCell.SetActive(true);
@@ -223,8 +223,8 @@ public class ItemToResearchPopUp : MonoBehaviour
         for (int i = 0; i < recipeCost.Count; i++)
         {
             _objectResearchCostInComponents[i].SetActive(true);
-            _objectResearchCostInComponents[i].GetComponent<Image>().sprite = recipe[i].ComponentData.ComponentPicto;
-            _objectResearchCostInComponents[i].GetComponent<TMP_Text>().text = recipeCost[i].Quantity.ToString();
+            _objectResearchCostInComponents[i].GetComponentInChildren<Image>().sprite = recipe[i].ComponentData.ComponentPicto;
+            _objectResearchCostInComponents[i].GetComponentInChildren<TMP_Text>().text = recipeCost[i].Quantity.ToString();
         }
 
         _objectResearchCostInRawMaterial.text = _currentObjectData.ResearchCost.RawMaterialCost.ToString();

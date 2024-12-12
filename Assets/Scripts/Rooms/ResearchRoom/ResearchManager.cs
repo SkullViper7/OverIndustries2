@@ -18,6 +18,7 @@ public class ResearchManager : MonoBehaviour
     /// <summary>
     /// All components that a machining room cans manufacture.
     /// </summary>
+    [field : SerializeField]
     public List<ComponentData> ManufacturableComponents { get; private set; } = new();
 
     /// <summary>
@@ -38,6 +39,7 @@ public class ResearchManager : MonoBehaviour
     /// <summary>
     /// Components currently being searched.
     /// </summary>
+    [SerializeField]
     private List<ComponentData> _componentsBeingSearched = new();
 
     /// <summary>
@@ -80,15 +82,13 @@ public class ResearchManager : MonoBehaviour
     {
         // Init listeners for components
         newResearchRoom.ComponentResearchStarted += AddComponentBeingSearched;
-        newResearchRoom.ComponentResearchCanceled += RemoveComponentBeingSearched;
+        newResearchRoom.ComponentResearchStoped += RemoveComponentBeingSearched;
         newResearchRoom.ComponentResearchCompleted += AddManufacturableComponent;
-        newResearchRoom.ComponentResearchCompleted += RemoveComponentBeingSearched;
 
         // Init listeners for objects
         newResearchRoom.ObjectResearchStarted += AddObjectBeingSearched;
-        newResearchRoom.ObjectResearchCanceled += RemoveObjectBeingSearched;
+        newResearchRoom.ObjectResearchStoped += RemoveObjectBeingSearched;
         newResearchRoom.ObjectResearchCompleted += AddManufacturableObject;
-        newResearchRoom.ObjectResearchCompleted += RemoveObjectBeingSearched;
     }
 
     /// <summary>

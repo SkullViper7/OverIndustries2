@@ -50,6 +50,15 @@ public class StopProductionPopUp : MonoBehaviour
 
             case RoomType.Research:
                 _warningText.text = "Attention ! Toutes les ressoucres engagées pour la recherche seront perdues. Êtes-vous sûrs de vouloir continuer ?";
+
+                ResearchRoom researchRoom = (ResearchRoom)currentRoomSelected.RoomBehaviour;
+                _validateButton.onClick.AddListener(() =>
+                {
+                    researchRoom.StopResearch();
+                    gameObject.SetActive(false);
+                    UIManager.Instance.CloseUI();
+                });
+
                 break;
         }
     }

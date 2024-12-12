@@ -41,13 +41,15 @@ public class ResearchRoom : MonoBehaviour, IRoomBehaviour
 
     public event Action ResearchCompleted;
     public event Action<int> NewChrono;
-    public event Action<ComponentData> ComponentResearchStarted, ComponentResearchCanceled, ComponentResearchCompleted;
-    public event Action<ObjectData> ObjectResearchStarted, ObjectResearchCanceled, ObjectResearchCompleted;
+    public event Action<ComponentData> ComponentResearchStarted, ComponentResearchStoped, ComponentResearchCompleted;
+    public event Action<ObjectData> ObjectResearchStarted, ObjectResearchStoped, ObjectResearchCompleted;
 
     public void InitRoomBehaviour(IRoomBehaviourData behaviourData, Room roomMain)
     {
         ResearchRoomData = (ResearchRoomData)behaviourData;
         _roomMain = roomMain;
+
+        ResearchManager.Instance.InitNewResearchRoomListeners(this);
     }
 
     /// <summary>
@@ -127,27 +129,29 @@ public class ResearchRoom : MonoBehaviour, IRoomBehaviour
         if (CurrentComponentResearched != null)
         {
             ComponentResearchCompleted?.Invoke(CurrentComponentResearched);
+            StopResearch();
         }
         else if (CurrentObjectResearched != null)
         {
             ObjectResearchCompleted?.Invoke(CurrentObjectResearched);
+            StopResearch();
         }
     }
 
     /// <summary>
-    /// Called to cancel the current research.
+    /// Called to stop the current research.
     /// </summary>
-    public void CancelResearch()
+    public void StopResearch()
     {
         ChronoManager.Instance.NewSecondTick -= ResearchUpdateChrono;
 
         if (CurrentComponentResearched != null)
         {
-            ComponentResearchCanceled?.Invoke(CurrentComponentResearched);
+            ComponentResearchStoped?.Invoke(CurrentComponentResearched);
         }
         else if (CurrentObjectResearched != null)
         {
-            ObjectResearchCanceled?.Invoke(CurrentObjectResearched);
+            ObjectResearchStoped?.Invoke(CurrentObjectResearched);
         }
 
         _roomNotification.DesactivateNotification();
