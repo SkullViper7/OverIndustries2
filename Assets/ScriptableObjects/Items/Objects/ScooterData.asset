@@ -12,24 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80c7f1bd272a03540b3f54254c200947, type: 3}
   m_Name: ScooterData
   m_EditorClassIdentifier: 
-  _objectPicto: {fileID: 21300000, guid: 28442941b7dc1c444a54f499b93fb0b3, type: 3}
+  _objectPicto: {fileID: 21300000, guid: 3a39d106858fadf4fb5ff01845ebb6ed, type: 3}
   _objectType: 0
   _name: Trotinette
+  _description: "La trottinette est un moyen de transport l\xE9ger et agile, id\xE9al
+    pour les d\xE9placements urbains rapides et pratiques."
   _ingredients:
   - <ComponentData>k__BackingField: {fileID: 11400000, guid: 7e54d13cd6f92bd4ca358765c76152b1,
+      type: 2}
+    <Quantity>k__BackingField: 2
+  - <ComponentData>k__BackingField: {fileID: 11400000, guid: 6b89e272a5ce1064a861125b63394906,
+      type: 2}
+    <Quantity>k__BackingField: 1
+  - <ComponentData>k__BackingField: {fileID: 11400000, guid: 5511c76185cb0494ca873032b9b7ace8,
       type: 2}
     <Quantity>k__BackingField: 1
   - <ComponentData>k__BackingField: {fileID: 11400000, guid: 85015567544834f4c9967190335481d6,
       type: 2}
     <Quantity>k__BackingField: 2
-  - <ComponentData>k__BackingField: {fileID: 11400000, guid: 5511c76185cb0494ca873032b9b7ace8,
-      type: 2}
-    <Quantity>k__BackingField: 1
   _productionTimeAtLvl1: 20
   _productionTimeAtLvl2: 15
   _productionTimeAtLvl3: 10
   _researchCost:
-    <RawMaterialCost>k__BackingField: 0
+    <RawMaterialCost>k__BackingField: 150
     <IngredientsCost>k__BackingField:
     - <ComponentData>k__BackingField: {fileID: 11400000, guid: 7e54d13cd6f92bd4ca358765c76152b1,
         type: 2}
@@ -37,7 +42,10 @@ MonoBehaviour:
     - <ComponentData>k__BackingField: {fileID: 11400000, guid: 5511c76185cb0494ca873032b9b7ace8,
         type: 2}
       <Quantity>k__BackingField: 1
+    - <ComponentData>k__BackingField: {fileID: 11400000, guid: 6b89e272a5ce1064a861125b63394906,
+        type: 2}
+      <Quantity>k__BackingField: 1
     - <ComponentData>k__BackingField: {fileID: 11400000, guid: 85015567544834f4c9967190335481d6,
         type: 2}
       <Quantity>k__BackingField: 1
-  _researchTime: 0
+  _researchTime: 60
