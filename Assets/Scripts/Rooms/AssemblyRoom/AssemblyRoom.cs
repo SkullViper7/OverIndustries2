@@ -42,7 +42,7 @@ public class AssemblyRoom : MonoBehaviour, IRoomBehaviour
     /// <summary>
     /// Current internal capacity of the room.
     /// </summary>
-    private int _currentInternalCapacity;
+    public int CurrentInternalCapacity { get; private set; }
 
     /// <summary>
     /// Notification of the room when a production is launched.
@@ -58,6 +58,7 @@ public class AssemblyRoom : MonoBehaviour, IRoomBehaviour
     private static readonly object _lockObject = new object();
 
     public event Action<int> NewChrono, NewProductionCount;
+    public event Action<int, int> NewAmountInInternalStorage;
 
     /// <summary>
     /// Called at the start to initialize the assembling room.
@@ -119,7 +120,7 @@ public class AssemblyRoom : MonoBehaviour, IRoomBehaviour
         lock (_lockObject)
         {
             // If there is enough components in storage, launch production, else, checks each second if it is possible
-            if (CurrentAmountInInternalStorage < _currentInternalCapacity && _itemStorage.ThereIsEnoughIngredientsInStorage(CurrentObjectManufactured.Ingredients))
+            if (CurrentAmountInInternalStorage < CurrentInternalCapacity && _itemStorage.ThereIsEnoughIngredientsInStorage(CurrentObjectManufactured.Ingredients))
             {
                 // Remove production on hold if there is one
                 if (_productionOnHold != null)
@@ -171,8 +172,9 @@ public class AssemblyRoom : MonoBehaviour, IRoomBehaviour
     private void AddObjectInInternalStorage()
     {
         CurrentAmountInInternalStorage++;
-        Mathf.Clamp(CurrentAmountInInternalStorage, 0, _currentInternalCapacity);
+        Mathf.Clamp(CurrentAmountInInternalStorage, 0, CurrentInternalCapacity);
         NewProductionCount?.Invoke(CurrentAmountInInternalStorage);
+        NewAmountInInternalStorage?.Invoke(CurrentAmountInInternalStorage, CurrentInternalCapacity);
     }
 
     /// <summary>
@@ -182,8 +184,9 @@ public class AssemblyRoom : MonoBehaviour, IRoomBehaviour
     private void RemoveObjectsFromInternalStorage(int amount)
     {
         CurrentAmountInInternalStorage -= amount;
-        Mathf.Clamp(CurrentAmountInInternalStorage, 0, _currentInternalCapacity);
+        Mathf.Clamp(CurrentAmountInInternalStorage, 0, CurrentInternalCapacity);
         NewProductionCount?.Invoke(CurrentAmountInInternalStorage);
+        NewAmountInInternalStorage?.Invoke(CurrentAmountInInternalStorage, CurrentInternalCapacity);
     }
 
     /// <summary>
@@ -240,15 +243,15 @@ public class AssemblyRoom : MonoBehaviour, IRoomBehaviour
         {
             case 1:
                 _currentChrono = 0;
-                _currentInternalCapacity = AssemblyRoomData.InternalStorageAtLvl1;
+                CurrentInternalCapacity = AssemblyRoomData.InternalStorageAtLvl1;
                 break;
             case 2:
                 _currentChrono = 0;
-                _currentInternalCapacity = AssemblyRoomData.InternalStorageAtLvl2;
+                CurrentInternalCapacity = AssemblyRoomData.InternalStorageAtLvl2;
                 break;
             case 3:
                 _currentChrono = 0;
-                _currentInternalCapacity = AssemblyRoomData.InternalStorageAtLvl3;
+                CurrentInternalCapacity = AssemblyRoomData.InternalStorageAtLvl3;
                 break;
         }
     }

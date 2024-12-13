@@ -50,6 +50,8 @@ public class ItemStorage : MonoBehaviour
     /// </summary>
     public event System.Action<ObjectType, int> StorageChanged;
 
+    public event Action<int, int> NewAmountInInternalStorage;
+
     private void Awake()
     {
         // Singleton
@@ -85,6 +87,7 @@ public class ItemStorage : MonoBehaviour
             // Update storage
             _currentStorage += amount;
             AmountHasChanged?.Invoke(_currentStorage);
+            NewAmountInInternalStorage?.Invoke(_currentStorage, _storageCapacity);
         }
     }
 
@@ -104,6 +107,7 @@ public class ItemStorage : MonoBehaviour
                 // Update storage
                 _currentStorage -= amountToSubstract;
                 AmountHasChanged?.Invoke(_currentStorage);
+                NewAmountInInternalStorage?.Invoke(_currentStorage, _storageCapacity);
             }
         }
     }
@@ -141,6 +145,7 @@ public class ItemStorage : MonoBehaviour
             // Update storage
             _currentStorage += amount;
             AmountHasChanged?.Invoke(_currentStorage);
+            NewAmountInInternalStorage?.Invoke(_currentStorage, _storageCapacity);
         }
     }
 
@@ -160,6 +165,7 @@ public class ItemStorage : MonoBehaviour
                 // Update storage
                 _currentStorage -= amountToSubstract;
                 AmountHasChanged?.Invoke(_currentStorage);
+                NewAmountInInternalStorage?.Invoke(_currentStorage, _storageCapacity);
             }
         }
     }

@@ -17,10 +17,22 @@ public class RoomData : ScriptableObject
     private string _name;
 
     /// <summary>
-    /// Preview of the room.
+    /// Preview of the room at lvl 1.
     /// </summary>
-    [SerializeField, Tooltip("Preview of the room.")]
-    private Sprite _roomPreview;
+    [SerializeField, Tooltip("Preview of the room at lvl 1.")]
+    private Sprite _roomLvl1Preview;
+
+    /// <summary>
+    /// Preview of the room at lvl 2.
+    /// </summary>
+    [SerializeField, Tooltip("Preview of the room at lvl 2.")]
+    private Sprite _roomLvl2Preview;
+
+    /// <summary>
+    /// Preview of the room at lvl 3.
+    /// </summary>
+    [SerializeField, Tooltip("Preview of the room at lvl 3.")]
+    private Sprite _roomLvl3Preview;
 
     /// <summary>
     /// Description of the room.
@@ -39,6 +51,19 @@ public class RoomData : ScriptableObject
     /// </summary>
     [SerializeField, Tooltip("Capacity of the room.")]
     private int _capacity;
+
+    /// <summary>
+    /// Cost (in raw material) to upgrade the room to lvl 2.
+    /// </summary>
+    [SerializeField, Tooltip("Cost (in raw material) to upgrade the room to lvl 2.")]
+    private int _upgradeCostToLvl2;
+
+
+    /// <summary>
+    /// Cost (in raw material) to upgrade the room to lvl 3.
+    /// </summary>
+    [SerializeField, Tooltip("Cost (in raw material) to upgrade the room to lvl 3.")]
+    private int _upgradeCostToLvl3;
 
     /// <summary>
     /// Prefab of the room at lvl 1.
@@ -70,9 +95,19 @@ public class RoomData : ScriptableObject
     public string Name { get { return _name; } private set { } }
 
     /// <summary>
-    /// Gets the preview of the room.
+    /// Gets the preview of the room at lvl 1.
     /// </summary>
-    public Sprite RoomPreview { get { return _roomPreview; } private set { } }
+    public Sprite RoomLvl1Preview { get { return _roomLvl1Preview; } private set { } }
+
+    /// <summary>
+    /// Gets the preview of the room at lvl 2.
+    /// </summary>
+    public Sprite RoomLvl2Preview { get { return _roomLvl2Preview; } private set { } }
+
+    /// <summary>
+    /// Gets the preview of the room at lvl 3.
+    /// </summary>
+    public Sprite RoomLvl3Preview { get { return _roomLvl3Preview; } private set { } }
 
     /// <summary>
     /// Gets the description of the room.
@@ -88,6 +123,16 @@ public class RoomData : ScriptableObject
     /// Gets the capacity of the room.
     /// </summary>
     public int Capacity { get { return _capacity; } private set { } }
+
+    /// <summary>
+    /// Gets the cost (in raw material) to upgrade the room to lvl 2.
+    /// </summary>
+    public int UpgradeCostToLvl2 { get { return _upgradeCostToLvl2; } private set { } }
+
+    /// <summary>
+    /// Gets the cost (in raw material) to upgrade the room to lvl 3.
+    /// </summary>
+    public int UpgradeCostToLvl3 { get { return _upgradeCostToLvl3; } private set { } }
 
     /// <summary>
     /// Gets the prefab of the room.

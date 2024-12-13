@@ -33,31 +33,26 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
     /// <summary>
     /// Current chrono of the production.
     /// </summary>
-    [SerializeField]
     private int _currentChrono;
 
     /// <summary>
     /// Current time to product the current component manufactured.
     /// </summary>
-    [field: SerializeField]
     public int CurrentProductionTime { get; private set; }
 
     /// <summary>
     /// Current amount of components in internal storage of the room.
     /// </summary>
-    [SerializeField]
     public int CurrentAmountInInternalStorage { get; private set; }
 
     /// <summary>
     /// Current internal capacity of the room.
     /// </summary>
-    [SerializeField]
-    private int _currentInternalCapacity;
+    public int CurrentInternalCapacity { get; private set; }
 
     /// <summary>
     /// Notification of the room when a production is launched.
     /// </summary>
-    [SerializeField]
     private RoomNotifiction _roomNotification;
 
     /// <summary>
@@ -69,6 +64,7 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
     private static readonly object _lockObject = new object();
 
     public event Action<int> NewChrono, NewProductionCount;
+    public event Action<int, int> NewAmountInInternalStorage;
 
     /// <summary>
     /// Called at the start to initialize the machining room.
@@ -128,7 +124,7 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
         lock (_lockObject)
         {
             // If there is enough raw material in storage, launch production, else, checks each second if it is possible
-            if (CurrentAmountInInternalStorage < _currentInternalCapacity && _rawMaterialStorage.ThereIsEnoughRawMaterialInStorage(CurrentComponentManufactured.Cost))
+            if (CurrentAmountInInternalStorage < CurrentInternalCapacity && _rawMaterialStorage.ThereIsEnoughRawMaterialInStorage(CurrentComponentManufactured.Cost))
             {
                 // Remove production on hold if there is one
                 if (_productionOnHold != null)
@@ -180,8 +176,9 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
     private void AddComponentInInternalStorage()
     {
         CurrentAmountInInternalStorage++;
-        Mathf.Clamp(CurrentAmountInInternalStorage, 0, _currentInternalCapacity);
+        Mathf.Clamp(CurrentAmountInInternalStorage, 0, CurrentInternalCapacity);
         NewProductionCount?.Invoke(CurrentAmountInInternalStorage);
+        NewAmountInInternalStorage?.Invoke(CurrentAmountInInternalStorage, CurrentInternalCapacity);
     }
 
     /// <summary>
@@ -191,8 +188,9 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
     private void RemoveComponentsFromInternalStorage(int amount)
     {
         CurrentAmountInInternalStorage -= amount;
-        Mathf.Clamp(CurrentAmountInInternalStorage, 0, _currentInternalCapacity);
+        Mathf.Clamp(CurrentAmountInInternalStorage, 0, CurrentInternalCapacity);
         NewProductionCount?.Invoke(CurrentAmountInInternalStorage);
+        NewAmountInInternalStorage?.Invoke(CurrentAmountInInternalStorage, CurrentInternalCapacity);
     }
 
     /// <summary>
@@ -249,15 +247,15 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
         {
             case 1:
                 _currentChrono = 0;
-                _currentInternalCapacity = MachiningRoomData.InternalStorageAtLvl1;
+                CurrentInternalCapacity = MachiningRoomData.InternalStorageAtLvl1;
                 break;
             case 2:
                 _currentChrono = 0;
-                _currentInternalCapacity = MachiningRoomData.InternalStorageAtLvl2;
+                CurrentInternalCapacity = MachiningRoomData.InternalStorageAtLvl2;
                 break;
             case 3:
                 _currentChrono = 0;
-                _currentInternalCapacity = MachiningRoomData.InternalStorageAtLvl3;
+                CurrentInternalCapacity = MachiningRoomData.InternalStorageAtLvl3;
                 break;
         }
     }

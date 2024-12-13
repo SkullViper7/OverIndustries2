@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,27 +27,29 @@ public class DeliveryRoom : MonoBehaviour, IRoomBehaviour
     /// <summary>
     /// Current time to product an amount of raw material.
     /// </summary>
-    private int _currentDeliveryTime;
+    public int CurrentDeliveryTime { get; private set; }
 
     /// <summary>
     /// Current amount producted per delivery.
     /// </summary>
-    private int _currentProductionPerDelivery;
+    public int CurrentProductionPerDelivery { get; private set; }
 
     /// <summary>
     /// Current amount of raw material in internal storage of the room.
     /// </summary>
-    private int _currentAmountInInternalStorage;
+    public int CurrentAmountInInternalStorage { get; private set; }
 
     /// <summary>
     /// Current internal capacity of the room.
     /// </summary>
-    private int _currentInternalCapacity;
+    public int CurrentInternalCapacity { get; private set; }
 
     /// <summary>
     /// Notification of the room when raw material is recoverable.
     /// </summary>
     private RoomNotifiction _roomNotification;
+
+    public event Action<int, int> NewAmountInInternalStorage;
 
     /// <summary>
     /// Called at the start to initialize the delivery room.
@@ -68,12 +71,12 @@ public class DeliveryRoom : MonoBehaviour, IRoomBehaviour
     /// </summary>
     private void DeliveryUpdateChrono()
     {
-        if (_currentAmountInInternalStorage < _currentInternalCapacity)
+        if (CurrentAmountInInternalStorage < CurrentInternalCapacity)
         {
-            if (_currentChrono + 1 >= _currentDeliveryTime)
+            if (_currentChrono + 1 >= CurrentDeliveryTime)
             {
                 _currentChrono = 0;
-                AddRawMaterialInInternalStorage(_currentProductionPerDelivery);
+                AddRawMaterialInInternalStorage(CurrentProductionPerDelivery);
             }
             else
             {
@@ -88,8 +91,10 @@ public class DeliveryRoom : MonoBehaviour, IRoomBehaviour
     /// <param name="amount"> Amount to add in the internal storage. </param>
     private void AddRawMaterialInInternalStorage(int amount)
     {
-        _currentAmountInInternalStorage += amount;
-        Mathf.Clamp(_currentAmountInInternalStorage, 0, _currentInternalCapacity);
+        CurrentAmountInInternalStorage += amount;
+        Mathf.Clamp(CurrentAmountInInternalStorage, 0, CurrentInternalCapacity);
+
+        NewAmountInInternalStorage?.Invoke(CurrentAmountInInternalStorage, CurrentInternalCapacity);
 
         // If there is already not a notification on the room add a notification and add a listener for when player will clicks on.
         if (_roomNotification == null)
@@ -105,8 +110,8 @@ public class DeliveryRoom : MonoBehaviour, IRoomBehaviour
     /// <param name="amount"> Amount to substract from the internal storage. </param>
     private void RemoveRawMaterialFromInternalStorage(int amount)
     {
-        _currentAmountInInternalStorage -= amount;
-        Mathf.Clamp(_currentAmountInInternalStorage, 0, _currentInternalCapacity);
+        CurrentAmountInInternalStorage -= amount;
+        Mathf.Clamp(CurrentAmountInInternalStorage, 0, CurrentInternalCapacity);
     }
 
     /// <summary>
@@ -118,10 +123,10 @@ public class DeliveryRoom : MonoBehaviour, IRoomBehaviour
         {
             int remainingStorage = _storage.GetRemainingStorage();
 
-            if(remainingStorage >= _currentAmountInInternalStorage)
+            if(remainingStorage >= CurrentAmountInInternalStorage)
             {
-                _storage.AddRawMaterials(_currentAmountInInternalStorage);
-                RemoveRawMaterialFromInternalStorage(_currentAmountInInternalStorage);
+                _storage.AddRawMaterials(CurrentAmountInInternalStorage);
+                RemoveRawMaterialFromInternalStorage(CurrentAmountInInternalStorage);
                 _roomNotification.DesactivateNotification();
                 _roomNotification = null;
             }
@@ -143,21 +148,21 @@ public class DeliveryRoom : MonoBehaviour, IRoomBehaviour
         {
             case 1:
                 _currentChrono = 0;
-                _currentDeliveryTime = DeliveryRoomData.DeliveryTimeAtLvl1;
-                _currentProductionPerDelivery = DeliveryRoomData.ProductionPerDeliveryAtLvl1;
-                _currentInternalCapacity = DeliveryRoomData.InternalStorageAtLvl1;
+                CurrentDeliveryTime = DeliveryRoomData.DeliveryTimeAtLvl1;
+                CurrentProductionPerDelivery = DeliveryRoomData.ProductionPerDeliveryAtLvl1;
+                CurrentInternalCapacity = DeliveryRoomData.InternalStorageAtLvl1;
                 break;
             case 2:
                 _currentChrono = 0;
-                _currentDeliveryTime = DeliveryRoomData.DeliveryTimeAtLvl2;
-                _currentProductionPerDelivery = DeliveryRoomData.ProductionPerDeliveryAtLvl2;
-                _currentInternalCapacity = DeliveryRoomData.InternalStorageAtLvl2;
+                CurrentDeliveryTime = DeliveryRoomData.DeliveryTimeAtLvl2;
+                CurrentProductionPerDelivery = DeliveryRoomData.ProductionPerDeliveryAtLvl2;
+                CurrentInternalCapacity = DeliveryRoomData.InternalStorageAtLvl2;
                 break;
             case 3:
                 _currentChrono = 0;
-                _currentDeliveryTime = DeliveryRoomData.DeliveryTimeAtLvl3;
-                _currentProductionPerDelivery = DeliveryRoomData.ProductionPerDeliveryAtLvl3;
-                _currentInternalCapacity = DeliveryRoomData.InternalStorageAtLvl3;
+                CurrentDeliveryTime = DeliveryRoomData.DeliveryTimeAtLvl3;
+                CurrentProductionPerDelivery = DeliveryRoomData.ProductionPerDeliveryAtLvl3;
+                CurrentInternalCapacity = DeliveryRoomData.InternalStorageAtLvl3;
                 break;
         }
     }

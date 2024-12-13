@@ -50,7 +50,7 @@ public class ConstructionSelectionButton : MonoBehaviour
         _uiManager = UIManager.Instance;
 
         _name.text = _roomData.name;
-        _roomPreview.sprite = _roomData.RoomPreview;
+        _roomPreview.sprite = _roomData.RoomLvl1Preview;
         _description.text = _roomData.Description;
 
         _constructionButton.onClick.AddListener(() =>

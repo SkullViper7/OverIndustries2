@@ -10,13 +10,11 @@ public class RawMaterialStorage : MonoBehaviour
     /// <summary>
     /// Capacity of the storage;
     /// </summary>
-    [SerializeField]
     private int _storageCapacity;
 
     /// <summary>
     /// Amount of raw materials in storage.
     /// </summary>
-    [SerializeField]
     private int _amoutOfRawMaterial;
 
     /// <summary>
@@ -44,6 +42,8 @@ public class RawMaterialStorage : MonoBehaviour
     /// </summary>
     public event Action<int> RawMaterialToRecycle, RawMaterialProduct;
 
+    public event Action<int, int> NewAmountInInternalStorage;
+
     private void Awake()
     {
         // Singleton
@@ -69,6 +69,7 @@ public class RawMaterialStorage : MonoBehaviour
 
         AmountHasChanged?.Invoke(_amoutOfRawMaterial);
         RawMaterialProduct?.Invoke(amountToAdd);
+        NewAmountInInternalStorage?.Invoke(_amoutOfRawMaterial, _storageCapacity);
     }
 
     /// <summary>
@@ -81,6 +82,7 @@ public class RawMaterialStorage : MonoBehaviour
         Mathf.Clamp(_amoutOfRawMaterial, 0, _storageCapacity);
 
         AmountHasChanged?.Invoke(_amoutOfRawMaterial);
+        NewAmountInInternalStorage?.Invoke(_amoutOfRawMaterial, _storageCapacity);
     }
 
     /// <summary>
