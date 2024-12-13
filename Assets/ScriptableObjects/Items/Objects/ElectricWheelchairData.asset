@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80c7f1bd272a03540b3f54254c200947, type: 3}
+  m_Name: ElectricWheelchairData
+  m_EditorClassIdentifier: 
+  _objectPicto: {fileID: 0}
+  _objectType: 8
+  _name: "Fauteuil roulant \xE9lectrique"
+  _description: "Le fauteuil roulant \xE9lectrique est un dispositif de mobilit\xE9
+    con\xE7u pour aider les personnes ayant des difficult\xE9s \xE0 se d\xE9placer
+    seul."
+  _ingredients:
+  - <ComponentData>k__BackingField: {fileID: 11400000, guid: ce83a3afa3dabee4e81eb7bae6e1a546,
+      type: 2}
+    <Quantity>k__BackingField: 15
+  - <ComponentData>k__BackingField: {fileID: 11400000, guid: a9f768196c1e0424db59a800a987c8a4,
+      type: 2}
+    <Quantity>k__BackingField: 1
+  - <ComponentData>k__BackingField: {fileID: 11400000, guid: 85015567544834f4c9967190335481d6,
+      type: 2}
+    <Quantity>k__BackingField: 4
+  - <ComponentData>k__BackingField: {fileID: 11400000, guid: 1bcb72e2a90266a42b415fab32297536,
+      type: 2}
+    <Quantity>k__BackingField: 8
+  - <ComponentData>k__BackingField: {fileID: 11400000, guid: 7fc26cd3d7b2c6b4c895e8d2aee44ed7,
+      type: 2}
+    <Quantity>k__BackingField: 20
+  _productionTimeAtLvl1: 30
+  _productionTimeAtLvl2: 25
+  _productionTimeAtLvl3: 10
+  _researchCost:
+    <RawMaterialCost>k__BackingField: 200
+    <IngredientsCost>k__BackingField:
+    - <ComponentData>k__BackingField: {fileID: 11400000, guid: 7fc26cd3d7b2c6b4c895e8d2aee44ed7,
+        type: 2}
+      <Quantity>k__BackingField: 5
+    - <ComponentData>k__BackingField: {fileID: 11400000, guid: 1bcb72e2a90266a42b415fab32297536,
+        type: 2}
+      <Quantity>k__BackingField: 2
+    - <ComponentData>k__BackingField: {fileID: 11400000, guid: 85015567544834f4c9967190335481d6,
+        type: 2}
+      <Quantity>k__BackingField: 1
+    - <ComponentData>k__BackingField: {fileID: 11400000, guid: a9f768196c1e0424db59a800a987c8a4,
+        type: 2}
+      <Quantity>k__BackingField: 1
+    - <ComponentData>k__BackingField: {fileID: 11400000, guid: ce83a3afa3dabee4e81eb7bae6e1a546,
+        type: 2}
+      <Quantity>k__BackingField: 1
+  _researchTime: 90

@@ -12,17 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80c7f1bd272a03540b3f54254c200947, type: 3}
   m_Name: SkateboardData
   m_EditorClassIdentifier: 
-  _objectPicto: {fileID: 0}
+  _objectPicto: {fileID: 21300000, guid: b17ca33f12bbb0e44a9268b6895d247d, type: 3}
   _objectType: 5
   _name: Skateboard
+  _description: "Planche \xE0 roulettes, souvent utilis\xE9 pour des figures acrobatiques
+    et des d\xE9placements urbains."
   _ingredients:
   - <ComponentData>k__BackingField: {fileID: 11400000, guid: 85015567544834f4c9967190335481d6,
       type: 2}
     <Quantity>k__BackingField: 4
-  _productionTimeAtLvl1: 0
-  _productionTimeAtLvl2: 0
-  _productionTimeAtLvl3: 0
+  - <ComponentData>k__BackingField: {fileID: 11400000, guid: 6b89e272a5ce1064a861125b63394906,
+      type: 2}
+    <Quantity>k__BackingField: 1
+  _productionTimeAtLvl1: 20
+  _productionTimeAtLvl2: 15
+  _productionTimeAtLvl3: 10
   _researchCost:
-    <RawMaterialCost>k__BackingField: 0
-    <IngredientsCost>k__BackingField: []
-  _researchTime: 0
+    <RawMaterialCost>k__BackingField: 150
+    <IngredientsCost>k__BackingField:
+    - <ComponentData>k__BackingField: {fileID: 11400000, guid: 85015567544834f4c9967190335481d6,
+        type: 2}
+      <Quantity>k__BackingField: 1
+    - <ComponentData>k__BackingField: {fileID: 11400000, guid: 6b89e272a5ce1064a861125b63394906,
+        type: 2}
+      <Quantity>k__BackingField: 1
+  _researchTime: 60
