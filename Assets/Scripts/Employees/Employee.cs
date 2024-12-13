@@ -46,6 +46,9 @@ public class Employee : MonoBehaviour
         SetRoutineParameter();
     }
 
+    /// <summary>
+    /// Set all parameter for start employee routine
+    /// </summary>
     public void SetRoutineParameter()
     {
         gameObject.transform.Rotate(Vector3.zero);
@@ -113,12 +116,17 @@ public class Employee : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Choose interact animation with the actual interact point
+    /// </summary>
+    /// <param name="_interactPoint"></param>
     public void SetIntercatAnimation(InteractAnimation _interactPoint)
     {
         if (!GameManager.Instance.InDragAndDrop)
         {
             gameObject.transform.rotation = _interactPoint.transform.rotation;
 
+            _animator.SetTrigger("Interact");
             int i = Random.Range(0, _interactPoint._interactTriggerAnimation.Count);
             _animator.SetTrigger(_interactPoint._interactTriggerAnimation[i]);
         }
@@ -145,6 +153,10 @@ public class Employee : MonoBehaviour
         _animator.SetTrigger("Idle");
     }
 
+    /// <summary>
+    /// Check if the employee is at interact point
+    /// </summary>
+    /// <param name="collider"></param>
     public void OnTriggerEnter(Collider collider)
     {
         if (collider.name == _actualWayPoint.name)

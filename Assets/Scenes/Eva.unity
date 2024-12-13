@@ -8648,7 +8648,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _nameLvl: {fileID: 70710214}
+  _roomPreview: {fileID: 0}
+  _name: {fileID: 0}
+  _descriptionContainer: {fileID: 0}
   _description: {fileID: 1138453513}
+  _statsContainer: {fileID: 0}
+  _production: {fileID: 0}
+  _productionHeader: {fileID: 0}
+  _productionImage: {fileID: 0}
+  _productionTxt: {fileID: 0}
+  _productionRate: {fileID: 0}
+  _productionRateHeader: {fileID: 0}
+  _productionRateImage: {fileID: 0}
+  _productionRateTxt: {fileID: 0}
+  _capacity: {fileID: 0}
+  _capacityHeader: {fileID: 0}
+  _capacityImage: {fileID: 0}
+  _capacityTxt: {fileID: 0}
+  _switchButtons: {fileID: 0}
 --- !u!224 &734243267
 RectTransform:
   m_ObjectHideFlags: 0
@@ -19832,8 +19849,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 984f70cf5042fb641873155caca23a02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _storageCapacity: 0
-  _amoutOfRawMaterial: 0
   TotalRecyclingRawMaterial: 0
 --- !u!1 &1709242864
 GameObject:
@@ -23587,8 +23602,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1bdf18d2c9049484080a153d66d5df93, type: 2}
   EmployeeName: Jack
   AssignRoom: {fileID: 1848194282}
-  _minTimeBetweenWayPoint: 6
-  _maxTimeBetweenWayPoint: 8
+  _minTimeBetweenWayPoint: 8
+  _maxTimeBetweenWayPoint: 10
 --- !u!65 &2024891237
 BoxCollider:
   m_ObjectHideFlags: 0
