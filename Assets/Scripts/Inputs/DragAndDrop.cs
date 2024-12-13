@@ -7,7 +7,6 @@ public class DragAndDrop : MonoBehaviour
     PlayerInput _playerInput;
 
     private Employee EmployeeToMove;
-    private Vector3 _position;
     private Vector3 _startPosition;
     public bool EmployeeSelect { get; private set; } = false;
 
@@ -48,8 +47,7 @@ public class DragAndDrop : MonoBehaviour
                 int PosX = (int)Mathf.Round(hit.point.x);
                 int PosY = (int)Mathf.Round(hit.point.y);
 
-                EmployeeToMove.gameObject.transform.position = new Vector3(PosX, PosY, 2);
-                _position = EmployeeToMove.gameObject.transform.position;
+                EmployeeToMove.gameObject.transform.position = new Vector3(PosX, PosY, 1);
             }
         }
     }
@@ -71,8 +69,9 @@ public class DragAndDrop : MonoBehaviour
     {
         EmployeeSelect = true;
         EmployeeToMove.GetComponent<NavMeshAgent>().enabled = false;
+        EmployeeToMove.SetIdleAnimation();
+        GameManager.Instance.InDragAndDrop = true;
     }
-
 
     /// <summary>
     /// Quand le joueur relache l'écran
@@ -85,7 +84,6 @@ public class DragAndDrop : MonoBehaviour
         {
             EmployeeSelect = false;
             RaycastHit hit;
-            GameManager.Instance.InDragAndDrop = true;
 
             // Get the touch position on the screen and set its z-coordinate to the camera's distance
             Vector3 touchPosition = Touchscreen.current.primaryTouch.position.ReadValue();
@@ -97,7 +95,7 @@ public class DragAndDrop : MonoBehaviour
                                             Camera.main.ScreenToWorldPoint(touchPosition).z - Camera.main.transform.position.z).normalized;
 
             // Cast a ray from the camera in the calculated direction and check for hits
-            if (Physics.Raycast(Camera.main.transform.position, direction, out hit, 200))
+            if (Physics.Raycast(EmployeeToMove.transform.position, direction, out hit, 200))
             {
                 //Check if hit room
                 if (hit.collider.transform.parent.TryGetComponent<Room>(out Room room))
@@ -114,38 +112,41 @@ public class DragAndDrop : MonoBehaviour
                                 EmployeeToMove.AssignRoom.GetComponent<Room>().RemoveAssignEmployeeInThisRoom(EmployeeToMove);
                             }
 
-                            room.AssignEmployeeInThisRoom(EmployeeToMove);
-                            EmployeeToMove.AssignRoom = room.gameObject;
-                            EmployeeToMove.transform.position = _position;
-                            EmployeeToMove.GetComponent<NavMeshAgent>().enabled = true;
-                            GameManager.Instance.InDragAndDrop = false;
-                            EmployeeToMove.SetRoutineParameter();
-                            Debug.Log("taiyakii");
+                            SetParameter(room);
                         }
                         else
-                        {
-                            ResetorParameter();
-                        }
+                        { ResetParameter(); }
                     }
                     else
-                    {
-                        ResetorParameter();
-                    }
+                    { ResetParameter(); }
                 }
                 else
-                {
-                    ResetorParameter();
-                }
+                { ResetParameter(); }
             }
+            else
+            { ResetParameter(); }
         }
     }
 
-    public void ResetorParameter()
+    public void ResetParameter()
     {
         EmployeeToMove.transform.position = _startPosition;
-        EmployeeToMove.GetComponent<NavMeshAgent>().enabled = true;
         GameManager.Instance.InDragAndDrop = false;
+
+        EmployeeToMove.GetComponent<NavMeshAgent>().enabled = true;
         EmployeeToMove.SetRoutineParameter();
-        Debug.Log("restore parameter");
+    }
+
+    public void SetParameter(Room room)
+    {
+        GameManager.Instance.InDragAndDrop = false;
+
+        room.AssignEmployeeInThisRoom(EmployeeToMove);
+        EmployeeToMove.AssignRoom = room.gameObject;
+
+        EmployeeToMove.transform.position = room.gameObject.transform.GetComponentInChildren<InteractAnimation>().gameObject.transform.position;
+        EmployeeToMove.GetComponent<NavMeshAgent>().enabled = true;
+
+        EmployeeToMove.SetRoutineParameter();
     }
 }
