@@ -23,12 +23,12 @@ public class PopUpSizeFitter : MonoBehaviour
     /// The maximum size that the aspect choosed can reach.
     /// </summary>
     [SerializeField, Tooltip("Choose which aspect must fit with the screen.")]
-    private float _minSize;
+    private float _maxSize;
 
     /// <summary>
     /// The anchor ratio that the pop up must adopt if the screen size is too small.
     /// </summary>
-    [SerializeField, Tooltip("The anchor ratio that the pop up must adopt if the screen size is too small. (X for bottom and Y for top")]
+    [SerializeField, Tooltip("The anchor ratio that the pop up must adopt if the screen size is too small. (X for bottom and Y for top)")]
     private Vector2 _anchorRatio;
 
     [SerializeField]
@@ -50,7 +50,7 @@ public class PopUpSizeFitter : MonoBehaviour
                 float effectiveHeight = screenHeight * (_anchorRatio.y - _anchorRatio.x);
 
                 // If effective height is lower than the minimum size, pop-up height must fit with anchor ratio
-                if (effectiveHeight < _minSize)
+                if (effectiveHeight < _maxSize)
                 {
                     _rectTransform.anchorMin = new Vector2(0.5f, _anchorRatio.x);
                     _rectTransform.anchorMax = new Vector2(0.5f, _anchorRatio.y);
@@ -64,7 +64,7 @@ public class PopUpSizeFitter : MonoBehaviour
                     _rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
                     _rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
 
-                    _rectTransform.sizeDelta = new Vector2(_rectTransform.sizeDelta.x, _minSize);
+                    _rectTransform.sizeDelta = new Vector2(_rectTransform.sizeDelta.x, _maxSize);
 
                     _rectTransform.localPosition = Vector2.zero;
                 }
@@ -76,7 +76,7 @@ public class PopUpSizeFitter : MonoBehaviour
                 float effectiveWidth = screenWidth * (_anchorRatio.y - _anchorRatio.x);
 
                 // If effective width is lower than the minimum size, pop-up width must fit with anchor ratio
-                if (effectiveWidth < _minSize)
+                if (effectiveWidth < _maxSize)
                 {
                     _rectTransform.anchorMin = new Vector2(_anchorRatio.x, 0.5f);
                     _rectTransform.anchorMax = new Vector2(_anchorRatio.y, 0.5f);
@@ -90,7 +90,7 @@ public class PopUpSizeFitter : MonoBehaviour
                     _rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
                     _rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
 
-                    _rectTransform.sizeDelta = new Vector2(_minSize, _rectTransform.sizeDelta.y);
+                    _rectTransform.sizeDelta = new Vector2(_maxSize, _rectTransform.sizeDelta.y);
 
                     _rectTransform.localPosition = Vector2.zero;
                 }
