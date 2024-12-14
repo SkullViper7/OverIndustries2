@@ -631,7 +631,6 @@ MonoBehaviour:
   AssignRoom: {fileID: 1519977285}
   _minTimeBetweenWayPoint: 0
   _maxTimeBetweenWayPoint: 0
-  _wayPointList: []
 --- !u!65 &54606456
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2051,12 +2050,12 @@ PrefabInstance:
     - target: {fileID: -7552582706839291426, guid: d81bc983893416f42895b24d18ce753a,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.25
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: d81bc983893416f42895b24d18ce753a,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.25
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: d81bc983893416f42895b24d18ce753a,
         type: 3}
@@ -8649,7 +8648,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _nameLvl: {fileID: 70710214}
+  _roomPreview: {fileID: 0}
+  _name: {fileID: 0}
+  _descriptionContainer: {fileID: 0}
   _description: {fileID: 1138453513}
+  _statsContainer: {fileID: 0}
+  _production: {fileID: 0}
+  _productionHeader: {fileID: 0}
+  _productionImage: {fileID: 0}
+  _productionTxt: {fileID: 0}
+  _productionRate: {fileID: 0}
+  _productionRateHeader: {fileID: 0}
+  _productionRateImage: {fileID: 0}
+  _productionRateTxt: {fileID: 0}
+  _capacity: {fileID: 0}
+  _capacityHeader: {fileID: 0}
+  _capacityImage: {fileID: 0}
+  _capacityTxt: {fileID: 0}
+  _switchButtons: {fileID: 0}
 --- !u!224 &734243267
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17018,10 +17034,10 @@ PrefabInstance:
       propertyPath: m_MinRegionArea
       value: 10
       objectReference: {fileID: 0}
-    - target: {fileID: 3066987028505342972, guid: c318982c2a3c0e840b416323f79fcfca,
+    - target: {fileID: 4587894913778823751, guid: c318982c2a3c0e840b416323f79fcfca,
         type: 3}
-      propertyPath: m_IsActive
-      value: 1
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 5053030860599490285, guid: c318982c2a3c0e840b416323f79fcfca,
         type: 3}
@@ -17082,6 +17098,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7092528641752432244, guid: c318982c2a3c0e840b416323f79fcfca,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
@@ -19828,8 +19849,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 984f70cf5042fb641873155caca23a02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _storageCapacity: 0
-  _amoutOfRawMaterial: 0
   TotalRecyclingRawMaterial: 0
 --- !u!1 &1709242864
 GameObject:
@@ -22714,7 +22733,6 @@ MonoBehaviour:
   AssignRoom: {fileID: 0}
   _minTimeBetweenWayPoint: 0
   _maxTimeBetweenWayPoint: 0
-  _wayPointList: []
 --- !u!1 &1949043702
 GameObject:
   m_ObjectHideFlags: 0
@@ -23584,9 +23602,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1bdf18d2c9049484080a153d66d5df93, type: 2}
   EmployeeName: Jack
   AssignRoom: {fileID: 1848194282}
-  _minTimeBetweenWayPoint: 5
-  _maxTimeBetweenWayPoint: 8
-  _wayPointList: []
+  _minTimeBetweenWayPoint: 8
+  _maxTimeBetweenWayPoint: 10
 --- !u!65 &2024891237
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -23606,8 +23623,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.7532711, y: 1.5795609, z: 0.64953387}
-  m_Center: {x: 0.00056648254, y: 0.8087533, z: -0.009352744}
+  m_Size: {x: 2.455429, y: 5.7993765, z: 1.0453901}
+  m_Center: {x: 0.022678375, y: 3.2061415, z: -0.06919336}
 --- !u!4 &2024891238
 Transform:
   m_ObjectHideFlags: 0
@@ -23618,8 +23635,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 15.3, y: 1.1, z: 2.23}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2098320105}
   m_Father: {fileID: 0}
@@ -23633,7 +23650,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 2024891234}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.1
+  m_Radius: 0.4
   m_Speed: 2
   m_Acceleration: 8
   avoidancePriority: 50
@@ -23642,7 +23659,7 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 1.6
+  m_Height: 6
   m_BaseOffset: 0
   m_WalkableMask: 13
   m_ObstacleAvoidanceType: 4

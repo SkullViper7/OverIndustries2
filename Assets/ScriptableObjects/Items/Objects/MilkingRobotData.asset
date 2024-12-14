@@ -12,14 +12,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80c7f1bd272a03540b3f54254c200947, type: 3}
   m_Name: MilkingRobotData
   m_EditorClassIdentifier: 
-  _objectPicto: {fileID: 0}
+  _objectPicto: {fileID: 21300000, guid: 9c898a992efc845448506d82d1dc664c, type: 3}
   _objectType: 2
   _name: Robot de traite
-  _ingredients: []
-  _productionTimeAtLvl1: 0
-  _productionTimeAtLvl2: 0
-  _productionTimeAtLvl3: 0
+  _description: "Un robot de traite est un dispositif automatis\xE9 qui facilite
+    la traite des vaches en am\xE9liorant l'efficacit\xE9 et le bien-\xEAtre animal
+    dans l'industrie laiti\xE8re."
+  _ingredients:
+  - <ComponentData>k__BackingField: {fileID: 11400000, guid: 410c64480e76b794aa388712af6063e6,
+      type: 2}
+    <Quantity>k__BackingField: 1
+  - <ComponentData>k__BackingField: {fileID: 11400000, guid: 371f1486be008cd408761f35c3dc9577,
+      type: 2}
+    <Quantity>k__BackingField: 2
+  - <ComponentData>k__BackingField: {fileID: 11400000, guid: 1bcb72e2a90266a42b415fab32297536,
+      type: 2}
+    <Quantity>k__BackingField: 5
+  - <ComponentData>k__BackingField: {fileID: 11400000, guid: 999be41d46c881847ae61eb785d3e47c,
+      type: 2}
+    <Quantity>k__BackingField: 3
+  - <ComponentData>k__BackingField: {fileID: 11400000, guid: a9f768196c1e0424db59a800a987c8a4,
+      type: 2}
+    <Quantity>k__BackingField: 1
+  _productionTimeAtLvl1: 30
+  _productionTimeAtLvl2: 25
+  _productionTimeAtLvl3: 20
   _researchCost:
-    <RawMaterialCost>k__BackingField: 0
-    <IngredientsCost>k__BackingField: []
-  _researchTime: 0
+    <RawMaterialCost>k__BackingField: 200
+    <IngredientsCost>k__BackingField:
+    - <ComponentData>k__BackingField: {fileID: 11400000, guid: a9f768196c1e0424db59a800a987c8a4,
+        type: 2}
+      <Quantity>k__BackingField: 1
+    - <ComponentData>k__BackingField: {fileID: 11400000, guid: 999be41d46c881847ae61eb785d3e47c,
+        type: 2}
+      <Quantity>k__BackingField: 1
+    - <ComponentData>k__BackingField: {fileID: 11400000, guid: 1bcb72e2a90266a42b415fab32297536,
+        type: 2}
+      <Quantity>k__BackingField: 1
+    - <ComponentData>k__BackingField: {fileID: 11400000, guid: 371f1486be008cd408761f35c3dc9577,
+        type: 2}
+      <Quantity>k__BackingField: 1
+    - <ComponentData>k__BackingField: {fileID: 11400000, guid: 410c64480e76b794aa388712af6063e6,
+        type: 2}
+      <Quantity>k__BackingField: 1
+  _researchTime: 90

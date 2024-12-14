@@ -41,7 +41,16 @@ public enum ComponentType
     Handlebar, //Guidon
     Chassis, //Chassis
     ElectronicBox, //Boiter electronique
-    Cable //Cable
+    Cable, //Cable
+    Tray, //Plateau
+    Engine, //Moteur
+    Sensor, //Capteur
+    Tube, //Tube
+    CylinderBody, //Vérin
+    Tank, //Cuve
+    ArticulatedArm, //Bras articulé
+    ElectroHydraulicCabine, //Capteur électro hydraulique
+    DiscBrake, //Frein à disque
 }
 
 /// <summary>
@@ -56,5 +65,7 @@ public enum ObjectType
     Cylinder, //vérin électro hydraulique
     Skateboard,
     Forklift, //Charriot élévateur
-    BackhoeLoader //Tractopelle
+    BackhoeLoader, //Tractopelle
+    ElectricWheelchair, //Fauteuil roulant électrique
+    HandPalletTruck, //Transpalette manuel
 }
