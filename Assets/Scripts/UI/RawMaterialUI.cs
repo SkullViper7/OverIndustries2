@@ -4,32 +4,23 @@ using TMPro;
 public class RawMaterialUI : MonoBehaviour
 {
     /// <summary>
-    /// Raw material amount on screen.
+    /// Raw material storage on screen.
     /// </summary>
     [SerializeField]
-    private TMP_Text _rawMaterialAmount, _capacity;
+    private TMP_Text _storageDisplayed;
 
     private void Start()
     {
-        RawMaterialStorage.Instance.AmountHasChanged += ChangeAmount;
-        RawMaterialStorage.Instance.CapacityHasChanged += ChangeCapacity;
+        RawMaterialStorage.Instance.NewAmountInInternalStorage += ChangeDisplay;
     }
 
     /// <summary>
-    /// Called when the amount of raw material changes to update display on screen.
+    /// Called when the raw material storage changes to update display on screen.
     /// </summary>
     /// <param name="newAmount"> New amount to display. </param>
-    private void ChangeAmount(int newAmount)
-    {
-        _rawMaterialAmount.text = newAmount.ToString();
-    }
-
-    /// <summary>
-    /// Called when the capacity of raw material changes to update display on screen.
-    /// </summary>
     /// <param name="newCapacity"> New capacity to display. </param>
-    private void ChangeCapacity(int newCapacity)
+    private void ChangeDisplay(int newAmount, int newCapacity)
     {
-        _capacity.text = newCapacity.ToString();
+        _storageDisplayed.text = newAmount.ToString() + "/" + newCapacity.ToString();
     }
 }

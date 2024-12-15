@@ -10,12 +10,32 @@ using UnityEditor;
 [CanEditMultipleObjects]
 public class CustomHorizontalOrVerticalLayoutGroupEditor : HorizontalOrVerticalLayoutGroupEditor
 {
+    SerializedProperty m_Padding;
+    SerializedProperty m_Spacing;
+    SerializedProperty m_ChildAlignment;
+    SerializedProperty m_ChildControlWidth;
+    SerializedProperty m_ChildControlHeight;
+    SerializedProperty m_ChildScaleWidth;
+    SerializedProperty m_ChildScaleHeight;
+    SerializedProperty m_ChildForceExpandWidth;
+    SerializedProperty m_ChildForceExpandHeight;
+    SerializedProperty m_ReverseArrangement;
+
     HorizontalOrVerticalLayoutGroup _horizontalOrVertical;
     CustomLayoutGroup _customLayoutGroup;
 
     protected override void OnEnable()
     {
-        base.OnEnable();
+        m_Padding = serializedObject.FindProperty("m_Padding");
+        m_Spacing = serializedObject.FindProperty("m_Spacing");
+        m_ChildAlignment = serializedObject.FindProperty("m_ChildAlignment");
+        m_ChildControlWidth = serializedObject.FindProperty("m_ChildControlWidth");
+        m_ChildControlHeight = serializedObject.FindProperty("m_ChildControlHeight");
+        m_ChildScaleWidth = serializedObject.FindProperty("m_ChildScaleWidth");
+        m_ChildScaleHeight = serializedObject.FindProperty("m_ChildScaleHeight");
+        m_ChildForceExpandWidth = serializedObject.FindProperty("m_ChildForceExpandWidth");
+        m_ChildForceExpandHeight = serializedObject.FindProperty("m_ChildForceExpandHeight");
+        m_ReverseArrangement = serializedObject.FindProperty("m_ReverseArrangement");
 
         _horizontalOrVertical = (HorizontalOrVerticalLayoutGroup)target;
         _customLayoutGroup = _horizontalOrVertical.GetComponent<CustomLayoutGroup>();
@@ -90,6 +110,22 @@ public class CustomHorizontalOrVerticalLayoutGroupEditor : HorizontalOrVerticalL
         }
 
         serializedObject.ApplyModifiedProperties();
+    }
+
+    void ToggleLeft(Rect position, SerializedProperty property, GUIContent label)
+    {
+        bool toggle = property.boolValue;
+        EditorGUI.BeginProperty(position, label, property);
+        EditorGUI.BeginChangeCheck();
+        int oldIndent = EditorGUI.indentLevel;
+        EditorGUI.indentLevel = 0;
+        toggle = EditorGUI.ToggleLeft(position, label, toggle);
+        EditorGUI.indentLevel = oldIndent;
+        if (EditorGUI.EndChangeCheck())
+        {
+            property.boolValue = property.hasMultipleDifferentValues ? true : !property.boolValue;
+        }
+        EditorGUI.EndProperty();
     }
 }
 #endif

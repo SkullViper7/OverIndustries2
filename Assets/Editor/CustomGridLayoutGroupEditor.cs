@@ -10,12 +10,28 @@ using UnityEditor;
 [CanEditMultipleObjects]
 public class CustomGridLayoutGroupEditor : GridLayoutGroupEditor
 {
+    SerializedProperty m_Padding;
+    SerializedProperty m_CellSize;
+    SerializedProperty m_Spacing;
+    SerializedProperty m_StartCorner;
+    SerializedProperty m_StartAxis;
+    SerializedProperty m_ChildAlignment;
+    SerializedProperty m_Constraint;
+    SerializedProperty m_ConstraintCount;
+
     GridLayoutGroup _gridLayoutGroup;
     CustomLayoutGroup _customLayoutGroup;
 
     protected override void OnEnable()
     {
-        base.OnEnable();
+        m_Padding = serializedObject.FindProperty("m_Padding");
+        m_CellSize = serializedObject.FindProperty("m_CellSize");
+        m_Spacing = serializedObject.FindProperty("m_Spacing");
+        m_StartCorner = serializedObject.FindProperty("m_StartCorner");
+        m_StartAxis = serializedObject.FindProperty("m_StartAxis");
+        m_ChildAlignment = serializedObject.FindProperty("m_ChildAlignment");
+        m_Constraint = serializedObject.FindProperty("m_Constraint");
+        m_ConstraintCount = serializedObject.FindProperty("m_ConstraintCount");
 
         _gridLayoutGroup = (GridLayoutGroup)target;
         _customLayoutGroup = _gridLayoutGroup.GetComponent<CustomLayoutGroup>();

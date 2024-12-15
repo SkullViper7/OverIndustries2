@@ -147,9 +147,32 @@ public class Room : MonoBehaviour
     /// </summary>
     public void UpgradeRoom()
     {
-        CurrentLvl++;
-        NewLvl?.Invoke(CurrentLvl);
-        UpgradeVisualRoom(CurrentLvl);
+        switch (CurrentLvl)
+        {
+            case 0:
+                CurrentLvl++;
+                NewLvl?.Invoke(CurrentLvl);
+                UpgradeVisualRoom(CurrentLvl);
+                break;
+            case 1:
+                if (RawMaterialStorage.Instance.ThereIsEnoughRawMaterialInStorage(RoomData.UpgradeCostToLvl2))
+                {
+                    RawMaterialStorage.Instance.SubstractRawMaterials(RoomData.UpgradeCostToLvl2);
+                    CurrentLvl++;
+                    NewLvl?.Invoke(CurrentLvl);
+                    UpgradeVisualRoom(CurrentLvl);
+                }
+                break;
+            case 2:
+                if (RawMaterialStorage.Instance.ThereIsEnoughRawMaterialInStorage(RoomData.UpgradeCostToLvl3))
+                {
+                    RawMaterialStorage.Instance.SubstractRawMaterials(RoomData.UpgradeCostToLvl3);
+                    CurrentLvl++;
+                    NewLvl?.Invoke(CurrentLvl);
+                    UpgradeVisualRoom(CurrentLvl);
+                }
+                break;
+        }
     }
 
     /// <summary>
@@ -162,13 +185,13 @@ public class Room : MonoBehaviour
         if (EmployeeAssign.Count != RoomData.Capacity)
         {
             //Check if this employee is not already in this room
-            if(employee.AssignRoom != this.gameObject)
+            if (employee.AssignRoom != this.gameObject)
             {
                 EmployeeAssign.Add(employee);
             }
         }
     }
-    
+
     /// <summary>
     /// Add this employee in the list of employee assign in this room
     /// </summary>
@@ -179,7 +202,7 @@ public class Room : MonoBehaviour
         if (EmployeeAssign.Count != 0)
         {
             //Check if this employee is not already in this room
-            if(employee.AssignRoom == this.gameObject)
+            if (employee.AssignRoom == this.gameObject)
             {
                 EmployeeAssign.Remove(employee);
             }
