@@ -6,6 +6,12 @@ using UnityEngine.UI;
 public class RoomProductionPopUp : MonoBehaviour
 {
     /// <summary>
+    /// The pop up.
+    /// </summary>
+    [SerializeField]
+    private GameObject _popUp;
+
+    /// <summary>
     /// The text where name and lvl are displayed.
     /// </summary>
     [Space, Header("Infos"), SerializeField]
@@ -18,15 +24,20 @@ public class RoomProductionPopUp : MonoBehaviour
     private GameObject _productionButtonPrefab;
 
     /// <summary>
-    /// Raw where buttons for production are.
+    /// Row where buttons for production are.
     /// </summary>
     [SerializeField]
-    private Transform _raw;
+    private Transform _itemRow;
 
     /// <summary>
     /// List to stock all buttons generated.
     /// </summary>
     private List<GameObject> _productionButtons = new();
+
+    private void Awake()
+    {
+        _popUp.SetActive(false);
+    }
 
     private void OnEnable()
     {
@@ -42,7 +53,7 @@ public class RoomProductionPopUp : MonoBehaviour
 
                 for (int i = 0; i < manufacturableComponents.Count; i++)
                 {
-                    GameObject newProductionButton = Instantiate(_productionButtonPrefab, _raw);
+                    GameObject newProductionButton = Instantiate(_productionButtonPrefab, _itemRow);
                     _productionButtons.Add(newProductionButton);
                     newProductionButton.GetComponent<ProductionButton>().InitButtonForComponent(manufacturableComponents[i]);
                 }
@@ -53,12 +64,14 @@ public class RoomProductionPopUp : MonoBehaviour
 
                 for (int i = 0; i < manufacturableObjects.Count; i++)
                 {
-                    GameObject newProductionButton = Instantiate(_productionButtonPrefab, _raw);
+                    GameObject newProductionButton = Instantiate(_productionButtonPrefab, _itemRow);
                     _productionButtons.Add(newProductionButton);
                     newProductionButton.GetComponent<ProductionButton>().InitButtonForObject(manufacturableObjects[i]);
                 }
             }
         }
+
+        _popUp.SetActive(true);
     }
 
     /// <summary>
@@ -66,6 +79,8 @@ public class RoomProductionPopUp : MonoBehaviour
     /// </summary>
     public void ClosePopUp()
     {
+        _popUp.SetActive(false);
+
         for (int i =0; i< _productionButtons.Count; i++)
         {
             _productionButtons[i].GetComponent<Button>().onClick.RemoveAllListeners();
@@ -74,7 +89,6 @@ public class RoomProductionPopUp : MonoBehaviour
 
         _productionButtons.Clear();
 
-        UIManager.Instance.HUD.SetActive(true);
         gameObject.SetActive(false);
     }
 }

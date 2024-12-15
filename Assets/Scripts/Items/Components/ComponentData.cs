@@ -4,6 +4,12 @@ using UnityEngine;
 public class ComponentData : ScriptableObject
 {
     /// <summary>
+    /// Pictogram which represents components.
+    /// </summary>
+    [SerializeField, Tooltip("Pictogram which represents components.")]
+    private Sprite _genericComponentPicto;
+
+    /// <summary>
     /// Pictogram of the component.
     /// </summary>
     [SerializeField, Tooltip("Pictogram of the component.")]
@@ -68,6 +74,11 @@ public class ComponentData : ScriptableObject
     /// </summary>
     [SerializeField, Tooltip("Time to unlock this component in the research room.")]
     private int _researchTime;
+
+    /// <summary>
+    /// Gets the pictogram which represents components.
+    /// </summary>
+    public Sprite GenericComponentPicto { get { return _genericComponentPicto; } private set { } }
 
     /// <summary>
     /// Gets the pictogram of the component.

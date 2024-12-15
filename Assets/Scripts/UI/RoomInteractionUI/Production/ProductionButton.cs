@@ -24,17 +24,14 @@ public class ProductionButton : MonoBehaviour
     /// </summary>
     private ObjectData _objectData;
 
-    private void Awake()
-    {
-        _button = GetComponent<Button>();
-    }
-
     /// <summary>
     /// Called to initialize the button to product a component.
     /// </summary>
     /// <param name="componentData"> Datas of the component. </param>
     public void InitButtonForComponent(ComponentData componentData)
     {
+        _button = GetComponent<Button>();
+
         _componentData = componentData;
         _image.sprite = componentData.ComponentPicto;
 
@@ -47,6 +44,8 @@ public class ProductionButton : MonoBehaviour
     /// <param name="objectData"> Datas of the object. </param>
     public void InitButtonForObject(ObjectData objectData)
     {
+        _button = GetComponent<Button>();
+
         _objectData = objectData;
         _image.sprite = objectData.ObjectPicto;
 

@@ -14,10 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _roomType: 8
   _name: Ascenseur
-  _roomPreview: {fileID: 21300000, guid: be18f5c1935f6f44c90a6d1f1b715bb4, type: 3}
+  _roomLvl1Preview: {fileID: 0}
+  _roomLvl2Preview: {fileID: 0}
+  _roomLvl3Preview: {fileID: 0}
   _description: "Une salle pour connecter 2 \xE9tages."
   _size: 1
   _capacity: 0
+  _constructionCost: 50
+  _upgradeCostToLvl2: 0
+  _upgradeCostToLvl3: 0
   _roomLvl1: {fileID: 7404641673639239030, guid: a420e3dfea224ad4a8997d23e2e43d2c,
     type: 3}
   _roomLvl2: {fileID: 0}

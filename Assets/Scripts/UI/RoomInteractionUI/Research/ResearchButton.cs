@@ -39,18 +39,15 @@ public class ResearchButton : MonoBehaviour
     /// </summary>
     private InteractionManager _interactionManager;
 
-    private void Awake()
-    {
-        _button = GetComponent<Button>();
-        _image = GetComponent<Image>();
-    }
-
     /// <summary>
     /// Called to initialize the button to research a component.
     /// </summary>
     /// <param name="componentData"> Datas of the component. </param>
     public void InitButtonForComponent(ComponentData componentData)
     {
+        _button = GetComponent<Button>();
+        _image = GetComponent<Image>();
+
         _researchManager = ResearchManager.Instance;
         _interactionManager = InteractionManager.Instance;
 
@@ -95,6 +92,9 @@ public class ResearchButton : MonoBehaviour
     /// <param name="objectData"> Datas of the object. </param>
     public void InitButtonForObject(ObjectData objectData)
     {
+        _button = GetComponent<Button>();
+        _image = GetComponent<Image>();
+
         _researchManager = ResearchManager.Instance;
         _interactionManager = InteractionManager.Instance;
 

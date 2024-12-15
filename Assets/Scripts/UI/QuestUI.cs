@@ -55,16 +55,16 @@ public class QuestUI : MonoBehaviour
 
         if (_quest.QuestData.NumberOfObject.Count == 1)
         {
-            QuestObjectifText.text = $"{_quest.QuestData.NumberOfObject[0]} {_quest.QuestData.Object[0]}";
+            QuestObjectifText.text = $"{_quest.QuestData.NumberOfObject[0]} {_quest.QuestData.Objects[0]}";
         }
 
         if (_quest.QuestData.NumberOfObject.Count == 2)
         {
-            QuestObjectifText.text = $"{_quest.QuestData.NumberOfObject[0]} {_quest.QuestData.Object[0]} \n{_quest.QuestData.NumberOfObject[1]} {_quest.QuestData.Object[1]}";
+            QuestObjectifText.text = $"{_quest.QuestData.NumberOfObject[0]} {_quest.QuestData.Objects[0]} \n{_quest.QuestData.NumberOfObject[1]} {_quest.QuestData.Objects[1]}";
         }
         if (_quest.QuestData.NumberOfObject.Count == 3)
         {
-            QuestObjectifText.text = $"{_quest.QuestData.NumberOfObject[0]} {_quest.QuestData.Object[0]} \n{_quest.QuestData.NumberOfObject[1]} {_quest.QuestData.Object[1]} \n{_quest.QuestData.NumberOfObject[2]} {_quest.QuestData.Object[2]}";
+            QuestObjectifText.text = $"{_quest.QuestData.NumberOfObject[0]} {_quest.QuestData.Objects[0]} \n{_quest.QuestData.NumberOfObject[1]} {_quest.QuestData.Objects[1]} \n{_quest.QuestData.NumberOfObject[2]} {_quest.QuestData.Objects[2]}";
         }
     }
     public void QuestAccept()
@@ -92,17 +92,17 @@ public class QuestUI : MonoBehaviour
 
             if (_currentQuest.QuestData.NumberOfObject.Count == 1)
             {
-                _objectifCurrentQuestTextList[i].text = $"{ItemStorage.Instance.ReturnNumberOfThisObject(_currentQuest.QuestData.Object[0])} / {_currentQuest.QuestData.NumberOfObject[0]} {_currentQuest.QuestData.Object[0]}";
+                _objectifCurrentQuestTextList[i].text = $"{ItemStorage.Instance.ReturnNumberOfThisObject(_currentQuest.QuestData.Objects[0])} / {_currentQuest.QuestData.NumberOfObject[0]} {_currentQuest.QuestData.Objects[0]}";
             }
 
             if (_currentQuest.QuestData.NumberOfObject.Count == 2)
             {
-                _objectifCurrentQuestTextList[i].text = $"{ItemStorage.Instance.ReturnNumberOfThisObject(_currentQuest.QuestData.Object[0])} / {_currentQuest.QuestData.NumberOfObject[0]} {_currentQuest.QuestData.Object[0]} \n{ItemStorage.Instance.ReturnNumberOfThisObject(_currentQuest.QuestData.Object[1])} / {_currentQuest.QuestData.NumberOfObject[1]} {_currentQuest.QuestData.Object[1]}";
+                _objectifCurrentQuestTextList[i].text = $"{ItemStorage.Instance.ReturnNumberOfThisObject(_currentQuest.QuestData.Objects[0])} / {_currentQuest.QuestData.NumberOfObject[0]} {_currentQuest.QuestData.Objects[0]} \n{ItemStorage.Instance.ReturnNumberOfThisObject(_currentQuest.QuestData.Objects[1])} / {_currentQuest.QuestData.NumberOfObject[1]} {_currentQuest.QuestData.Objects[1]}";
             }
 
             if (_currentQuest.QuestData.NumberOfObject.Count == 3)
             {
-                _objectifCurrentQuestTextList[i].text = $"{ItemStorage.Instance.ReturnNumberOfThisObject(_currentQuest.QuestData.Object[0])} / {_currentQuest.QuestData.NumberOfObject[0]} {_currentQuest.QuestData.Object[0]} \n{ItemStorage.Instance.ReturnNumberOfThisObject(_currentQuest.QuestData.Object[1])} / {_currentQuest.QuestData.NumberOfObject[1]} {_currentQuest.QuestData.Object[1]} \n{ItemStorage.Instance.ReturnNumberOfThisObject(_currentQuest.QuestData.Object[2])} / {_currentQuest.QuestData.NumberOfObject[2]} {_currentQuest.QuestData.Object[2]}";
+                _objectifCurrentQuestTextList[i].text = $"{ItemStorage.Instance.ReturnNumberOfThisObject(_currentQuest.QuestData.Objects[0])} / {_currentQuest.QuestData.NumberOfObject[0]} {_currentQuest.QuestData.Objects[0]} \n{ItemStorage.Instance.ReturnNumberOfThisObject(_currentQuest.QuestData.Objects[1])} / {_currentQuest.QuestData.NumberOfObject[1]} {_currentQuest.QuestData.Objects[1]} \n{ItemStorage.Instance.ReturnNumberOfThisObject(_currentQuest.QuestData.Objects[2])} / {_currentQuest.QuestData.NumberOfObject[2]} {_currentQuest.QuestData.Objects[2]}";
             }
         }
     }

@@ -34,16 +34,29 @@ public class StopProductionButton : MonoBehaviour
             case RoomType.Machining:
                 MachiningRoom machiningRoom = (MachiningRoom)currentRoomSelected.RoomBehaviour;
 
-                UIManager.Instance.OpenUI();
-                UIManager.Instance.StopProductionPopUp.SetActive(true);
-
+                if (machiningRoom.CurrentAmountInInternalStorage > 0 || (machiningRoom.CurrentAmountInInternalStorage == 0 && machiningRoom.ProductionCycleHasStarted))
+                {
+                    UIManager.Instance.OpenUI();
+                    UIManager.Instance.StopProductionPopUp.SetActive(true);
+                }
+                else
+                {
+                    machiningRoom.StopProduction();
+                }
                 break;
 
             case RoomType.Assembly:
                 AssemblyRoom assemblyRoom = (AssemblyRoom)currentRoomSelected.RoomBehaviour;
 
-                UIManager.Instance.OpenUI();
-                UIManager.Instance.StopProductionPopUp.SetActive(true);
+                if (assemblyRoom.CurrentAmountInInternalStorage > 0 || (assemblyRoom.CurrentAmountInInternalStorage == 0 && assemblyRoom.ProductionCycleHasStarted))
+                {
+                    UIManager.Instance.OpenUI();
+                    UIManager.Instance.StopProductionPopUp.SetActive(true);
+                }
+                else
+                {
+                    assemblyRoom.StopProduction();
+                }
 
                 break;
 

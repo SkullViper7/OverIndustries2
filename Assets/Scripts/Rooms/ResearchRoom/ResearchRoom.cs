@@ -73,6 +73,10 @@ public class ResearchRoom : MonoBehaviour, IRoomBehaviour
             _roomNotification.GetComponent<Button>().onClick.AddListener(ValidateResearch);
         }
 
+        // Consume ressources
+        RawMaterialStorage.Instance.SubstractRawMaterials(CurrentComponentResearched.ResearchCost);
+
+        // Launch research
         ChronoManager.Instance.NewSecondTick += ResearchUpdateChrono;
     }
 
@@ -97,6 +101,11 @@ public class ResearchRoom : MonoBehaviour, IRoomBehaviour
             _roomNotification.GetComponent<Button>().onClick.AddListener(ValidateResearch);
         }
 
+        // Consume ressources
+        RawMaterialStorage.Instance.SubstractRawMaterials(CurrentObjectResearched.ResearchCost.RawMaterialCost);
+        ItemStorage.Instance.SubstractRecipe(CurrentObjectResearched.ResearchCost.IngredientsCost);
+
+        // Launch research
         ChronoManager.Instance.NewSecondTick += ResearchUpdateChrono;
     }
 

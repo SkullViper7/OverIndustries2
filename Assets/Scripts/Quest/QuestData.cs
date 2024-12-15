@@ -21,7 +21,7 @@ public class QuestData : ScriptableObject
     /// Object needed to completed this quest.
     /// </summary>
     [Space, Header("Stats"), SerializeField, Tooltip("Object needed to completed this quest.")]
-    private List<ObjectType> _object;
+    private List<ObjectData> _objects;
     
     /// <summary>
     /// Number of object needed to completed this quest.
@@ -48,7 +48,7 @@ public class QuestData : ScriptableObject
     /// <summary>
     /// Gets object needed to complete this quest.
     /// </summary>
-    public List<ObjectType> Object { get { return _object; } private set { } }
+    public List<ObjectData> Objects { get { return _objects; } private set { } }
 
     /// <summary>
     /// Number of object needed to completed this quest.

@@ -6,6 +6,12 @@ using UnityEngine.UI;
 public class ItemToResearchPopUp : MonoBehaviour
 {
     /// <summary>
+    /// The pop up.
+    /// </summary>
+    [SerializeField]
+    private GameObject _popUp;
+
+    /// <summary>
     /// The text where it's asking to the player if he wants to research the item.
     /// </summary>
     [Header("Generic"), SerializeField]
@@ -22,6 +28,12 @@ public class ItemToResearchPopUp : MonoBehaviour
     /// </summary>
     [SerializeField]
     private TMP_Text _itemName;
+
+    /// <summary>
+    /// Container of the description.
+    /// </summary>
+    [SerializeField]
+    private GameObject _description;
 
     /// <summary>
     /// The description of the item.
@@ -42,9 +54,21 @@ public class ItemToResearchPopUp : MonoBehaviour
     private Button _validationButton;
 
     /// <summary>
-    /// The type of the item.
+    /// Container of stats.
     /// </summary>
     [Space, Header("Stats"), SerializeField]
+    private GameObject _stats;
+
+    /// <summary>
+    /// The picto of the item type.
+    /// </summary>
+    [SerializeField]
+    private Image _itemTypeImg;
+
+    /// <summary>
+    /// The type of the item.
+    /// </summary>
+    [SerializeField]
     private TMP_Text _itemType;
 
     /// <summary>
@@ -153,6 +177,25 @@ public class ItemToResearchPopUp : MonoBehaviour
     /// </summary>
     private ObjectData _currentObjectData;
 
+    private void Awake()
+    {
+        _popUp.SetActive(false);
+        _description.SetActive(false);
+        _stats.SetActive(true);
+        _componentCostCell.SetActive(false);
+        _componentResearchCostCell.SetActive(false);
+        _objectRecipeCell.SetActive(false);
+        _objectResearchCostCell.SetActive(false);
+        for (int i = 0; i < _objectRecipe.Length; i++)
+        {
+            _objectRecipe[i].SetActive(false);
+        }
+        for (int i = 0; i < _objectResearchCostInComponents.Length; i++)
+        {
+            _objectResearchCostInComponents[i].SetActive(false);
+        }
+    }
+
     /// <summary>
     /// Called to display all data of the component on screen.
     /// </summary>
@@ -167,6 +210,7 @@ public class ItemToResearchPopUp : MonoBehaviour
         _itemName.text = _currentComponentData.Name;
         _itemDescription.text = _currentComponentData.Description;
         _researchTime.text = _currentComponentData.ResearchTime.ToString();
+        _itemTypeImg.sprite = _currentComponentData.GenericComponentPicto;
         _itemType.text = "Pièce détachée";
         _roomType.text = "Salle d'usinage";
         _productionTime1Header.text = "Durée de fabrication au niveau 1 :";
@@ -182,7 +226,10 @@ public class ItemToResearchPopUp : MonoBehaviour
         _componentResearchCostCell.SetActive(true);
         _componentResearchCost.text = _currentComponentData.ResearchCost.ToString();
 
-        _validationButton.onClick.AddListener(LaunchComponentResearch);
+        UpdateResearchCostForComponent(RawMaterialStorage.Instance.AmoutOfRawMaterial);
+        RawMaterialStorage.Instance.AmountHasChanged += UpdateResearchCostForComponent;
+
+        _popUp.SetActive(true);
     }
 
     /// <summary>
@@ -199,6 +246,7 @@ public class ItemToResearchPopUp : MonoBehaviour
         _itemName.text = _currentObjectData.Name;
         _itemDescription.text = _currentObjectData.Description;
         _researchTime.text = _currentObjectData.ResearchTime.ToString();
+        _itemTypeImg.sprite = _currentObjectData.GenericObjectPicto;
         _itemType.text = "Objet complet";
         _roomType.text = "Salle d'assemblage";
         _productionTime1Header.text = "Durée d'assemblage au niveau 1 :";
@@ -229,7 +277,85 @@ public class ItemToResearchPopUp : MonoBehaviour
 
         _objectResearchCostInRawMaterial.text = _currentObjectData.ResearchCost.RawMaterialCost.ToString();
 
+        UpdateResearchCostForObject(RawMaterialStorage.Instance.AmoutOfRawMaterial);
+        RawMaterialStorage.Instance.AmountHasChanged += UpdateResearchCostForObject;
         _validationButton.onClick.AddListener(LaunchObjectResearch);
+
+        _popUp.SetActive(true);
+    }
+
+    /// <summary>
+    /// Called to update the availability of the research cost for a component.
+    /// </summary>
+    /// <param name="newAmount"> New amount in raw material storage. </param>
+    private void UpdateResearchCostForComponent(int newAmount)
+    {
+        _validationButton.onClick.RemoveAllListeners();
+
+        if (newAmount >= _currentComponentData.ResearchCost)
+        {
+            _componentResearchCost.color = Color.white;
+            _validationButton.onClick.AddListener(LaunchComponentResearch);
+        }
+        else
+        {
+            _componentResearchCost.color = Color.red;
+        }
+    }
+
+    /// <summary>
+    /// Called to update the availability of the research cost for an object.
+    /// </summary>
+    /// <param name="newAmount"> New amount in raw material storage. </param>
+    private void UpdateResearchCostForObject(int newAmount)
+    {
+        _validationButton.onClick.RemoveAllListeners();
+
+        // Check for raw material
+        if (RawMaterialStorage.Instance.AmoutOfRawMaterial >= _currentObjectData.ResearchCost.RawMaterialCost)
+        {
+            _objectResearchCostInRawMaterial.color = Color.white;
+
+            // Check for components
+            List<Ingredient> recipeCost = _currentObjectData.ResearchCost.IngredientsCost;
+            bool isRecipeInTheStorage = true;
+            for (int i = 0; i < recipeCost.Count; i++)
+            {
+                if (ItemStorage.Instance.ThereIsEnoughComponentsInStorage(recipeCost[i].ComponentData, recipeCost[i].Quantity))
+                {
+                    _objectResearchCostInComponents[i].GetComponentInChildren<TMP_Text>().color = Color.white;
+                }
+                else
+                {
+                    _objectResearchCostInComponents[i].GetComponentInChildren<TMP_Text>().color = Color.red;
+                    isRecipeInTheStorage = false;
+                }
+            }
+
+            if (isRecipeInTheStorage)
+            {
+                _validationButton.onClick.AddListener(LaunchObjectResearch);
+            }
+
+        }
+        else
+        {
+            _objectResearchCostInRawMaterial.color = Color.red;
+
+            // Check for components
+            List<Ingredient> recipeCost = _currentObjectData.ResearchCost.IngredientsCost;
+            for (int i = 0; i < recipeCost.Count; i++)
+            {
+                if (ItemStorage.Instance.ThereIsEnoughComponentsInStorage(recipeCost[i].ComponentData, recipeCost[i].Quantity))
+                {
+                    _objectResearchCostInComponents[i].GetComponentInChildren<TMP_Text>().color = Color.white;
+                }
+                else
+                {
+                    _objectResearchCostInComponents[i].GetComponentInChildren<TMP_Text>().color = Color.red;
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -271,6 +397,14 @@ public class ItemToResearchPopUp : MonoBehaviour
     /// </summary>
     public void ClosePopUp()
     {
+        _popUp.SetActive(false);
+
+        RawMaterialStorage.Instance.AmountHasChanged -= UpdateResearchCostForComponent;
+        RawMaterialStorage.Instance.AmountHasChanged -= UpdateResearchCostForObject;
+
+        _description.SetActive(false);
+        _stats.SetActive(true);
+
         _validationButton.onClick.RemoveAllListeners();
 
         _componentCostCell.SetActive(false);

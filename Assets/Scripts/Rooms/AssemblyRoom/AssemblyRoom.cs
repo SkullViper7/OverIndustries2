@@ -35,6 +35,11 @@ public class AssemblyRoom : MonoBehaviour, IRoomBehaviour
     public int CurrentProductionTime { get; private set; }
 
     /// <summary>
+    /// A value indicating if a production cycle has started.
+    /// </summary>
+    public bool ProductionCycleHasStarted { get; private set; }
+
+    /// <summary>
     /// Current amount of objects in internal storage of the room.
     /// </summary>
     public int CurrentAmountInInternalStorage { get; private set; }
@@ -133,6 +138,7 @@ public class AssemblyRoom : MonoBehaviour, IRoomBehaviour
                 _itemStorage.SubstractRecipe(CurrentObjectManufactured.Ingredients);
 
                 ChronoManager.Instance.NewSecondTick += ProductionUpdateChrono;
+                ProductionCycleHasStarted = true;
             }
             else
             {
@@ -157,6 +163,7 @@ public class AssemblyRoom : MonoBehaviour, IRoomBehaviour
             AddObjectInInternalStorage();
 
             ChronoManager.Instance.NewSecondTick -= ProductionUpdateChrono;
+            ProductionCycleHasStarted = false;
             TryStartProductionCycle();
         }
         else
@@ -200,12 +207,12 @@ public class AssemblyRoom : MonoBehaviour, IRoomBehaviour
 
             if (remainingStorage >= CurrentAmountInInternalStorage)
             {
-                _itemStorage.AddObjects(CurrentObjectManufactured.ObjectType, CurrentAmountInInternalStorage);
+                _itemStorage.AddObjects(CurrentObjectManufactured, CurrentAmountInInternalStorage);
                 RemoveObjectsFromInternalStorage(CurrentAmountInInternalStorage);
             }
             else
             {
-                _itemStorage.AddObjects(CurrentObjectManufactured.ObjectType, remainingStorage);
+                _itemStorage.AddObjects(CurrentObjectManufactured, remainingStorage);
                 RemoveObjectsFromInternalStorage(remainingStorage);
             }
         }
@@ -224,6 +231,7 @@ public class AssemblyRoom : MonoBehaviour, IRoomBehaviour
         }
 
         ChronoManager.Instance.NewSecondTick -= ProductionUpdateChrono;
+        ProductionCycleHasStarted = false;
 
         _roomNotification.DesactivateNotification();
         _roomNotification = null;
