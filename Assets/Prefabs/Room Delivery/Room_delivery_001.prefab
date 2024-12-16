@@ -924,7 +924,7 @@ Transform:
   m_GameObject: {fileID: 6799962354660907824}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.22, y: 4, z: -6}
+  m_LocalPosition: {x: 0, y: 1.87, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1671,7 +1671,7 @@ GameObject:
   - component: {fileID: 8934637969615032603}
   - component: {fileID: 7967759506069356705}
   - component: {fileID: 5573983791748355008}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Box
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1706,12 +1706,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OuterPointSet: 1
-  OuterPoint: {x: 8.22, y: 4, z: -6}
-  OuterPointDistance: 2.810427
+  OuterPoint: {x: 0, y: 1.87, z: -6}
+  OuterPointDistance: 4
   isHollow: 0
   InnerPointSet: 1
-  InnerPoint: {x: 8.22, y: 4, z: -6}
-  InnerPointDistance: 2.810427
+  InnerPoint: {x: 0, y: 1.87, z: -6}
+  InnerPointDistance: 4
   InnerPointInside: 0
   boxCollider: {fileID: 5573983791748355008}
   center: {x: 6, y: 2, z: -3}
@@ -1737,80 +1737,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 12, y: 4, z: 6}
   m_Center: {x: 6, y: 2, z: -3}
---- !u!1001 &622316933557664420
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 5053030860599490285}
-    m_Modifications:
-    - target: {fileID: 1233030639070412232, guid: bd872761eef8b604da4889177236821a,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1233030639070412232, guid: bd872761eef8b604da4889177236821a,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1233030639070412232, guid: bd872761eef8b604da4889177236821a,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.03
-      objectReference: {fileID: 0}
-    - target: {fileID: 1233030639070412232, guid: bd872761eef8b604da4889177236821a,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1233030639070412232, guid: bd872761eef8b604da4889177236821a,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1233030639070412232, guid: bd872761eef8b604da4889177236821a,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1233030639070412232, guid: bd872761eef8b604da4889177236821a,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1233030639070412232, guid: bd872761eef8b604da4889177236821a,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1233030639070412232, guid: bd872761eef8b604da4889177236821a,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1233030639070412232, guid: bd872761eef8b604da4889177236821a,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7610765650278217232, guid: bd872761eef8b604da4889177236821a,
-        type: 3}
-      propertyPath: m_Name
-      value: Door_opening_big
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: bd872761eef8b604da4889177236821a, type: 3}
---- !u!4 &1855046683782334316 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1233030639070412232, guid: bd872761eef8b604da4889177236821a,
-    type: 3}
-  m_PrefabInstance: {fileID: 622316933557664420}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4725755637485736198
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1947,10 +1873,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6121717813991334661}
-    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: a717cf8f33c2a624fae9b452e50e29bd,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1855046683782334316}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a717cf8f33c2a624fae9b452e50e29bd,
         type: 3}
