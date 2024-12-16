@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -38,6 +39,11 @@ public class Room : MonoBehaviour
     /// Box collider of the room.
     /// </summary>
     private BoxCollider _boxCollider;
+
+    /// <summary>
+    /// Animator of the door.
+    /// </summary>
+    private Animator _doorAnimator;
 
     /// <summary>
     /// List of employee assign to the room.
@@ -137,9 +143,18 @@ public class Room : MonoBehaviour
                 break;
         }
 
-        UpgradeVisualRoom(CurrentLvl);
+        StartCoroutine(UpgradeVisualRoom(CurrentLvl));
 
         OnInitialized?.Invoke();
+    }
+
+    /// <summary>
+    /// Called to initialize the animator of the door.
+    /// </summary>
+    /// <param name="doorAnimator"></param>
+    public void InitAnimator(Animator doorAnimator)
+    {
+        _doorAnimator = doorAnimator;
     }
 
     /// <summary>
@@ -152,7 +167,7 @@ public class Room : MonoBehaviour
             case 0:
                 CurrentLvl++;
                 NewLvl?.Invoke(CurrentLvl);
-                UpgradeVisualRoom(CurrentLvl);
+                StartCoroutine(UpgradeVisualRoom(CurrentLvl));
                 break;
             case 1:
                 if (RawMaterialStorage.Instance.ThereIsEnoughRawMaterialInStorage(RoomData.UpgradeCostToLvl2))
@@ -160,7 +175,7 @@ public class Room : MonoBehaviour
                     RawMaterialStorage.Instance.SubstractRawMaterials(RoomData.UpgradeCostToLvl2);
                     CurrentLvl++;
                     NewLvl?.Invoke(CurrentLvl);
-                    UpgradeVisualRoom(CurrentLvl);
+                    StartCoroutine(UpgradeVisualRoom(CurrentLvl));
                 }
                 break;
             case 2:
@@ -169,7 +184,7 @@ public class Room : MonoBehaviour
                     RawMaterialStorage.Instance.SubstractRawMaterials(RoomData.UpgradeCostToLvl3);
                     CurrentLvl++;
                     NewLvl?.Invoke(CurrentLvl);
-                    UpgradeVisualRoom(CurrentLvl);
+                    StartCoroutine(UpgradeVisualRoom(CurrentLvl));
                 }
                 break;
         }
@@ -209,13 +224,8 @@ public class Room : MonoBehaviour
         }
     }
 
-    private void UpgradeVisualRoom(int currentLvl)
+    private IEnumerator UpgradeVisualRoom(int currentLvl)
     {
-        if (_currentVisualRoom != null)
-        {
-            _currentVisualRoom.SetActive(false);
-        }
-
         switch (currentLvl)
         {
             case 1:
@@ -226,12 +236,29 @@ public class Room : MonoBehaviour
                 }
             case 2:
                 {
+                    _doorAnimator.Play("Room_upgrade", 0, 0f);
+
+                    yield return new WaitForSeconds(0.55f);
+
+                    if (_currentVisualRoom != null)
+                    {
+                        _currentVisualRoom.SetActive(false);
+                    }
+
                     GameObject newVisualRoom = Instantiate(RoomData.RoomLvl2, transform);
                     _currentVisualRoom = newVisualRoom;
                     break;
                 }
             case 3:
                 {
+                    _doorAnimator.Play("Room_upgrade", 0, 0f);
+                    yield return new WaitForSeconds(0.55f);
+
+                    if (_currentVisualRoom != null)
+                    {
+                        _currentVisualRoom.SetActive(false);
+                    }
+
                     GameObject newVisualRoom = Instantiate(RoomData.RoomLvl3, transform);
                     _currentVisualRoom = newVisualRoom;
                     break;

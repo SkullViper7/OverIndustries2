@@ -61,6 +61,12 @@ public class UIManager : MonoBehaviour
     /// </summary>
     [field: SerializeField, Tooltip("Button to start a research in a room.")]
     public GameObject ResearchButton { get; private set; }
+    
+    /// <summary>
+    /// Button to embauche employee in director room.
+    /// </summary>
+    [field: SerializeField, Tooltip(" Button to embauche employee in director room.")]
+    public GameObject EmbaucheEmployee { get; private set; }
 
     /// <summary>
     /// Button to show informations about a employee.

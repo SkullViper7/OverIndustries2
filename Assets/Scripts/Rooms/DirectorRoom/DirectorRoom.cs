@@ -4,19 +4,22 @@ using UnityEngine;
 
 public class DirectorRoom : MonoBehaviour, IRoomBehaviour
 {
-    [field :SerializeField] public DirectorRoomData DirectorRoomData { get; private set; }
+    [field: SerializeField] public DirectorRoomData DirectorRoomData { get; private set; }
     private Room _roomMain;
 
     private GameObject _newEmployee;
-    public List<GameObject> _recrutementList;
+    //private int _poolID;
+    private List<GameObject> _recrutementList = new List<GameObject>();
 
-    [SerializeField] private int _waitNewEmployee;
+    [SerializeField, Tooltip("Time to wait before create a new employee")] private int _waitNewEmployee;
+    //[SerializeField] private GameObject _defaultEmployee;
 
     [SerializeField] private JobProfileGenerator _jobProfileGenerator;
 
     public void Start()
     {
         StartCoroutine(WaitNewEmployee());
+        //_poolID = ObjectPoolManager.Instance.NewObjectPool(_defaultEmployee);
     }
 
     public void InitRoomBehaviour(IRoomBehaviourData roomBehaviourData, Room roomMain)
@@ -30,7 +33,7 @@ public class DirectorRoom : MonoBehaviour, IRoomBehaviour
     {
         if (_recrutementList.Count < 5)
         {
-            //_newEmployee = ObjectPoolManager.Instance.RequestObject(3);
+            //_newEmployee = ObjectPoolManager.Instance.GetObjectInPool(_poolID);
             _recrutementList.Add(_newEmployee);
         }
 

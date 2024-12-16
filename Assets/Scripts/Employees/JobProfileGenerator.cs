@@ -36,7 +36,6 @@ public class JobProfileGenerator : MonoBehaviour
         }
     }
 
-
     /// <summary>
     /// Generate random name + random number of jobs
     /// </summary>
