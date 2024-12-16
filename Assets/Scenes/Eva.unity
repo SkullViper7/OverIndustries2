@@ -3118,6 +3118,7 @@ MonoBehaviour:
   <RoomInfoPopUp>k__BackingField: {fileID: 734243265}
   <RoomProductionPopUp>k__BackingField: {fileID: 1297742631}
   <StopProductionPopUp>k__BackingField: {fileID: 353138605}
+  <DeliveryUpgradeWarningPopUp>k__BackingField: {fileID: 0}
   <RoomResearchPopUp>k__BackingField: {fileID: 548651657}
   <ItemToResearchPopUp>k__BackingField: {fileID: 0}
   <ConstructionPopUp>k__BackingField: {fileID: 1510706142}
@@ -7725,6 +7726,7 @@ MonoBehaviour:
   _roomPreview: {fileID: 0}
   _description: {fileID: 0}
   _constructionButton: {fileID: 0}
+  _cost: {fileID: 0}
 --- !u!114 &578433228
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8647,6 +8649,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 683874015f651c64cae0822becc17456, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _popUp: {fileID: 0}
   _nameLvl: {fileID: 70710214}
   _roomPreview: {fileID: 0}
   _name: {fileID: 0}
@@ -13235,7 +13238,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1117811157
 Transform:
   m_ObjectHideFlags: 0
@@ -15365,10 +15368,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7708fb0a58316f48842809d3aa3e114, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _popUp: {fileID: 0}
   _nameLvl: {fileID: 355115960}
   _productionButtonPrefab: {fileID: 1535348239515657971, guid: 15d785049b7bcc3409773160bace2407,
     type: 3}
-  _raw: {fileID: 445099489}
+  _itemRow: {fileID: 0}
 --- !u!224 &1297742633
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18801,6 +18805,7 @@ MonoBehaviour:
   _roomPreview: {fileID: 0}
   _description: {fileID: 0}
   _constructionButton: {fileID: 0}
+  _cost: {fileID: 0}
 --- !u!114 &1596103701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18926,7 +18931,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be3866635ac2f864b9e63492fc3f4362, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _popUp: {fileID: 0}
   _nameLvl: {fileID: 932553963}
+  _roomPreview: {fileID: 0}
+  _name: {fileID: 0}
+  _descriptionContainer: {fileID: 0}
+  _description: {fileID: 0}
+  _statsContainer: {fileID: 0}
+  _newResearch: {fileID: 0}
+  _newRawMaterialProductionRate: {fileID: 0}
+  _newProductionRateTxt: {fileID: 0}
+  _capacity: {fileID: 0}
+  _capacityImage: {fileID: 0}
+  _capacityTxt: {fileID: 0}
+  _upgradedProductionTime: {fileID: 0}
+  _upgradeCostTxt: {fileID: 0}
+  _upgradeButton: {fileID: 0}
 --- !u!224 &1613692924
 RectTransform:
   m_ObjectHideFlags: 0
@@ -19274,6 +19294,7 @@ MonoBehaviour:
   _roomPreview: {fileID: 0}
   _description: {fileID: 0}
   _constructionButton: {fileID: 0}
+  _cost: {fileID: 0}
 --- !u!114 &1626737560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19575,6 +19596,7 @@ MonoBehaviour:
   _roomPreview: {fileID: 0}
   _description: {fileID: 0}
   _constructionButton: {fileID: 0}
+  _cost: {fileID: 0}
 --- !u!114 &1667396785
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25532,6 +25554,11 @@ PrefabInstance:
       propertyPath: _jobProfileGenerator
       value: 
       objectReference: {fileID: 488267044}
+    - target: {fileID: 2580329556702691559, guid: 4af7c30b1acaabf44b6d1a6587173031,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6353392716010311639, guid: 4af7c30b1acaabf44b6d1a6587173031,
         type: 3}
       propertyPath: m_Pivot.x
@@ -25630,6 +25657,11 @@ PrefabInstance:
     - target: {fileID: 6353392716010311639, guid: 4af7c30b1acaabf44b6d1a6587173031,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7404712217726644142, guid: 4af7c30b1acaabf44b6d1a6587173031,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7501651721063748276, guid: 4af7c30b1acaabf44b6d1a6587173031,
