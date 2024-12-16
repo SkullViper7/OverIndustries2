@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80c7f1bd272a03540b3f54254c200947, type: 3}
   m_Name: TractorData
   m_EditorClassIdentifier: 
-  _objectPicto: {fileID: 0}
+  _objectPicto: {fileID: 21300000, guid: 4fc846ef1c3e62841adfca362e1392ca, type: 3}
   _objectType: 3
   _name: Tracteur agricole
+  _description: "Un tracteur agricole est un v\xE9hicule puissant con\xE7u pour effectuer
+    des t\xE2ches agricoles, comme le labour, la plantation et le transport de mat\xE9riel."
   _ingredients:
   - <ComponentData>k__BackingField: {fileID: 11400000, guid: 3fa4133a41f65364683938617ed802a4,
       type: 2}
@@ -28,10 +30,22 @@ MonoBehaviour:
   - <ComponentData>k__BackingField: {fileID: 11400000, guid: 410c64480e76b794aa388712af6063e6,
       type: 2}
     <Quantity>k__BackingField: 2
-  _productionTimeAtLvl1: 0
-  _productionTimeAtLvl2: 0
-  _productionTimeAtLvl3: 0
+  _productionTimeAtLvl1: 30
+  _productionTimeAtLvl2: 25
+  _productionTimeAtLvl3: 20
   _researchCost:
-    <RawMaterialCost>k__BackingField: 0
-    <IngredientsCost>k__BackingField: []
-  _researchTime: 0
+    <RawMaterialCost>k__BackingField: 200
+    <IngredientsCost>k__BackingField:
+    - <ComponentData>k__BackingField: {fileID: 11400000, guid: 410c64480e76b794aa388712af6063e6,
+        type: 2}
+      <Quantity>k__BackingField: 1
+    - <ComponentData>k__BackingField: {fileID: 11400000, guid: 7fc26cd3d7b2c6b4c895e8d2aee44ed7,
+        type: 2}
+      <Quantity>k__BackingField: 2
+    - <ComponentData>k__BackingField: {fileID: 11400000, guid: 3f7e9a303efcb8b44ab6d68b4d2b258a,
+        type: 2}
+      <Quantity>k__BackingField: 1
+    - <ComponentData>k__BackingField: {fileID: 11400000, guid: 3fa4133a41f65364683938617ed802a4,
+        type: 2}
+      <Quantity>k__BackingField: 1
+  _researchTime: 90

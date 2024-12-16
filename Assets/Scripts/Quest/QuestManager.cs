@@ -81,16 +81,16 @@ public class QuestManager : MonoBehaviour
 
         for (int i = 0; i < CurrentQuestList.Count; i++)
         {
-            for (int j = 0; j < CurrentQuestList[i].QuestData.Object.Count; j++)
+            for (int j = 0; j < CurrentQuestList[i].QuestData.Objects.Count; j++)
             {
-                if (CurrentQuestList[i].QuestData.Object.Count > 1 && j == 0 && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Object[j]) >= CurrentQuestList[i].QuestData.NumberOfObject[j] && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Object[j + 1]) >= CurrentQuestList[i].QuestData.NumberOfObject[j + 1])
+                if (CurrentQuestList[i].QuestData.Objects.Count > 1 && j == 0 && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Objects[j]) >= CurrentQuestList[i].QuestData.NumberOfObject[j] && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Objects[j + 1]) >= CurrentQuestList[i].QuestData.NumberOfObject[j + 1])
                 {
                     Debug.Log("Objectifs completed");
                     QuestComplited.Invoke(i);
 
                     Debug.Log($"Point de satisfations gagné : {CurrentQuestList[i].QuestData.PSWin}");
                 }
-                if (CurrentQuestList[i].QuestData.Object.Count == 1 && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Object[j]) >= CurrentQuestList[i].QuestData.NumberOfObject[j])
+                if (CurrentQuestList[i].QuestData.Objects.Count == 1 && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Objects[j]) >= CurrentQuestList[i].QuestData.NumberOfObject[j])
                 {
                     Debug.Log("Objectifs completed");
                     QuestComplited.Invoke(i);
@@ -124,7 +124,7 @@ public class QuestManager : MonoBehaviour
 
         for (int j = 0; j < _quest.QuestData.NumberOfObject.Count; j++)
         {
-            ItemStorage.Instance.SubstractObjects(_quest.QuestData.Object[j], _quest.QuestData.NumberOfObject[j]);
+            ItemStorage.Instance.SubstractObjects(_quest.QuestData.Objects[j], _quest.QuestData.NumberOfObject[j]);
         }
 
         UpdateAdvancementQuest.Invoke();

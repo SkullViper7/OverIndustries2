@@ -122,12 +122,13 @@ public class RawMaterialStorage : MonoBehaviour
         _storageCapacity += capacityToAdd;
 
         CapacityHasChanged?.Invoke(_storageCapacity);
+        NewAmountInInternalStorage?.Invoke(_amoutOfRawMaterial, _storageCapacity);
     }
-    
-   /// <summary>
-   /// Call th recycling room to recycle trash
-   /// </summary>
-   /// <param name="rawMaterialTrash"></param>
+
+    /// <summary>
+    /// Call th recycling room to recycle trash
+    /// </summary>
+    /// <param name="rawMaterialTrash"></param>
     public void TrashMaterial(int rawMaterialTrash)
     {
         RawMaterialToRecycle?.Invoke(rawMaterialTrash);

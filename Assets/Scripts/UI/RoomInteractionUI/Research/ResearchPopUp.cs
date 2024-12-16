@@ -6,6 +6,12 @@ using UnityEngine.UI;
 public class ResearchPopUp : MonoBehaviour
 {
     /// <summary>
+    /// The pop up.
+    /// </summary>
+    [SerializeField]
+    private GameObject _popUp;
+
+    /// <summary>
     /// The text where name and lvl are displayed.
     /// </summary>
     [Space, Header("Infos"), SerializeField]
@@ -45,6 +51,11 @@ public class ResearchPopUp : MonoBehaviour
     /// </summary>
     private ResearchManager _researchManager;
 
+    private void Awake()
+    {
+        _popUp.SetActive(false);
+    }
+
     private void OnEnable()
     {
         _researchManager = ResearchManager.Instance;
@@ -72,9 +83,13 @@ public class ResearchPopUp : MonoBehaviour
                 newresearchButton.GetComponent<ResearchButton>().InitButtonForObject(researchableObjects[i]);
             }
 
-            // Prevent grids overlap
+            // Prevent grids overlap and content bad resize
             _content.spacing = _content.spacing += 0.01f;
+            _componentsGrid.GetComponent<RectTransform>().sizeDelta = Vector2.zero;
+            _objectsGrid.GetComponent<RectTransform>().sizeDelta = Vector2.zero;
         }
+
+        _popUp.SetActive(true);
     }
 
     /// <summary>
@@ -82,6 +97,8 @@ public class ResearchPopUp : MonoBehaviour
     /// </summary>
     public void ClosePopUp()
     {
+        _popUp.SetActive(false);
+
         for (int i = 0; i < _researchButtons.Count; i++)
         {
             _researchButtons[i].GetComponent<Button>().onClick.RemoveAllListeners();

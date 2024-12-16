@@ -5,6 +5,12 @@ using System.Collections.Generic;
 public class ObjectData : ScriptableObject
 {
     /// <summary>
+    /// Pictogram which represents objects.
+    /// </summary>
+    [SerializeField, Tooltip("Pictogram which represents objects.")]
+    private Sprite _genericObjectPicto;
+
+    /// <summary>
     /// Pictogram of the object.
     /// </summary>
     [SerializeField, Tooltip("Pictogram of the object.")]
@@ -63,6 +69,11 @@ public class ObjectData : ScriptableObject
     /// </summary>
     [SerializeField, Tooltip("Time to unlock this object in the research room.")]
     private int _researchTime;
+
+    /// <summary>
+    /// Gets the pictogram which represents objects.
+    /// </summary>
+    public Sprite GenericObjectPicto { get { return _genericObjectPicto; } private set { } }
 
     /// <summary>
     /// Gets the pictogram of the object.

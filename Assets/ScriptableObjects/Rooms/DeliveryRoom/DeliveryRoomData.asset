@@ -14,10 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _roomType: 2
   _name: Salle de livraison
-  _roomPreview: {fileID: 21300000, guid: 83f5afb0db5902e4f9d20ee1a80f873f, type: 3}
+  _roomLvl1Preview: {fileID: 0}
+  _roomLvl2Preview: {fileID: 0}
+  _roomLvl3Preview: {fileID: 0}
   _description: "Cette salle livre des mati\xE8res premi\xE8res et les livre."
   _size: 4
   _capacity: 2
+  _upgradeCostToLvl2: 20
+  _upgradeCostToLvl3: 30
   _roomLvl1: {fileID: 5572123062745050199, guid: c318982c2a3c0e840b416323f79fcfca,
     type: 3}
   _roomLvl2: {fileID: 8120676807724879852, guid: 357e1ce968d345d43b2b0da0bee36669,

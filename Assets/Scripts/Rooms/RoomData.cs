@@ -53,6 +53,12 @@ public class RoomData : ScriptableObject
     private int _capacity;
 
     /// <summary>
+    /// Cost (in raw material) to build the room.
+    /// </summary>
+    [SerializeField, Tooltip("Cost (in raw material) to build the room.")]
+    private int _constructionCost;
+
+    /// <summary>
     /// Cost (in raw material) to upgrade the room to lvl 2.
     /// </summary>
     [SerializeField, Tooltip("Cost (in raw material) to upgrade the room to lvl 2.")]
@@ -123,6 +129,11 @@ public class RoomData : ScriptableObject
     /// Gets the capacity of the room.
     /// </summary>
     public int Capacity { get { return _capacity; } private set { } }
+
+    /// <summary>
+    /// Gets the cost (in raw material) to build the room.
+    /// </summary>
+    public int ConstructionCost { get { return _constructionCost; } private set { } }
 
     /// <summary>
     /// Gets the cost (in raw material) to upgrade the room to lvl 2.

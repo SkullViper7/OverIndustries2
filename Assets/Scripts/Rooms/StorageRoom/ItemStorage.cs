@@ -22,12 +22,12 @@ public class ItemStorage : MonoBehaviour
     /// <summary>
     /// Dictionnary wich stocks components.
     /// </summary>
-    private Dictionary<ComponentType, int> _componentStorage = new();
+    private Dictionary<ComponentData, int> _componentStorage = new();
 
     /// <summary>
     /// Dictionnary wich stocks objects.
     /// </summary>
-    private Dictionary<ObjectType, int> _objectStorage = new();
+    private Dictionary<ObjectData, int> _objectStorage = new();
 
     /// <summary>
     /// Current amount of items in the storage.
@@ -69,19 +69,19 @@ public class ItemStorage : MonoBehaviour
     /// <summary>
     /// Called to add components in storage.
     /// </summary>
-    /// <param name="componentType"> Type of the component. </param>
+    /// <param name="component"> Type of the component. </param>
     /// <param name="amount"> Amount of components to add. </param>
-    public void AddComponents(ComponentType componentType, int amount)
+    public void AddComponents(ComponentData component, int amount)
     {
         if (_currentStorage + amount <= _storageCapacity)
         {
-            if (_componentStorage.ContainsKey(componentType))
+            if (_componentStorage.ContainsKey(component))
             {
-                _componentStorage[componentType] += amount;
+                _componentStorage[component] += amount;
             }
             else
             {
-                _componentStorage.Add(componentType, amount);
+                _componentStorage.Add(component, amount);
             }
 
             // Update storage
@@ -94,15 +94,15 @@ public class ItemStorage : MonoBehaviour
     /// <summary>
     /// Called to substract an amount of component in the storage.
     /// </summary>
-    /// <param name="componentType"> Type of the component. </param>
+    /// <param name="component"> Type of the component. </param>
     /// <param name="amountToSubstract"> Amount to substract. </param>
-    public void SubstractComponents(ComponentType componentType, int amountToSubstract)
+    public void SubstractComponents(ComponentData component, int amountToSubstract)
     {
-        if (_componentStorage.ContainsKey(componentType))
+        if (_componentStorage.ContainsKey(component))
         {
-            if (_componentStorage[componentType] - amountToSubstract >= 0)
+            if (_componentStorage[component] - amountToSubstract >= 0)
             {
-                _componentStorage[componentType] -= amountToSubstract;
+                _componentStorage[component] -= amountToSubstract;
 
                 // Update storage
                 _currentStorage -= amountToSubstract;
@@ -120,7 +120,7 @@ public class ItemStorage : MonoBehaviour
     {
         for (int i = 0; i < recipe.Count; i++)
         {
-            SubstractComponents(recipe[i].ComponentData.ComponentType, recipe[i].Quantity);
+            SubstractComponents(recipe[i].ComponentData, recipe[i].Quantity);
         }
     }
 
@@ -129,7 +129,7 @@ public class ItemStorage : MonoBehaviour
     /// </summary>
     /// <param name="objectType"> Type of the object. </param>
     /// <param name="amount"> Amount of objects to add. </param>
-    public void AddObjects(ObjectType objectType, int amount)
+    public void AddObjects(ObjectData objectType, int amount)
     {
         if (_currentStorage + amount <= _storageCapacity)
         {
@@ -154,7 +154,7 @@ public class ItemStorage : MonoBehaviour
     /// </summary>
     /// <param name="objectType"> Type of the object. </param>
     /// <param name="amountToSubstract"> Amount to substract. </param>
-    public void SubstractObjects(ObjectType objectType, int amountToSubstract)
+    public void SubstractObjects(ObjectData objectType, int amountToSubstract)
     {
         if (_objectStorage.ContainsKey(objectType))
         {
@@ -201,14 +201,14 @@ public class ItemStorage : MonoBehaviour
     /// <summary>
     /// Called to know if there is enough of a component type in storage.
     /// </summary>
-    /// <param name="componentType"> Type of the component. </param>
+    /// <param name="component"> Type of the component. </param>
     /// <param name="amountToCheck"> Amount to compare with the stock. </param>
     /// <returns></returns>
-    public bool ThereIsEnoughComponentsInStorage(ComponentType componentType, int amountToCheck)
+    public bool ThereIsEnoughComponentsInStorage(ComponentData component, int amountToCheck)
     {
-        if (_componentStorage.ContainsKey(componentType))
+        if (_componentStorage.ContainsKey(component))
         {
-            return amountToCheck >= _componentStorage[componentType];
+            return amountToCheck >= _componentStorage[component];
         }
         else
         {
@@ -227,14 +227,14 @@ public class ItemStorage : MonoBehaviour
 
         for (int i = 0; i < ingredients.Count; i++)
         {
-            if (!_componentStorage.ContainsKey(ingredients[i].ComponentData.ComponentType))
+            if (!_componentStorage.ContainsKey(ingredients[i].ComponentData))
             {
                 recipeIsPossible = false;
                 break;
             }
             else
             {
-                if (_componentStorage[ingredients[i].ComponentData.ComponentType] < ingredients[i].Quantity)
+                if (_componentStorage[ingredients[i].ComponentData] < ingredients[i].Quantity)
                 {
                     recipeIsPossible = false;
                     break;
@@ -251,7 +251,7 @@ public class ItemStorage : MonoBehaviour
     /// <param name="objectType"> Type of the object. </param>
     /// <param name="amountToCheck"> Amount to compare with the stock. </param>
     /// <returns></returns>
-    public bool ThereIsEnoughObjectsInStorage(ObjectType objectType, int amountToCheck)
+    public bool ThereIsEnoughObjectsInStorage(ObjectData objectType, int amountToCheck)
     {
         if (_objectStorage.ContainsKey(objectType))
         {
@@ -268,7 +268,7 @@ public class ItemStorage : MonoBehaviour
     /// </summary>
     /// <param name="objectType"> Type of the object. </param>
     /// <returns></returns>
-    public int ReturnNumberOfThisObject(ObjectType objectType)
+    public int ReturnNumberOfThisObject(ObjectData objectType)
     {
         if (_objectStorage.ContainsKey(objectType))
         {

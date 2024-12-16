@@ -32,6 +32,11 @@ public class AvailableSpotsUI : MonoBehaviour
     /// </summary>
     private List<GameObject> _spotButtons = new();
 
+    /// <summary>
+    /// The cost of the room currently selected.
+    /// </summary>
+    private int _constructionCost;
+
     private void Start()
     {
         // Create the pool for buttons
@@ -48,6 +53,8 @@ public class AvailableSpotsUI : MonoBehaviour
     /// <param name="availableSpots"> Position where the room is placable. </param>
     private void ShowAvailableSpots(RoomData roomData, IRoomBehaviourData roomBehaviourData, List<Vector2> availableSpots)
     {
+        _constructionCost = roomData.ConstructionCost;
+
         for (int i = 0; i < availableSpots.Count; i++)
         {
             // Get a button
@@ -58,6 +65,17 @@ public class AvailableSpotsUI : MonoBehaviour
             button.SetActive(true);
             button.GetComponent<AvailableSpotButton>().InitButton(roomData, roomBehaviourData, availableSpots[i], this);
         }
+    }
+
+    /// <summary>
+    /// Called to cancel the construction and repay the player.
+    /// </summary>
+    public void CancelConstruction()
+    {
+        RawMaterialStorage.Instance.AddRawMaterials(_constructionCost);
+        _constructionCost = 0;
+
+        CloseUI();
     }
 
     /// <summary>

@@ -45,21 +45,49 @@ public class ConstructionSelectionButton : MonoBehaviour
     [SerializeField]
     private Button _constructionButton;
 
+    /// <summary>
+    /// Cost of the room.
+    /// </summary>
+    [SerializeField]
+    private TMP_Text _cost;
+
     private void Start()
     {
         _uiManager = UIManager.Instance;
 
-        _name.text = _roomData.name;
+        _name.text = _roomData.Name;
         _roomPreview.sprite = _roomData.RoomLvl1Preview;
         _description.text = _roomData.Description;
+        _cost.text = _roomData.ConstructionCost.ToString();
 
-        _constructionButton.onClick.AddListener(() =>
+        UpdateCostAvailability(RawMaterialStorage.Instance.AmoutOfRawMaterial);
+        RawMaterialStorage.Instance.AmountHasChanged += UpdateCostAvailability;
+    }
+
+    /// <summary>
+    /// Called to update the availability of the cost in the raw material storage.
+    /// </summary>
+    /// <param name="newAmount"> New amount in the raw material storage. </param>
+    private void UpdateCostAvailability(int newAmount)
+    {
+        _constructionButton.onClick.RemoveAllListeners();
+
+        if (newAmount >= _roomData.ConstructionCost)
         {
-            StartSearchingForAnAvailableSpot();
-            _uiManager.ConstructionPopUp.SetActive(false);
-            _uiManager.ConstructionUI.SetActive(true);
-            _uiManager.CloseUI();
-        });
+            _cost.color = Color.black;
+            _constructionButton.onClick.AddListener(() =>
+            {
+                RawMaterialStorage.Instance.SubstractRawMaterials(_roomData.ConstructionCost);
+                StartSearchingForAnAvailableSpot();
+                _uiManager.ConstructionPopUp.SetActive(false);
+                _uiManager.ConstructionUI.SetActive(true);
+                _uiManager.CloseUI();
+            });
+        }
+        else
+        {
+            _cost.color = Color.red;
+        }
     }
 
     /// <summary>

@@ -5,6 +5,12 @@ using UnityEngine.UI;
 public class RoomInfoPopUp : MonoBehaviour
 {
     /// <summary>
+    /// The pop up.
+    /// </summary>
+    [SerializeField]
+    private GameObject _popUp;
+
+    /// <summary>
     /// The text where name and lvl are displayed.
     /// </summary>
     [Space, Header("Infos"), SerializeField]
@@ -128,6 +134,17 @@ public class RoomInfoPopUp : MonoBehaviour
     /// </summary>
     private IRoomBehaviour _currentRoomBehaviour;
 
+    private void Awake()
+    {
+        _popUp.SetActive(false);
+        _descriptionContainer.SetActive(false);
+        _switchButtons.SetActive(false);
+        _statsContainer.SetActive(false);
+        _capacity.SetActive(false);
+        _productionRate.SetActive(false);
+        _production.SetActive(false);
+    }
+
     private void OnEnable()
     {
         _currentRoomSelected = InteractionManager.Instance.CurrentRoomSelected;
@@ -182,6 +199,8 @@ public class RoomInfoPopUp : MonoBehaviour
                     break;
             }
         }
+
+        _popUp.SetActive(true);
     }
 
     /// <summary>
@@ -380,6 +399,7 @@ public class RoomInfoPopUp : MonoBehaviour
     /// </summary>
     public void ClosePopUp()
     {
+        _popUp.SetActive(false);
         _descriptionContainer.SetActive(false);
         _switchButtons.SetActive(false);
         _statsContainer.SetActive(false);

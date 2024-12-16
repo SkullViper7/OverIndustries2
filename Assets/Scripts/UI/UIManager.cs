@@ -87,6 +87,12 @@ public class UIManager : MonoBehaviour
     public GameObject StopProductionPopUp { get; private set; }
 
     /// <summary>
+    /// Pop up to warn the player that he will loose ressources if he upgrade a delivery room.
+    /// </summary>
+    [field: SerializeField, Tooltip("Pop up to warn the player that he will loose ressources if he upgrade a delivery room.")]
+    public GameObject DeliveryUpgradeWarningPopUp { get; private set; }
+
+    /// <summary>
     /// The pop up where player can choose which research to launch.
     /// </summary>
     [field: SerializeField, Tooltip("The pop up where player can choose which research to launch.")]
