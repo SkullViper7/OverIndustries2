@@ -231,7 +231,14 @@ public class AssemblyRoom : MonoBehaviour, IRoomBehaviour
         }
 
         ChronoManager.Instance.NewSecondTick -= ProductionUpdateChrono;
-        ProductionCycleHasStarted = false;
+
+        if (ProductionCycleHasStarted)
+        {
+            ProductionCycleHasStarted = false;
+
+            // Refund player
+            _itemStorage.AddRecipe(CurrentObjectManufactured.Ingredients);
+        }
 
         _roomNotification.DesactivateNotification();
         _roomNotification = null;

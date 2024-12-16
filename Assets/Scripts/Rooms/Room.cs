@@ -152,7 +152,10 @@ public class Room : MonoBehaviour
     /// Called to initialize the animator of the door.
     /// </summary>
     /// <param name="doorAnimator"></param>
-    public void InitAnimator(Animator doorAnimator) => _doorAnimator = doorAnimator;
+    public void InitAnimator(Animator doorAnimator)
+    {
+        _doorAnimator = doorAnimator;
+    }
 
     /// <summary>
     /// Called to upgrade the room.
@@ -223,11 +226,6 @@ public class Room : MonoBehaviour
 
     private IEnumerator UpgradeVisualRoom(int currentLvl)
     {
-        if (_currentVisualRoom != null)
-        {
-            _currentVisualRoom.SetActive(false);
-        }
-
         switch (currentLvl)
         {
             case 1:
@@ -238,8 +236,14 @@ public class Room : MonoBehaviour
                 }
             case 2:
                 {
-                    _doorAnimator.Play("Room_upgrade");
-                    yield return new WaitForSeconds(0.5f);
+                    _doorAnimator.Play("Room_upgrade", 0, 0f);
+
+                    yield return new WaitForSeconds(0.55f);
+
+                    if (_currentVisualRoom != null)
+                    {
+                        _currentVisualRoom.SetActive(false);
+                    }
 
                     GameObject newVisualRoom = Instantiate(RoomData.RoomLvl2, transform);
                     _currentVisualRoom = newVisualRoom;
@@ -247,8 +251,13 @@ public class Room : MonoBehaviour
                 }
             case 3:
                 {
-                    _doorAnimator.Play("Room_upgrade");
-                    yield return new WaitForSeconds(0.5f);
+                    _doorAnimator.Play("Room_upgrade", 0, 0f);
+                    yield return new WaitForSeconds(0.55f);
+
+                    if (_currentVisualRoom != null)
+                    {
+                        _currentVisualRoom.SetActive(false);
+                    }
 
                     GameObject newVisualRoom = Instantiate(RoomData.RoomLvl3, transform);
                     _currentVisualRoom = newVisualRoom;

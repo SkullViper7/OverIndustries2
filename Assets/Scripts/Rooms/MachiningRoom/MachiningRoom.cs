@@ -235,7 +235,14 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
         }
 
         ChronoManager.Instance.NewSecondTick -= ProductionUpdateChrono;
-        ProductionCycleHasStarted = false;
+
+        if (ProductionCycleHasStarted)
+        {
+            ProductionCycleHasStarted = false;
+
+            // Refund player
+            _rawMaterialStorage.AddRawMaterials(CurrentComponentManufactured.Cost);
+        }
 
         _roomNotification.DesactivateNotification();
         _roomNotification = null;
