@@ -25,11 +25,15 @@ public class Employee : MonoBehaviour
     [SerializeField] private int _minTimeBetweenWayPoint;
     [SerializeField] private int _maxTimeBetweenWayPoint;
 
+    [Space, Header("Hat color")]
+    [SerializeField] private SpriteRenderer _hat;
+    [field: SerializeField] private List<Sprite> _hatList;
+    [field: SerializeField] private List<string> _roomNameList;
 
     /// <summary>
     /// List of wayPoint who employee can interact and have a animation
     /// </summary>
-    private List<GameObject> _wayPointList = new List<GameObject>();
+    public List<GameObject> _wayPointList = new List<GameObject>();
 
     /// <summary>
     /// reference
@@ -43,7 +47,9 @@ public class Employee : MonoBehaviour
     {
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _animator = GetComponentInChildren<Animator>();
-        SetRoutineParameter();
+
+        SetHatColor();
+        StartCoroutine(WaitNewDestination());
     }
 
     /// <summary>
@@ -55,17 +61,52 @@ public class Employee : MonoBehaviour
         SetIdleAnimation();
 
         _wayPointList.Clear();
-        _navMeshAgent.ResetPath();
+        if (_navMeshAgent.hasPath)
+        {
+            _navMeshAgent.ResetPath();
+        }
+
         StopCoroutine(WaitNewDestination());
 
-        for (int i = 0; i < AssignRoom.transform.GetChild(0).gameObject.transform.childCount; i++)
+        if (AssignRoom != null)
         {
-            if (AssignRoom.transform.GetChild(0).GetChild(i).tag == "InteractPoint")
+            _animator.SetBool("Assign", true);
+
+            for (int i = 0; i < AssignRoom.transform.GetChild(0).gameObject.transform.childCount; i++)
             {
-                _wayPointList.Add(AssignRoom.transform.GetChild(0).GetChild(i).gameObject);
+                if (AssignRoom.transform.GetChild(0).GetChild(i).tag == "InteractPoint")
+                {
+                    _wayPointList.Add(AssignRoom.transform.GetChild(0).GetChild(i).gameObject);
+                }
             }
+
+            RandomWayPoint();
         }
-        RandomWayPoint();
+        else
+        { _animator.SetBool("Assign", false); }
+
+        SetHatColor();
+    }
+
+    /// <summary>
+    /// Change hat color for assign room
+    /// </summary>
+    public void SetHatColor()
+    {
+        for (int i = 0; i < _roomNameList.Count; i++)
+        {
+            if (AssignRoom != null)
+            {
+                if (_roomNameList[i] == AssignRoom.name)
+                {
+                    _hat.sprite = _hatList[i];
+                }
+                else
+                { _hat.sprite = _hatList[0]; }
+            }
+            else
+            { _hat.sprite = _hatList[0]; }
+        }
     }
 
     /// <summary>
@@ -96,9 +137,7 @@ public class Employee : MonoBehaviour
             }
         }
         else
-        {
-            SetIdleAnimation();
-        }
+        { SetIdleAnimation(); }
     }
 
     /// <summary>
@@ -131,9 +170,7 @@ public class Employee : MonoBehaviour
             _animator.SetTrigger(_interactPoint._interactTriggerAnimation[i]);
         }
         else
-        {
-            SetIdleAnimation();
-        }
+        { SetIdleAnimation(); }
     }
 
     public void SetWalkAnimation()
@@ -143,9 +180,7 @@ public class Employee : MonoBehaviour
             _animator.SetTrigger("Walk");
         }
         else
-        {
-            SetIdleAnimation();
-        }
+        { SetIdleAnimation(); }
     }
 
     public void SetIdleAnimation()
@@ -167,9 +202,15 @@ public class Employee : MonoBehaviour
 
     public IEnumerator WaitNewDestination()
     {
+        if (_wayPointList.Count == 0)
+        {
+            yield return new WaitForSeconds(2);
+            SetRoutineParameter();
+        }
+        
         int i = Random.Range(_minTimeBetweenWayPoint, _maxTimeBetweenWayPoint);
-
         yield return new WaitForSeconds(i);
+
         RandomWayPoint();
     }
 }
