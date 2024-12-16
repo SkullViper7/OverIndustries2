@@ -113,6 +113,18 @@ public class ItemStorage : MonoBehaviour
     }
 
     /// <summary>
+    /// Called to add an amount of component in the storage from a recipe.
+    /// </summary>
+    /// <param name="recipe"> The recipe to add in the storage. </param>
+    public void AddRecipe(List<Ingredient> recipe)
+    {
+        for (int i = 0; i < recipe.Count; i++)
+        {
+            AddComponents(recipe[i].ComponentData, recipe[i].Quantity);
+        }
+    }
+
+    /// <summary>
     /// Called to substract an amount of component in the storage from a recipe.
     /// </summary>
     /// <param name="recipe"> The recipe to remove from the storage. </param>

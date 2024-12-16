@@ -45,6 +45,12 @@ public class UIManager : MonoBehaviour
     public GameObject ProductionButton { get; private set; }
 
     /// <summary>
+    /// The pop up where player can launch the choosen production.
+    /// </summary>
+    [field: SerializeField, Tooltip("The pop up where player can launch the choosen production.")]
+    public GameObject ItemToProductPopUp { get; private set; }
+
+    /// <summary>
     /// Button to stop a production in a room.
     /// </summary>
     [field: SerializeField, Tooltip("Button to stop a production in a room.")]

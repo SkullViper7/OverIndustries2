@@ -35,7 +35,7 @@ public class ProductionButton : MonoBehaviour
         _componentData = componentData;
         _image.sprite = componentData.ComponentPicto;
 
-        _button.onClick.AddListener(ComponentButtonClicked);
+        _button.onClick.AddListener(OpenComponentToResearchPopUp);
     }
 
     /// <summary>
@@ -49,38 +49,24 @@ public class ProductionButton : MonoBehaviour
         _objectData = objectData;
         _image.sprite = objectData.ObjectPicto;
 
-        _button.onClick.AddListener(ObjectButtonClicked);
+        _button.onClick.AddListener(OpenObjectToResearchPopUp);
     }
 
     /// <summary>
-    /// Called when button is clicked to launch a component production.
+    /// Called when button is clicked to launch a component research.
     /// </summary>
-    private void ComponentButtonClicked()
+    private void OpenComponentToResearchPopUp()
     {
-        Room currentRoomSelected = InteractionManager.Instance.CurrentRoomSelected;
-
-        if (currentRoomSelected != null)
-        {
-            MachiningRoom machiningRoom = (MachiningRoom)currentRoomSelected.RoomBehaviour;
-            machiningRoom.StartNewProduction(_componentData);
-            UIManager.Instance.RoomProductionPopUp.GetComponent<RoomProductionPopUp>().ClosePopUp();
-            UIManager.Instance.CloseUI();
-        }
+        UIManager.Instance.ItemToProductPopUp.SetActive(true);
+        UIManager.Instance.ItemToProductPopUp.GetComponent<ItemToProductPopUp>().InitPopUpForComponent(_componentData);
     }
 
     /// <summary>
-    /// Called when button is clicked to launch an object production.
+    /// Called when button is clicked to launch an object research.
     /// </summary>
-    private void ObjectButtonClicked()
+    private void OpenObjectToResearchPopUp()
     {
-        Room currentRoomSelected = InteractionManager.Instance.CurrentRoomSelected;
-
-        if (currentRoomSelected != null)
-        {
-            AssemblyRoom assemblyRoom = (AssemblyRoom)currentRoomSelected.RoomBehaviour;
-            assemblyRoom.StartNewProduction(_objectData);
-            UIManager.Instance.RoomProductionPopUp.GetComponent<RoomProductionPopUp>().ClosePopUp();
-            UIManager.Instance.CloseUI();
-        }
+        UIManager.Instance.ItemToProductPopUp.SetActive(true);
+        UIManager.Instance.ItemToProductPopUp.GetComponent<ItemToProductPopUp>().InitPopUpForObject(_objectData);
     }
 }
