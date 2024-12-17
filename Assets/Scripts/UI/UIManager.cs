@@ -23,25 +23,25 @@ public class UIManager : MonoBehaviour
     /// <summary>
     /// Main UI of the game.
     /// </summary>
-    [field : SerializeField, Header("Main"), Tooltip("Main UI of the game.")]
+    [field: SerializeField, Header("Main"), Tooltip("Main UI of the game.")]
     public GameObject HUD { get; private set; }
 
     /// <summary>
     /// Button to show informations about a room.
     /// </summary>
-    [field : SerializeField, Space, Header("Interactions"), Tooltip("Button to show informations about a room.")]
+    [field: SerializeField, Space, Header("Interactions"), Tooltip("Button to show informations about a room.")]
     public GameObject InfoRoomButton { get; private set; }
-    
+
     /// <summary>
     /// Button to upgrade a room.
     /// </summary>
-    [field : SerializeField, Tooltip("Button to upgrade a room.")]
+    [field: SerializeField, Tooltip("Button to upgrade a room.")]
     public GameObject UpgradeButton { get; private set; }
 
     /// <summary>
     /// Button to start a production in a room.
     /// </summary>
-    [field : SerializeField, Tooltip("Button to start a production in a room.")]
+    [field: SerializeField, Tooltip("Button to start a production in a room.")]
     public GameObject ProductionButton { get; private set; }
 
     /// <summary>
@@ -61,7 +61,7 @@ public class UIManager : MonoBehaviour
     /// </summary>
     [field: SerializeField, Tooltip("Button to start a research in a room.")]
     public GameObject ResearchButton { get; private set; }
-    
+
     /// <summary>
     /// Button to embauche employee in director room.
     /// </summary>
@@ -73,23 +73,23 @@ public class UIManager : MonoBehaviour
     /// </summary>
     [field: SerializeField, Tooltip("Button to show informations about a employee.")]
     public GameObject InfoEmployeeButton { get; private set; }
-    
+
     /// <summary>
     /// Button to move this employee.
     /// </summary>
     [field: SerializeField, Tooltip("Button to move this employee.")]
     public GameObject MoveEmployeeButton { get; private set; }
-    
+
     /// <summary>
     /// The pop up which displays room infos.
     /// </summary>
-    [field : SerializeField, Space, Tooltip("The pop up which displays room infos.")]
+    [field: SerializeField, Space, Tooltip("The pop up which displays room infos.")]
     public GameObject RoomInfoPopUp { get; private set; }
 
     /// <summary>
     /// The pop up where player can launch a production.
     /// </summary>
-    [field : SerializeField, Tooltip("The pop up where player can launch a production.")]
+    [field: SerializeField, Tooltip("The pop up where player can launch a production.")]
     public GameObject RoomProductionPopUp { get; private set; }
 
     /// <summary>
@@ -133,6 +133,24 @@ public class UIManager : MonoBehaviour
     /// </summary>
     [field: SerializeField, Tooltip("The UI on screen whene player is constructing a room.")]
     public GameObject ConstructionUI { get; private set; }
+
+    /// <summary>
+    /// AudioSource to play SFX.
+    /// </summary>
+    [field: SerializeField, Tooltip("AudioSource to play SFX.")]
+    public AudioSource SFXSource { get; private set; }
+
+    /// <summary>
+    /// SFX to play when a button is clicked.
+    /// </summary>
+    [field: SerializeField, Tooltip("SFX to play when a button is clicked.")]
+    public AudioClip ClickSFX { get; private set; }
+
+    /// <summary>
+    /// SFX to play when a UI is open.
+    /// </summary>
+    [field: SerializeField, Tooltip("SFX to play when a UI is open.")]
+    public AudioClip OpenSFX { get; private set; }
 
     /// <summary>
     /// Called when a UI is open.

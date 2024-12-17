@@ -17,6 +17,11 @@ public class Employee : MonoBehaviour
     public string EmployeeName;
 
     /// <summary>
+    /// The employee is hired? -> embaucher
+    /// </summary>
+    public bool IsHired;
+
+    /// <summary>
     /// Room who employee is assign
     /// </summary>
     public GameObject AssignRoom;
@@ -48,7 +53,6 @@ public class Employee : MonoBehaviour
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _animator = GetComponentInChildren<Animator>();
 
-        SetHatColor();
         StartCoroutine(WaitNewDestination());
     }
 
@@ -57,35 +61,38 @@ public class Employee : MonoBehaviour
     /// </summary>
     public void SetRoutineParameter()
     {
-        gameObject.transform.Rotate(Vector3.zero);
-        SetIdleAnimation();
-
-        _wayPointList.Clear();
-        if (_navMeshAgent.hasPath)
+        if (IsHired)
         {
-            _navMeshAgent.ResetPath();
-        }
+            gameObject.transform.Rotate(Vector3.zero);
+            SetIdleAnimation();
 
-        StopCoroutine(WaitNewDestination());
-
-        if (AssignRoom != null)
-        {
-            _animator.SetBool("Assign", true);
-
-            for (int i = 0; i < AssignRoom.transform.GetChild(0).gameObject.transform.childCount; i++)
+            _wayPointList.Clear();
+            if (_navMeshAgent.hasPath)
             {
-                if (AssignRoom.transform.GetChild(0).GetChild(i).tag == "InteractPoint")
-                {
-                    _wayPointList.Add(AssignRoom.transform.GetChild(0).GetChild(i).gameObject);
-                }
+                _navMeshAgent.ResetPath();
             }
 
-            RandomWayPoint();
-        }
-        else
-        { _animator.SetBool("Assign", false); }
+            StopCoroutine(WaitNewDestination());
 
-        SetHatColor();
+            if (AssignRoom != null)
+            {
+                _animator.SetBool("Assign", true);
+
+                for (int i = 0; i < AssignRoom.transform.GetChild(0).gameObject.transform.childCount; i++)
+                {
+                    if (AssignRoom.transform.GetChild(0).GetChild(i).tag == "InteractPoint")
+                    {
+                        _wayPointList.Add(AssignRoom.transform.GetChild(0).GetChild(i).gameObject);
+                    }
+                }
+
+                RandomWayPoint();
+            }
+            else
+            { _animator.SetBool("Assign", false); }
+
+            SetHatColor();
+        }
     }
 
     /// <summary>
@@ -114,7 +121,7 @@ public class Employee : MonoBehaviour
     /// </summary>
     public void RandomWayPoint()
     {
-        if (!GameManager.Instance.InDragAndDrop && !_navMeshAgent.hasPath)
+        if (!GameManager.Instance.InDragAndDrop && !_navMeshAgent.hasPath && IsHired)
         {
             int i = Random.Range(0, _wayPointList.Count);
 
@@ -207,7 +214,7 @@ public class Employee : MonoBehaviour
             yield return new WaitForSeconds(2);
             SetRoutineParameter();
         }
-        
+
         int i = Random.Range(_minTimeBetweenWayPoint, _maxTimeBetweenWayPoint);
         yield return new WaitForSeconds(i);
 

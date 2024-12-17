@@ -38,10 +38,12 @@ public class StopProductionButton : MonoBehaviour
                 {
                     UIManager.Instance.OpenUI();
                     UIManager.Instance.StopProductionPopUp.SetActive(true);
+                    UIManager.Instance.SFXSource.PlayOneShot(UIManager.Instance.OpenSFX);
                 }
                 else
                 {
                     machiningRoom.StopProduction();
+                    UIManager.Instance.SFXSource.PlayOneShot(UIManager.Instance.ClickSFX);
                 }
                 break;
 
@@ -52,10 +54,12 @@ public class StopProductionButton : MonoBehaviour
                 {
                     UIManager.Instance.OpenUI();
                     UIManager.Instance.StopProductionPopUp.SetActive(true);
+                    UIManager.Instance.SFXSource.PlayOneShot(UIManager.Instance.OpenSFX);
                 }
                 else
                 {
                     assemblyRoom.StopProduction();
+                    UIManager.Instance.SFXSource.PlayOneShot(UIManager.Instance.ClickSFX);
                 }
 
                 break;
@@ -65,6 +69,7 @@ public class StopProductionButton : MonoBehaviour
 
                 UIManager.Instance.OpenUI();
                 UIManager.Instance.StopProductionPopUp.SetActive(true);
+                UIManager.Instance.SFXSource.PlayOneShot(UIManager.Instance.OpenSFX);
 
                 break;
         }
