@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class JobProfileUI : MonoBehaviour
 {
+    [Header("UI Reference for hired job profile")]
+    [SerializeField] private GameObject _jobProfileHired;
+    [SerializeField] private List<TextMeshProUGUI> _employeeNameHired;
+    [SerializeField] private List<GameObject> _jobTextParentHired;
+    
     [Header("UI Reference for job profile")]
     [SerializeField] private GameObject _jobProfile;
     [SerializeField] private TextMeshProUGUI _employeeName;
@@ -17,92 +22,149 @@ public class JobProfileUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _careerDevelopment;
 
     private GameObject _job;
-    private Employee _employee;
-    private List<TextMeshProUGUI> _jobTextList = new List<TextMeshProUGUI>();
+    private int _jobChoose;
+
+    public List<TextMeshProUGUI> _employee1JobTextList = new List<TextMeshProUGUI>();
+    public List<TextMeshProUGUI> _employee2JobTextList = new List<TextMeshProUGUI>();
+    public List<TextMeshProUGUI> _employee3JobTextList = new List<TextMeshProUGUI>();
+    public List<TextMeshProUGUI> _employee4JobTextList = new List<TextMeshProUGUI>();
+    public List<TextMeshProUGUI> _employee5JobTextList = new List<TextMeshProUGUI>();
 
     /// <summary>
-    /// Jobs list of  this employee 
+    /// reference
     /// </summary>
-    public List<JobData> _jobList { get; private set; } = new List<JobData>();
+    private JobProfileGenerator _jobProfileGenerator;
+    private DirectorRoom _directorRoom;
 
-    [SerializeField] private JobProfileGenerator _jobProfileGenerator;
-
-    public void Awake()
+    public void Start()
     {
-        for (int i = 0; i < _jobTextParent.transform.childCount; i++)
+        SetTextList();
+
+        _jobProfileGenerator = JobProfileGenerator.Instance;
+        _directorRoom = DirectorRoom.Instance;
+    }
+
+    public void SetTextList()
+    {
+        _employee1JobTextList.Clear();
+        _employee2JobTextList.Clear();
+        _employee3JobTextList.Clear();
+        _employee4JobTextList.Clear();
+        _employee5JobTextList.Clear();
+
+        for (int i = 0; i < _jobTextParentHired[0].transform.childCount; i++)
         {
-            _job = _jobTextParent.transform.GetChild(i).gameObject;
-            _jobTextList.Add(_job.GetComponent<TextMeshProUGUI>());
+            _job = _jobTextParentHired[0].transform.GetChild(i).gameObject;
+            _employee1JobTextList.Add(_job.GetComponent<TextMeshProUGUI>());
         }
 
-        _jobProfileGenerator.NewName += ShowName;
-        _jobProfileGenerator.NumberOfJobs += JobNumber;
-        _jobProfileGenerator.NewJob += AddNewJob;
+        for (int i = 0; i < _jobTextParentHired[1].transform.childCount; i++)
+        {
+            _job = _jobTextParentHired[1].transform.GetChild(i).gameObject;
+            _employee2JobTextList.Add(_job.GetComponent<TextMeshProUGUI>());
+        }
+
+        for (int i = 0; i < _jobTextParentHired[2].transform.childCount; i++)
+        {
+            _job = _jobTextParentHired[2].transform.GetChild(i).gameObject;
+            _employee3JobTextList.Add(_job.GetComponent<TextMeshProUGUI>());
+        }
+
+        for (int i = 0; i < _jobTextParentHired[3].transform.childCount; i++)
+        {
+            _job = _jobTextParentHired[3].transform.GetChild(i).gameObject;
+            _employee4JobTextList.Add(_job.GetComponent<TextMeshProUGUI>());
+        }
+
+        for (int i = 0; i < _jobTextParentHired[4].transform.childCount; i++)
+        {
+            _job = _jobTextParentHired[4].transform.GetChild(i).gameObject;
+            _employee5JobTextList.Add(_job.GetComponent<TextMeshProUGUI>());
+        }
     }
 
     /// <summary>
     /// Set job for job profile UI for this employee and show them
     /// </summary>
     /// <param name="_employeeSelected"></param>
-    public void ShowProfile(Employee _employeeSelected)
+    public void ShowRecrutementProfile()
     {
-        _employee = _employeeSelected;
-
-        if (_employee.EmployeeJob.Count == 0)
+        for (int i = 0; i < _directorRoom.RecrutementList.Count; i++)
         {
-            _jobProfileGenerator.GenerateProfile();
-            _jobProfile.SetActive(true);
-            _jobList.Clear();
-        }
-        else
-        {
-            _employeeName.text = _employee.EmployeeName;
-            for (int i = 0; i < _employee.EmployeeJob.Count; i++)
-            {
-                _jobTextList[i].text = _employee.EmployeeJob[i].JobName;
-                _jobTextList[i].gameObject.SetActive(true);
-            }
-            _jobProfile.SetActive(true);
-        }
-    }
+            ShowName();
+            ShowJob();
+            _jobProfileHired.SetActive(true);
 
-    /// <summary>
-    /// Listen jobProfileGenerator and set employee name
-    /// </summary>
-    /// <param name="_name"></param>
-    public void ShowName(string _name)
-    {
-        _employeeName.text = _name;
+            SetTextList();
+        }
     }
 
     /// <summary>
     /// Listen jobProfileGenerator for number of job has this employee
     /// </summary>
     /// <param name="_jobNumber"></param>
-    public void JobNumber(int _jobNumber)
+    public void ShowJob()
     {
-        for (int i = 0; i < _jobNumber; i++)
+        for (int i = 0; i < _directorRoom.RecrutementList[0].GetComponent<Employee>().EmployeeJob.Count; i++)
         {
-            _jobTextList[i].text = _jobList[i].JobName;
-            _jobTextList[i].gameObject.SetActive(true);
+            _employee1JobTextList[i].text = _directorRoom.RecrutementList[0].GetComponent<Employee>().EmployeeJob[i].JobName;
+            _employee1JobTextList[i].gameObject.SetActive(true);
+        }
+
+        for (int i = 0; i < _directorRoom.RecrutementList[1].GetComponent<Employee>().EmployeeJob.Count; i++)
+        {
+            _employee2JobTextList[i].text = _directorRoom.RecrutementList[1].GetComponent<Employee>().EmployeeJob[i].JobName;
+            _employee2JobTextList[i].gameObject.SetActive(true);
+        }
+        for (int i = 0; i < _directorRoom.RecrutementList[2].GetComponent<Employee>().EmployeeJob.Count; i++)
+        {
+            Debug.Log(_directorRoom.RecrutementList[2].GetComponent<Employee>().EmployeeJob.Count);
+            Debug.Log(_employee3JobTextList.Count);
+            _employee3JobTextList[i].text = _directorRoom.RecrutementList[2].GetComponent<Employee>().EmployeeJob[i].JobName;
+            _employee3JobTextList[i].gameObject.SetActive(true);
+        }
+        for (int i = 0; i < _directorRoom.RecrutementList[3].GetComponent<Employee>().EmployeeJob.Count; i++)
+        {
+            _employee4JobTextList[i].text = _directorRoom.RecrutementList[3].GetComponent<Employee>().EmployeeJob[i].JobName;
+            _employee4JobTextList[i].gameObject.SetActive(true);
+        }
+        for (int i = 0; i < _directorRoom.RecrutementList[4].GetComponent<Employee>().EmployeeJob.Count; i++)
+        {
+            _employee5JobTextList[i].text = _directorRoom.RecrutementList[4].GetComponent<Employee>().EmployeeJob[i].JobName;
+            _employee5JobTextList[i].gameObject.SetActive(true);
         }
     }
 
-    /// <summary>
-    /// Listen jobProfileGenerator, add all employee job to job list
-    /// </summary>
-    /// <param name="_job"></param>
-    public void AddNewJob(JobData _job)
+    public void ShowName()
     {
-        _jobList.Add(_job);
+        for (int i = 0; i < _directorRoom.RecrutementList.Count; i++)
+        {
+            _employeeNameHired[i].text = _directorRoom.RecrutementList[i].GetComponent<Employee>().EmployeeName;
+        }
     }
+
+    public void ShowProfile(Employee employee)
+    {
+        _employeeName.text = employee.EmployeeName;
+
+        for (int i = 0; i < employee.EmployeeJob.Count;i++)
+        {
+            _jobTextParent.transform.GetChild(i).GetComponentInChildren<TextMeshProUGUI>().text = employee.EmployeeJob[i].JobName;
+            _jobTextParent.transform.GetChild(i).gameObject.SetActive(true);
+        }
+    }
+
 
     /// <summary>
     /// Give the job data to the button 
     /// </summary>
+    public void SetButtonJobChoose(int i)
+    {
+        _jobChoose = i;
+    }
     public void SetButtonFicheMetier(int i)
     {
-        ShowFicheMetier(_employee.EmployeeJob[i]);
+        ShowFicheMetier(_directorRoom.RecrutementList[i].GetComponent<Employee>().EmployeeJob[_jobChoose]);
     }
 
     /// <summary>
