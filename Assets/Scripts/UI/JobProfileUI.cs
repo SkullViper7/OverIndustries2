@@ -8,7 +8,7 @@ public class JobProfileUI : MonoBehaviour
     [SerializeField] private GameObject _jobProfileHired;
     [SerializeField] private List<TextMeshProUGUI> _employeeNameHired;
     [SerializeField] private List<GameObject> _jobTextParentHired;
-    
+
     [Header("UI Reference for job profile")]
     [SerializeField] private GameObject _jobProfile;
     [SerializeField] private TextMeshProUGUI _employeeName;
@@ -24,11 +24,11 @@ public class JobProfileUI : MonoBehaviour
     private GameObject _job;
     private int _jobChoose;
 
-    public List<TextMeshProUGUI> _employee1JobTextList = new List<TextMeshProUGUI>();
-    public List<TextMeshProUGUI> _employee2JobTextList = new List<TextMeshProUGUI>();
-    public List<TextMeshProUGUI> _employee3JobTextList = new List<TextMeshProUGUI>();
-    public List<TextMeshProUGUI> _employee4JobTextList = new List<TextMeshProUGUI>();
-    public List<TextMeshProUGUI> _employee5JobTextList = new List<TextMeshProUGUI>();
+    private List<TextMeshProUGUI> _employee1JobTextList = new List<TextMeshProUGUI>();
+    private List<TextMeshProUGUI> _employee2JobTextList = new List<TextMeshProUGUI>();
+    private List<TextMeshProUGUI> _employee3JobTextList = new List<TextMeshProUGUI>();
+    private List<TextMeshProUGUI> _employee4JobTextList = new List<TextMeshProUGUI>();
+    private List<TextMeshProUGUI> _employee5JobTextList = new List<TextMeshProUGUI>();
 
     /// <summary>
     /// reference
@@ -118,8 +118,6 @@ public class JobProfileUI : MonoBehaviour
         }
         for (int i = 0; i < _directorRoom.RecrutementList[2].GetComponent<Employee>().EmployeeJob.Count; i++)
         {
-            Debug.Log(_directorRoom.RecrutementList[2].GetComponent<Employee>().EmployeeJob.Count);
-            Debug.Log(_employee3JobTextList.Count);
             _employee3JobTextList[i].text = _directorRoom.RecrutementList[2].GetComponent<Employee>().EmployeeJob[i].JobName;
             _employee3JobTextList[i].gameObject.SetActive(true);
         }
@@ -147,7 +145,7 @@ public class JobProfileUI : MonoBehaviour
     {
         _employeeName.text = employee.EmployeeName;
 
-        for (int i = 0; i < employee.EmployeeJob.Count;i++)
+        for (int i = 0; i < employee.EmployeeJob.Count; i++)
         {
             _jobTextParent.transform.GetChild(i).GetComponentInChildren<TextMeshProUGUI>().text = employee.EmployeeJob[i].JobName;
             _jobTextParent.transform.GetChild(i).gameObject.SetActive(true);
@@ -162,9 +160,23 @@ public class JobProfileUI : MonoBehaviour
     {
         _jobChoose = i;
     }
+
+    /// <summary>
+    /// for employee are not hired
+    /// </summary>
+    /// <param name="i"></param>
     public void SetButtonFicheMetier(int i)
     {
         ShowFicheMetier(_directorRoom.RecrutementList[i].GetComponent<Employee>().EmployeeJob[_jobChoose]);
+    }
+
+    /// <summary>
+    /// Get employee and job choose and call show fiche metier
+    /// </summary>
+    /// <param name="_employee"></param>
+    public void ShowHiredEmployeeFicheMetier(Employee _employee)
+    {
+        ShowFicheMetier(_employee.EmployeeJob[_jobChoose]);
     }
 
     /// <summary>
@@ -205,6 +217,31 @@ public class JobProfileUI : MonoBehaviour
         else
         {
             _careerDevelopment.text = $"{_job.CareerDevelopment[0]} \n{_job.CareerDevelopment[1]} \n{_job.CareerDevelopment[2]} \n{_job.CareerDevelopment[3]} \n{_job.CareerDevelopment[4]}";
+        }
+    }
+
+    /// <summary>
+    /// Close all text
+    /// </summary>
+    public void CloseJobProfile()
+    {
+        for (int j = 0; j <_directorRoom.RecrutementList.Count; j++)
+        {
+            for (int i = 0; i < _directorRoom.RecrutementList[j].GetComponent<Employee>().EmployeeJob.Count; i++)
+            {
+                _employee1JobTextList[i].gameObject.SetActive(false);
+                _employee2JobTextList[i].gameObject.SetActive(false);
+                _employee3JobTextList[i].gameObject.SetActive(false);
+                _employee4JobTextList[i].gameObject.SetActive(false);
+                _employee5JobTextList[i].gameObject.SetActive(false);
+
+                _jobTextParent.transform.GetChild(i).gameObject.SetActive(false);
+            }
+        }
+
+        for (int i = 0; i < _jobTextParent.transform.childCount; i++)
+        {
+            _jobTextParent.transform.GetChild(i).gameObject.SetActive(false);
         }
     }
 }

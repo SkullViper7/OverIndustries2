@@ -43,6 +43,14 @@ public class EmployeeInteraction : MonoBehaviour
     {
         _jobProfileUI.ShowProfile(_currentEmployeeSelected);
     }
+    
+    /// <summary>
+    /// Call _job profile to show give employee selected to show fiche metier
+    /// </summary>
+    public void ShowInfoJob()
+    {
+        _jobProfileUI.ShowHiredEmployeeFicheMetier(_currentEmployeeSelected);
+    }
 
     /// <summary>
     /// Called to desactivate all buttons.

@@ -52,19 +52,16 @@ public class JobProfileGenerator : MonoBehaviour
         {
             _numberOfJob = 3;
             RandomJob(_numberOfJob);
-            Debug.Log("3 Jobs");
         }
         else if (k < PourcentageHasTwoJob)
         {
             _numberOfJob = 2;
             RandomJob(_numberOfJob);
-            Debug.Log("2 Jobs");
         }
         else
         {
             _numberOfJob = 1;
             RandomJob(_numberOfJob);
-            Debug.Log("1 Jobs");
         }
     }
 

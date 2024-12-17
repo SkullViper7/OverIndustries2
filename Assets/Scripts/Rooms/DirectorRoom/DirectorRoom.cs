@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class DirectorRoom : MonoBehaviour, IRoomBehaviour
 {
@@ -9,7 +7,7 @@ public class DirectorRoom : MonoBehaviour, IRoomBehaviour
     private static DirectorRoom _instance = null;
     public static DirectorRoom Instance => _instance;
     [field: SerializeField] public DirectorRoomData DirectorRoomData { get; private set; }
-    private Room _roomMain;
+    [SerializeField] private Room _roomMain;
 
     [SerializeField, Tooltip("Time to wait before create a new employee")] private int _waitNewEmployee;
     [SerializeField, Tooltip("employee prefab")] private GameObject _employee;
@@ -18,8 +16,6 @@ public class DirectorRoom : MonoBehaviour, IRoomBehaviour
     private int _poolEmployeeID;
     private GameObject _newEmployee;
     public List<GameObject> RecrutementList { get; private set; } = new List<GameObject>();
-
-    public event System.Action NewRecrutement;
 
     private void Awake()
     {
@@ -44,8 +40,6 @@ public class DirectorRoom : MonoBehaviour, IRoomBehaviour
     {
         _jobProfileGenerator = JobProfileGenerator.Instance;
         _poolEmployeeID = ObjectPoolManager.Instance.NewObjectPool(_employee);
-
-        CreateEmployee();
     }
 
     public void CreateEmployee()
@@ -53,6 +47,7 @@ public class DirectorRoom : MonoBehaviour, IRoomBehaviour
         for (int i = 0; RecrutementList.Count < 5; i++)
         {
             _newEmployee = ObjectPoolManager.Instance.GetObjectInPool(_poolEmployeeID);
+            _newEmployee.SetActive(true);
             RecrutementList.Add(_newEmployee);
 
             _jobProfileGenerator.GenerateProfile(_newEmployee.GetComponent<Employee>());
@@ -67,13 +62,43 @@ public class DirectorRoom : MonoBehaviour, IRoomBehaviour
         HireEmployee(RecrutementList[i].GetComponent<Employee>());
     }
 
+    /// <summary>
+    /// Set this new employee
+    /// </summary>
+    /// <param name="_employeeToHire"></param>
     public void HireEmployee(Employee _employeeToHire)
     {
         _employeeToHire.IsHired = true;
+        _employeeToHire.transform.GetChild(0).gameObject.SetActive(true);
+        EmployeeList.Instance.AddEmployee(_employeeToHire.gameObject);
+
+        _employeeToHire.AssignRoom = this.gameObject;
+        _roomMain.EmployeeAssign.Add(_employeeToHire);
+
+        _employeeToHire.SetEmployee();
     }
 
     public void RefuseEmployee(Employee _employee)
     {
         ObjectPoolManager.Instance.ReturnObjectToThePool(_poolEmployeeID, _employee.gameObject);
+    }
+
+    public void CloseHireEmployee()
+    {
+        for(int i = 0; i < RecrutementList.Count; i++)
+        {
+            if (RecrutementList[i].GetComponent<Employee>().IsHired == false)
+            {
+
+                Employee employee = RecrutementList[i].GetComponent<Employee>();
+                employee.EmployeeJob.Clear();
+                employee.gameObject.SetActive(false);
+                employee.EmployeeName = null;
+
+                ObjectPoolManager.Instance.ReturnObjectToThePool(_poolEmployeeID, employee.gameObject);
+            }
+        }
+        RecrutementList.Clear();
+
     }
 }
