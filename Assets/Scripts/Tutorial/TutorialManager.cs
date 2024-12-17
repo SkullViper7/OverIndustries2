@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
+using System.Collections.Generic;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -16,11 +17,16 @@ public class TutorialManager : MonoBehaviour
     private int _currentCharIndex = 0;
 
     [SerializeField]
-    private GameObject _nextButton;
+    private List<GameObject> _buttonActions;
 
     void Start()
     {
         ShowTutorialStep();
+
+        for(int i = 0; i < _buttonActions.Count; i++)
+        {
+            _buttonActions[i].SetActive(false);
+        }
     }
 
     public void ShowTutorialStep()
@@ -33,8 +39,23 @@ public class TutorialManager : MonoBehaviour
 
             switch (_currentStep)
             {
-                case 0:
-                    Step1();
+                case 2:
+                    ShowConstructButton();
+                    break;
+                case 3:
+                    DesactiveConstructButton();
+                    break;
+                case 7:
+                    ShowCommandeButton();
+                    break;
+                case 8:
+                    ShowStorage();
+                    break;
+                case 9:
+                    ShowConstructButton();
+                    break;
+                case 14:
+                    DesactiveConstructButton();
                     break;
             }
         }
@@ -78,13 +99,35 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
-    void Step1()
+    void ShowConstructButton()
     {
-        _nextButton.SetActive(true);
+        _buttonActions[0].SetActive(true);
+    }
+
+    void DesactiveConstructButton()
+    {
+        _buttonActions[0].SetActive(false);
+    }
+
+    void ShowStorage()
+    {
+        _buttonActions[0].SetActive(false);
+        _buttonActions[1].SetActive(false);
+        _buttonActions[2].SetActive(true);
+    }
+
+    void ShowCommandeButton()
+    {
+        _buttonActions[1].SetActive(true);
     }
 
     public void HideTutorialStep()
     {
+        for (int i = 0; i < _buttonActions.Count; i++)
+        {
+            _buttonActions[i].SetActive(true);
+        }
+
         _tutorialPanel.SetActive(false);
     }
 
