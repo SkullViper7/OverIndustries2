@@ -22,10 +22,12 @@ public class EmployeeList : MonoBehaviour
     public void AddEmployee(GameObject i)
     {
         Employee.Add(i);
+        i.transform.parent = this.transform;
     }
     
     public void RemoveEmployee(GameObject i)
     {
         Employee.Remove(i);
+        Destroy(i.transform);
     }
 }

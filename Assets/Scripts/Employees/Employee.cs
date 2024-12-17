@@ -48,7 +48,7 @@ public class Employee : MonoBehaviour
 
     private GameObject _actualWayPoint;
 
-    public void Start()
+    public void SetEmployee()
     {
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _animator = GetComponentInChildren<Animator>();
@@ -64,6 +64,7 @@ public class Employee : MonoBehaviour
         if (IsHired)
         {
             gameObject.transform.Rotate(Vector3.zero);
+
             SetIdleAnimation();
 
             _wayPointList.Clear();
@@ -192,7 +193,10 @@ public class Employee : MonoBehaviour
 
     public void SetIdleAnimation()
     {
-        _animator.SetTrigger("Idle");
+        if(IsHired)
+        {
+            _animator.SetTrigger("Idle");
+        }
     }
 
     /// <summary>

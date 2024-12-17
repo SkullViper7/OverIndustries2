@@ -1182,6 +1182,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EmployeeJob: []
   EmployeeName: 
+  IsHired: 0
+  AssignRoom: {fileID: 0}
+  _minTimeBetweenWayPoint: 0
+  _maxTimeBetweenWayPoint: 0
+  _hat: {fileID: 0}
+  _hatList: []
+  _roomNameList: []
+  _wayPointList: []
 --- !u!1 &2974326406875780022
 GameObject:
   m_ObjectHideFlags: 0
@@ -4134,6 +4142,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d8a5449bb0228648a610a4f1ab9d7d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _jobProfileHired: {fileID: 0}
+  _employeeNameHired: []
+  _jobTextParentHired: []
   _jobProfile: {fileID: 7404712217726644142}
   _employeeName: {fileID: 5632022734861285140}
   _jobTextParent: {fileID: 2974326406875780022}
@@ -4142,7 +4153,11 @@ MonoBehaviour:
   _pay: {fileID: 2191206761893700976}
   _studies: {fileID: 4918585007190206709}
   _careerDevelopment: {fileID: 5677231206496245045}
-  _jobProfileGenerator: {fileID: 0}
+  _employee1JobTextList: []
+  _employee2JobTextList: []
+  _employee3JobTextList: []
+  _employee4JobTextList: []
+  _employee5JobTextList: []
 --- !u!1 &8085133062583547350
 GameObject:
   m_ObjectHideFlags: 0

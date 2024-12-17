@@ -628,9 +628,14 @@ MonoBehaviour:
   EmployeeJob:
   - {fileID: 11400000, guid: 1bdf18d2c9049484080a153d66d5df93, type: 2}
   EmployeeName: Jack
+  IsHired: 0
   AssignRoom: {fileID: 1519977285}
   _minTimeBetweenWayPoint: 0
   _maxTimeBetweenWayPoint: 0
+  _hat: {fileID: 0}
+  _hatList: []
+  _roomNameList: []
+  _wayPointList: []
 --- !u!65 &54606456
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3111,8 +3116,10 @@ MonoBehaviour:
   <InfoRoomButton>k__BackingField: {fileID: 1766154594}
   <UpgradeButton>k__BackingField: {fileID: 1241847114}
   <ProductionButton>k__BackingField: {fileID: 1305478494}
+  <ItemToProductPopUp>k__BackingField: {fileID: 0}
   <StopProductionButton>k__BackingField: {fileID: 1419612942}
   <ResearchButton>k__BackingField: {fileID: 220560089}
+  <EmbaucheEmployee>k__BackingField: {fileID: 0}
   <InfoEmployeeButton>k__BackingField: {fileID: 1090577628}
   <MoveEmployeeButton>k__BackingField: {fileID: 1925618307}
   <RoomInfoPopUp>k__BackingField: {fileID: 734243265}
@@ -3121,8 +3128,12 @@ MonoBehaviour:
   <DeliveryUpgradeWarningPopUp>k__BackingField: {fileID: 0}
   <RoomResearchPopUp>k__BackingField: {fileID: 548651657}
   <ItemToResearchPopUp>k__BackingField: {fileID: 0}
+  <StoragePopUp>k__BackingField: {fileID: 0}
   <ConstructionPopUp>k__BackingField: {fileID: 1510706142}
   <ConstructionUI>k__BackingField: {fileID: 931431108}
+  <SFXSource>k__BackingField: {fileID: 0}
+  <ClickSFX>k__BackingField: {fileID: 0}
+  <OpenSFX>k__BackingField: {fileID: 0}
 --- !u!114 &188961206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3198,6 +3209,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d8a5449bb0228648a610a4f1ab9d7d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _jobProfileHired: {fileID: 0}
+  _employeeNameHired: []
+  _jobTextParentHired: []
   _jobProfile: {fileID: 1478124962}
   _employeeName: {fileID: 1709242866}
   _jobTextParent: {fileID: 830405728}
@@ -3206,7 +3220,6 @@ MonoBehaviour:
   _pay: {fileID: 224116742}
   _studies: {fileID: 669601436}
   _careerDevelopment: {fileID: 9890042}
-  _jobProfileGenerator: {fileID: 488267044}
 --- !u!1 &194912580
 GameObject:
   m_ObjectHideFlags: 0
@@ -17108,6 +17121,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 180
       objectReference: {fileID: 0}
+    - target: {fileID: 8888597058704851095, guid: c318982c2a3c0e840b416323f79fcfca,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 10.84
+      objectReference: {fileID: 0}
+    - target: {fileID: 8888597058704851095, guid: c318982c2a3c0e840b416323f79fcfca,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.7
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
     - {fileID: 0}
@@ -22571,18 +22594,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 188961205}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: OpenUI
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 1251327648}
         m_TargetAssemblyTypeName: DragAndDrop, Assembly-CSharp
         m_MethodName: MoveEmployee
@@ -22647,18 +22658,6 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 188961205}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: CloseUI
-        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -22752,9 +22751,14 @@ MonoBehaviour:
   EmployeeJob:
   - {fileID: 0}
   EmployeeName: 
+  IsHired: 0
   AssignRoom: {fileID: 0}
   _minTimeBetweenWayPoint: 0
   _maxTimeBetweenWayPoint: 0
+  _hat: {fileID: 0}
+  _hatList: []
+  _roomNameList: []
+  _wayPointList: []
 --- !u!1 &1949043702
 GameObject:
   m_ObjectHideFlags: 0
@@ -23623,9 +23627,14 @@ MonoBehaviour:
   EmployeeJob:
   - {fileID: 11400000, guid: 1bdf18d2c9049484080a153d66d5df93, type: 2}
   EmployeeName: Jack
+  IsHired: 0
   AssignRoom: {fileID: 1848194282}
   _minTimeBetweenWayPoint: 8
   _maxTimeBetweenWayPoint: 10
+  _hat: {fileID: 0}
+  _hatList: []
+  _roomNameList: []
+  _wayPointList: []
 --- !u!65 &2024891237
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -25668,6 +25677,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CanvasJobProfileAndFicheMetier
+      objectReference: {fileID: 0}
+    - target: {fileID: 8881138022351451562, guid: 4af7c30b1acaabf44b6d1a6587173031,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7564184782426183458, guid: 4af7c30b1acaabf44b6d1a6587173031, type: 3}
