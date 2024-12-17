@@ -36,6 +36,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void PauseGame()
+    {
+        ChronoManager.Instance.PauseChrono();
+    }
+
+    public void ResumeGame()
+    {
+        ChronoManager.Instance.ResumeChrono();
+    }
+
     public void OpenUI()
     {
         UIIsOpen = true;

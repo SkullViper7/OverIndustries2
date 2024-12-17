@@ -117,6 +117,12 @@ public class UIManager : MonoBehaviour
     public GameObject ItemToResearchPopUp { get; private set; }
 
     /// <summary>
+    /// The UI on screen whene player can see the storage.
+    /// </summary>
+    [field: SerializeField, Tooltip("The UI on screen whene player can see the storage.")]
+    public GameObject StoragePopUp { get; private set; }
+
+    /// <summary>
     /// The pop up where player can construct a new room.
     /// </summary>
     [field: SerializeField, Space, Header("Construction"), Tooltip("The pop up where player can construct a new room.")]

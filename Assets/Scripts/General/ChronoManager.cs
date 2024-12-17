@@ -31,8 +31,13 @@ public class ChronoManager : MonoBehaviour
     /// </summary>
     private bool isRunning = false;
 
+    /// <summary>
+    /// Variable to check if the chrono is paused.
+    /// </summary>
+    private bool isPaused = false;
+
     // Get if the chrono is running and the current time
-    public bool IsRunning => isRunning;
+    public bool IsRunning => isRunning && !isPaused;
     public TimeSpan CurrentTime => TimeSpan.FromSeconds(elapsedTime);
 
     private void Awake()
@@ -56,7 +61,7 @@ public class ChronoManager : MonoBehaviour
 
     private void Update()
     {
-        if (!isRunning) return;
+        if (!isRunning || isPaused) return;
 
         elapsedTime += Time.deltaTime;
 
@@ -88,10 +93,13 @@ public class ChronoManager : MonoBehaviour
         }
     }
 
-    // Called to start the chrono.
+    /// <summary>
+    /// Called to start the chrono.
+    /// </summary>
     public void StartChronometer()
     {
         isRunning = true;
+        isPaused = false;
     }
 
     /// <summary>
@@ -100,6 +108,7 @@ public class ChronoManager : MonoBehaviour
     public void StopChronometer()
     {
         isRunning = false;
+        isPaused = false;
     }
 
     /// <summary>
@@ -108,9 +117,28 @@ public class ChronoManager : MonoBehaviour
     public void ResetChronometer()
     {
         isRunning = false;
+        isPaused = false;
         elapsedTime = 0f;
         lastCentisecond = 0;
         lastSecond = 0;
         lastMinute = 0;
+    }
+
+    /// <summary>
+    /// Called to pause the chrono.
+    /// </summary>
+    public void PauseChrono()
+    {
+        if (!isRunning) return;
+        isPaused = true;
+    }
+
+    /// <summary>
+    /// Called to resume the chrono.
+    /// </summary>
+    public void ResumeChrono()
+    {
+        if (!isRunning) return;
+        isPaused = false;
     }
 }

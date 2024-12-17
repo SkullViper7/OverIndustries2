@@ -22,12 +22,12 @@ public class ItemStorage : MonoBehaviour
     /// <summary>
     /// Dictionnary wich stocks components.
     /// </summary>
-    private Dictionary<ComponentData, int> _componentStorage = new();
+    public Dictionary<ComponentData, int> ComponentStorage { get; private set; } = new();
 
     /// <summary>
     /// Dictionnary wich stocks objects.
     /// </summary>
-    private Dictionary<ObjectData, int> _objectStorage = new();
+    public Dictionary<ObjectData, int> ObjectStorage { get; private set; } = new();
 
     /// <summary>
     /// Current amount of items in the storage.
@@ -75,13 +75,13 @@ public class ItemStorage : MonoBehaviour
     {
         if (_currentStorage + amount <= _storageCapacity)
         {
-            if (_componentStorage.ContainsKey(component))
+            if (ComponentStorage.ContainsKey(component))
             {
-                _componentStorage[component] += amount;
+                ComponentStorage[component] += amount;
             }
             else
             {
-                _componentStorage.Add(component, amount);
+                ComponentStorage.Add(component, amount);
             }
 
             // Update storage
@@ -98,11 +98,11 @@ public class ItemStorage : MonoBehaviour
     /// <param name="amountToSubstract"> Amount to substract. </param>
     public void SubstractComponents(ComponentData component, int amountToSubstract)
     {
-        if (_componentStorage.ContainsKey(component))
+        if (ComponentStorage.ContainsKey(component))
         {
-            if (_componentStorage[component] - amountToSubstract >= 0)
+            if (ComponentStorage[component] - amountToSubstract >= 0)
             {
-                _componentStorage[component] -= amountToSubstract;
+                ComponentStorage[component] -= amountToSubstract;
 
                 // Update storage
                 _currentStorage -= amountToSubstract;
@@ -145,13 +145,13 @@ public class ItemStorage : MonoBehaviour
     {
         if (_currentStorage + amount <= _storageCapacity)
         {
-            if (_objectStorage.ContainsKey(objectType))
+            if (ObjectStorage.ContainsKey(objectType))
             {
-                _objectStorage[objectType] += amount;
+                ObjectStorage[objectType] += amount;
             }
             else
             {
-                _objectStorage.Add(objectType, amount);
+                ObjectStorage.Add(objectType, amount);
             }
 
             // Update storage
@@ -168,11 +168,11 @@ public class ItemStorage : MonoBehaviour
     /// <param name="amountToSubstract"> Amount to substract. </param>
     public void SubstractObjects(ObjectData objectType, int amountToSubstract)
     {
-        if (_objectStorage.ContainsKey(objectType))
+        if (ObjectStorage.ContainsKey(objectType))
         {
-            if (_objectStorage[objectType] - amountToSubstract >= 0)
+            if (ObjectStorage[objectType] - amountToSubstract >= 0)
             {
-                _objectStorage[objectType] -= amountToSubstract;
+                ObjectStorage[objectType] -= amountToSubstract;
 
                 // Update storage
                 _currentStorage -= amountToSubstract;
@@ -218,9 +218,9 @@ public class ItemStorage : MonoBehaviour
     /// <returns></returns>
     public bool ThereIsEnoughComponentsInStorage(ComponentData component, int amountToCheck)
     {
-        if (_componentStorage.ContainsKey(component))
+        if (ComponentStorage.ContainsKey(component))
         {
-            return amountToCheck >= _componentStorage[component];
+            return amountToCheck >= ComponentStorage[component];
         }
         else
         {
@@ -239,14 +239,14 @@ public class ItemStorage : MonoBehaviour
 
         for (int i = 0; i < ingredients.Count; i++)
         {
-            if (!_componentStorage.ContainsKey(ingredients[i].ComponentData))
+            if (!ComponentStorage.ContainsKey(ingredients[i].ComponentData))
             {
                 recipeIsPossible = false;
                 break;
             }
             else
             {
-                if (_componentStorage[ingredients[i].ComponentData] < ingredients[i].Quantity)
+                if (ComponentStorage[ingredients[i].ComponentData] < ingredients[i].Quantity)
                 {
                     recipeIsPossible = false;
                     break;
@@ -265,9 +265,9 @@ public class ItemStorage : MonoBehaviour
     /// <returns></returns>
     public bool ThereIsEnoughObjectsInStorage(ObjectData objectType, int amountToCheck)
     {
-        if (_objectStorage.ContainsKey(objectType))
+        if (ObjectStorage.ContainsKey(objectType))
         {
-            return amountToCheck >= _objectStorage[objectType];
+            return amountToCheck >= ObjectStorage[objectType];
         }
         else
         {
@@ -282,9 +282,9 @@ public class ItemStorage : MonoBehaviour
     /// <returns></returns>
     public int ReturnNumberOfThisObject(ObjectData objectType)
     {
-        if (_objectStorage.ContainsKey(objectType))
+        if (ObjectStorage.ContainsKey(objectType))
         {
-            return _objectStorage[objectType];
+            return ObjectStorage[objectType];
         }
         else
         {
