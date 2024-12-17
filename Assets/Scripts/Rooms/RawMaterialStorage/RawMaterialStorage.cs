@@ -58,6 +58,11 @@ public class RawMaterialStorage : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        _amoutOfRawMaterial = 100;
+    }
+
     /// <summary>
     /// Called to add an amount of raw material in the storage.
     /// </summary>
