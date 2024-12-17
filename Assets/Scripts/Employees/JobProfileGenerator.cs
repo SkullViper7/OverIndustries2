@@ -14,13 +14,10 @@ public class JobProfileGenerator : MonoBehaviour
 
     private string _name;
     private int _numberOfJob;
+    private Employee _employeeGenerate;
 
     [field: SerializeField] public float PourcentageHasTwoJob { get; private set; }
     [field: SerializeField] public float PourcentageHasThreeJob { get; private set; }
-
-    public event System.Action<string> NewName;
-    public event System.Action<JobData> NewJob;
-    public event System.Action<int> NumberOfJobs;
 
     private void Awake()
     {
@@ -39,14 +36,15 @@ public class JobProfileGenerator : MonoBehaviour
     /// <summary>
     /// Generate random name + random number of jobs
     /// </summary>
-    public void GenerateProfile()
+    public void GenerateProfile(Employee employee)
     {
+        _employeeGenerate = employee;
         ResetForNewProfile();
 
         //Random Name
         int i = Random.Range(0, RandomNameList.Count);
         _name = RandomNameList[i];
-        NewName.Invoke(_name);
+        _employeeGenerate.EmployeeName = _name;
 
         //Calcule pourcentage d'avoir tant de jobs
         int k = Random.Range(0, 100);
@@ -68,8 +66,6 @@ public class JobProfileGenerator : MonoBehaviour
             RandomJob(_numberOfJob);
             Debug.Log("1 Jobs");
         }
-
-        NumberOfJobs.Invoke(_numberOfJob);
     }
 
     /// <summary>
@@ -81,7 +77,8 @@ public class JobProfileGenerator : MonoBehaviour
         for (int i = 0; i < _numberOfJobs; i++)
         {
             int _job = Random.Range(0, _jobsList.Count);
-            NewJob.Invoke(_jobsList[_job]);
+            _employeeGenerate.EmployeeJob.Add(_jobsList[_job]);
+
             _jobsList.Remove(_jobsList[_job]);
         }
     }

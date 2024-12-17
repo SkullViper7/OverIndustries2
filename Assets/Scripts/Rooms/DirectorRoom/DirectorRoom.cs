@@ -1,48 +1,79 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class DirectorRoom : MonoBehaviour, IRoomBehaviour
 {
+    // Singleton
+    private static DirectorRoom _instance = null;
+    public static DirectorRoom Instance => _instance;
     [field: SerializeField] public DirectorRoomData DirectorRoomData { get; private set; }
     private Room _roomMain;
 
-    private GameObject _newEmployee;
-    //private int _poolID;
-    private List<GameObject> _recrutementList = new List<GameObject>();
-
     [SerializeField, Tooltip("Time to wait before create a new employee")] private int _waitNewEmployee;
-    //[SerializeField] private GameObject _defaultEmployee;
+    [SerializeField, Tooltip("employee prefab")] private GameObject _employee;
 
-    [SerializeField] private JobProfileGenerator _jobProfileGenerator;
+    private JobProfileGenerator _jobProfileGenerator;
+    private int _poolEmployeeID;
+    private GameObject _newEmployee;
+    public List<GameObject> RecrutementList { get; private set; } = new List<GameObject>();
 
-    public void Start()
+    public event System.Action NewRecrutement;
+
+    private void Awake()
     {
-        StartCoroutine(WaitNewEmployee());
-        //_poolID = ObjectPoolManager.Instance.NewObjectPool(_defaultEmployee);
+        // Singleton
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+        else
+        {
+            _instance = this;
+        }
     }
 
     public void InitRoomBehaviour(IRoomBehaviourData roomBehaviourData, Room roomMain)
     {
         DirectorRoomData = (DirectorRoomData)roomBehaviourData;
         _roomMain = roomMain;
-        StartCoroutine(WaitNewEmployee());
+    }
+    public void Start()
+    {
+        _jobProfileGenerator = JobProfileGenerator.Instance;
+        _poolEmployeeID = ObjectPoolManager.Instance.NewObjectPool(_employee);
+
+        CreateEmployee();
     }
 
     public void CreateEmployee()
     {
-        if (_recrutementList.Count < 5)
+        for (int i = 0; RecrutementList.Count < 5; i++)
         {
-            //_newEmployee = ObjectPoolManager.Instance.GetObjectInPool(_poolID);
-            _recrutementList.Add(_newEmployee);
-        }
+            _newEmployee = ObjectPoolManager.Instance.GetObjectInPool(_poolEmployeeID);
+            RecrutementList.Add(_newEmployee);
 
-        StartCoroutine(WaitNewEmployee());
+            _jobProfileGenerator.GenerateProfile(_newEmployee.GetComponent<Employee>());
+        }
     }
 
-    IEnumerator WaitNewEmployee()
+    /// <summary>
+    /// Give the employee to the button 
+    /// </summary>
+    public void SetHireEmployee(int i)
     {
-        yield return new WaitForSeconds(_waitNewEmployee);
-        CreateEmployee();
+        HireEmployee(RecrutementList[i].GetComponent<Employee>());
+    }
+
+    public void HireEmployee(Employee _employeeToHire)
+    {
+        _employeeToHire.IsHired = true;
+    }
+
+    public void RefuseEmployee(Employee _employee)
+    {
+        ObjectPoolManager.Instance.ReturnObjectToThePool(_poolEmployeeID, _employee.gameObject);
     }
 }
