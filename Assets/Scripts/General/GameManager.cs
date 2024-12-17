@@ -49,10 +49,12 @@ public class GameManager : MonoBehaviour
     public void OpenUI()
     {
         UIIsOpen = true;
+        PauseGame();
     }
 
     public void CloseUI()
     {
         UIIsOpen = false;
+        ResumeGame();
     }
 }
