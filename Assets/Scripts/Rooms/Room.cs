@@ -236,7 +236,7 @@ public class Room : MonoBehaviour
                 }
             case 2:
                 {
-                    _doorAnimator.Play("Room_upgrade", 0, 0f);
+                    //_doorAnimator.Play("Room_upgrade", 0, 0f);
 
                     yield return new WaitForSeconds(0.55f);
 
@@ -251,7 +251,7 @@ public class Room : MonoBehaviour
                 }
             case 3:
                 {
-                    _doorAnimator.Play("Room_upgrade", 0, 0f);
+                    //_doorAnimator.Play("Room_upgrade", 0, 0f);
                     yield return new WaitForSeconds(0.55f);
 
                     if (_currentVisualRoom != null)
