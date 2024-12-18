@@ -224,8 +224,7 @@ public class RoomInfoPopUp : MonoBehaviour
 
         _capacityHeader.text = "Capacité :";
         _capacityImage.sprite = deliveryRoom.DeliveryRoomData.RawMaterialPicto;
-        UpdateAmountInInternalStorage(deliveryRoom.CurrentAmountInInternalStorage, deliveryRoom.CurrentInternalCapacity);
-        deliveryRoom.NewAmountInInternalStorage += UpdateAmountInInternalStorage;
+        _capacityTxt.text = deliveryRoom.CurrentAmountInInternalStorage.ToString() + "/" + deliveryRoom.CurrentInternalCapacity.ToString();
         _capacity.SetActive(true);
         _statsContainer.SetActive(true);
         _switchButtons.SetActive(true);
@@ -254,8 +253,7 @@ public class RoomInfoPopUp : MonoBehaviour
 
             _capacityHeader.text = "Capacité :";
             _capacityImage.sprite = machiningRoom.CurrentComponentManufactured.ComponentPicto; ;
-            UpdateAmountInInternalStorage(machiningRoom.CurrentAmountInInternalStorage, machiningRoom.CurrentInternalCapacity);
-            machiningRoom.NewAmountInInternalStorage += UpdateAmountInInternalStorage;
+            _capacityTxt.text = machiningRoom.CurrentAmountInInternalStorage.ToString() + "/" + machiningRoom.CurrentInternalCapacity.ToString();
             _capacity.SetActive(true);
             _statsContainer.SetActive(true);
             _switchButtons.SetActive(true);
@@ -289,8 +287,7 @@ public class RoomInfoPopUp : MonoBehaviour
 
             _capacityHeader.text = "Capacité :";
             _capacityImage.sprite = assemblyRoom.CurrentObjectManufactured.ObjectPicto; ;
-            UpdateAmountInInternalStorage(assemblyRoom.CurrentAmountInInternalStorage, assemblyRoom.CurrentInternalCapacity);
-            assemblyRoom.NewAmountInInternalStorage += UpdateAmountInInternalStorage;
+            _capacityTxt.text = assemblyRoom.CurrentAmountInInternalStorage.ToString() + "/" + assemblyRoom.CurrentInternalCapacity.ToString();
             _capacity.SetActive(true);
             _statsContainer.SetActive(true);
             _switchButtons.SetActive(true);
@@ -313,8 +310,7 @@ public class RoomInfoPopUp : MonoBehaviour
 
         _capacityHeader.text = "Capacité :";
         _capacityImage.sprite = rawMaterialStorageRoom.RawMaterialStorageRoomData.RawMaterialPicto;
-        UpdateAmountInInternalStorage(rawMaterialStorage.AmoutOfRawMaterial, rawMaterialStorage.StorageCapacity);
-        rawMaterialStorage.NewAmountInInternalStorage += UpdateAmountInInternalStorage;
+        _capacityTxt.text = rawMaterialStorage.AmoutOfRawMaterial.ToString() + "/" + rawMaterialStorage.StorageCapacity.ToString();
         _capacity.SetActive(true);
         _statsContainer.SetActive(true);
         _switchButtons.SetActive(true);
@@ -332,8 +328,7 @@ public class RoomInfoPopUp : MonoBehaviour
 
         _capacityHeader.text = "Capacité :";
         _capacityImage.sprite = storageRoom.StorageRoomData.ItemsPicto;
-        UpdateAmountInInternalStorage(itemStorage.CurrentStorage, itemStorage.StorageCapacity);
-        itemStorage.NewAmountInInternalStorage += UpdateAmountInInternalStorage;
+        _capacityTxt.text = itemStorage.CurrentStorage.ToString() + "/" + itemStorage.StorageCapacity.ToString();
         _capacity.SetActive(true);
         _statsContainer.SetActive(true);
         _switchButtons.SetActive(true);
@@ -385,16 +380,6 @@ public class RoomInfoPopUp : MonoBehaviour
     }
 
     /// <summary>
-    /// Called to update the amount in internal storage of a room.
-    /// </summary>
-    /// <param name="newAmount"> New amount in the storage. </param>
-    /// <param name="capacity"> Capacity of the storage. </param>
-    private void UpdateAmountInInternalStorage(int newAmount, int capacity)
-    {
-        _capacityTxt.text = newAmount.ToString() + "/" + capacity.ToString();
-    }
-
-    /// <summary>
     /// Called to close the pop up and reset some values.
     /// </summary>
     public void ClosePopUp()
@@ -407,16 +392,7 @@ public class RoomInfoPopUp : MonoBehaviour
         _productionRate.SetActive(false);
         _production.SetActive(false);
 
-        switch (_currentRoomSelected.RoomData.RoomType)
-        {
-            case RoomType.Delivery:
-                DeliveryRoom deliveryRoom = (DeliveryRoom)_currentRoomBehaviour;
-                deliveryRoom.NewAmountInInternalStorage -= UpdateAmountInInternalStorage;
-                break;
-            case RoomType.Machining:
-                MachiningRoom machiningRoom = (MachiningRoom)_currentRoomBehaviour;
-                machiningRoom.NewAmountInInternalStorage -= UpdateAmountInInternalStorage;
-                break;
-        }
+        UIManager.Instance.CloseUI();
+        gameObject.SetActive(false);
     }
 }

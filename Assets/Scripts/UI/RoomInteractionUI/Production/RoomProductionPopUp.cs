@@ -89,6 +89,7 @@ public class RoomProductionPopUp : MonoBehaviour
 
         _productionButtons.Clear();
 
+        UIManager.Instance.CloseUI();
         gameObject.SetActive(false);
     }
 }

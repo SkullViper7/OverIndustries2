@@ -148,8 +148,7 @@ public class UpgradeRoomPopUp : MonoBehaviour
             _nameLvl.text = "Améliorer " + _currentRoomSelected.RoomData.Name + " au niveau " + (_currentRoomSelected.CurrentLvl + 1).ToString() + " ?";
             _description.text = _currentRoomSelected.RoomData.Description;
             _name.text = _currentRoomSelected.RoomData.Name;
-            UpdateUpgradeCost(RawMaterialStorage.Instance.AmoutOfRawMaterial);
-            RawMaterialStorage.Instance.AmountHasChanged += UpdateUpgradeCost;
+            SetUpgradeCost();
 
             switch (_currentRoomSelected.RoomData.RoomType)
             {
@@ -354,17 +353,17 @@ public class UpgradeRoomPopUp : MonoBehaviour
     }
 
     /// <summary>
-    /// Called to update the availability of the upgrade cost.
+    /// Called to set the availability of the upgrade cost.
     /// </summary>
-    /// <param name="newAmount"> New amount in raw material storage. </param>
-    private void UpdateUpgradeCost(int newAmount)
+    private void SetUpgradeCost()
     {
         _upgradeButton.onClick.RemoveAllListeners();
+        RawMaterialStorage rawMaterialStorage = RawMaterialStorage.Instance;
 
         switch (_currentRoomSelected.CurrentLvl)
         {
             case 1:
-                if (newAmount >= _currentRoomSelected.RoomData.UpgradeCostToLvl2)
+                if (rawMaterialStorage.AmoutOfRawMaterial >= _currentRoomSelected.RoomData.UpgradeCostToLvl2)
                 {
                     _upgradeCostTxt.color = Color.white;
                     _upgradeButton.onClick.AddListener(UpgradeCurrentSelectedRoom);
@@ -375,7 +374,7 @@ public class UpgradeRoomPopUp : MonoBehaviour
                 }
                 break;
             case 2:
-                if (newAmount >= _currentRoomSelected.RoomData.UpgradeCostToLvl3)
+                if (rawMaterialStorage.AmoutOfRawMaterial >= _currentRoomSelected.RoomData.UpgradeCostToLvl3)
                 {
                     _upgradeCostTxt.color = Color.white;
                     _upgradeButton.onClick.AddListener(UpgradeCurrentSelectedRoom);
@@ -403,6 +402,7 @@ public class UpgradeRoomPopUp : MonoBehaviour
                     UIManager.Instance.DeliveryUpgradeWarningPopUp.GetComponent<DeliveryWarningButton>().ValidateButton.onClick.AddListener(() =>
                     {
                         _currentRoomSelected.UpgradeRoom();
+                        UIManager.Instance.CloseSFX();
                         ClosePopUp();
                     });
                 }
@@ -437,8 +437,6 @@ public class UpgradeRoomPopUp : MonoBehaviour
             Destroy(_newResearchContainers[i]);
         }
         _newResearchContainers.Clear();
-
-        RawMaterialStorage.Instance.AmountHasChanged -= UpdateUpgradeCost;
 
         UIManager.Instance.CloseUI();
         gameObject.SetActive(false);

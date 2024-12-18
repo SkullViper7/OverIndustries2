@@ -88,6 +88,7 @@ public class InteractionManager : MonoBehaviour
             // Cast a ray from the camera in the calculated direction and check for hits
             if (Physics.Raycast(Camera.main.transform.position, direction, out hit, 200))
             {
+                //Debug.DrawRay(Camera.main.transform.position, direction * 100f, Color.green, 1000f);
                 // If the ray hits an object with a room component, trigger its event with datas of the room
 
                 if (hit.collider.TryGetComponent<Employee>(out Employee employee))
@@ -107,6 +108,7 @@ public class InteractionManager : MonoBehaviour
             }
             else
             {
+                //Debug.DrawRay(Camera.main.transform.position, direction * 100f, Color.red, 1000f);
                 NoInteraction?.Invoke();
             }
         }

@@ -79,9 +79,10 @@ public class ConstructionSelectionButton : MonoBehaviour
             {
                 RawMaterialStorage.Instance.SubstractRawMaterials(_roomData.ConstructionCost);
                 StartSearchingForAnAvailableSpot();
-                _uiManager.ConstructionPopUp.SetActive(false);
                 _uiManager.ConstructionUI.SetActive(true);
                 _uiManager.CloseUI();
+                _uiManager.CloseSFX();
+                _uiManager.ConstructionPopUp.SetActive(false);
             });
         }
         else

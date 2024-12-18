@@ -29,8 +29,9 @@ public class StopProductionPopUp : MonoBehaviour
                 _validateButton.onClick.AddListener(() =>
                 {
                     machiningRoom.StopProduction();
-                    gameObject.SetActive(false);
                     UIManager.Instance.CloseUI();
+                    UIManager.Instance.CloseSFX();
+                    gameObject.SetActive(false);
                 });
 
                 break;
@@ -42,8 +43,9 @@ public class StopProductionPopUp : MonoBehaviour
                 _validateButton.onClick.AddListener(() =>
                 {
                     assemblyRoom.StopProduction();
-                    gameObject.SetActive(false);
                     UIManager.Instance.CloseUI();
+                    UIManager.Instance.CloseSFX();
+                    gameObject.SetActive(false);
                 });
 
                 break;
@@ -55,8 +57,9 @@ public class StopProductionPopUp : MonoBehaviour
                 _validateButton.onClick.AddListener(() =>
                 {
                     researchRoom.StopResearch();
-                    gameObject.SetActive(false);
                     UIManager.Instance.CloseUI();
+                    UIManager.Instance.CloseSFX();
+                    gameObject.SetActive(false);
                 });
 
                 break;

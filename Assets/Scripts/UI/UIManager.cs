@@ -45,12 +45,6 @@ public class UIManager : MonoBehaviour
     public GameObject ProductionButton { get; private set; }
 
     /// <summary>
-    /// The pop up where player can launch the choosen production.
-    /// </summary>
-    [field: SerializeField, Tooltip("The pop up where player can launch the choosen production.")]
-    public GameObject ItemToProductPopUp { get; private set; }
-
-    /// <summary>
     /// Button to stop a production in a room.
     /// </summary>
     [field: SerializeField, Tooltip("Button to stop a production in a room.")]
@@ -91,6 +85,12 @@ public class UIManager : MonoBehaviour
     /// </summary>
     [field: SerializeField, Tooltip("The pop up where player can launch a production.")]
     public GameObject RoomProductionPopUp { get; private set; }
+
+    /// <summary>
+    /// The pop up where player can launch the choosen production.
+    /// </summary>
+    [field: SerializeField, Tooltip("The pop up where player can launch the choosen production.")]
+    public GameObject ItemToProductPopUp { get; private set; }
 
     /// <summary>
     /// Pop up to warn the player that he will loose ressources if he stops the production.
@@ -137,20 +137,52 @@ public class UIManager : MonoBehaviour
     /// <summary>
     /// AudioSource to play SFX.
     /// </summary>
-    [field: SerializeField, Tooltip("AudioSource to play SFX.")]
-    public AudioSource SFXSource { get; private set; }
+    [Space, Header("SFX"), SerializeField, Tooltip("AudioSource to play SFX.")]
+    private AudioSource _SFXSource;
 
     /// <summary>
     /// SFX to play when a button is clicked.
     /// </summary>
-    [field: SerializeField, Tooltip("SFX to play when a button is clicked.")]
-    public AudioClip ClickSFX { get; private set; }
+    [SerializeField, Tooltip("SFX to play when a button is clicked.")]
+    private AudioClip _clickSFX;
+
+    /// <summary>
+    /// SFX to play when a button to back from somewhere is clicked.
+    /// </summary>
+    [SerializeField, Tooltip("SFX to play when a button to back from somewhere is clicked.")]
+    private AudioClip _backClickSFX;
 
     /// <summary>
     /// SFX to play when a UI is open.
     /// </summary>
-    [field: SerializeField, Tooltip("SFX to play when a UI is open.")]
-    public AudioClip OpenSFX { get; private set; }
+    [SerializeField, Tooltip("SFX to play when a UI is open.")]
+    private AudioClip _openSFX;
+
+    /// <summary>
+    /// SFX to play when a UI is open.
+    /// </summary>
+    [SerializeField, Tooltip("SFX to play when a UI is open.")]
+    private AudioClip _closeSFX;
+
+    public void ClickSFX()
+    {
+        _SFXSource.PlayOneShot(_clickSFX);
+    }
+
+    public void BackClickSFX()
+    {
+        _SFXSource.PlayOneShot(_backClickSFX);
+    }
+
+    public void OpenSFX()
+    {
+        _SFXSource.PlayOneShot(_openSFX);
+    }
+
+    public void CloseSFX()
+    {
+        _SFXSource.PlayOneShot(_closeSFX);
+    }
 
     /// <summary>
     /// Called when a UI is open.

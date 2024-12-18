@@ -36,6 +36,7 @@ public class ProductionButton : MonoBehaviour
         _image.sprite = componentData.ComponentPicto;
 
         _button.onClick.AddListener(OpenComponentToResearchPopUp);
+        _button.onClick.AddListener(UIManager.Instance.ClickSFX);
     }
 
     /// <summary>
@@ -50,6 +51,7 @@ public class ProductionButton : MonoBehaviour
         _image.sprite = objectData.ObjectPicto;
 
         _button.onClick.AddListener(OpenObjectToResearchPopUp);
+        _button.onClick.AddListener(UIManager.Instance.ClickSFX);
     }
 
     /// <summary>
