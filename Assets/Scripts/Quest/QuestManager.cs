@@ -7,14 +7,17 @@ public class QuestManager : MonoBehaviour
     public static QuestManager Instance => _instance;
 
     [field: SerializeField] public List<QuestData> QuestList { get; private set; }
-    public List<Quest> CurrentQuestList { get; private set; }
+    public List<Quest> CurrentQuestList { get; private set; } = new List<Quest>();
     [field: SerializeField, Tooltip("Maximum number of current quest")] public int MaxCurrentQuest { get; private set; }
 
     [Space, Header("Quest Stats")]
     private Quest _newQuest;
-    [field: SerializeField, Tooltip("Minimum number of object need to all quest")] public int MinNumberQuestObject { get; private set; }
-    [field: SerializeField, Tooltip("Maximum number of object need to all quest")] public int MaxNumberQuestObject { get; private set; }
+    [field: SerializeField, Tooltip("Minimum number of object need to all quest")] public int MinNumberQuestObject { get; private set; } = 1;
+    [field: SerializeField, Tooltip("Maximum number of object need to all quest")] public int MaxNumberQuestObject { get; private set; } = 3;
 
+    [Space, Header("Quest Instanciate")]
+    [SerializeField] private GameObject _defaultQuest;
+    [SerializeField] private Transform _questContainer;
 
     public event System.Action<Quest> NewQuestGenerate;
     public event System.Action UpdateAdvancementQuest, ResetQuestText;
@@ -40,14 +43,13 @@ public class QuestManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Choisi une nouvelle quête, chaque quête gare son nom, sa description et son objet associer, seul le nombre d'objets nécessaire change
+    /// Choisi une nouvelle quête, chaque quête garde son nom, sa description et son objet associer, seul le nombre d'objets nécessaire change
     /// </summary>
     public void GenerateNewQuest()
     {
         if (QuestList.Count > 0 && MaxCurrentQuest > CurrentQuestList.Count)
         {
-            //_newQuest = ObjectPoolManager.Instance.RequestObject(4).GetComponent<Quest>();
-
+            _newQuest = Instantiate(_defaultQuest.GetComponent<Quest>(), _questContainer);
 
             int randomQuest = Random.Range(0, QuestList.Count);
             _newQuest.GiveQuest(QuestList[randomQuest]);

@@ -1,8 +1,6 @@
-using JetBrains.Annotations;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class QuestUI : MonoBehaviour
 {
@@ -13,8 +11,8 @@ public class QuestUI : MonoBehaviour
 
     //InfoCurrentQuest
     [field: SerializeField] public GameObject CurrentQuestTextParent { get; private set; }
-    public List<TextMeshProUGUI> _nameCurrentQuestTextList = new List<TextMeshProUGUI>();
-    public List<TextMeshProUGUI> _objectifCurrentQuestTextList = new List<TextMeshProUGUI>();
+    private List<TextMeshProUGUI> _nameCurrentQuestTextList = new List<TextMeshProUGUI>();
+    private List<TextMeshProUGUI> _objectifCurrentQuestTextList = new List<TextMeshProUGUI>();
 
     //ComplitedQuest
     [field: SerializeField] public GameObject ButtonQuestComplited { get; private set; }
@@ -55,29 +53,27 @@ public class QuestUI : MonoBehaviour
 
         if (_quest.QuestData.NumberOfObject.Count == 1)
         {
-            QuestObjectifText.text = $"{_quest.QuestData.NumberOfObject[0]} {_quest.QuestData.Objects[0]}";
+            QuestObjectifText.text = $"{_quest.QuestData.NumberOfObject[0]} {_quest.QuestData.Objects[0].Name}";
         }
-
         if (_quest.QuestData.NumberOfObject.Count == 2)
         {
-            QuestObjectifText.text = $"{_quest.QuestData.NumberOfObject[0]} {_quest.QuestData.Objects[0]} \n{_quest.QuestData.NumberOfObject[1]} {_quest.QuestData.Objects[1]}";
+            QuestObjectifText.text = $"{_quest.QuestData.NumberOfObject[0]} {_quest.QuestData.Objects[0].Name} \n{_quest.QuestData.NumberOfObject[1]} {_quest.QuestData.Objects[1].Name}";
         }
         if (_quest.QuestData.NumberOfObject.Count == 3)
         {
-            QuestObjectifText.text = $"{_quest.QuestData.NumberOfObject[0]} {_quest.QuestData.Objects[0]} \n{_quest.QuestData.NumberOfObject[1]} {_quest.QuestData.Objects[1]} \n{_quest.QuestData.NumberOfObject[2]} {_quest.QuestData.Objects[2]}";
+            QuestObjectifText.text = $"{_quest.QuestData.NumberOfObject[0]} {_quest.QuestData.Objects[0].Name} \n{_quest.QuestData.NumberOfObject[1]} {_quest.QuestData.Objects[1].Name} \n{_quest.QuestData.NumberOfObject[2]} {_quest.QuestData.Objects[2].Name}";
         }
     }
+
     public void QuestAccept()
     {
-        Debug.Log("Quest accepted !");
         QuestManager.Instance.NewCurrentQuest(_actualQuest);
 
         UpdateCurrentAdvancementQuest();
     }
     public void QuestRefuse()
     {
-        Debug.Log("Quest refused !");
-        //ObjectPoolManager.Instance.ReturnThisObject(_actualQuest.gameObject);
+        Destroy(_actualQuest.gameObject);
     }
 
     /// <summary>
@@ -92,17 +88,17 @@ public class QuestUI : MonoBehaviour
 
             if (_currentQuest.QuestData.NumberOfObject.Count == 1)
             {
-                _objectifCurrentQuestTextList[i].text = $"{ItemStorage.Instance.ReturnNumberOfThisObject(_currentQuest.QuestData.Objects[0])} / {_currentQuest.QuestData.NumberOfObject[0]} {_currentQuest.QuestData.Objects[0]}";
+                _objectifCurrentQuestTextList[i].text = $"{ItemStorage.Instance.ReturnNumberOfThisObject(_currentQuest.QuestData.Objects[0])} / {_currentQuest.QuestData.NumberOfObject[0]} {_currentQuest.QuestData.Objects[0].Name}";
             }
 
             if (_currentQuest.QuestData.NumberOfObject.Count == 2)
             {
-                _objectifCurrentQuestTextList[i].text = $"{ItemStorage.Instance.ReturnNumberOfThisObject(_currentQuest.QuestData.Objects[0])} / {_currentQuest.QuestData.NumberOfObject[0]} {_currentQuest.QuestData.Objects[0]} \n{ItemStorage.Instance.ReturnNumberOfThisObject(_currentQuest.QuestData.Objects[1])} / {_currentQuest.QuestData.NumberOfObject[1]} {_currentQuest.QuestData.Objects[1]}";
+                _objectifCurrentQuestTextList[i].text = $"{ItemStorage.Instance.ReturnNumberOfThisObject(_currentQuest.QuestData.Objects[0])} / {_currentQuest.QuestData.NumberOfObject[0]} {_currentQuest.QuestData.Objects[0].Name} \n{ItemStorage.Instance.ReturnNumberOfThisObject(_currentQuest.QuestData.Objects[1])} / {_currentQuest.QuestData.NumberOfObject[1]} {_currentQuest.QuestData.Objects[1].Name}";
             }
 
             if (_currentQuest.QuestData.NumberOfObject.Count == 3)
             {
-                _objectifCurrentQuestTextList[i].text = $"{ItemStorage.Instance.ReturnNumberOfThisObject(_currentQuest.QuestData.Objects[0])} / {_currentQuest.QuestData.NumberOfObject[0]} {_currentQuest.QuestData.Objects[0]} \n{ItemStorage.Instance.ReturnNumberOfThisObject(_currentQuest.QuestData.Objects[1])} / {_currentQuest.QuestData.NumberOfObject[1]} {_currentQuest.QuestData.Objects[1]} \n{ItemStorage.Instance.ReturnNumberOfThisObject(_currentQuest.QuestData.Objects[2])} / {_currentQuest.QuestData.NumberOfObject[2]} {_currentQuest.QuestData.Objects[2]}";
+                _objectifCurrentQuestTextList[i].text = $"{ItemStorage.Instance.ReturnNumberOfThisObject(_currentQuest.QuestData.Objects[0])} / {_currentQuest.QuestData.NumberOfObject[0]} {_currentQuest.QuestData.Objects[0].Name} \n{ItemStorage.Instance.ReturnNumberOfThisObject(_currentQuest.QuestData.Objects[1])} / {_currentQuest.QuestData.NumberOfObject[1]} {_currentQuest.QuestData.Objects[1].Name} \n{ItemStorage.Instance.ReturnNumberOfThisObject(_currentQuest.QuestData.Objects[2])} / {_currentQuest.QuestData.NumberOfObject[2]} {_currentQuest.QuestData.Objects[2].Name}";
             }
         }
     }
