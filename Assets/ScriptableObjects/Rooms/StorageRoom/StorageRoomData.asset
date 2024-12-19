@@ -14,11 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _roomType: 3
   _name: Salle de stockage
-  _roomPreview: {fileID: 21300000, guid: c8ac5cad61a00af4eadae8985320272e, type: 3}
+  _roomLvl1Preview: {fileID: 0}
+  _roomLvl2Preview: {fileID: 0}
+  _roomLvl3Preview: {fileID: 0}
   _description: "Une salle pour stocker des pi\xE8ces d\xE9tach\xE9es et des objets
     fabriqu\xE9s."
   _size: 4
   _capacity: 2
+  _constructionCost: 30
+  _upgradeCostToLvl2: 45
+  _upgradeCostToLvl3: 60
   _roomLvl1: {fileID: 6300312891747082068, guid: 57fc7a7a7ce898d4ca1da1e198bb1056,
     type: 3}
   _roomLvl2: {fileID: 4726950609330800227, guid: 3292db4150e4f794a94c9439d2df1fac,
