@@ -14,11 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _roomType: 0
   _name: Salle d'usinage
-  _roomPreview: {fileID: 21300000, guid: 70518659b3154ee44b0db3a636924a8c, type: 3}
+  _roomLvl1Preview: {fileID: 0}
+  _roomLvl2Preview: {fileID: 0}
+  _roomLvl3Preview: {fileID: 0}
   _description: "Une salle pour fabriquer des pi\xE8ces d\xE9tach\xE9es \xE0 partir
     de mati\xE8re premi\xE8re."
   _size: 4
   _capacity: 2
+  _constructionCost: 35
+  _upgradeCostToLvl2: 45
+  _upgradeCostToLvl3: 60
   _roomLvl1: {fileID: 7102702265404198, guid: 1e5baa13453d8b5479ff512428dff6f7, type: 3}
   _roomLvl2: {fileID: 5442715476174734743, guid: 05d15b3c197a1fc4f907b1d78e70e4c2,
     type: 3}

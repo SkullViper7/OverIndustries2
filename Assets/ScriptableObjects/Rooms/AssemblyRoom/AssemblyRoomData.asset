@@ -14,11 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _roomType: 1
   _name: Salle d'assembage
-  _roomPreview: {fileID: 21300000, guid: 4e5bc465d8873bc44933e14420433c71, type: 3}
+  _roomLvl1Preview: {fileID: 0}
+  _roomLvl2Preview: {fileID: 0}
+  _roomLvl3Preview: {fileID: 0}
   _description: "Un salle qui sert \xE0 assembler des composants pour fabriquer une
     pi\xE8ce"
   _size: 4
   _capacity: 2
+  _constructionCost: 50
+  _upgradeCostToLvl2: 75
+  _upgradeCostToLvl3: 120
   _roomLvl1: {fileID: 3019637303306414284, guid: 6eb74f1659000c4439ded52de65cd7db,
     type: 3}
   _roomLvl2: {fileID: 3019637303306414284, guid: 473e0bec7fa86a643ad600d8fdfedc50,
