@@ -142,16 +142,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OuterPointSet: 1
-  OuterPoint: {x: 6, y: 3.7, z: -6}
-  OuterPointDistance: 7.2515926
+  OuterPoint: {x: 6, y: 4, z: -4}
+  OuterPointDistance: 4.938309
   isHollow: 0
   InnerPointSet: 1
-  InnerPoint: {x: 6, y: 3.7, z: -6}
-  InnerPointDistance: 7.2515926
+  InnerPoint: {x: 6, y: 4, z: -4}
+  InnerPointDistance: 4.938309
   InnerPointInside: 0
   boxCollider: {fileID: 3421753733089840876}
-  center: {x: 3, y: 2, z: -3}
-  size: {x: 6, y: 4, z: 6}
+  center: {x: 3, y: 2, z: -2}
+  size: {x: 6, y: 4, z: 4}
 --- !u!65 &3421753733089840876
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -171,8 +171,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 6, y: 4, z: 6}
-  m_Center: {x: 3, y: 2, z: -3}
+  m_Size: {x: 6, y: 4, z: 4}
+  m_Center: {x: 3, y: 2, z: -2}
 --- !u!1 &1958338462219280799
 GameObject:
   m_ObjectHideFlags: 0
@@ -741,7 +741,7 @@ Transform:
   m_GameObject: {fileID: 9042478900751926577}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6, y: 3.7, z: -6}
+  m_LocalPosition: {x: 6, y: 4, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -891,7 +891,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0.99954706
       inSlope: 0
       outSlope: 0
       tangentMode: 0
