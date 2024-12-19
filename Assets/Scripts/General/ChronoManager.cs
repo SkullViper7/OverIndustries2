@@ -8,6 +8,11 @@ public class ChronoManager : MonoBehaviour
     public static ChronoManager Instance => _instance;
 
     /// <summary>
+    /// Started time of the game (in minutes).
+    /// </summary>
+    private int _startedTime;
+
+    /// <summary>
     /// Events to indicate that there is a new time.
     /// </summary>
     /// <param name="newTime"> New time to declare. </param>
@@ -18,7 +23,7 @@ public class ChronoManager : MonoBehaviour
     /// Events to indicate new ticks.
     /// </summary>
     public delegate void TickDelegate();
-    public event TickDelegate NewCentisecondTick, NewSecondTick, NewMinuteTick;
+    public event TickDelegate NewCentisecondTick, NewSecondTick, NewMinuteTick, ChronoEnded;
 
     // Time variables
     private float elapsedTime = 0f;
@@ -54,18 +59,29 @@ public class ChronoManager : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        StartChronometer();
-    }
-
     private void Update()
     {
         if (!isRunning || isPaused) return;
 
-        elapsedTime += Time.deltaTime;
+        // Decrement the elapsed time
+        elapsedTime -= Time.deltaTime;
 
-        // Check for centiseconds
+        // Check if the timer has reached 0
+        if (elapsedTime <= 0f)
+        {
+            elapsedTime = 0f;
+            isRunning = false;
+
+            ChronoEnded?.Invoke();
+
+            NewSecondTick?.Invoke();
+            NewSecond?.Invoke(0);
+            NewMinuteTick?.Invoke();
+            NewMinute?.Invoke(0);
+            return;
+        }
+
+        // Check centiseconds
         int currentCentisecond = (int)(elapsedTime * 100) % 100;
         if (currentCentisecond != lastCentisecond)
         {
@@ -74,7 +90,7 @@ public class ChronoManager : MonoBehaviour
             NewCentisecond?.Invoke(currentCentisecond);
         }
 
-        // Check for seconds
+        // Check seconds
         int currentSecond = (int)elapsedTime % 60;
         if (currentSecond != lastSecond)
         {
@@ -83,7 +99,7 @@ public class ChronoManager : MonoBehaviour
             NewSecond?.Invoke(currentSecond);
         }
 
-        // Check for minutes
+        // Check minutes
         int currentMinute = (int)(elapsedTime / 60);
         if (currentMinute != lastMinute)
         {
@@ -96,8 +112,15 @@ public class ChronoManager : MonoBehaviour
     /// <summary>
     /// Called to start the chrono.
     /// </summary>
-    public void StartChronometer()
+    /// <param name="startTime"> Started time of the chrono (in minutes). </param>
+    public void StartChronometer(int startTime)
     {
+        _startedTime = startTime;
+        lastCentisecond = 0;
+        lastSecond = 0;
+        lastMinute = 0;
+        elapsedTime = _startedTime * 60f;
+
         isRunning = true;
         isPaused = false;
     }
@@ -118,6 +141,7 @@ public class ChronoManager : MonoBehaviour
     {
         isRunning = false;
         isPaused = false;
+        _startedTime = 0;
         elapsedTime = 0f;
         lastCentisecond = 0;
         lastSecond = 0;

@@ -30,7 +30,7 @@ public class DragAndDrop : MonoBehaviour
         if (EmployeeSelect)
         {
             RaycastHit hit;
-            GameManager.Instance.InDragAndDrop = true;
+            GameManager.Instance.StartDragAndDrop();
 
             // Get the touch position on the screen and set its z-coordinate to the camera's distance
             Vector3 touchPosition = Touchscreen.current.primaryTouch.position.ReadValue();
@@ -70,7 +70,7 @@ public class DragAndDrop : MonoBehaviour
         EmployeeSelect = true;
         EmployeeToMove.GetComponent<NavMeshAgent>().enabled = false;
         EmployeeToMove.SetIdleAnimation();
-        GameManager.Instance.InDragAndDrop = true;
+        GameManager.Instance.StartDragAndDrop();
     }
 
     /// <summary>
@@ -131,7 +131,7 @@ public class DragAndDrop : MonoBehaviour
     public void ResetParameter()
     {
         EmployeeToMove.transform.position = _startPosition;
-        GameManager.Instance.InDragAndDrop = false;
+        GameManager.Instance.StopDragAndDrop();
 
         EmployeeToMove.GetComponent<NavMeshAgent>().enabled = true;
         EmployeeToMove.SetRoutineParameter();
@@ -139,7 +139,7 @@ public class DragAndDrop : MonoBehaviour
 
     public void SetParameter(Room room)
     {
-        GameManager.Instance.InDragAndDrop = false;
+        GameManager.Instance.StopDragAndDrop();
 
         room.AssignEmployeeInThisRoom(EmployeeToMove);
         EmployeeToMove.AssignRoom = room.gameObject;
