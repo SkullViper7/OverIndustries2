@@ -6,16 +6,19 @@ public class DirectorRoom : MonoBehaviour, IRoomBehaviour
     // Singleton
     private static DirectorRoom _instance = null;
     public static DirectorRoom Instance => _instance;
-    [field: SerializeField] public DirectorRoomData DirectorRoomData { get; private set; }
-    [SerializeField] private Room _roomMain;
 
-    [SerializeField, Tooltip("Time to wait before create a new employee")] private int _waitNewEmployee;
+    [field: SerializeField] public Room _roomMain { get; private set; }
+    [field: SerializeField] public DirectorRoomData DirectorRoomData { get; private set; }
+
+    [Space, Header("Create employee stats")]
     [SerializeField, Tooltip("employee prefab")] private GameObject _employee;
 
     private JobProfileGenerator _jobProfileGenerator;
     private int _poolEmployeeID;
     private GameObject _newEmployee;
     public List<GameObject> RecrutementList { get; private set; } = new List<GameObject>();
+
+    public event System.Action<Room> MaxAssignEmployee;
 
     private void Awake()
     {
@@ -44,13 +47,20 @@ public class DirectorRoom : MonoBehaviour, IRoomBehaviour
 
     public void CreateEmployee()
     {
-        for (int i = 0; RecrutementList.Count < 5; i++)
+        if (_roomMain.EmployeeAssign.Count < _roomMain.RoomData.Capacity)
         {
-            _newEmployee = ObjectPoolManager.Instance.GetObjectInPool(_poolEmployeeID);
-            _newEmployee.SetActive(true);
-            RecrutementList.Add(_newEmployee);
+            for (int i = 0; RecrutementList.Count < 5; i++)
+            {
+                _newEmployee = ObjectPoolManager.Instance.GetObjectInPool(_poolEmployeeID);
+                _newEmployee.SetActive(true);
+                RecrutementList.Add(_newEmployee);
 
-            _jobProfileGenerator.GenerateProfile(_newEmployee.GetComponent<Employee>());
+                _jobProfileGenerator.GenerateProfile(_newEmployee.GetComponent<Employee>());
+            }
+        }
+        else
+        {
+            MaxAssignEmployee.Invoke(_roomMain);
         }
     }
 
@@ -85,7 +95,7 @@ public class DirectorRoom : MonoBehaviour, IRoomBehaviour
 
     public void CloseHireEmployee()
     {
-        for(int i = 0; i < RecrutementList.Count; i++)
+        for (int i = 0; i < RecrutementList.Count; i++)
         {
             if (RecrutementList[i].GetComponent<Employee>().IsHired == false)
             {

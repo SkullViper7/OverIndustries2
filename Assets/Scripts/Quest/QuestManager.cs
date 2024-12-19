@@ -39,7 +39,7 @@ public class QuestManager : MonoBehaviour
 
     public void Start()
     {
-        ItemStorage.Instance.StorageChanged += QuestAdvancement;
+        ItemStorage.Instance.StorageChanged += QuestObjectAdvancement;
     }
 
     /// <summary>
@@ -74,10 +74,8 @@ public class QuestManager : MonoBehaviour
     /// <summary>
     /// Donne l'avancement de la quête pour chaque objectifs + check si il est accompli
     /// </summary>
-    /// <param name="_quest"></param>
-    /// <param name="_objectifNumber"></param>
     /// <param name="_actualStockOfThisObject"></param>
-    public void QuestAdvancement(ObjectType _object, int _actualStockOfThisObject)
+    public void QuestObjectAdvancement(ObjectType _object, int _actualStockOfThisObject)
     {
         UpdateAdvancementQuest.Invoke();
 
@@ -89,15 +87,19 @@ public class QuestManager : MonoBehaviour
                 {
                     Debug.Log("Objectifs completed");
                     QuestComplited.Invoke(i);
-
-                    Debug.Log($"Point de satisfations gagné : {CurrentQuestList[i].QuestData.PSWin}");
+                    ScoreManager.Instance.AddPS(CurrentQuestList[i].QuestData.PSWin);
+                }
+                if (CurrentQuestList[i].QuestData.Objects.Count > 2 && j == 0 && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Objects[j]) >= CurrentQuestList[i].QuestData.NumberOfObject[j] && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Objects[j + 1]) >= CurrentQuestList[i].QuestData.NumberOfObject[j + 1] && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Objects[j + 2]) >= CurrentQuestList[i].QuestData.NumberOfObject[j + 2])
+                {
+                    Debug.Log("Objectifs completed");
+                    QuestComplited.Invoke(i);
+                    ScoreManager.Instance.AddPS(CurrentQuestList[i].QuestData.PSWin);
                 }
                 if (CurrentQuestList[i].QuestData.Objects.Count == 1 && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Objects[j]) >= CurrentQuestList[i].QuestData.NumberOfObject[j])
                 {
                     Debug.Log("Objectifs completed");
                     QuestComplited.Invoke(i);
-
-                    Debug.Log($"Point de satisfations gagné : {CurrentQuestList[i].QuestData.PSWin}");
+                    ScoreManager.Instance.AddPS(CurrentQuestList[i].QuestData.PSWin);
                 }
                 else
                 {

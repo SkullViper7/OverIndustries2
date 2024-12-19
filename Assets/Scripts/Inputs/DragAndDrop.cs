@@ -4,11 +4,32 @@ using UnityEngine.InputSystem;
 
 public class DragAndDrop : MonoBehaviour
 {
-    PlayerInput _playerInput;
+    // Singleton
+    private static DragAndDrop _instance = null;
+    public static DragAndDrop Instance => _instance;
+
+    //playerInput reference
+    private PlayerInput _playerInput;
 
     private Employee EmployeeToMove;
     private Vector3 _startPosition;
     public bool EmployeeSelect { get; private set; } = false;
+
+    public event System.Action<Room> RoomAssignIsFull;
+
+    private void Awake()
+    {
+        // Singleton
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+        else
+        {
+            _instance = this;
+        }
+    }
 
     void Start()
     {
@@ -20,10 +41,7 @@ public class DragAndDrop : MonoBehaviour
         InteractionManager.Instance.EmployeeInteraction += GetEmployeeToMove;
     }
 
-    void OnTouchContact0(InputAction.CallbackContext context)
-    {
-
-    }
+    void OnTouchContact0(InputAction.CallbackContext context) {}
 
     void OnHold0(InputAction.CallbackContext context)
     {
@@ -118,7 +136,10 @@ public class DragAndDrop : MonoBehaviour
                         { ResetParameter(); }
                     }
                     else
-                    { ResetParameter(); }
+                    { 
+                        ResetParameter();
+                        RoomAssignIsFull.Invoke(room);
+                    }
                 }
                 else
                 { ResetParameter(); }
