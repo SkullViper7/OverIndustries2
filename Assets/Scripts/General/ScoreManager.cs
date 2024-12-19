@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
@@ -6,17 +7,18 @@ public class ScoreManager : MonoBehaviour
     private static ScoreManager _instance = null;
     public static ScoreManager Instance => _instance;
 
-    [Space, Header("Affect Score"), Tooltip("Mutiplacator of information which affect the final score, entre 0 and 1.")]
+    [Header("Affect Score"), Tooltip("Mutiplacator of information which affect the final score, entre 0 and 1.")]
     [SerializeField] private float _psImportance;
     [SerializeField] private float _employeeImportance;
     [SerializeField] private float _roomLevelMaxImportance;
 
-    [Space, Header("Info Score"), Tooltip("Information which affect the final score.")]
-    [SerializeField] private int _totalEmployee;
-    [SerializeField] private int _totalRoomLevelMax;
-    [SerializeField] public int TotalPS { get; private set; }
+    private int _totalEmployee;
+    private int _totalRoomLevelMax;
+    public int TotalPS { get; private set; }
+    public float FinalScore { get; private set; }
 
-    [SerializeField] public float FinalScore { get; private set; }
+    [Space, Header("Point de satisfaction")]
+    [SerializeField] private TextMeshProUGUI _PSText;
 
     private void Awake()
     {
@@ -30,11 +32,6 @@ public class ScoreManager : MonoBehaviour
         {
             _instance = this;
         }
-    }
-
-    public void Start()
-    {
-        CalculateScore();
     }
 
     public void AddPS(int _psWin)
