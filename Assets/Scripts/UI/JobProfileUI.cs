@@ -89,13 +89,16 @@ public class JobProfileUI : MonoBehaviour
     /// <param name="_employeeSelected"></param>
     public void ShowRecrutementProfile()
     {
-        for (int i = 0; i < _directorRoom.RecrutementList.Count; i++)
+        if (DirectorRoom.Instance._roomMain.EmployeeAssign.Count < DirectorRoom.Instance._roomMain.RoomData.Capacity)
         {
-            ShowName();
-            ShowJob();
-            _jobProfileHired.SetActive(true);
+            for (int i = 0; i < _directorRoom.RecrutementList.Count; i++)
+            {
+                ShowName();
+                ShowJob();
+                _jobProfileHired.SetActive(true);
 
-            SetTextList();
+                SetTextList();
+            }
         }
     }
 
@@ -225,7 +228,7 @@ public class JobProfileUI : MonoBehaviour
     /// </summary>
     public void CloseJobProfile()
     {
-        for (int j = 0; j <_directorRoom.RecrutementList.Count; j++)
+        for (int j = 0; j < _directorRoom.RecrutementList.Count; j++)
         {
             for (int i = 0; i < _directorRoom.RecrutementList[j].GetComponent<Employee>().EmployeeJob.Count; i++)
             {
