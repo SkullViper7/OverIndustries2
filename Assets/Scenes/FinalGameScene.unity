@@ -18294,6 +18294,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 834609098}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1815715547}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: OpenSFX
@@ -20040,6 +20052,18 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 341585387}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 834609098}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
@@ -22422,6 +22446,8 @@ MonoBehaviour:
   _zoomSpeed: 0.004
   _maxZoom: -1.75
   _minZoom: -15
+  _minPosLeftCorner: {x: 0, y: 2}
+  _maxPosRightCorner: {x: 62, y: 60}
 --- !u!1 &646589239
 GameObject:
   m_ObjectHideFlags: 0
@@ -25279,6 +25305,7 @@ Transform:
   - {fileID: 555723765}
   - {fileID: 939958314}
   - {fileID: 71542498}
+  - {fileID: 1083787777}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &700112239
@@ -40831,6 +40858,54 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 20458770}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1083787776
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1083787777}
+  - component: {fileID: 1083787778}
+  m_Layer: 0
+  m_Name: ScoreManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1083787777
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1083787776}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 697415306}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1083787778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1083787776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4708de61a7cae0140be0400714197231, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _psImportance: 1
+  _employeeImportance: 0.5
+  _roomLevelMaxImportance: 0.5
+  _PSText: {fileID: 857988038}
 --- !u!1 &1085390271
 GameObject:
   m_ObjectHideFlags: 0
@@ -57500,7 +57575,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 727c502fc75056445bde635de4e497f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GridSize: {x: 16, y: 6}
+  GridSize: {x: 21, y: 15}
   _roomsByDefault:
   - {fileID: 376065310}
   - {fileID: 1073684848}
@@ -58289,8 +58364,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04b05a5a13fedc94f952d5e0499b62f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <UIIsOpen>k__BackingField: 0
-  InDragAndDrop: 0
+  <GameTime>k__BackingField: 0
 --- !u!1 &1603122994
 GameObject:
   m_ObjectHideFlags: 0

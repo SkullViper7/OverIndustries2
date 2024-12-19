@@ -41,10 +41,7 @@ public class DragAndDrop : MonoBehaviour
         InteractionManager.Instance.EmployeeInteraction += GetEmployeeToMove;
     }
 
-    void OnTouchContact0(InputAction.CallbackContext context)
-    {
-
-    }
+    void OnTouchContact0(InputAction.CallbackContext context) {}
 
     void OnHold0(InputAction.CallbackContext context)
     {
