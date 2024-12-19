@@ -15,6 +15,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "DoubleTap",
+                    "type": "Button",
+                    "id": "3124efdc-6269-40fe-82ca-7a8d5521df63",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "TouchContact0",
                     "type": "Button",
                     "id": "ea6e57c3-c619-4945-9cd1-c9f072d4b3f1",
@@ -49,6 +58,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "DragAndDrop",
+                    "type": "Value",
+                    "id": "282f8c7f-7706-4f0d-8519-78a3164ba3c6",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -104,6 +122,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "TouchContact0",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "261c1001-3b67-4d04-b964-ad491ded4457",
+                    "path": "<Touchscreen>/touch0/press",
+                    "interactions": "MultiTap",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DoubleTap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "59886f68-dedb-45fa-9e99-98fd1ea074b5",
+                    "path": "<Touchscreen>/touch0/position",
+                    "interactions": "Hold(duration=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DragAndDrop",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

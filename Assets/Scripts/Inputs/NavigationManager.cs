@@ -11,7 +11,6 @@ public class NavigationManager : MonoBehaviour
     [SerializeField]
     private float _zoomSpeed = 0.004f;
 
-    [SerializeField]
     private float _maxZoom = -1.75f;
 
     [SerializeField]
@@ -52,6 +51,8 @@ public class NavigationManager : MonoBehaviour
     void Start()
     {
         InitListeners();
+
+        _maxZoom = CalculateCameraMaxZoom();
     }
 
     /// <summary>
@@ -173,13 +174,13 @@ public class NavigationManager : MonoBehaviour
     {
         if (!GameManager.Instance.InDragAndDrop)
         {
-            // Utilise la distance entre la caméra et le plan de déplacement
+            // Utilise la distance entre la camï¿½ra et le plan de dï¿½placement
             float distance = Mathf.Abs(_camera.transform.position.z);
 
-            // Applique une fonction exponentielle pour ajuster le facteur d'échelle
-            float scaleFactor = Mathf.Pow(distance, 0.5f) * 2f / Screen.height; // Racine carrée pour rendre le scroll plus sensible à faible distance
+            // Applique une fonction exponentielle pour ajuster le facteur d'ï¿½chelle
+            float scaleFactor = Mathf.Pow(distance, 0.5f) * 2f / Screen.height; // Racine carrï¿½e pour rendre le scroll plus sensible ï¿½ faible distance
 
-            // Applique le delta pour déplacer la caméra en suivant le mouvement du doigt
+            // Applique le delta pour dï¿½placer la camï¿½ra en suivant le mouvement du doigt
             Vector3 cameraDelta = new Vector3(delta.x * scaleFactor, delta.y * scaleFactor, 0) * _scrollSpeed;
             _camera.transform.position -= _camera.transform.TransformDirection(cameraDelta);
 
@@ -205,10 +206,10 @@ public class NavigationManager : MonoBehaviour
 
         float distanceDelta = pinchDelta - _initialDistance;
 
-        // Utilise directement la valeur de la position de la caméra comme facteur
+        // Utilise directement la valeur de la position de la camï¿½ra comme facteur
         float distanceScaleFactor = 1f / Mathf.Max(0.1f, Mathf.Abs(_camera.transform.localPosition.z));
 
-        // Facteur de mise à l'échelle basé sur la taille de l'écran (diagonale en pixels)
+        // Facteur de mise ï¿½ l'ï¿½chelle basï¿½ sur la taille de l'ï¿½cran (diagonale en pixels)
         float screenScaleFactor = Mathf.Sqrt(Screen.width * Screen.width + Screen.height * Screen.height) / 1000f;
 
         // Applique les deux facteurs dans le calcul du zoom
@@ -221,6 +222,45 @@ public class NavigationManager : MonoBehaviour
         _camera.transform.localPosition = newPosition;
 
         _initialDistance = pinchDelta;
+    }
+
+    /// <summary>
+    /// Called to calculate the max zoom of th camera based on the elevator height.
+    /// </summary>
+    /// <returns></returns>
+    private float CalculateCameraMaxZoom()
+    {
+        float elevatorHeight = 4f;
+
+        // Camera FOV in radians
+        float fovRad = _camera.fieldOfView * Mathf.Deg2Rad;
+
+        // Calculate the distance between the distance in z so that the height of the object matches the screen height
+        float distanceZ = (elevatorHeight / 2) / Mathf.Tan(fovRad / 2);
+
+        // Return the z position
+        return -distanceZ;
+    }
+
+
+    private float CalculateCameraZPositionForWidth(GameObject targetObject)
+    {
+        // Largeur de l'objet (on prend la taille de son Renderer)
+        Renderer renderer = targetObject.GetComponent<Renderer>();
+
+        float objectWidth = renderer.bounds.size.x;
+
+        // Camera FOV in radians
+        float fovRad = _camera.fieldOfView * Mathf.Deg2Rad;
+
+        // Screen aspect ratio
+        float aspectRatio = _camera.aspect;
+
+        // Calculate the distance between the distance in z so that the width of the object matches the screen width
+        float distanceZ = (objectWidth / 2) / (Mathf.Tan(fovRad / 2) * aspectRatio);
+
+        // Return the z position
+        return -distanceZ;
     }
 
     private void Update()

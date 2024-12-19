@@ -16,13 +16,13 @@ public class InputsManager : MonoBehaviour
     /// Events to get some inputs.
     /// </summary>
     public delegate void Inputs();
-    public event Inputs Tap, Touch0ContactStarted, Touch0ContactCanceled, Touch1ContactStarted, Touch1ContactCanceled, Hold0, Hold1;
+    public event Inputs Tap, DragAndDropStarted, DoubleTap, Touch0ContactStarted, Touch0ContactCanceled, Touch1ContactStarted, Touch1ContactCanceled, Hold0, Hold1;
 
     /// <summary>
     /// Events to get some context about inputs.
     /// </summary>
     public delegate void InputsContext(InputAction.CallbackContext context);
-    public event InputsContext TapContext, Touch0ContactStartedContext, Touch0ContactCanceledContext, Touch1ContactStartedContext, Touch1ContactCanceledContext, Hold0Context, Hold1Context;
+    public event InputsContext TapContext, DragAndDropStartedContext, DoubleTapContext, Touch0ContactStartedContext, Touch0ContactCanceledContext, Touch1ContactStartedContext, Touch1ContactCanceledContext, Hold0Context, Hold1Context;
 
     void Awake()
     {
@@ -56,6 +56,14 @@ public class InputsManager : MonoBehaviour
                     {
                         Tap?.Invoke();
                         TapContext?.Invoke(context);
+                    }
+                    break;
+
+                case "DoubleTap":
+                    if (context.performed)
+                    {
+                        DoubleTap?.Invoke();
+                        DoubleTapContext?.Invoke(context);
                     }
                     break;
 
@@ -98,6 +106,14 @@ public class InputsManager : MonoBehaviour
                     {
                         Hold1?.Invoke();
                         Hold1Context?.Invoke(context);
+                    }
+                    break;
+
+                case "DragAndDrop":
+                    if (context.performed)
+                    {
+                        DragAndDropStarted?.Invoke();
+                        DragAndDropStartedContext?.Invoke(context);
                     }
                     break;
             }
