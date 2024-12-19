@@ -4050,8 +4050,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04b05a5a13fedc94f952d5e0499b62f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <UIIsOpen>k__BackingField: 0
-  InDragAndDrop: 0
+  <GameTime>k__BackingField: 20
 --- !u!1 &186087158
 GameObject:
   m_ObjectHideFlags: 0
@@ -12514,7 +12513,7 @@ Transform:
   m_GameObject: {fileID: 485662236}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.87, z: -10}
+  m_LocalPosition: {x: 52.2, y: 1.87, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -16667,6 +16666,74 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!1001 &670441640
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1610155981296867351, guid: 2694f2e45878f95468447754663f0f06,
+        type: 3}
+      propertyPath: m_Name
+      value: touch impact
+      objectReference: {fileID: 0}
+    - target: {fileID: 8433343137523853136, guid: 2694f2e45878f95468447754663f0f06,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.97
+      objectReference: {fileID: 0}
+    - target: {fileID: 8433343137523853136, guid: 2694f2e45878f95468447754663f0f06,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8433343137523853136, guid: 2694f2e45878f95468447754663f0f06,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8433343137523853136, guid: 2694f2e45878f95468447754663f0f06,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8433343137523853136, guid: 2694f2e45878f95468447754663f0f06,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8433343137523853136, guid: 2694f2e45878f95468447754663f0f06,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8433343137523853136, guid: 2694f2e45878f95468447754663f0f06,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8433343137523853136, guid: 2694f2e45878f95468447754663f0f06,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8433343137523853136, guid: 2694f2e45878f95468447754663f0f06,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8433343137523853136, guid: 2694f2e45878f95468447754663f0f06,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2694f2e45878f95468447754663f0f06, type: 3}
 --- !u!1 &680293579
 GameObject:
   m_ObjectHideFlags: 0
@@ -17285,6 +17352,8 @@ MonoBehaviour:
   _zoomSpeed: 0.004
   _maxZoom: -1.75
   _minZoom: -15
+  _minPosLeftCorner: {x: 0, y: 2}
+  _maxPosRightCorner: {x: 62, y: 60}
 --- !u!1 &705916777
 GameObject:
   m_ObjectHideFlags: 0
@@ -49778,7 +49847,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 727c502fc75056445bde635de4e497f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GridSize: {x: 16, y: 6}
+  GridSize: {x: 21, y: 15}
   _roomsByDefault:
   - {fileID: 1104999663}
   - {fileID: 52858168}
@@ -53763,3 +53832,4 @@ SceneRoots:
   - {fileID: 1104999665}
   - {fileID: 52858171}
   - {fileID: 296255892}
+  - {fileID: 670441640}

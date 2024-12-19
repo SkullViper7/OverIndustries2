@@ -7,6 +7,12 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance => _instance;
 
     /// <summary>
+    /// Time of the game (in minutes).
+    /// </summary>
+    [field : SerializeField, Tooltip("Time of the game (in minutes).")]
+    public int GameTime { get; private set; }
+
+    /// <summary>
     /// Gets if the game is in pause.
     /// </summary>
     public bool GameIsInPause { get; private set; }
@@ -14,13 +20,12 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Gets if a UI is opened.
     /// </summary>
-    [field : SerializeField]
     public bool UIIsOpen { get; private set; }
 
     /// <summary>
     /// True if the player drag and drop an employee
     /// </summary>
-    public bool InDragAndDrop = false;
+    public bool InDragAndDrop { get; private set; }
 
     private void Awake()
     {
@@ -34,6 +39,11 @@ public class GameManager : MonoBehaviour
         {
             _instance = this;
         }
+    }
+
+    private void Start()
+    {
+        ChronoManager.Instance.StartChronometer(GameTime);
     }
 
     public void PauseGame()
@@ -56,5 +66,15 @@ public class GameManager : MonoBehaviour
     {
         UIIsOpen = false;
         ResumeGame();
+    }
+
+    public void StartDragAndDrop()
+    {
+        InDragAndDrop = true;
+    }
+
+    public void StopDragAndDrop()
+    {
+        InDragAndDrop = false;
     }
 }

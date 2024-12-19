@@ -45,7 +45,7 @@ public class TutorialManager : MonoBehaviour
                 case 3:
                     DesactiveConstructButton();
                     break;
-                case 7:
+                case 6:
                     ShowCommandeButton();
                     break;
                 case 8:

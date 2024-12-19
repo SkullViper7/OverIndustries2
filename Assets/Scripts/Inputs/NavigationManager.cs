@@ -17,6 +17,9 @@ public class NavigationManager : MonoBehaviour
     [SerializeField]
     private float _minZoom = -15f;
 
+    [SerializeField]
+    private Vector2 _minPosLeftCorner, _maxPosRightCorner;
+
     private float _initialDistance = 0f;
 
     [Header("Input Positions")]
@@ -179,6 +182,11 @@ public class NavigationManager : MonoBehaviour
             // Applique le delta pour déplacer la caméra en suivant le mouvement du doigt
             Vector3 cameraDelta = new Vector3(delta.x * scaleFactor, delta.y * scaleFactor, 0) * _scrollSpeed;
             _camera.transform.position -= _camera.transform.TransformDirection(cameraDelta);
+
+            Vector3 clampedPosition = _camera.transform.position;
+            clampedPosition.x = Mathf.Clamp(clampedPosition.x, _minPosLeftCorner.x, _maxPosRightCorner.x);
+            clampedPosition.y = Mathf.Clamp(clampedPosition.y, _minPosLeftCorner.y, _maxPosRightCorner.y);
+            _camera.transform.position = clampedPosition;
         }
     }
 

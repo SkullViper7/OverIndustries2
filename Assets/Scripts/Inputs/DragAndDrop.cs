@@ -4,11 +4,32 @@ using UnityEngine.InputSystem;
 
 public class DragAndDrop : MonoBehaviour
 {
-    PlayerInput _playerInput;
+    // Singleton
+    private static DragAndDrop _instance = null;
+    public static DragAndDrop Instance => _instance;
+
+    //playerInput reference
+    private PlayerInput _playerInput;
 
     private Employee EmployeeToMove;
     private Vector3 _startPosition;
     public bool EmployeeSelect { get; private set; } = false;
+
+    public event System.Action<Room> RoomAssignIsFull;
+
+    private void Awake()
+    {
+        // Singleton
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+        else
+        {
+            _instance = this;
+        }
+    }
 
     void Start()
     {
@@ -30,7 +51,7 @@ public class DragAndDrop : MonoBehaviour
         if (EmployeeSelect)
         {
             RaycastHit hit;
-            GameManager.Instance.InDragAndDrop = true;
+            GameManager.Instance.StartDragAndDrop();
 
             // Get the touch position on the screen and set its z-coordinate to the camera's distance
             Vector3 touchPosition = Touchscreen.current.primaryTouch.position.ReadValue();
@@ -70,7 +91,7 @@ public class DragAndDrop : MonoBehaviour
         EmployeeSelect = true;
         EmployeeToMove.GetComponent<NavMeshAgent>().enabled = false;
         EmployeeToMove.SetIdleAnimation();
-        GameManager.Instance.InDragAndDrop = true;
+        GameManager.Instance.StartDragAndDrop();
     }
 
     /// <summary>
@@ -118,7 +139,10 @@ public class DragAndDrop : MonoBehaviour
                         { ResetParameter(); }
                     }
                     else
-                    { ResetParameter(); }
+                    { 
+                        ResetParameter();
+                        RoomAssignIsFull.Invoke(room);
+                    }
                 }
                 else
                 { ResetParameter(); }
@@ -131,7 +155,7 @@ public class DragAndDrop : MonoBehaviour
     public void ResetParameter()
     {
         EmployeeToMove.transform.position = _startPosition;
-        GameManager.Instance.InDragAndDrop = false;
+        GameManager.Instance.StopDragAndDrop();
 
         EmployeeToMove.GetComponent<NavMeshAgent>().enabled = true;
         EmployeeToMove.SetRoutineParameter();
@@ -139,7 +163,7 @@ public class DragAndDrop : MonoBehaviour
 
     public void SetParameter(Room room)
     {
-        GameManager.Instance.InDragAndDrop = false;
+        GameManager.Instance.StopDragAndDrop();
 
         room.AssignEmployeeInThisRoom(EmployeeToMove);
         EmployeeToMove.AssignRoom = room.gameObject;
