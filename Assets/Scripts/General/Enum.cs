@@ -10,7 +10,8 @@ public enum Job
     MaintenanceTechnician, //Technicien de Maintenance
     ElectronicsTechnician, //Technicien en électronique
     IndustrialElectrician, //Electricien industriel
-    SoftwareEngineer //Ingénieur logiciel embarqué
+    SoftwareEngineer, //Ingénieur logiciel embarqué
+    FitterAssembler //Ajusteur monteur
 }
 
 /// <summary>
