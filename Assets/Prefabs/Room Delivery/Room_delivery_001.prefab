@@ -62,7 +62,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.033333335
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: f3769130575cb5a478fa5ee254f7ed54, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 1332881b66cbff445a5bf1ca40eac48f, type: 2}
   m_BuildHeightMesh: 0
 --- !u!65 &8533788648576084985
 BoxCollider:
@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 808760161765941891}
   - component: {fileID: 8012911070363721427}
   - component: {fileID: 5544948872804430200}
+  - component: {fileID: 8708762687436397307}
   m_Layer: 0
   m_Name: Area Light (5)
   m_TagString: Untagged
@@ -203,6 +204,27 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!65 &8708762687436397307
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1382429022883599642}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.247139, y: 0.1082648, z: 0}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1912606637980070690
 GameObject:
   m_ObjectHideFlags: 0
@@ -214,6 +236,7 @@ GameObject:
   - component: {fileID: 1425281854203005344}
   - component: {fileID: 5611412608869975731}
   - component: {fileID: 2904018858680545508}
+  - component: {fileID: 8365452605570836362}
   m_Layer: 0
   m_Name: Light_camion
   m_TagString: Untagged
@@ -321,6 +344,27 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!65 &8365452605570836362
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1912606637980070690}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.101136, y: 7.16456, z: 0}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2678555914013281726
 GameObject:
   m_ObjectHideFlags: 0
@@ -431,6 +475,7 @@ GameObject:
   - component: {fileID: 6236844975540287315}
   - component: {fileID: 1654113708986882984}
   - component: {fileID: 3387354557156316024}
+  - component: {fileID: 2347832099623788495}
   m_Layer: 0
   m_Name: Area Light
   m_TagString: Untagged
@@ -538,6 +583,27 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!65 &2347832099623788495
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3321358796818577971}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.247139, y: 0.1082648, z: 0}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3510669185250814368
 GameObject:
   m_ObjectHideFlags: 0
@@ -790,6 +856,7 @@ GameObject:
   - component: {fileID: 2026663210101556419}
   - component: {fileID: 7112850741009717029}
   - component: {fileID: 2541354144243727958}
+  - component: {fileID: 3425592513933246056}
   m_Layer: 0
   m_Name: Area Light (1)
   m_TagString: Untagged
@@ -897,6 +964,27 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!65 &3425592513933246056
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5300952053790454959}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.247139, y: 0.1082648, z: 0}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6799962354660907824
 GameObject:
   m_ObjectHideFlags: 0
@@ -924,7 +1012,7 @@ Transform:
   m_GameObject: {fileID: 6799962354660907824}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.22, y: 4, z: -4}
+  m_LocalPosition: {x: 0, y: 1.87, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1125,6 +1213,7 @@ GameObject:
   - component: {fileID: 3654347318176832733}
   - component: {fileID: 7087547502296445025}
   - component: {fileID: 7487444855246140792}
+  - component: {fileID: 7179026287479374555}
   m_Layer: 0
   m_Name: Area Light (2)
   m_TagString: Untagged
@@ -1232,6 +1321,27 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!65 &7179026287479374555
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7271051218276190637}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.247139, y: 0.1082648, z: 0}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7882198641751517895
 GameObject:
   m_ObjectHideFlags: 0
@@ -1339,6 +1449,7 @@ GameObject:
   - component: {fileID: 4589118235340348740}
   - component: {fileID: 5214861951316982282}
   - component: {fileID: 8181286521312393078}
+  - component: {fileID: 4420551684439486395}
   m_Layer: 0
   m_Name: Area Light (4)
   m_TagString: Untagged
@@ -1446,6 +1557,27 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!65 &4420551684439486395
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8351459744952923679}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.247139, y: 0.1082648, z: 0}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8743087238064644737
 GameObject:
   m_ObjectHideFlags: 0
@@ -1553,6 +1685,7 @@ GameObject:
   - component: {fileID: 782109088034133572}
   - component: {fileID: 4822647043230597291}
   - component: {fileID: 7979587639621277707}
+  - component: {fileID: 7951615601449503411}
   m_Layer: 0
   m_Name: Area Light (3)
   m_TagString: Untagged
@@ -1660,6 +1793,27 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!65 &7951615601449503411
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8803683641003296188}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.247139, y: 0.1082648, z: 0}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &9068736659940449632
 GameObject:
   m_ObjectHideFlags: 0
@@ -1706,12 +1860,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OuterPointSet: 1
-  OuterPoint: {x: 8.22, y: 4, z: -4}
-  OuterPointDistance: 4.4111786
+  OuterPoint: {x: 0, y: 1.87, z: -4}
+  OuterPointDistance: 6
   isHollow: 0
   InnerPointSet: 1
-  InnerPoint: {x: 8.22, y: 4, z: -4}
-  InnerPointDistance: 4.4111786
+  InnerPoint: {x: 0, y: 1.87, z: -4}
+  InnerPointDistance: 6
   InnerPointInside: 0
   boxCollider: {fileID: 5573983791748355008}
   center: {x: 6, y: 2, z: -2}

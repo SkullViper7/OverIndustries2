@@ -117,13 +117,9 @@ public class RoomLightInitializer : MonoBehaviour
             Vector3 samplePosition = lightPosition + Vector3.Scale(realBoxSize, offset);
             Vector3 lightToProbe = probePosition - samplePosition;
 
-            Debug.Log("test");
-
             // If the probe can see the sample point, add the light contribution to the SH coefficients.
             if (!Physics.Raycast(samplePosition, lightToProbe.normalized, lightToProbe.magnitude))
             {
-                Debug.DrawRay(samplePosition, lightToProbe.normalized * lightToProbe.magnitude, Color.red, 1000);
-
                 // Attenuation
                 float attenuation = 1.0F / Mathf.Max(1f, lightToProbe.sqrMagnitude * LightProbeManager.Instance.Attenuation);
 

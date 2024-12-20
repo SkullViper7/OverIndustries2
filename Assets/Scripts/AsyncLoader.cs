@@ -30,9 +30,6 @@ public class AsyncLoader : MonoBehaviour
         // Hide the menu
         _menu.SetActive(false);
 
-        // Play the fade out animation for the black screen
-        _blackScreen.Play("BlackScreenFadeOut");
-
         // Load the level asynchronously
         SceneManager.LoadSceneAsync(levelToLoad);
     }
