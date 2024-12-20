@@ -172,7 +172,7 @@ Transform:
   m_GameObject: {fileID: 601665750051180767}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 8.22, y: 4, z: -4}
+  m_LocalPosition: {x: 0, y: 1.87, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -322,7 +322,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.96166116
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -373,6 +373,7 @@ GameObject:
   - component: {fileID: 1131132771323221004}
   - component: {fileID: 8489795139998718069}
   - component: {fileID: 8423281990132293299}
+  - component: {fileID: 3086182758083742283}
   m_Layer: 0
   m_Name: Area Light (8)
   m_TagString: Untagged
@@ -480,6 +481,27 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!65 &3086182758083742283
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1011590165406755993}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 10.90724, y: 6.166877, z: 0}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1303689256407268282
 GameObject:
   m_ObjectHideFlags: 0
@@ -1031,12 +1053,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OuterPointSet: 1
-  OuterPoint: {x: 8.22, y: 4, z: -4}
-  OuterPointDistance: 4.4111786
+  OuterPoint: {x: 0, y: 1.87, z: -4}
+  OuterPointDistance: 6
   isHollow: 0
   InnerPointSet: 1
-  InnerPoint: {x: 8.22, y: 4, z: -4}
-  InnerPointDistance: 4.4111786
+  InnerPoint: {x: 0, y: 1.87, z: -4}
+  InnerPointDistance: 6
   InnerPointInside: 0
   boxCollider: {fileID: 7560032977471040460}
   center: {x: 6, y: 2, z: -2}

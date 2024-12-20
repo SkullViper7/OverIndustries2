@@ -1373,6 +1373,7 @@ GameObject:
   - component: {fileID: 547781060}
   - component: {fileID: 547781065}
   - component: {fileID: 547781064}
+  - component: {fileID: 547781066}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1494,6 +1495,18 @@ MonoBehaviour:
   _audioMixer: {fileID: 24100000, guid: b7fb0e7b8f7014947ab97909decf00a5, type: 2}
   _musicSlider: {fileID: 912594463}
   _SFXSlider: {fileID: 1165884359}
+--- !u!114 &547781066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 547781059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cc3278f8f25f554c82adf901ed4ab72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &550592547
 GameObject:
   m_ObjectHideFlags: 0
@@ -4779,14 +4792,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.21509439, g: 0.21509439, b: 0.21509439, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: abd073284d4c5564b8e4ef83f2d2b1cd, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
