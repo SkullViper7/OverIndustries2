@@ -2887,7 +2887,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <QuestList>k__BackingField:
+  - {fileID: 11400000, guid: 6b0fad8ede43fca4eba946f6ce68a90a, type: 2}
+  - {fileID: 11400000, guid: 8e7f91cbda9a44a498535591daa71a77, type: 2}
+  - {fileID: 11400000, guid: c6c9798834c958f4f9c824b61e98c7ab, type: 2}
+  - {fileID: 11400000, guid: 164a08b2d304ebe46a98a6b20f7c37b6, type: 2}
+  - {fileID: 11400000, guid: 9e3528ae7a13e5440a3b467746d92ecd, type: 2}
+  - {fileID: 11400000, guid: 92b1a3ff15d98774da7d7170d01e6f95, type: 2}
+  - {fileID: 11400000, guid: 04b1efe916f54f0489ca3fc133d57c68, type: 2}
+  - {fileID: 11400000, guid: 7d7f581389bac684ab5793eab107ded3, type: 2}
+  - {fileID: 11400000, guid: 58fddb0a36708d947a6281a59f93e8d1, type: 2}
+  - {fileID: 11400000, guid: 65b857e86685e114b9b5bd0f10f05564, type: 2}
+  - {fileID: 11400000, guid: df12d0eb79fa63847845f7ee072b403e, type: 2}
+  - {fileID: 11400000, guid: 6ff3c0797ec17834a8a3b6378d8bcd9e, type: 2}
+  - {fileID: 11400000, guid: 19f1da011dd96a7458451464adefc23b, type: 2}
+  - {fileID: 11400000, guid: fa7b0f107358d80498e106d176f3fdb5, type: 2}
+  - {fileID: 11400000, guid: 2a48c39c1bb6cad4caa0c75cc561aba9, type: 2}
+  - {fileID: 11400000, guid: dbc75ed03ba58a140bd031229db96bf7, type: 2}
+  - {fileID: 11400000, guid: d0cc63dbd8a5aae4c8c279f6324f0e66, type: 2}
+  - {fileID: 11400000, guid: d80a593d3667a404897ddcf7bcbf4278, type: 2}
+  - {fileID: 11400000, guid: 5b32ad85da6df2b4c8065372ddc4dbd6, type: 2}
+  - {fileID: 11400000, guid: b8933f8d00a8b014cb4348c5d3727fc8, type: 2}
+  - {fileID: 11400000, guid: b9eace146ac420f46a3e011168714db9, type: 2}
+  - {fileID: 11400000, guid: 8fddf6ddc50cc424db9dc46f6ca84e87, type: 2}
+  - {fileID: 11400000, guid: f4666082ab2bd0445bd598be099182dc, type: 2}
+  - {fileID: 11400000, guid: 538044677d8295c4aa3933776f6f18fe, type: 2}
+  - {fileID: 11400000, guid: f30db398d324a5c42b91881cef2c6d8e, type: 2}
   - {fileID: 11400000, guid: 74b96e06a99ad854da9750d59fdd4d74, type: 2}
+  - {fileID: 11400000, guid: 02df45282740ad544a2164bcb31d03c0, type: 2}
+  - {fileID: 11400000, guid: 5f5d6f01a2040c240bc033832232826e, type: 2}
+  - {fileID: 11400000, guid: cec1bc7d05064e34992bdee93b84d60e, type: 2}
+  - {fileID: 11400000, guid: ec4566fe41e68494ea95b4233d49039e, type: 2}
+  - {fileID: 11400000, guid: 23b4ceea60f6faf48abaa78ae036e75b, type: 2}
   <MaxCurrentQuest>k__BackingField: 3
   <MinNumberQuestObject>k__BackingField: 1
   <MaxNumberQuestObject>k__BackingField: 20
@@ -6012,7 +6042,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30.3
+  m_fontSize: 35
   m_fontSizeBase: 45
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -6489,7 +6519,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 44.8
+  m_fontSize: 51.8
   m_fontSizeBase: 0
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -7059,7 +7089,7 @@ GameObject:
   - component: {fileID: 187866106}
   - component: {fileID: 187866105}
   m_Layer: 0
-  m_Name: Tutoral
+  m_Name: TutoralManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7184,12 +7214,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 187866104}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 1088.683, y: 556.0193, z: 78.406555}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 697415306}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &190169716
 GameObject:
@@ -7412,8 +7442,8 @@ MonoBehaviour:
   m_Padding:
     m_Left: 0
     m_Right: 0
-    m_Top: 14
-    m_Bottom: 14
+    m_Top: 16
+    m_Bottom: 16
   m_ChildAlignment: 4
   m_Spacing: 44.160004
   m_ChildForceExpandWidth: 0
@@ -22444,7 +22474,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scrollSpeed: 4
   _zoomSpeed: 0.004
-  _maxZoom: -1.75
   _minZoom: -15
   _minPosLeftCorner: {x: 0, y: 2}
   _maxPosRightCorner: {x: 62, y: 60}
@@ -25306,6 +25335,7 @@ Transform:
   - {fileID: 939958314}
   - {fileID: 71542498}
   - {fileID: 1083787777}
+  - {fileID: 187866106}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &700112239
@@ -26970,7 +27000,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 44.8
+  m_fontSize: 51.8
   m_fontSizeBase: 0
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -31970,7 +32000,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 44.8
+  m_fontSize: 51.8
   m_fontSizeBase: 45
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -41329,7 +41359,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 44.8
+  m_fontSize: 51.8
   m_fontSizeBase: 0
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -75654,10 +75684,10 @@ RectTransform:
   - {fileID: 2130282952}
   m_Father: {fileID: 1088641747}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 950}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2125469902
 MonoBehaviour:
@@ -76770,4 +76800,3 @@ SceneRoots:
   - {fileID: 106223108}
   - {fileID: 1368961961}
   - {fileID: 1219296348}
-  - {fileID: 187866106}
