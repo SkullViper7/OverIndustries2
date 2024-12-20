@@ -39,7 +39,8 @@ public class QuestManager : MonoBehaviour
 
     public void Start()
     {
-        ItemStorage.Instance.StorageChanged += QuestObjectAdvancement;
+        ItemStorage.Instance.StorageObjectChanged += QuestObjectAdvancement;
+        ItemStorage.Instance.StorageComponentChanged += QuestComponentAdvancement;
     }
 
     /// <summary>
@@ -72,10 +73,48 @@ public class QuestManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Donne l'avancement de la quête pour chaque objectifs + check si il est accompli
+    /// Donne l'avancement de la quête aec objets pour chaque objectifs + check si il est accompli
     /// </summary>
     /// <param name="_actualStockOfThisObject"></param>
     public void QuestObjectAdvancement(ObjectType _object, int _actualStockOfThisObject)
+    {
+        UpdateAdvancementQuest.Invoke();
+
+        for (int i = 0; i < CurrentQuestList.Count; i++)
+        {
+            for (int j = 0; j < CurrentQuestList[i].QuestData.Objects.Count; j++)
+            {
+                if (CurrentQuestList[i].QuestData.Objects.Count > 1 && j == 0 && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Objects[j]) >= CurrentQuestList[i].QuestData.NumberOfObject[j] && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Objects[j + 1]) >= CurrentQuestList[i].QuestData.NumberOfObject[j + 1])
+                {
+                    Debug.Log("Objectifs completed");
+                    QuestComplited.Invoke(i);
+                    ScoreManager.Instance.AddPS(CurrentQuestList[i].QuestData.PSWin);
+                }
+                if (CurrentQuestList[i].QuestData.Objects.Count > 2 && j == 0 && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Objects[j]) >= CurrentQuestList[i].QuestData.NumberOfObject[j] && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Objects[j + 1]) >= CurrentQuestList[i].QuestData.NumberOfObject[j + 1] && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Objects[j + 2]) >= CurrentQuestList[i].QuestData.NumberOfObject[j + 2])
+                {
+                    Debug.Log("Objectifs completed");
+                    QuestComplited.Invoke(i);
+                    ScoreManager.Instance.AddPS(CurrentQuestList[i].QuestData.PSWin);
+                }
+                if (CurrentQuestList[i].QuestData.Objects.Count == 1 && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Objects[j]) >= CurrentQuestList[i].QuestData.NumberOfObject[j])
+                {
+                    Debug.Log("Objectifs completed");
+                    QuestComplited.Invoke(i);
+                    ScoreManager.Instance.AddPS(CurrentQuestList[i].QuestData.PSWin);
+                }
+                else
+                {
+                    Debug.Log("Objectifs incompleted");
+                }
+            }
+        }
+    }
+    
+    /// <summary>
+    /// Donne l'avancement de la quête avec composant pour chaque objectifs + check si il est accompli
+    /// </summary>
+    /// <param name="_actualStockOfThisObject"></param>
+    public void QuestComponentAdvancement(ComponentType _component, int _actualStockOfThisComponent)
     {
         UpdateAdvancementQuest.Invoke();
 
