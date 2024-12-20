@@ -3234,6 +3234,7 @@ MonoBehaviour:
   _pay: {fileID: 224116742}
   _studies: {fileID: 669601436}
   _careerDevelopment: {fileID: 9890042}
+  _room: {fileID: 0}
 --- !u!1 &194912580
 GameObject:
   m_ObjectHideFlags: 0
@@ -17164,7 +17165,7 @@ PrefabInstance:
     - target: {fileID: 5572123062745050199, guid: c318982c2a3c0e840b416323f79fcfca,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7092528641752432244, guid: c318982c2a3c0e840b416323f79fcfca,
         type: 3}
@@ -17340,8 +17341,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04b05a5a13fedc94f952d5e0499b62f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <UIIsOpen>k__BackingField: 0
-  InDragAndDrop: 0
+  <GameTime>k__BackingField: 0
 --- !u!1 &1503532572
 GameObject:
   m_ObjectHideFlags: 0
@@ -20953,8 +20953,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scrollSpeed: 4
   _zoomSpeed: 0.004
-  _maxZoom: -1.75
   _minZoom: -15
+  _minPosLeftCorner: {x: 0, y: 0}
+  _maxPosRightCorner: {x: 0, y: 0}
 --- !u!1 &1765945635
 GameObject:
   m_ObjectHideFlags: 0
@@ -22296,6 +22297,8 @@ MonoBehaviour:
   <MaxCurrentQuest>k__BackingField: 3
   <MinNumberQuestObject>k__BackingField: 1
   <MaxNumberQuestObject>k__BackingField: 3
+  _defaultQuest: {fileID: 0}
+  _questContainer: {fileID: 0}
 --- !u!4 &1837859521
 Transform:
   m_ObjectHideFlags: 0
