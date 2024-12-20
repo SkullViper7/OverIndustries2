@@ -41,6 +41,12 @@ public class JobData : ScriptableObject
     private List<string> _careerDevelopment;
 
     /// <summary>
+    /// Room of the job.
+    /// </summary>
+    [SerializeField]
+    private string _room;
+
+    /// <summary>
     /// Icone of the job.
     /// </summary>
     [SerializeField]
@@ -75,6 +81,8 @@ public class JobData : ScriptableObject
     /// Gets the List of Career development of the job.
     /// </summary>
     public List<string> CareerDevelopment { get { return _careerDevelopment; } private set { } }
+
+    public string Room { get { return _room; } private set { } }
 
     /// <summary>
     /// Gets the icone of the room.
