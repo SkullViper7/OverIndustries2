@@ -11,7 +11,8 @@ public enum Job
     ElectronicsTechnician, //Technicien en électronique
     IndustrialElectrician, //Electricien industriel
     SoftwareEngineer, //Ingénieur logiciel embarqué
-    FitterAssembler //Ajusteur monteur
+    FitterAssembler, //Ajusteur monteur
+    Assembler //Monteur assembleur
 }
 
 /// <summary>
