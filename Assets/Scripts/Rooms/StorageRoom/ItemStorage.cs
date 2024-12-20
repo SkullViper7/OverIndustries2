@@ -48,7 +48,8 @@ public class ItemStorage : MonoBehaviour
     /// <summary>
     /// Event for update the quest advancement 
     /// </summary>
-    public event System.Action<ObjectType, int> StorageChanged;
+    public event System.Action<ObjectType, int> StorageObjectChanged;
+    public event System.Action<ComponentType, int> StorageComponentChanged;
 
     public event Action<int, int> NewAmountInInternalStorage;
 
@@ -88,6 +89,8 @@ public class ItemStorage : MonoBehaviour
             _currentStorage += amount;
             AmountHasChanged?.Invoke(_currentStorage);
             NewAmountInInternalStorage?.Invoke(_currentStorage, _storageCapacity);
+
+            StorageComponentChanged?.Invoke(component.ComponentType, _currentStorage);
         }
     }
 
@@ -108,6 +111,8 @@ public class ItemStorage : MonoBehaviour
                 _currentStorage -= amountToSubstract;
                 AmountHasChanged?.Invoke(_currentStorage);
                 NewAmountInInternalStorage?.Invoke(_currentStorage, _storageCapacity);
+
+                StorageComponentChanged?.Invoke(component.ComponentType, _currentStorage);
             }
         }
     }
@@ -158,6 +163,8 @@ public class ItemStorage : MonoBehaviour
             _currentStorage += amount;
             AmountHasChanged?.Invoke(_currentStorage);
             NewAmountInInternalStorage?.Invoke(_currentStorage, _storageCapacity);
+
+            StorageObjectChanged?.Invoke(objectType.ObjectType, _currentStorage);
         }
     }
 
@@ -178,6 +185,8 @@ public class ItemStorage : MonoBehaviour
                 _currentStorage -= amountToSubstract;
                 AmountHasChanged?.Invoke(_currentStorage);
                 NewAmountInInternalStorage?.Invoke(_currentStorage, _storageCapacity);
+
+                StorageObjectChanged?.Invoke(objectType.ObjectType, _currentStorage);
             }
         }
     }
