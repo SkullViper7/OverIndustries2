@@ -20,6 +20,7 @@ public class JobProfileUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _pay;
     [SerializeField] private TextMeshProUGUI _studies;
     [SerializeField] private TextMeshProUGUI _careerDevelopment;
+    [SerializeField] private TextMeshProUGUI _room;
 
     private GameObject _job;
     private int _jobChoose;
@@ -221,6 +222,8 @@ public class JobProfileUI : MonoBehaviour
         {
             _careerDevelopment.text = $"{_job.CareerDevelopment[0]} \n{_job.CareerDevelopment[1]} \n{_job.CareerDevelopment[2]} \n{_job.CareerDevelopment[3]} \n{_job.CareerDevelopment[4]}";
         }
+
+        _room.text = _job.Room;
     }
 
     /// <summary>
