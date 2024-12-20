@@ -34,14 +34,11 @@ public class DragAndDrop : MonoBehaviour
     void Start()
     {
         _playerInput = GetComponent<PlayerInput>();
-        _playerInput.actions["TouchContact0"].started += OnTouchContact0;
         _playerInput.actions["Hold0"].performed += OnHold0;
         _playerInput.actions["TouchContact0"].canceled += OnTouchContact0Canceled;
 
         InteractionManager.Instance.EmployeeInteraction += GetEmployeeToMove;
     }
-
-    void OnTouchContact0(InputAction.CallbackContext context) {}
 
     void OnHold0(InputAction.CallbackContext context)
     {
@@ -65,7 +62,24 @@ public class DragAndDrop : MonoBehaviour
                 int PosX = (int)Mathf.Round(hit.point.x);
                 int PosY = (int)Mathf.Round(hit.point.y);
 
-                EmployeeToMove.gameObject.transform.position = new Vector3(PosX, PosY, 1);
+                EmployeeToMove.gameObject.transform.position = new Vector3(PosX, PosY, -2);
+
+                //déplace la caméra suivant la position en Y de l'employer
+                if (Camera.main.WorldToScreenPoint(EmployeeToMove.gameObject.transform.position).y >= (Camera.main.scaledPixelHeight / 5 * 4) || 
+                    Camera.main.WorldToScreenPoint(EmployeeToMove.gameObject.transform.position).y <= (Camera.main.scaledPixelHeight / 5))
+                {
+                    //Camera.main.transform.Translate(Vector3.down * 0.2f, Space.World);
+                    Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, 
+                        new Vector3(Camera.main.transform.position.x, EmployeeToMove.gameObject.transform.position.y, Camera.main.transform.position.z), 0.08f);
+                }
+
+                //déplace la caméra suivant la position en X de l'employer
+                if (Camera.main.WorldToScreenPoint(EmployeeToMove.gameObject.transform.position).x >= (Camera.main.scaledPixelWidth / 5 * 4) || 
+                    Camera.main.WorldToScreenPoint(EmployeeToMove.gameObject.transform.position).x <= (Camera.main.scaledPixelWidth / 5))
+                {
+                    Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, 
+                        new Vector3(EmployeeToMove.gameObject.transform.position.x, Camera.main.transform.position.y, Camera.main.transform.position.z), 0.05f);
+                }
             }
         }
     }
@@ -136,7 +150,7 @@ public class DragAndDrop : MonoBehaviour
                         { ResetParameter(); }
                     }
                     else
-                    { 
+                    {
                         ResetParameter();
                         RoomAssignIsFull.Invoke(room);
                     }
