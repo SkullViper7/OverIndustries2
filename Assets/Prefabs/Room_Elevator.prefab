@@ -326,12 +326,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OuterPointSet: 1
-  OuterPoint: {x: 0, y: 1.87, z: -4}
-  OuterPointDistance: 6
+  OuterPoint: {x: 3, y: 1.87, z: -4}
+  OuterPointDistance: 49.564503
   isHollow: 0
   InnerPointSet: 1
-  InnerPoint: {x: 0, y: 1.87, z: -4}
-  InnerPointDistance: 6
+  InnerPoint: {x: 3, y: 1.87, z: -4}
+  InnerPointDistance: 49.564503
   InnerPointInside: 0
   boxCollider: {fileID: 7875006739384860300}
   center: {x: 1.5, y: 2, z: -2}
@@ -449,7 +449,7 @@ Transform:
   m_GameObject: {fileID: 8546967270324394110}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.87, z: -4}
+  m_LocalPosition: {x: 3, y: 1.87, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -639,80 +639,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!1001 &5335443405707615819
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 7892913431188228044}
-    m_Modifications:
-    - target: {fileID: 2282050613117506496, guid: 172c1d16ae2d73f45a7b05714598568b,
-        type: 3}
-      propertyPath: m_Name
-      value: Door_opening_small
-      objectReference: {fileID: 0}
-    - target: {fileID: 7433539924528322584, guid: 172c1d16ae2d73f45a7b05714598568b,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7433539924528322584, guid: 172c1d16ae2d73f45a7b05714598568b,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7433539924528322584, guid: 172c1d16ae2d73f45a7b05714598568b,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.03
-      objectReference: {fileID: 0}
-    - target: {fileID: 7433539924528322584, guid: 172c1d16ae2d73f45a7b05714598568b,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7433539924528322584, guid: 172c1d16ae2d73f45a7b05714598568b,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7433539924528322584, guid: 172c1d16ae2d73f45a7b05714598568b,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7433539924528322584, guid: 172c1d16ae2d73f45a7b05714598568b,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7433539924528322584, guid: 172c1d16ae2d73f45a7b05714598568b,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7433539924528322584, guid: 172c1d16ae2d73f45a7b05714598568b,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7433539924528322584, guid: 172c1d16ae2d73f45a7b05714598568b,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 172c1d16ae2d73f45a7b05714598568b, type: 3}
---- !u!4 &3252285778194515539 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7433539924528322584, guid: 172c1d16ae2d73f45a7b05714598568b,
-    type: 3}
-  m_PrefabInstance: {fileID: 5335443405707615819}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7639225984589176871
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -829,10 +755,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8255289672017197357}
-    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: e01b43c0e17ad1d42a0cbc5c3e5d3916,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 3252285778194515539}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e01b43c0e17ad1d42a0cbc5c3e5d3916,
         type: 3}

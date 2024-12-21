@@ -73,7 +73,6 @@ public class Room : MonoBehaviour
     public void InitRoom(RoomData roomData, IRoomBehaviourData roomBehaviourData, Vector2 gridPosition)
     {
         gameObject.name = roomData.RoomType.ToString();
-        CurrentLvl = 1;
         RoomData = roomData;
         RoomBehaviourData = roomBehaviourData;
         RoomPosition = gridPosition;
@@ -143,8 +142,7 @@ public class Room : MonoBehaviour
                 break;
         }
 
-        StartCoroutine(UpgradeVisualRoom(CurrentLvl));
-
+        UpgradeRoom();
         OnInitialized?.Invoke();
     }
 
@@ -236,7 +234,7 @@ public class Room : MonoBehaviour
                 }
             case 2:
                 {
-                    //_doorAnimator.Play("Room_upgrade", 0, 0f);
+                    _doorAnimator.Play("Room_upgrade", 0, 0f);
 
                     yield return new WaitForSeconds(0.55f);
 
@@ -251,7 +249,7 @@ public class Room : MonoBehaviour
                 }
             case 3:
                 {
-                    //_doorAnimator.Play("Room_upgrade", 0, 0f);
+                    _doorAnimator.Play("Room_upgrade", 0, 0f);
                     yield return new WaitForSeconds(0.55f);
 
                     if (_currentVisualRoom != null)

@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -43,6 +44,11 @@ public class NavigationManager : MonoBehaviour
 
     private Camera _camera;
 
+    private Sequence _zoomOrZoomOutSequence;
+
+    [SerializeField]
+    private bool _isZoomedOnARoom;
+
     void Awake()
     {
         _camera = Camera.main.GetComponent<Camera>();
@@ -50,9 +56,9 @@ public class NavigationManager : MonoBehaviour
 
     void Start()
     {
-        InitListeners();
-
         _maxZoom = CalculateCameraMaxZoom();
+
+        InitListeners();
     }
 
     /// <summary>
@@ -135,6 +141,9 @@ public class NavigationManager : MonoBehaviour
                 Scroll(_hold1Delta);
             }
         });
+
+        // Comportment when a double tap on a room is triggered
+        InteractionManager.Instance.RoomDoubleTap += AutoZoomOrZoomOut;
     }
 
     /// <summary>
@@ -182,6 +191,16 @@ public class NavigationManager : MonoBehaviour
 
             // Applique le delta pour d�placer la cam�ra en suivant le mouvement du doigt
             Vector3 cameraDelta = new Vector3(delta.x * scaleFactor, delta.y * scaleFactor, 0) * _scrollSpeed;
+            Vector3 newCameraPosition = _camera.transform.position - _camera.transform.TransformDirection(cameraDelta);
+
+            // Vérifie si la différence entre l'ancienne et la nouvelle position dépasse un seuil
+            const float threshold = 0.05f; // Seuil minimum (ajuste cette valeur en fonction de tes besoins)
+            if (Vector3.Distance(_camera.transform.position, newCameraPosition) > threshold)
+            {
+                _isZoomedOnARoom = false;
+                CancelSequence();
+            }
+
             _camera.transform.position -= _camera.transform.TransformDirection(cameraDelta);
 
             Vector3 clampedPosition = _camera.transform.position;
@@ -196,6 +215,9 @@ public class NavigationManager : MonoBehaviour
     /// </summary>
     private void Zoom()
     {
+        CancelSequence();
+        _isZoomedOnARoom = false;
+
         float pinchDelta = (_hold0Position - _hold1Position).magnitude;
 
         if (_initialDistance == 0)
@@ -207,7 +229,7 @@ public class NavigationManager : MonoBehaviour
         float distanceDelta = pinchDelta - _initialDistance;
 
         // Utilise directement la valeur de la position de la cam�ra comme facteur
-        float distanceScaleFactor = 1f / Mathf.Max(0.1f, Mathf.Abs(_camera.transform.localPosition.z));
+        float distanceScaleFactor = 1f / Mathf.Max(0.1f, Mathf.Abs(_camera.transform.position.z));
 
         // Facteur de mise � l'�chelle bas� sur la taille de l'�cran (diagonale en pixels)
         float screenScaleFactor = Mathf.Sqrt(Screen.width * Screen.width + Screen.height * Screen.height) / 1000f;
@@ -219,9 +241,73 @@ public class NavigationManager : MonoBehaviour
 
         newPosition.z = Mathf.Clamp(newPosition.z, _minZoom, _maxZoom);
 
-        _camera.transform.localPosition = newPosition;
+        _camera.transform.position = newPosition;
 
         _initialDistance = pinchDelta;
+    }
+
+    /// <summary>
+    /// Called to launch a zoom or a zoom out on a room.
+    /// </summary>
+    /// <param name="room"> The room selected. </param>
+    private void AutoZoomOrZoomOut(Room room)
+    {
+        if (_zoomOrZoomOutSequence == null)
+        {
+            // Calculate cente of the room
+            Vector2 centerPosition = new Vector2(room.transform.position.x + ((room.RoomData.Size * 3) / 2), room.transform.position.y + 2);
+
+            // If camera is already zoom, zoom out of the room
+            if (_camera.transform.position.z == _maxZoom || _isZoomedOnARoom)
+            {
+                Vector3 zoomOutPosition = new Vector3(centerPosition.x, centerPosition.y, _minZoom);
+
+                _zoomOrZoomOutSequence = DOTween.Sequence();
+                _zoomOrZoomOutSequence.Append(_camera.transform.DOMove(zoomOutPosition, 0.5f)).SetEase(Ease.InExpo).OnComplete(() =>
+                {
+                    _isZoomedOnARoom = false; 
+                    CancelSequence();
+                });
+            }
+            // Else, zoom on the room
+            else
+            {
+                if (room.RoomData.RoomType == RoomType.Elevator)
+                {
+                    float maxTime = 0.5f;
+                    Vector3 maxZoomPosition = new Vector3(centerPosition.x, centerPosition.y, _minZoom);
+                    Vector3 zoomPosition = new Vector3(centerPosition.x, centerPosition.y, _maxZoom);
+
+                    // Calculate proportional time of the sequence
+                    float time = ((zoomPosition - _camera.transform.position).magnitude * maxTime) / ((zoomPosition - maxZoomPosition).magnitude);
+                    time = Mathf.Clamp(time, 0f, maxTime);
+
+                    _zoomOrZoomOutSequence = DOTween.Sequence();
+                    _zoomOrZoomOutSequence.Append(_camera.transform.DOMove(zoomPosition, time)).SetEase(Ease.InExpo).OnComplete(() =>
+                    {
+                        _isZoomedOnARoom = true;
+                        CancelSequence();
+                    });
+                }
+                else
+                {
+                    float maxTime = 0.5f;
+                    Vector3 maxZoomPosition = new Vector3(centerPosition.x, centerPosition.y, _minZoom);
+                    Vector3 zoomPosition = new Vector3(centerPosition.x, centerPosition.y, CalculateCameraZPositionForWidth(room.RoomData.Size));
+
+                    // Calculate proportional time of the sequence
+                    float time = ((zoomPosition - _camera.transform.position).magnitude * maxTime) / ((zoomPosition - maxZoomPosition).magnitude);
+                    time = Mathf.Clamp(time, 0f, maxTime);
+
+                    _zoomOrZoomOutSequence = DOTween.Sequence();
+                    _zoomOrZoomOutSequence.Append(_camera.transform.DOMove(zoomPosition, time)).SetEase(Ease.InExpo).OnComplete(() =>
+                    {
+                        _isZoomedOnARoom = true;
+                        CancelSequence();
+                    });
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -243,12 +329,9 @@ public class NavigationManager : MonoBehaviour
     }
 
 
-    private float CalculateCameraZPositionForWidth(GameObject targetObject)
+    private float CalculateCameraZPositionForWidth(int roomSize)
     {
-        // Largeur de l'objet (on prend la taille de son Renderer)
-        Renderer renderer = targetObject.GetComponent<Renderer>();
-
-        float objectWidth = renderer.bounds.size.x;
+        float objectWidth = roomSize * 3;
 
         // Camera FOV in radians
         float fovRad = _camera.fieldOfView * Mathf.Deg2Rad;
@@ -261,6 +344,18 @@ public class NavigationManager : MonoBehaviour
 
         // Return the z position
         return -distanceZ;
+    }
+
+    /// <summary>
+    /// Call to cancel a sequence if there is one.
+    /// </summary>
+    private void CancelSequence()
+    {
+        if (_zoomOrZoomOutSequence != null)
+        {
+            _zoomOrZoomOutSequence.Kill();
+            _zoomOrZoomOutSequence = null;
+        }
     }
 
     private void Update()

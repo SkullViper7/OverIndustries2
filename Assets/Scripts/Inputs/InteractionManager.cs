@@ -28,7 +28,7 @@ public class InteractionManager : MonoBehaviour
     /// </summary>
     /// <param name="roomMain"> Main component of the room. </param>
     public delegate void RoomInteractionDelegate(Room roomMain);
-    public event RoomInteractionDelegate RoomInteraction;
+    public event RoomInteractionDelegate RoomInteraction, RoomDoubleTap;
 
     /// <summary>
     /// Events to indicate that there is an interaction with an employee.
@@ -65,6 +65,7 @@ public class InteractionManager : MonoBehaviour
     private void InitListeners()
     {
         _inputsManager.Tap += FindTarget;
+        _inputsManager.DoubleTap += FindDoubleTapTarget;
     }
 
     /// <summary>
@@ -89,8 +90,9 @@ public class InteractionManager : MonoBehaviour
             if (Physics.Raycast(Camera.main.transform.position, direction, out hit, 200))
             {
                 //Debug.DrawRay(Camera.main.transform.position, direction * 100f, Color.green, 1000f);
-                // If the ray hits an object with a room component, trigger its event with datas of the room
 
+                // If the ray hits an object with an employee component, trigger its event with datas of the employee
+                // or if it's an object with a room component, trigger its event with datas of the room
                 if (hit.collider.TryGetComponent<Employee>(out Employee employee))
                 {
                     CurrentEmployeeSelected = employee;
@@ -100,6 +102,48 @@ public class InteractionManager : MonoBehaviour
                 {
                     CurrentRoomSelected = room;
                     RoomInteraction?.Invoke(room);
+                }
+                else
+                {
+                    NoInteraction?.Invoke();
+                }
+            }
+            else
+            {
+                //Debug.DrawRay(Camera.main.transform.position, direction * 100f, Color.red, 1000f);
+                NoInteraction?.Invoke();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Called to find a room targeted when a double tap is performed.
+    /// </summary>
+    private void FindDoubleTapTarget()
+    {
+        if (!IsPointerOverUI(Touchscreen.current.primaryTouch.position.ReadValue()))
+        {
+            RaycastHit hit;
+
+            // Get the touch position on the screen and set its z-coordinate to the camera's distance
+            Vector3 touchPosition = Touchscreen.current.primaryTouch.position.ReadValue();
+            touchPosition.z = Mathf.Abs(Camera.main.transform.position.z);
+
+            // Calculate the direction from the camera to the touch position in world space
+            Vector3 direction = new Vector3(Camera.main.ScreenToWorldPoint(touchPosition).x - Camera.main.transform.position.x,
+                                            Camera.main.ScreenToWorldPoint(touchPosition).y - Camera.main.transform.position.y,
+                                            Camera.main.ScreenToWorldPoint(touchPosition).z - Camera.main.transform.position.z).normalized;
+
+            // Cast a ray from the camera in the calculated direction and check for hits
+            if (Physics.Raycast(Camera.main.transform.position, direction, out hit, 200))
+            {
+                //Debug.DrawRay(Camera.main.transform.position, direction * 100f, Color.green, 1000f);
+
+                // If the ray hits an object with a room component, trigger its event with datas of the room
+                if (hit.collider.transform.parent.TryGetComponent<Room>(out Room room))
+                {
+                    CurrentRoomSelected = room;
+                    RoomDoubleTap?.Invoke(room);
                 }
                 else
                 {

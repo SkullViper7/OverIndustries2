@@ -10,7 +10,7 @@ public class DoorCreator : MonoBehaviour
 
     Animator _animator;
 
-    private void Start()
+    private void Awake()
     {
         _room = GetComponent<Room>();
         _room.OnInitialized += () => CreateDoor(_room.RoomData);
