@@ -8,9 +8,6 @@ public class DragAndDrop : MonoBehaviour
     private static DragAndDrop _instance = null;
     public static DragAndDrop Instance => _instance;
 
-    //playerInput reference
-    private PlayerInput _playerInput;
-
     private Employee EmployeeToMove;
     private Vector3 _startPosition;
     public bool EmployeeSelect { get; private set; } = false;
@@ -33,9 +30,9 @@ public class DragAndDrop : MonoBehaviour
 
     void Start()
     {
-        _playerInput = GetComponent<PlayerInput>();
-        _playerInput.actions["Hold0"].performed += OnHold0;
-        _playerInput.actions["TouchContact0"].canceled += OnTouchContact0Canceled;
+        InputsManager.Instance.Hold0Context += OnHold0;
+        InputsManager.Instance.Touch0ContactCanceledContext += OnTouchContact0Canceled;
+        InputsManager.Instance.DragAndDropStartedContext += DragAndDrop0;
 
         InteractionManager.Instance.EmployeeInteraction += GetEmployeeToMove;
     }
@@ -82,6 +79,12 @@ public class DragAndDrop : MonoBehaviour
                 }
             }
         }
+    }
+
+
+    void DragAndDrop0(InputAction.CallbackContext context)
+    {
+        Debug.Log("test");
     }
 
     /// <summary>
