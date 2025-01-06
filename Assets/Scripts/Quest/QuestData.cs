@@ -23,17 +23,23 @@ public class QuestData : ScriptableObject
     [Space, Header("Stats"), SerializeField, Tooltip("Object needed to completed this quest.")]
     private List<ObjectData> _objects;
 
-    // <summary>
+    /// <summary>
     /// Component needed to completed this quest.
     /// </summary>
     [SerializeField, Tooltip("Component needed to completed this quest.")]
     private List<ComponentData> _components;
 
     /// <summary>
-    /// Number of object needed to completed this quest.
+    /// Number of objetc needed to completed this quest.
     /// </summary>
     [SerializeField, Tooltip("Number of object needed to completed this quest.")]
     private List<int> _numberOfObject;
+    
+    /// <summary>
+    /// Number of component needed to completed this quest.
+    /// </summary>
+    [SerializeField, Tooltip("Number of object needed to completed this quest.")]
+    private List<int> _numberOfComponent;
 
     /// <summary>
     /// Number of PS add to player PS if quest are complited.    
@@ -65,6 +71,11 @@ public class QuestData : ScriptableObject
     /// Number of object needed to completed this quest.
     /// </summary>
     public List<int> NumberOfObject { get { return _numberOfObject; } private set { } }
+    
+    /// <summary>
+    /// Number of component needed to completed this quest.
+    /// </summary>
+    public List<int> NumberOfComponent { get { return _numberOfComponent; } private set { } }
 
     /// <summary>
     /// Number of PS add to player PS if quest are complited.    
