@@ -19,16 +19,25 @@ public class TutorialManager : MonoBehaviour
     [SerializeField]
     private List<GameObject> _buttonActions;
 
+    private bool _canContinue = true;
+    private bool _isResearchFinish = false;
+
+    private GameObject _roomResearch;
+
     void Start()
     {
         ShowTutorialStep();
+        _roomResearch.GetComponent<ResearchRoom>().ResearchCompleted += ResearchFinish;
 
-        for(int i = 0; i < _buttonActions.Count; i++)
+        for (int i = 0; i < _buttonActions.Count; i++)
         {
             _buttonActions[i].SetActive(false);
         }
     }
 
+    /// <summary>
+    /// Show the tutorial panel
+    /// </summary>
     public void ShowTutorialStep()
     {
         if (_currentStep <= _tutorialSteps.Length)
@@ -48,7 +57,7 @@ public class TutorialManager : MonoBehaviour
                 case 6:
                     ShowCommandeButton();
                     break;
-                case 8:
+                case 8: 
                     ShowStorage();
                     break;
                 case 9:
@@ -65,6 +74,11 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Reveal the text character by character
+    /// </summary>
+    /// <param name="fullText"></param>
+    /// <returns></returns>
     private IEnumerator RevealText(string fullText)
     {
         while (_currentCharIndex < fullText.Length)
@@ -76,6 +90,9 @@ public class TutorialManager : MonoBehaviour
         //_currentCharIndex = 0; // Reset character index for the new step
     }
 
+    /// <summary>
+    /// Reveal the full text of the current step
+    /// </summary>
     public void NextStep()
     {
         if (_currentCharIndex < _tutorialSteps[_currentStep].Length)
@@ -86,17 +103,34 @@ public class TutorialManager : MonoBehaviour
         }
         else
         {
-            _currentStep++;
+            CanContinue();
+            Debug.Log(_canContinue);
 
-            if (_currentStep >= _tutorialSteps.Length)
+            if (_canContinue)
             {
-                HideTutorialStep();
-            }
-            else
-            {
-                ShowTutorialStep();
+                _currentStep++;
+
+                if (_currentStep >= _tutorialSteps.Length)
+                {
+                    HideTutorialStep();
+                }
+                else
+                {
+                    ShowTutorialStep();
+                }
+
+                _canContinue = false;
             }
         }
+    }
+
+    /// <summary>
+    /// Skip the tutorial
+    /// </summary>
+    public void SkipTutorial()
+    {
+        _currentStep = _tutorialSteps.Length;
+        HideTutorialStep();
     }
 
     void ShowConstructButton()
@@ -121,6 +155,9 @@ public class TutorialManager : MonoBehaviour
         _buttonActions[1].SetActive(true);
     }
 
+    /// <summary>
+    /// Hide the tutorial panel
+    /// </summary>
     public void HideTutorialStep()
     {
         for (int i = 0; i < _buttonActions.Count; i++)
@@ -131,8 +168,54 @@ public class TutorialManager : MonoBehaviour
         _tutorialPanel.SetActive(false);
     }
 
-    public void ShowTutorial()
+    void CanContinue()
     {
-        _tutorialPanel.SetActive(true);
+        for (int i = 0; i < GridManager.Instance.InstantiatedRooms.Count; i++)
+        {
+            switch (_currentStep)
+            {
+                case 2:
+                    if (GridManager.Instance.InstantiatedRooms[i].RoomData.RoomType == RoomType.Research)
+                    {
+                        _roomResearch = GridManager.Instance.InstantiatedRooms[i].gameObject;
+                        _canContinue = true;
+                    }
+                    break;
+                case 3:
+                    if (DirectorRoom.Instance._roomMain.EmployeeAssign.Count >= 1)
+                    {
+                        _canContinue = true;
+                    }
+                    break;
+                case 4:
+                    if (_roomResearch.GetComponent<Room>().EmployeeAssign.Count >= 1)
+                    {
+                        _canContinue = true;
+                    }
+                    break;
+                case 5:
+                    if (_isResearchFinish)
+                    {
+                        _canContinue = true;
+
+                    }
+                    break;
+                case 6:
+                    if(QuestManager.Instance.QuestList.Count >= 1)
+                    {
+                        _canContinue = true;
+                    }
+                    break;
+                default:
+                    _canContinue = true;
+                    break;
+            }
+
+        }
+    }
+
+    void ResearchFinish()
+    {
+        _isResearchFinish = true;
     }
 }
