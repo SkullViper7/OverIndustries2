@@ -135,6 +135,12 @@ public class UIManager : MonoBehaviour
     public GameObject ConstructionUI { get; private set; }
 
     /// <summary>
+    /// The UI on screen whene player pause the game.
+    /// </summary>
+    [field: SerializeField, Tooltip("The UI on screen whene player pause the game.")]
+    public GameObject PauseUI { get; private set; }
+
+    /// <summary>
     /// AudioSource to play SFX.
     /// </summary>
     [Space, Header("SFX"), SerializeField, Tooltip("AudioSource to play SFX.")]
