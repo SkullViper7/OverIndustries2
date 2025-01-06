@@ -159,4 +159,6 @@ public class RoomData : ScriptableObject
     /// Gets the prefab of the room.
     /// </summary>
     public GameObject RoomLvl3 { get { return _roomLvl3; } private set { } }
+
+    [SerializeField, Header("Director room only"), Tooltip("employee prefab")] public GameObject Employee;
 }
