@@ -109,7 +109,7 @@ public class InputsManager : MonoBehaviour
                     }
                     break;
 
-                case "DragAndDrop":
+                case "DragAndDrop0":
                     if (context.performed)
                     {
                         DragAndDropStarted?.Invoke();

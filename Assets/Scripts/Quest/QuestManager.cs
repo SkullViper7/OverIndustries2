@@ -12,9 +12,10 @@ public class QuestManager : MonoBehaviour
 
     [Space, Header("Quest Stats")]
     private Quest _newQuest;
+    private bool _productUnlock;
     [field: SerializeField, Tooltip("Minimum number of object need to all quest")] public int MinNumberQuestObject { get; private set; }
     [field: SerializeField, Tooltip("Maximum number of object need to all quest")] public int MaxNumberQuestObject { get; private set; }
-     [field: SerializeField, Tooltip("Minimum number of component need to all quest")] public int MinNumberQuestComponent { get; private set; }
+    [field: SerializeField, Tooltip("Minimum number of component need to all quest")] public int MinNumberQuestComponent { get; private set; }
     [field: SerializeField, Tooltip("Maximum number of component need to all quest")] public int MaxNumberQuestComponent { get; private set; }
 
     [Space, Header("Quest Instanciate")]
@@ -56,21 +57,23 @@ public class QuestManager : MonoBehaviour
 
             int randomQuest = Random.Range(0, QuestList.Count);
             _newQuest.GiveQuest(QuestList[randomQuest]);
-            Debug.Log("CreateQuest");
 
+            //for (int a = 0; a < _newQuest.QuestData.Objects.Count; a++)
+            //{
+            //    for (int b = 0; b < ResearchManager.Instance.ManufacturableObjects.Count; b++)
+            //    {
+            //        if ()
+            //    }
+            //}
 
             for (int i = 0; i < _newQuest.QuestData.NumberOfObject.Count; i++)
             {
-                Debug.Log("NumberObject");
-
                 int randomNumberOfThisObject = Random.Range(MinNumberQuestObject, MaxNumberQuestObject);
                 _newQuest.QuestData.NumberOfObject[i] = randomNumberOfThisObject;
             }
-            
+
             for (int j = 0; j < _newQuest.QuestData.NumberOfComponent.Count; j++)
             {
-                Debug.Log("NumberComponent");
-
                 int randomNumberOfThisComponent = Random.Range(MinNumberQuestComponent, MaxNumberQuestComponent);
                 _newQuest.QuestData.NumberOfComponent[j] = randomNumberOfThisComponent;
             }
@@ -99,30 +102,23 @@ public class QuestManager : MonoBehaviour
             {
                 if (CurrentQuestList[i].QuestData.Objects.Count > 1 && j == 0 && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Objects[j]) >= CurrentQuestList[i].QuestData.NumberOfObject[j] && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Objects[j + 1]) >= CurrentQuestList[i].QuestData.NumberOfObject[j + 1])
                 {
-                    Debug.Log("Objectifs completed");
                     QuestComplited.Invoke(i);
                     ScoreManager.Instance.AddPS(CurrentQuestList[i].QuestData.PSWin);
                 }
                 if (CurrentQuestList[i].QuestData.Objects.Count > 2 && j == 0 && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Objects[j]) >= CurrentQuestList[i].QuestData.NumberOfObject[j] && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Objects[j + 1]) >= CurrentQuestList[i].QuestData.NumberOfObject[j + 1] && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Objects[j + 2]) >= CurrentQuestList[i].QuestData.NumberOfObject[j + 2])
                 {
-                    Debug.Log("Objectifs completed");
                     QuestComplited.Invoke(i);
                     ScoreManager.Instance.AddPS(CurrentQuestList[i].QuestData.PSWin);
                 }
                 if (CurrentQuestList[i].QuestData.Objects.Count == 1 && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Objects[j]) >= CurrentQuestList[i].QuestData.NumberOfObject[j])
                 {
-                    Debug.Log("Objectifs completed");
                     QuestComplited.Invoke(i);
                     ScoreManager.Instance.AddPS(CurrentQuestList[i].QuestData.PSWin);
-                }
-                else
-                {
-                    Debug.Log("Objectifs incompleted");
                 }
             }
         }
     }
-    
+
     /// <summary>
     /// Donne l'avancement de la quête avec composant pour chaque objectifs + check si il est accompli
     /// </summary>
@@ -137,25 +133,18 @@ public class QuestManager : MonoBehaviour
             {
                 if (CurrentQuestList[i].QuestData.Component.Count > 1 && j == 0 && ItemStorage.Instance.ReturnNumberOfThisComponent(CurrentQuestList[i].QuestData.Component[j]) >= CurrentQuestList[i].QuestData.NumberOfComponent[j] && ItemStorage.Instance.ReturnNumberOfThisComponent(CurrentQuestList[i].QuestData.Component[j + 1]) >= CurrentQuestList[i].QuestData.NumberOfComponent[j + 1])
                 {
-                    Debug.Log("Objectifs completed");
                     QuestComplited.Invoke(i);
                     ScoreManager.Instance.AddPS(CurrentQuestList[i].QuestData.PSWin);
                 }
                 if (CurrentQuestList[i].QuestData.Component.Count > 2 && j == 0 && ItemStorage.Instance.ReturnNumberOfThisComponent(CurrentQuestList[i].QuestData.Component[j]) >= CurrentQuestList[i].QuestData.NumberOfComponent[j] && ItemStorage.Instance.ReturnNumberOfThisComponent(CurrentQuestList[i].QuestData.Component[j + 1]) >= CurrentQuestList[i].QuestData.NumberOfComponent[j + 1] && ItemStorage.Instance.ReturnNumberOfThisComponent(CurrentQuestList[i].QuestData.Component[j + 2]) >= CurrentQuestList[i].QuestData.NumberOfComponent[j + 2])
                 {
-                    Debug.Log("Objectifs completed");
                     QuestComplited.Invoke(i);
                     ScoreManager.Instance.AddPS(CurrentQuestList[i].QuestData.PSWin);
                 }
                 if (CurrentQuestList[i].QuestData.Component.Count == 1 && ItemStorage.Instance.ReturnNumberOfThisComponent(CurrentQuestList[i].QuestData.Component[j]) >= CurrentQuestList[i].QuestData.NumberOfComponent[j])
                 {
-                    Debug.Log("Objectifs completed");
                     QuestComplited.Invoke(i);
                     ScoreManager.Instance.AddPS(CurrentQuestList[i].QuestData.PSWin);
-                }
-                else
-                {
-                    Debug.Log("Objectifs incompleted");
                 }
             }
         }
@@ -182,7 +171,7 @@ public class QuestManager : MonoBehaviour
         {
             ItemStorage.Instance.SubstractObjects(_quest.QuestData.Objects[j], _quest.QuestData.NumberOfObject[j]);
         }
-        
+
         for (int j = 0; j < _quest.QuestData.NumberOfComponent.Count; j++)
         {
             ItemStorage.Instance.SubstractComponents(_quest.QuestData.Component[j], _quest.QuestData.NumberOfComponent[j]);
