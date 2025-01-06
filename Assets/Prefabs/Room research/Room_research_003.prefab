@@ -207,12 +207,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OuterPointSet: 1
-  OuterPoint: {x: 0, y: 1.87, z: -4}
-  OuterPointDistance: 6
+  OuterPoint: {x: 6, y: 1.87, z: -4}
+  OuterPointDistance: 46.587982
   isHollow: 0
   InnerPointSet: 1
-  InnerPoint: {x: 0, y: 1.87, z: -4}
-  InnerPointDistance: 6
+  InnerPoint: {x: 6, y: 1.87, z: -4}
+  InnerPointDistance: 46.587982
   InnerPointInside: 0
   boxCollider: {fileID: 6249743397819270500}
   center: {x: 3, y: 2, z: -2}
@@ -362,7 +362,7 @@ Transform:
   m_GameObject: {fileID: 3697464576368494558}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.87, z: -4}
+  m_LocalPosition: {x: 6, y: 1.87, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -413,7 +413,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   volume: 1
-  baseVolume: 1
+  baseVolume: 0.25
   zone: {fileID: 0}
   fade: 0
   fadeMinDistance: 0
@@ -468,7 +468,7 @@ AudioSource:
     type: 2}
   m_audioClip: {fileID: 8300000, guid: 44b45a614164f9e48bbea10e6b95f296, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.25
   m_Pitch: 1
   Loop: 1
   Mute: 0

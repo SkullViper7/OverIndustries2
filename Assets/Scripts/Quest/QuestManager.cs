@@ -12,8 +12,10 @@ public class QuestManager : MonoBehaviour
 
     [Space, Header("Quest Stats")]
     private Quest _newQuest;
-    [field: SerializeField, Tooltip("Minimum number of object need to all quest")] public int MinNumberQuestObject { get; private set; } = 1;
-    [field: SerializeField, Tooltip("Maximum number of object need to all quest")] public int MaxNumberQuestObject { get; private set; } = 3;
+    [field: SerializeField, Tooltip("Minimum number of object need to all quest")] public int MinNumberQuestObject { get; private set; }
+    [field: SerializeField, Tooltip("Maximum number of object need to all quest")] public int MaxNumberQuestObject { get; private set; }
+     [field: SerializeField, Tooltip("Minimum number of component need to all quest")] public int MinNumberQuestComponent { get; private set; }
+    [field: SerializeField, Tooltip("Maximum number of component need to all quest")] public int MaxNumberQuestComponent { get; private set; }
 
     [Space, Header("Quest Instanciate")]
     [SerializeField] private GameObject _defaultQuest;
@@ -54,12 +56,23 @@ public class QuestManager : MonoBehaviour
 
             int randomQuest = Random.Range(0, QuestList.Count);
             _newQuest.GiveQuest(QuestList[randomQuest]);
+            Debug.Log("CreateQuest");
 
 
             for (int i = 0; i < _newQuest.QuestData.NumberOfObject.Count; i++)
             {
+                Debug.Log("NumberObject");
+
                 int randomNumberOfThisObject = Random.Range(MinNumberQuestObject, MaxNumberQuestObject);
                 _newQuest.QuestData.NumberOfObject[i] = randomNumberOfThisObject;
+            }
+            
+            for (int j = 0; j < _newQuest.QuestData.NumberOfComponent.Count; j++)
+            {
+                Debug.Log("NumberComponent");
+
+                int randomNumberOfThisComponent = Random.Range(MinNumberQuestComponent, MaxNumberQuestComponent);
+                _newQuest.QuestData.NumberOfComponent[j] = randomNumberOfThisComponent;
             }
 
             NewQuestGenerate.Invoke(_newQuest);
@@ -120,21 +133,21 @@ public class QuestManager : MonoBehaviour
 
         for (int i = 0; i < CurrentQuestList.Count; i++)
         {
-            for (int j = 0; j < CurrentQuestList[i].QuestData.Objects.Count; j++)
+            for (int j = 0; j < CurrentQuestList[i].QuestData.Component.Count; j++)
             {
-                if (CurrentQuestList[i].QuestData.Objects.Count > 1 && j == 0 && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Objects[j]) >= CurrentQuestList[i].QuestData.NumberOfObject[j] && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Objects[j + 1]) >= CurrentQuestList[i].QuestData.NumberOfObject[j + 1])
+                if (CurrentQuestList[i].QuestData.Component.Count > 1 && j == 0 && ItemStorage.Instance.ReturnNumberOfThisComponent(CurrentQuestList[i].QuestData.Component[j]) >= CurrentQuestList[i].QuestData.NumberOfComponent[j] && ItemStorage.Instance.ReturnNumberOfThisComponent(CurrentQuestList[i].QuestData.Component[j + 1]) >= CurrentQuestList[i].QuestData.NumberOfComponent[j + 1])
                 {
                     Debug.Log("Objectifs completed");
                     QuestComplited.Invoke(i);
                     ScoreManager.Instance.AddPS(CurrentQuestList[i].QuestData.PSWin);
                 }
-                if (CurrentQuestList[i].QuestData.Objects.Count > 2 && j == 0 && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Objects[j]) >= CurrentQuestList[i].QuestData.NumberOfObject[j] && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Objects[j + 1]) >= CurrentQuestList[i].QuestData.NumberOfObject[j + 1] && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Objects[j + 2]) >= CurrentQuestList[i].QuestData.NumberOfObject[j + 2])
+                if (CurrentQuestList[i].QuestData.Component.Count > 2 && j == 0 && ItemStorage.Instance.ReturnNumberOfThisComponent(CurrentQuestList[i].QuestData.Component[j]) >= CurrentQuestList[i].QuestData.NumberOfComponent[j] && ItemStorage.Instance.ReturnNumberOfThisComponent(CurrentQuestList[i].QuestData.Component[j + 1]) >= CurrentQuestList[i].QuestData.NumberOfComponent[j + 1] && ItemStorage.Instance.ReturnNumberOfThisComponent(CurrentQuestList[i].QuestData.Component[j + 2]) >= CurrentQuestList[i].QuestData.NumberOfComponent[j + 2])
                 {
                     Debug.Log("Objectifs completed");
                     QuestComplited.Invoke(i);
                     ScoreManager.Instance.AddPS(CurrentQuestList[i].QuestData.PSWin);
                 }
-                if (CurrentQuestList[i].QuestData.Objects.Count == 1 && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Objects[j]) >= CurrentQuestList[i].QuestData.NumberOfObject[j])
+                if (CurrentQuestList[i].QuestData.Component.Count == 1 && ItemStorage.Instance.ReturnNumberOfThisComponent(CurrentQuestList[i].QuestData.Component[j]) >= CurrentQuestList[i].QuestData.NumberOfComponent[j])
                 {
                     Debug.Log("Objectifs completed");
                     QuestComplited.Invoke(i);
@@ -149,10 +162,10 @@ public class QuestManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Donne la commande au client, retire les objet du stockage 
+    /// Donne la commande au client, retire les objet et composants du stockage 
     /// </summary>
     /// <param name="_quest"></param>
-    public void GiveQuestObject(Quest _quest)
+    public void GiveQuestProduct(Quest _quest)
     {
         for (int i = 0; i < CurrentQuestList.Count; i++)
         {
@@ -168,6 +181,11 @@ public class QuestManager : MonoBehaviour
         for (int j = 0; j < _quest.QuestData.NumberOfObject.Count; j++)
         {
             ItemStorage.Instance.SubstractObjects(_quest.QuestData.Objects[j], _quest.QuestData.NumberOfObject[j]);
+        }
+        
+        for (int j = 0; j < _quest.QuestData.NumberOfComponent.Count; j++)
+        {
+            ItemStorage.Instance.SubstractComponents(_quest.QuestData.Component[j], _quest.QuestData.NumberOfComponent[j]);
         }
 
         UpdateAdvancementQuest.Invoke();

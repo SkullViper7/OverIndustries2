@@ -22,7 +22,8 @@ public class AvailableSpotButton : MonoBehaviour
     public void InitButton(RoomData roomData, IRoomBehaviourData roomBehaviourData, Vector2 position, AvailableSpotsUI availableSpotsUI)
     {
         RectTransform rectTransform = GetComponent<RectTransform>();
-        rectTransform.position = GridManager.Instance.ConvertGridPosIntoWorldPos(position);
+        Vector2 worldPos = GridManager.Instance.ConvertGridPosIntoWorldPos(position);
+        rectTransform.position = new Vector3(worldPos.x, worldPos.y, -0.2f);
         rectTransform.sizeDelta = new Vector2(roomData.Size * 3, 4);
 
         _button.onClick.AddListener(() =>

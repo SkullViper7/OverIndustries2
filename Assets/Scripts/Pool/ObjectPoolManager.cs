@@ -10,12 +10,6 @@ public class ObjectPoolManager : MonoBehaviour
     private static int _idCounter = 0;
 
     /// <summary>
-    /// GameObject where all objects in pools go.
-    /// </summary>
-    [SerializeField]
-    private Transform _poolParent;
-
-    /// <summary>
     /// Dictionnary which stocks object pools with an ID.
     /// </summary>
     private Dictionary<int, ObjectPool> _objectPools = new();
@@ -61,7 +55,7 @@ public class ObjectPoolManager : MonoBehaviour
             }
             else
             {
-                GameObject newObject = Instantiate(_objectPools[poolId].ObjectPrefab, _poolParent);
+                GameObject newObject = Instantiate(_objectPools[poolId].ObjectPrefab);
                 return newObject;
             }
         }

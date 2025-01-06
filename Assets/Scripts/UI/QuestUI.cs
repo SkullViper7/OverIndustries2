@@ -19,7 +19,6 @@ public class QuestUI : MonoBehaviour
     private List<GameObject> _buttonQuestComplitedList = new List<GameObject>();
     [field: SerializeField] public Color32 QuestComplitedColorText { get; private set; }
 
-
     private Quest _actualQuest;
 
     void Start()
@@ -51,17 +50,49 @@ public class QuestUI : MonoBehaviour
         QuestNameText.text = _actualQuest.QuestData.Name;
         QuestDescriptionText.text = _actualQuest.QuestData.Description;
 
-        if (_quest.QuestData.NumberOfObject.Count == 1)
+        Debug.Log("ShowQuest");
+        if (_quest.QuestData.NumberOfComponent.Count != 0)
         {
-            QuestObjectifText.text = $"{_quest.QuestData.NumberOfObject[0]} {_quest.QuestData.Objects[0].Name}";
+            Debug.Log("Component");
+
+            if (_quest.QuestData.NumberOfComponent.Count == 1)
+            {
+                QuestObjectifText.text = $"{_quest.QuestData.NumberOfComponent[0]} {_quest.QuestData.Component[0].Name}";
+            }
+            if (_quest.QuestData.NumberOfComponent.Count == 2)
+            {
+                QuestObjectifText.text = $"{_quest.QuestData.NumberOfComponent[0]} {_quest.QuestData.Component[0].Name} \n{_quest.QuestData.NumberOfComponent[1]} {_quest.QuestData.Component[1].Name}";
+            }
+            if (_quest.QuestData.NumberOfComponent.Count == 3)
+            {
+                QuestObjectifText.text = $"{_quest.QuestData.NumberOfComponent[0]} {_quest.QuestData.Component[0].Name} \n{_quest.QuestData.NumberOfComponent[1]} {_quest.QuestData.Component[1].Name} \n{_quest.QuestData.NumberOfComponent[2]} {_quest.QuestData.Component[2].Name}";
+            }
+            if (_quest.QuestData.NumberOfComponent.Count == 4)
+            {
+                QuestObjectifText.text = $"{_quest.QuestData.NumberOfComponent[0]} {_quest.QuestData.Component[0].Name} \n{_quest.QuestData.NumberOfComponent[1]} {_quest.QuestData.Component[1].Name} \n{_quest.QuestData.NumberOfComponent[2]} {_quest.QuestData.Component[2].Name} \n{_quest.QuestData.NumberOfComponent[3]} {_quest.QuestData.Component[3].Name}";
+            }
+            if (_quest.QuestData.NumberOfComponent.Count == 5)
+            {
+                QuestObjectifText.text = $"{_quest.QuestData.NumberOfComponent[0]} {_quest.QuestData.Component[0].Name} \n{_quest.QuestData.NumberOfComponent[1]} {_quest.QuestData.Component[1].Name} \n{_quest.QuestData.NumberOfComponent[2]} {_quest.QuestData.Component[2].Name} \n{_quest.QuestData.NumberOfComponent[3]} {_quest.QuestData.Component[3].Name} \n{_quest.QuestData.NumberOfComponent[4]} {_quest.QuestData.Component[4].Name}";
+            }
         }
-        if (_quest.QuestData.NumberOfObject.Count == 2)
+
+        if (_quest.QuestData.NumberOfObject.Count != 0)
         {
-            QuestObjectifText.text = $"{_quest.QuestData.NumberOfObject[0]} {_quest.QuestData.Objects[0].Name} \n{_quest.QuestData.NumberOfObject[1]} {_quest.QuestData.Objects[1].Name}";
-        }
-        if (_quest.QuestData.NumberOfObject.Count == 3)
-        {
-            QuestObjectifText.text = $"{_quest.QuestData.NumberOfObject[0]} {_quest.QuestData.Objects[0].Name} \n{_quest.QuestData.NumberOfObject[1]} {_quest.QuestData.Objects[1].Name} \n{_quest.QuestData.NumberOfObject[2]} {_quest.QuestData.Objects[2].Name}";
+            Debug.Log("Object");
+
+            if (_quest.QuestData.NumberOfObject.Count == 1)
+            {
+                QuestObjectifText.text = $"{QuestObjectifText.text} {_quest.QuestData.NumberOfObject[0]} {_quest.QuestData.Objects[0].Name}";
+            }
+            if (_quest.QuestData.NumberOfObject.Count == 2)
+            {
+                QuestObjectifText.text = $"{QuestObjectifText.text} {_quest.QuestData.NumberOfObject[0]} {_quest.QuestData.Objects[0].Name} \n{_quest.QuestData.NumberOfObject[1]} {_quest.QuestData.Objects[1].Name}";
+            }
+            if (_quest.QuestData.NumberOfObject.Count == 3)
+            {
+                QuestObjectifText.text = $"{QuestObjectifText.text} {_quest.QuestData.NumberOfObject[0]} {_quest.QuestData.Objects[0].Name} \n{_quest.QuestData.NumberOfObject[1]} {_quest.QuestData.Objects[1].Name} \n{_quest.QuestData.NumberOfObject[2]} {_quest.QuestData.Objects[2].Name}";
+            }
         }
     }
 
