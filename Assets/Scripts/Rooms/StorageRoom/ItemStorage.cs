@@ -300,6 +300,23 @@ public class ItemStorage : MonoBehaviour
             return 0;
         }
     }
+    
+    /// <summary>
+    /// Called to know the number of this component type in the storage.
+    /// </summary>
+    /// <param name="ComponentType"> Type of the object. </param>
+    /// <returns></returns>
+    public int ReturnNumberOfThisComponent(ComponentData componentType)
+    {
+        if (ComponentStorage.ContainsKey(componentType))
+        {
+            return ComponentStorage[componentType];
+        }
+        else
+        {
+            return 0;
+        }
+    }
 
     /// <summary>
     /// Called to add capacity when a storage room is build or upgraded;
