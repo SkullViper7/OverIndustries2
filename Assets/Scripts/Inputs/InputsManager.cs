@@ -110,10 +110,19 @@ public class InputsManager : MonoBehaviour
                     break;
 
                 case "DragAndDrop0":
-                    if (context.performed)
+                    if (context.started)
                     {
+                        Debug.Log("started");
+                    }
+                    else if (context.performed)
+                    {
+                        Debug.Log("performed");
                         DragAndDropStarted?.Invoke();
                         DragAndDropStartedContext?.Invoke(context);
+                    }
+                    else if (context.canceled)
+                    {
+                        Debug.Log("canceled");
                     }
                     break;
             }
