@@ -32,7 +32,6 @@ public class DragAndDrop : MonoBehaviour
     {
         InputsManager.Instance.Hold0Context += OnHold0;
         InputsManager.Instance.Touch0ContactCanceledContext += OnTouchContact0Canceled;
-        InputsManager.Instance.DragAndDropStartedContext += DragAndDrop0;
 
         InteractionManager.Instance.EmployeeInteraction += GetEmployeeToMove;
     }
@@ -79,12 +78,6 @@ public class DragAndDrop : MonoBehaviour
                 }
             }
         }
-    }
-
-
-    void DragAndDrop0(InputAction.CallbackContext context)
-    {
-        Debug.Log("test");
     }
 
     /// <summary>
