@@ -12,7 +12,8 @@ public class QuestManager : MonoBehaviour
 
     [Space, Header("Quest Stats")]
     private Quest _newQuest;
-    private bool _productUnlock;
+    private int _objectUnlock;
+    private int _componentUnlock;
     [field: SerializeField, Tooltip("Minimum number of object need to all quest")] public int MinNumberQuestObject { get; private set; }
     [field: SerializeField, Tooltip("Maximum number of object need to all quest")] public int MaxNumberQuestObject { get; private set; }
     [field: SerializeField, Tooltip("Minimum number of component need to all quest")] public int MinNumberQuestComponent { get; private set; }
@@ -58,13 +59,29 @@ public class QuestManager : MonoBehaviour
             int randomQuest = Random.Range(0, QuestList.Count);
             _newQuest.GiveQuest(QuestList[randomQuest]);
 
-            //for (int a = 0; a < _newQuest.QuestData.Objects.Count; a++)
-            //{
-            //    for (int b = 0; b < ResearchManager.Instance.ManufacturableObjects.Count; b++)
-            //    {
-            //        if ()
-            //    }
-            //}
+            for (int a = 0; a < _newQuest.QuestData.Objects.Count; a++)
+            {
+                for (int b = 0; b < ResearchManager.Instance.ManufacturableObjects.Count; b++)
+                {
+                    if (_newQuest.QuestData.Objects[a].Name == ResearchManager.Instance.ManufacturableObjects[b].Name)
+                    {
+                        _objectUnlock++;
+                    }
+                }
+            }
+            Debug.Log(_objectUnlock);
+            
+            for (int c = 0; c < _newQuest.QuestData.Component.Count; c++)
+            {
+                for (int d = 0; d < ResearchManager.Instance.ManufacturableComponents.Count; d++)
+                {
+                    if (_newQuest.QuestData.Component[c].Name == ResearchManager.Instance.ManufacturableComponents[d].Name)
+                    {
+                        _componentUnlock++;
+                    }
+                }
+            }
+            Debug.Log(_componentUnlock);
 
             for (int i = 0; i < _newQuest.QuestData.NumberOfObject.Count; i++)
             {

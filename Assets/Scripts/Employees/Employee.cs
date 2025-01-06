@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Rendering;
 
 public class Employee : MonoBehaviour
 {
@@ -193,10 +194,15 @@ public class Employee : MonoBehaviour
 
     public void SetIdleAnimation()
     {
-        if(IsHired)
-        {
-            _animator.SetTrigger("Idle");
-        }
+        _animator.SetTrigger("Idle");
+    }
+
+    public void StopRoutine()
+    {
+        StopCoroutine(WaitNewDestination());
+        _navMeshAgent.ResetPath();
+
+        SetIdleAnimation();
     }
 
     /// <summary>
