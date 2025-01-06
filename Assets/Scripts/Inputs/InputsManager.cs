@@ -16,13 +16,13 @@ public class InputsManager : MonoBehaviour
     /// Events to get some inputs.
     /// </summary>
     public delegate void Inputs();
-    public event Inputs Tap, DragAndDropStarted, DoubleTap, Touch0ContactStarted, Touch0ContactCanceled, Touch1ContactStarted, Touch1ContactCanceled, Hold0, Hold1;
+    public event Inputs Tap, DragAndDropStarted, DragAndDropPerformed, DragAndDropCanceled, DoubleTap, Touch0ContactStarted, Touch0ContactCanceled, Touch1ContactStarted, Touch1ContactCanceled, Hold0, Hold1;
 
     /// <summary>
     /// Events to get some context about inputs.
     /// </summary>
     public delegate void InputsContext(InputAction.CallbackContext context);
-    public event InputsContext TapContext, DragAndDropStartedContext, DoubleTapContext, Touch0ContactStartedContext, Touch0ContactCanceledContext, Touch1ContactStartedContext, Touch1ContactCanceledContext, Hold0Context, Hold1Context;
+    public event InputsContext TapContext, DoubleTapContext, Touch0ContactStartedContext, Touch0ContactCanceledContext, Touch1ContactStartedContext, Touch1ContactCanceledContext, Hold0Context, Hold1Context;
 
     void Awake()
     {
@@ -112,17 +112,15 @@ public class InputsManager : MonoBehaviour
                 case "DragAndDrop0":
                     if (context.started)
                     {
-                        Debug.Log("started");
+                        DragAndDropStarted?.Invoke();
                     }
                     else if (context.performed)
                     {
-                        Debug.Log("performed");
-                        DragAndDropStarted?.Invoke();
-                        DragAndDropStartedContext?.Invoke(context);
+                        DragAndDropPerformed?.Invoke();
                     }
                     else if (context.canceled)
                     {
-                        Debug.Log("canceled");
+                        DragAndDropCanceled?.Invoke();
                     }
                     break;
             }

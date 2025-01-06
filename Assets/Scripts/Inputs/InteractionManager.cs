@@ -34,7 +34,7 @@ public class InteractionManager : MonoBehaviour
     /// Events to indicate that there is an interaction with an employee.
     /// </summary>
     public delegate void EmployeeInteractionDelegate(Employee employee);
-    public event EmployeeInteractionDelegate EmployeeInteraction;
+    public event EmployeeInteractionDelegate EmployeeInteraction, EmployeeDragAndDrop;
 
     /// <summary>
     /// Events to indicate that there is no interaction.
@@ -66,7 +66,7 @@ public class InteractionManager : MonoBehaviour
     {
         _inputsManager.Tap += FindTarget;
         _inputsManager.DoubleTap += FindDoubleTapTarget;
-        _inputsManager.DragAndDropStarted += FindDragAndDropTarget;
+        _inputsManager.DragAndDropPerformed += FindDragAndDropTarget;
     }
 
     /// <summary>
@@ -142,8 +142,8 @@ public class InteractionManager : MonoBehaviour
                 if (hit.collider.TryGetComponent<Employee>(out Employee employee))
                 {
                     CurrentEmployeeSelected = employee;
-                    EmployeeInteraction?.Invoke(employee);
-                    Debug.Log("employee");
+                    employee.StopRoutine();
+                    EmployeeDragAndDrop?.Invoke(employee);
                 }
                 else
                 {
