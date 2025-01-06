@@ -33,7 +33,6 @@ public class EmployeeInteraction : MonoBehaviour
     {
         _currentEmployeeSelected = employee;
         _uiManager.InfoEmployeeButton.SetActive(true);
-        _uiManager.MoveEmployeeButton.SetActive(true);
     }
 
     /// <summary>
@@ -58,6 +57,5 @@ public class EmployeeInteraction : MonoBehaviour
     private void DesactivateAllButtons()
     {
         _uiManager.InfoEmployeeButton.SetActive(false);
-        _uiManager.MoveEmployeeButton.SetActive(false);
     }
 }

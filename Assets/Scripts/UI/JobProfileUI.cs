@@ -90,7 +90,7 @@ public class JobProfileUI : MonoBehaviour
     /// <param name="_employeeSelected"></param>
     public void ShowRecrutementProfile()
     {
-        if (DirectorRoom.Instance._roomMain.EmployeeAssign.Count < DirectorRoom.Instance._roomMain.RoomData.Capacity)
+        if (DirectorRoom.Instance.RoomMain.EmployeeAssign.Count < DirectorRoom.Instance.RoomMain.RoomData.Capacity)
         {
             for (int i = 0; i < _directorRoom.RecrutementList.Count; i++)
             {
