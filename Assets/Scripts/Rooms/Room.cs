@@ -112,9 +112,9 @@ public class Room : MonoBehaviour
                 break;
 
             case RoomType.Director:
-                //DirectorRoom directorRoom = (DirectorRoom)gameObject.AddComponent(typeof(DirectorRoom));
-                //RoomBehaviour = directorRoom;
-                //directorRoom.InitRoomBehaviour(roomBehaviourData, this);
+                DirectorRoom directorRoom = (DirectorRoom)gameObject.AddComponent(typeof(DirectorRoom));
+                RoomBehaviour = directorRoom;
+                directorRoom.InitRoomBehaviour(roomBehaviourData, this);
                 break;
 
             case RoomType.Research:
