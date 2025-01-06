@@ -73,7 +73,7 @@ public class TutorialManager : MonoBehaviour
             _currentCharIndex++;
             yield return new WaitForSeconds(0.025f); // Adjust the delay as necessary
         }
-        _currentCharIndex = 0; // Reset character index for the new step
+        //_currentCharIndex = 0; // Reset character index for the new step
     }
 
     public void NextStep()

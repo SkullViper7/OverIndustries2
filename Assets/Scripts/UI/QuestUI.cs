@@ -50,11 +50,8 @@ public class QuestUI : MonoBehaviour
         QuestNameText.text = _actualQuest.QuestData.Name;
         QuestDescriptionText.text = _actualQuest.QuestData.Description;
 
-        Debug.Log("ShowQuest");
         if (_quest.QuestData.NumberOfComponent.Count != 0)
         {
-            Debug.Log("Component");
-
             if (_quest.QuestData.NumberOfComponent.Count == 1)
             {
                 QuestObjectifText.text = $"{_quest.QuestData.NumberOfComponent[0]} {_quest.QuestData.Component[0].Name}";
@@ -79,8 +76,6 @@ public class QuestUI : MonoBehaviour
 
         if (_quest.QuestData.NumberOfObject.Count != 0)
         {
-            Debug.Log("Object");
-
             if (_quest.QuestData.NumberOfObject.Count == 1)
             {
                 QuestObjectifText.text = $"{QuestObjectifText.text} {_quest.QuestData.NumberOfObject[0]} {_quest.QuestData.Objects[0].Name}";
