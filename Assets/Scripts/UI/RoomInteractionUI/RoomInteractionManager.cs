@@ -130,6 +130,9 @@ public class RoomInteractionManager : MonoBehaviour
                 }
                 break;
         }
+
+        // Play animation
+        _uiManager.InteractionButtonGroup.ShowButtons();
     }
 
     /// <summary>
@@ -137,6 +140,8 @@ public class RoomInteractionManager : MonoBehaviour
     /// </summary>
     private void DesactivateAllButtons()
     {
+        _uiManager.InteractionButtonGroup.HideButtons();
+
         _uiManager.InfoRoomButton.SetActive(false);
         _uiManager.UpgradeButton.SetActive(false);
         _uiManager.ProductionButton.SetActive(false);
