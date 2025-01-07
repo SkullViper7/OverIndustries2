@@ -27,6 +27,12 @@ public class UIManager : MonoBehaviour
     public GameObject HUD { get; private set; }
 
     /// <summary>
+    /// Button group for interactions.
+    /// </summary>
+    [field: SerializeField, Tooltip("Button group for interactions.")]
+    public InteractionButtonGroup InteractionButtonGroup { get; private set; }
+
+    /// <summary>
     /// Button to show informations about a room.
     /// </summary>
     [field: SerializeField, Space, Header("Interactions"), Tooltip("Button to show informations about a room.")]
@@ -67,12 +73,6 @@ public class UIManager : MonoBehaviour
     /// </summary>
     [field: SerializeField, Tooltip("Button to show informations about a employee.")]
     public GameObject InfoEmployeeButton { get; private set; }
-
-    /// <summary>
-    /// Button to move this employee.
-    /// </summary>
-    [field: SerializeField, Tooltip("Button to move this employee.")]
-    public GameObject MoveEmployeeButton { get; private set; }
 
     /// <summary>
     /// The pop up which displays room infos.

@@ -6,6 +6,10 @@ using System.Collections.Generic;
 public class TutorialManager : MonoBehaviour
 {
     [SerializeField]
+    private NavigationManager _navigationManager;
+
+    [Header("Tutorial Panel")]
+    [SerializeField]
     private GameObject _tutorialPanel;
     [SerializeField]
     private TextMeshProUGUI _tutoralText;
@@ -19,16 +23,28 @@ public class TutorialManager : MonoBehaviour
     [SerializeField]
     private List<GameObject> _buttonActions;
 
+    private bool _canContinue = true;
+    private bool _isResearchFinish = false;
+
+    //Rooms
+    private GameObject _roomResearch;
+    private GameObject _roomDirector;
+    private GameObject _roomDelivery;
+    private GameObject _roomMachining;
+
     void Start()
     {
         ShowTutorialStep();
 
-        for(int i = 0; i < _buttonActions.Count; i++)
+        for (int i = 0; i < _buttonActions.Count; i++)
         {
             _buttonActions[i].SetActive(false);
         }
     }
 
+    /// <summary>
+    /// Show the tutorial panel
+    /// </summary>
     public void ShowTutorialStep()
     {
         if (_currentStep <= _tutorialSteps.Length)
@@ -44,6 +60,9 @@ public class TutorialManager : MonoBehaviour
                     break;
                 case 3:
                     DesactiveConstructButton();
+                    break;
+                case 5:
+                    //_navigationManager.AutoZoomOrZoomOut(_roomResearch.GetComponent<Room>());
                     break;
                 case 6:
                     ShowCommandeButton();
@@ -65,6 +84,11 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Reveal the text character by character
+    /// </summary>
+    /// <param name="fullText"></param>
+    /// <returns></returns>
     private IEnumerator RevealText(string fullText)
     {
         while (_currentCharIndex < fullText.Length)
@@ -76,6 +100,9 @@ public class TutorialManager : MonoBehaviour
         //_currentCharIndex = 0; // Reset character index for the new step
     }
 
+    /// <summary>
+    /// Reveal the full text of the current step
+    /// </summary>
     public void NextStep()
     {
         if (_currentCharIndex < _tutorialSteps[_currentStep].Length)
@@ -86,17 +113,34 @@ public class TutorialManager : MonoBehaviour
         }
         else
         {
-            _currentStep++;
+            CanContinue();
+            Debug.Log(_canContinue);
 
-            if (_currentStep >= _tutorialSteps.Length)
+            if (_canContinue)
             {
-                HideTutorialStep();
-            }
-            else
-            {
-                ShowTutorialStep();
+                _currentStep++;
+
+                if (_currentStep >= _tutorialSteps.Length)
+                {
+                    HideTutorialStep();
+                }
+                else
+                {
+                    ShowTutorialStep();
+                }
+
+                _canContinue = false;
             }
         }
+    }
+
+    /// <summary>
+    /// Skip the tutorial
+    /// </summary>
+    public void SkipTutorial()
+    {
+        _currentStep = _tutorialSteps.Length;
+        HideTutorialStep();
     }
 
     void ShowConstructButton()
@@ -121,6 +165,9 @@ public class TutorialManager : MonoBehaviour
         _buttonActions[1].SetActive(true);
     }
 
+    /// <summary>
+    /// Hide the tutorial panel
+    /// </summary>
     public void HideTutorialStep()
     {
         for (int i = 0; i < _buttonActions.Count; i++)
@@ -131,8 +178,72 @@ public class TutorialManager : MonoBehaviour
         _tutorialPanel.SetActive(false);
     }
 
-    public void ShowTutorial()
+    void CanContinue()
     {
-        _tutorialPanel.SetActive(true);
+        for (int i = 0; i < GridManager.Instance.InstantiatedRooms.Count; i++)
+        {
+            switch (_currentStep)
+            {
+                case 2:
+                    if (GridManager.Instance.InstantiatedRooms[i].RoomData.RoomType == RoomType.Research)
+                    {
+                        _roomResearch = GridManager.Instance.InstantiatedRooms[i].gameObject;
+                        _canContinue = true;
+                    }
+                    break;
+                case 3:
+                    if (DirectorRoom.Instance.RoomMain.EmployeeAssign.Count >= 1)
+                    {
+                        _roomDirector = DirectorRoom.Instance.RoomMain.gameObject;
+                        _canContinue = true;
+                    }
+                    break;
+                case 4:
+                    if (_roomResearch.GetComponent<Room>().EmployeeAssign.Count >= 1)
+                    {
+                        _canContinue = true;
+                    }
+                    break;
+                case 5:
+                    _roomResearch.GetComponent<ResearchRoom>().ResearchCompleted += ResearchFinish;
+                    if (_isResearchFinish)
+                    {
+                        _canContinue = true;
+
+                    }
+                    break;
+                case 6:
+                    if (QuestManager.Instance.QuestList.Count >= 1)
+                    {
+                        _canContinue = true;
+                    }
+                    break;
+                case 9:
+                    if (GridManager.Instance.InstantiatedRooms[i].RoomData.RoomType == RoomType.Delivery)
+                    {
+                        _roomDelivery = GridManager.Instance.InstantiatedRooms[i].gameObject;
+                        if(_roomDelivery.GetComponent<Room>().EmployeeAssign.Count >= 1) { _canContinue = true;}
+                    }
+                    break;
+                case 11:
+                    if (GridManager.Instance.InstantiatedRooms[i].RoomData.RoomType == RoomType.Machining)
+                    {
+                        _roomMachining = GridManager.Instance.InstantiatedRooms[i].gameObject;
+                        if (_roomMachining.GetComponent<Room>().EmployeeAssign.Count >= 1) { _canContinue = true; }
+                    }
+                    break;
+                case 16:
+                    // lié a questManager cré un event pour le finish de la quete et ainsi avoir acces à la dernière phrase du tuto
+                    break;
+                default:
+                    _canContinue = true;
+                    break;
+            }
+        }
+    }
+
+    void ResearchFinish()
+    {
+        _isResearchFinish = true;
     }
 }

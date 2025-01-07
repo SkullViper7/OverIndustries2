@@ -96,13 +96,19 @@ public class InteractionManager : MonoBehaviour
                 // or if it's an object with a room component, trigger its event with datas of the room
                 if (hit.collider.TryGetComponent<Employee>(out Employee employee))
                 {
-                    CurrentEmployeeSelected = employee;
-                    EmployeeInteraction?.Invoke(employee);
+                    if (CurrentEmployeeSelected != employee)
+                    {
+                        CurrentEmployeeSelected = employee;
+                        EmployeeInteraction?.Invoke(employee);
+                    }
                 }
                 else if (hit.collider.transform.parent.TryGetComponent<Room>(out Room room))
                 {
-                    CurrentRoomSelected = room;
-                    RoomInteraction?.Invoke(room);
+                    if (CurrentRoomSelected != room)
+                    {
+                        CurrentRoomSelected = room;
+                        RoomInteraction?.Invoke(room);
+                    }
                 }
                 else
                 {
