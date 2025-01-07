@@ -27,6 +27,12 @@ public class UIManager : MonoBehaviour
     public GameObject HUD { get; private set; }
 
     /// <summary>
+    /// Button group for interactions.
+    /// </summary>
+    [field: SerializeField, Tooltip("Button group for interactions.")]
+    public InteractionButtonGroup InteractionButtonGroup { get; private set; }
+
+    /// <summary>
     /// Button to show informations about a room.
     /// </summary>
     [field: SerializeField, Space, Header("Interactions"), Tooltip("Button to show informations about a room.")]
