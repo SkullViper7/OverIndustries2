@@ -6,6 +6,10 @@ using System.Collections.Generic;
 public class TutorialManager : MonoBehaviour
 {
     [SerializeField]
+    private NavigationManager _navigationManager;
+
+    [Header("Tutorial Panel")]
+    [SerializeField]
     private GameObject _tutorialPanel;
     [SerializeField]
     private TextMeshProUGUI _tutoralText;
@@ -22,7 +26,11 @@ public class TutorialManager : MonoBehaviour
     private bool _canContinue = true;
     private bool _isResearchFinish = false;
 
+    //Rooms
     private GameObject _roomResearch;
+    private GameObject _roomDirector;
+    private GameObject _roomDelivery;
+    private GameObject _roomMachining;
 
     void Start()
     {
@@ -52,6 +60,9 @@ public class TutorialManager : MonoBehaviour
                     break;
                 case 3:
                     DesactiveConstructButton();
+                    break;
+                case 5:
+                    //_navigationManager.AutoZoomOrZoomOut(_roomResearch.GetComponent<Room>());
                     break;
                 case 6:
                     ShowCommandeButton();
@@ -183,6 +194,7 @@ public class TutorialManager : MonoBehaviour
                 case 3:
                     if (DirectorRoom.Instance.RoomMain.EmployeeAssign.Count >= 1)
                     {
+                        _roomDirector = DirectorRoom.Instance.RoomMain.gameObject;
                         _canContinue = true;
                     }
                     break;
@@ -209,13 +221,15 @@ public class TutorialManager : MonoBehaviour
                 case 9:
                     if (GridManager.Instance.InstantiatedRooms[i].RoomData.RoomType == RoomType.Delivery)
                     {
-                        _canContinue = true;
+                        _roomDelivery = GridManager.Instance.InstantiatedRooms[i].gameObject;
+                        if(_roomDelivery.GetComponent<Room>().EmployeeAssign.Count >= 1) { _canContinue = true;}
                     }
                     break;
                 case 11:
                     if (GridManager.Instance.InstantiatedRooms[i].RoomData.RoomType == RoomType.Machining)
                     {
-                        _canContinue = true;
+                        _roomMachining = GridManager.Instance.InstantiatedRooms[i].gameObject;
+                        if (_roomMachining.GetComponent<Room>().EmployeeAssign.Count >= 1) { _canContinue = true; }
                     }
                     break;
                 case 16:

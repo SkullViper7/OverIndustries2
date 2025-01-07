@@ -9,7 +9,7 @@ public class AssignEmployeeWarningUI : MonoBehaviour
     [SerializeField] private string _maxEmployeeNotAssign;
     [SerializeField] private string _assignRoomIsFull;
 
-    void Start()
+    public void Start()
     {
         DragAndDrop.Instance.RoomAssignIsFull += ShowWarningMessage;
         GridManager.Instance.GridInitializedEvent += Init;

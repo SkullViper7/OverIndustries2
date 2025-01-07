@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class JobProfileUI : MonoBehaviour
 {
+    // Singleton
+    private static JobProfileUI _instance = null;
+    public static JobProfileUI Instance => _instance;
+
     [Header("UI Reference for hired job profile")]
     [SerializeField] private GameObject _jobProfileHired;
+    [field :SerializeField] public List<GameObject> JobProfileList { get; private set; }
     [SerializeField] private List<TextMeshProUGUI> _employeeNameHired;
     [SerializeField] private List<GameObject> _jobTextParentHired;
 
-    [Header("UI Reference for job profile")]
+    [Space, Header("UI Reference for job profile")]
     [SerializeField] private GameObject _jobProfile;
     [SerializeField] private TextMeshProUGUI _employeeName;
     [SerializeField] private GameObject _jobTextParent;
@@ -31,11 +36,25 @@ public class JobProfileUI : MonoBehaviour
     private List<TextMeshProUGUI> _employee4JobTextList = new List<TextMeshProUGUI>();
     private List<TextMeshProUGUI> _employee5JobTextList = new List<TextMeshProUGUI>();
 
-    /// <summary>
-    /// reference
-    /// </summary>
+    // reference
     private JobProfileGenerator _jobProfileGenerator;
     private DirectorRoom _directorRoom;
+
+    public event System.Action UpdateProfilList;
+
+    private void Awake()
+    {
+        // Singleton
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+        else
+        {
+            _instance = this;
+        }
+    }
 
     public void Start()
     {
@@ -87,53 +106,68 @@ public class JobProfileUI : MonoBehaviour
     /// <summary>
     /// Set job for job profile UI for this employee and show them
     /// </summary>
-    /// <param name="_employeeSelected"></param>
     public void ShowRecrutementProfile()
     {
-        if (DirectorRoom.Instance.RoomMain.EmployeeAssign.Count < DirectorRoom.Instance.RoomMain.RoomData.Capacity)
+        if (_directorRoom.RoomMain.EmployeeAssign.Count < _directorRoom.RoomMain.RoomData.Capacity)
         {
+            ShowName();
+            ShowJob();
+            _jobProfileHired.SetActive(true);
+
             for (int i = 0; i < _directorRoom.RecrutementList.Count; i++)
             {
-                ShowName();
-                ShowJob();
-                _jobProfileHired.SetActive(true);
-
-                SetTextList();
+                _directorRoom.RecrutementList[i].SetActive(true);
+                JobProfileList[i].SetActive(true);
             }
+            SetTextList();
+            UpdateProfilList.Invoke();
         }
     }
 
     /// <summary>
     /// Listen jobProfileGenerator for number of job has this employee
     /// </summary>
-    /// <param name="_jobNumber"></param>
     public void ShowJob()
     {
-        for (int i = 0; i < _directorRoom.RecrutementList[0].GetComponent<Employee>().EmployeeJob.Count; i++)
+        if (_directorRoom.RecrutementList.Count > 0)
         {
-            _employee1JobTextList[i].text = _directorRoom.RecrutementList[0].GetComponent<Employee>().EmployeeJob[i].JobName;
-            _employee1JobTextList[i].gameObject.SetActive(true);
+            for (int i = 0; i < _directorRoom.RecrutementList[0].GetComponent<Employee>().EmployeeJob.Count; i++)
+            {
+                _employee1JobTextList[i].text = _directorRoom.RecrutementList[0].GetComponent<Employee>().EmployeeJob[i].JobName;
+                _employee1JobTextList[i].gameObject.SetActive(true);
+            }
         }
-
-        for (int i = 0; i < _directorRoom.RecrutementList[1].GetComponent<Employee>().EmployeeJob.Count; i++)
+        if (_directorRoom.RecrutementList.Count > 1)
         {
-            _employee2JobTextList[i].text = _directorRoom.RecrutementList[1].GetComponent<Employee>().EmployeeJob[i].JobName;
-            _employee2JobTextList[i].gameObject.SetActive(true);
+            for (int i = 0; i < _directorRoom.RecrutementList[1].GetComponent<Employee>().EmployeeJob.Count; i++)
+            {
+                _employee2JobTextList[i].text = _directorRoom.RecrutementList[1].GetComponent<Employee>().EmployeeJob[i].JobName;
+                _employee2JobTextList[i].gameObject.SetActive(true);
+            }
         }
-        for (int i = 0; i < _directorRoom.RecrutementList[2].GetComponent<Employee>().EmployeeJob.Count; i++)
+        if (_directorRoom.RecrutementList.Count > 2)
         {
-            _employee3JobTextList[i].text = _directorRoom.RecrutementList[2].GetComponent<Employee>().EmployeeJob[i].JobName;
-            _employee3JobTextList[i].gameObject.SetActive(true);
+            for (int i = 0; i < _directorRoom.RecrutementList[2].GetComponent<Employee>().EmployeeJob.Count; i++)
+            {
+                _employee3JobTextList[i].text = _directorRoom.RecrutementList[2].GetComponent<Employee>().EmployeeJob[i].JobName;
+                _employee3JobTextList[i].gameObject.SetActive(true);
+            }
         }
-        for (int i = 0; i < _directorRoom.RecrutementList[3].GetComponent<Employee>().EmployeeJob.Count; i++)
+        if (_directorRoom.RecrutementList.Count > 3)
         {
-            _employee4JobTextList[i].text = _directorRoom.RecrutementList[3].GetComponent<Employee>().EmployeeJob[i].JobName;
-            _employee4JobTextList[i].gameObject.SetActive(true);
+            for (int i = 0; i < _directorRoom.RecrutementList[3].GetComponent<Employee>().EmployeeJob.Count; i++)
+            {
+                _employee4JobTextList[i].text = _directorRoom.RecrutementList[3].GetComponent<Employee>().EmployeeJob[i].JobName;
+                _employee4JobTextList[i].gameObject.SetActive(true);
+            }
         }
-        for (int i = 0; i < _directorRoom.RecrutementList[4].GetComponent<Employee>().EmployeeJob.Count; i++)
+        if (_directorRoom.RecrutementList.Count > 4)
         {
-            _employee5JobTextList[i].text = _directorRoom.RecrutementList[4].GetComponent<Employee>().EmployeeJob[i].JobName;
-            _employee5JobTextList[i].gameObject.SetActive(true);
+            for (int i = 0; i < _directorRoom.RecrutementList[4].GetComponent<Employee>().EmployeeJob.Count; i++)
+            {
+                _employee5JobTextList[i].text = _directorRoom.RecrutementList[4].GetComponent<Employee>().EmployeeJob[i].JobName;
+                _employee5JobTextList[i].gameObject.SetActive(true);
+            }
         }
     }
 
@@ -235,6 +269,7 @@ public class JobProfileUI : MonoBehaviour
         {
             for (int i = 0; i < _directorRoom.RecrutementList[j].GetComponent<Employee>().EmployeeJob.Count; i++)
             {
+                JobProfileList[i].SetActive(false);
                 _employee1JobTextList[i].gameObject.SetActive(false);
                 _employee2JobTextList[i].gameObject.SetActive(false);
                 _employee3JobTextList[i].gameObject.SetActive(false);

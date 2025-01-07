@@ -1,60 +1,104 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class HireEmployee : MonoBehaviour
 {
-    private DirectorRoom _directorRoom;
-    private int _poolEmployeeID;
+    [field: SerializeField] private List<SetButtonHireEmployee> _buttonHireList;
+    [field: SerializeField] private List<SetButtonHireEmployee> _buttonRefuseList;
 
     void Start()
     {
-        _directorRoom = DirectorRoom.Instance;
+        JobProfileUI.Instance.UpdateProfilList += SetButton;
     }
 
     /// <summary>
     /// Give the employee to the button 
     /// </summary>
-    public void SetHireEmployee(int i)
+    public void SetButton()
     {
-        HiredEmployee(_directorRoom.RecrutementList[i].GetComponent<Employee>());
+        int j = 0;
+        for (int i = 0; i < JobProfileUI.Instance.JobProfileList.Count; i++)
+        {
+            if (JobProfileUI.Instance.JobProfileList[i].activeInHierarchy)
+            {
+                _buttonHireList[i].Employee = DirectorRoom.Instance.RecrutementList[j].GetComponent<Employee>();
+                _buttonRefuseList[i].Employee = DirectorRoom.Instance.RecrutementList[j].GetComponent<Employee>();
+                j++;
+            }
+        }
+    }
+
+    public void CheckRoomCapacity(GameObject jobProfile)
+    {
+        if (DirectorRoom.Instance.RoomMain.EmployeeAssign.Count < DirectorRoom.Instance.RoomMain.RoomData.Capacity)
+        {
+            jobProfile.SetActive(false);
+        }
+        else
+        {
+            DirectorRoom.Instance.MaxEmployeeAssign();
+        }
+    }
+
+    /// <summary>
+    /// Start HiredEmployee with button
+    /// </summary>
+    public void HiredEmployeeButton(int i)
+    {
+        HiredEmployee(_buttonHireList[i].Employee);
     }
 
     /// <summary>
     /// Set this new employee
     /// </summary>
-    /// <param name="_employeeToHire"></param>
-    public void HiredEmployee(Employee _employeeToHire)
+    /// <param name="employeeToHire"></param>
+    void HiredEmployee(Employee employeeToHire)
     {
-        _employeeToHire.IsHired = true;
-        _employeeToHire.transform.GetChild(0).gameObject.SetActive(true);
-        EmployeeList.Instance.AddEmployee(_employeeToHire.gameObject);
+        if (DirectorRoom.Instance.RoomMain.EmployeeAssign.Count < DirectorRoom.Instance.RoomMain.RoomData.Capacity)
+        {
+            employeeToHire.IsHired = true;
+            employeeToHire.transform.GetChild(0).gameObject.SetActive(true);
+            EmployeeList.Instance.AddEmployee(employeeToHire.gameObject);
+            DirectorRoom.Instance.RecrutementList.Remove(employeeToHire.gameObject);
 
-        _employeeToHire.AssignRoom = this.gameObject;
-        _directorRoom.RoomMain.EmployeeAssign.Add(_employeeToHire);
+            employeeToHire.AssignRoom = this.gameObject;
+            DirectorRoom.Instance.RoomMain.EmployeeAssign.Add(employeeToHire);
 
-        _employeeToHire.SetEmployee();
+            employeeToHire.SetEmployee();
+
+            SetButton();
+        }
+        else
+        {
+            DirectorRoom.Instance.MaxEmployeeAssign();
+        }
     }
 
-    public void RefuseEmployee(Employee _employee)
+    /// <summary>
+    /// Start refuse employee with button
+    /// </summary>
+    public void RefuseEmployeeButton(int i)
     {
-        ObjectPoolManager.Instance.ReturnObjectToThePool(_poolEmployeeID, _employee.gameObject);
+        RefuseEmployee(_buttonRefuseList[i].Employee);
+    }
+
+    void RefuseEmployee(Employee employee)
+    {
+        employee.EmployeeJob.Clear();
+        employee.gameObject.SetActive(false);
+        employee.EmployeeName = null;
+
+        ObjectPoolManager.Instance.ReturnObjectToThePool(DirectorRoom.Instance.PoolEmployeeID, employee.gameObject);
+        DirectorRoom.Instance.RecrutementList.Remove(employee.gameObject);
+
+        SetButton();
     }
 
     public void CloseHireEmployee()
     {
-        for (int i = 0; i < _directorRoom.RecrutementList.Count; i++)
+        for (int i = 0; i < DirectorRoom.Instance.RecrutementList.Count; i++)
         {
-            if (_directorRoom.RecrutementList[i].GetComponent<Employee>().IsHired == false)
-            {
-
-                Employee employee = _directorRoom.RecrutementList[i].GetComponent<Employee>();
-                employee.EmployeeJob.Clear();
-                employee.gameObject.SetActive(false);
-                employee.EmployeeName = null;
-
-                ObjectPoolManager.Instance.ReturnObjectToThePool(_poolEmployeeID, employee.gameObject);
-            }
+            DirectorRoom.Instance.RecrutementList[i].SetActive(false);
         }
-        _directorRoom.RecrutementList.Clear();
-
     }
 }
