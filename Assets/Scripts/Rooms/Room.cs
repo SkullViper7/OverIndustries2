@@ -36,11 +36,6 @@ public class Room : MonoBehaviour
     private GameObject _currentVisualRoom;
 
     /// <summary>
-    /// Box collider of the room.
-    /// </summary>
-    private BoxCollider _boxCollider;
-
-    /// <summary>
     /// Animator of the door.
     /// </summary>
     private Animator _doorAnimator;
@@ -58,11 +53,6 @@ public class Room : MonoBehaviour
     public event UpgradeDelegate NewLvl;
 
     public event Action OnInitialized;
-
-    private void Awake()
-    {
-        _boxCollider = GetComponent<BoxCollider>();
-    }
 
     /// <summary>
     /// Called at the start to initialize the room.

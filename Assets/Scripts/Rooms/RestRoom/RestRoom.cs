@@ -3,18 +3,14 @@ using UnityEngine;
 public class RestRoom : MonoBehaviour, IRoomBehaviour
 {
     /// <summary>
-    /// Data of the Break room.
+    /// Data of the rest room.
     /// </summary>
-    [field: SerializeField]
     public RestRoomData RestRoomData { get; private set; }
-    public Room _rooms;
-    private Room _roomMain;
 
-    void Start()
-    {
-        InitRoomBehaviour(RestRoomData, gameObject.GetComponent<Room>());
-        _rooms = gameObject.GetComponent<Room>();
-    }
+    /// <summary>
+    /// Reference to the main component of the room.
+    /// </summary>
+    private Room _roomMain;
 
     /// <summary>
     /// Called at the start to initialize the break room.
@@ -24,33 +20,25 @@ public class RestRoom : MonoBehaviour, IRoomBehaviour
         RestRoomData = (RestRoomData)roomBehaviourData;
         _roomMain = roomMain;
 
-        // CheckAdjacentRoom();
+        _roomMain.NewLvl += UpgradeRoom;
     }
 
-    // private void CheckAdjacentRoom()
-    // {
-    //     SpotChecker.Instance.CheckOccupiedSpots();
-
-    //     if (SpotChecker.Instance.OccupiedSpots[(int)_rooms.Coordinates.x, (int)_rooms.Coordinates.y + _rooms.Size] && _rooms.Coordinates.y + _rooms.Size < SpotChecker.Instance.GridSize)
-    //     {
-    //         Debug.Log("Augmente la productivit� de la salle droite");
-    //     }
-    //     if (_rooms.Coordinates.y - _rooms.Size > 0 && SpotChecker.Instance.OccupiedSpots[(int)_rooms.Coordinates.x, (int)_rooms.Coordinates.y - _rooms.Size])
-    //     {
-    //         // augmente la productivit� de la salle
-    //         Debug.Log("Augmente la productivit� de la salle gauche");
-    //     }
-    // }
-
-    public void UpdateRoomBehaviour()
+    /// <summary>
+    /// Called to upgrad some values when the room is upgraded.
+    /// </summary>
+    /// <param name="newLvl"> New lvl of the room. </param>
+    private void UpgradeRoom(int newLvl)
     {
-        switch (_roomMain.CurrentLvl)
+        switch (newLvl)
         {
             case 1:
+                EmployeeManager.Instance.AddCapacity(RestRoomData.CapacityBonusAtLvl1);
                 break;
             case 2:
+                EmployeeManager.Instance.AddCapacity(RestRoomData.CapacityBonusAtLvl2);
                 break;
             case 3:
+                EmployeeManager.Instance.AddCapacity(RestRoomData.CapacityBonusAtLvl3);
                 break;
         }
     }

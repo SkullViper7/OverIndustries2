@@ -14,7 +14,10 @@ public class InteractionButtonGroup : MonoBehaviour
     private void Awake()
     {
         _rectTransform = GetComponent<RectTransform>();
+    }
 
+    private void Start()
+    {
         _startPos = new Vector2(_rectTransform.anchoredPosition.x, -_rectTransform.rect.height);
 
         _rectTransform.anchoredPosition = _startPos;

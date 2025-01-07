@@ -12,6 +12,11 @@ public class AssignEmployeeWarningUI : MonoBehaviour
     void Start()
     {
         DragAndDrop.Instance.RoomAssignIsFull += ShowWarningMessage;
+        GridManager.Instance.GridInitializedEvent += Init;
+    }
+
+    private void Init()
+    {
         DirectorRoom.Instance.MaxAssignEmployee += ShowWarningMessage;
     }
 

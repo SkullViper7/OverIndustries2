@@ -31,13 +31,13 @@ public class PopUpSizeFitter : MonoBehaviour
     [SerializeField, Tooltip("The anchor ratio that the pop up must adopt if the screen size is too small. (X for bottom and Y for top)")]
     private Vector2 _anchorRatio;
 
-    [SerializeField]
     private RectTransform _canvasRectTransform;
 
     private RectTransform _rectTransform;
 
     private void Awake()
     {
+        _canvasRectTransform = GameObject.FindGameObjectWithTag("Canvas").GetComponent<RectTransform>();
         _rectTransform = GetComponent<RectTransform>();
     }
 
