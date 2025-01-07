@@ -181,7 +181,7 @@ public class TutorialManager : MonoBehaviour
                     }
                     break;
                 case 3:
-                    if (DirectorRoom.Instance._roomMain.EmployeeAssign.Count >= 1)
+                    if (DirectorRoom.Instance.RoomMain.EmployeeAssign.Count >= 1)
                     {
                         _canContinue = true;
                     }
