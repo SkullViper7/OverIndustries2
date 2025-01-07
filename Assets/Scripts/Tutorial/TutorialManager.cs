@@ -27,7 +27,6 @@ public class TutorialManager : MonoBehaviour
     void Start()
     {
         ShowTutorialStep();
-        _roomResearch.GetComponent<ResearchRoom>().ResearchCompleted += ResearchFinish;
 
         for (int i = 0; i < _buttonActions.Count; i++)
         {
@@ -57,7 +56,7 @@ public class TutorialManager : MonoBehaviour
                 case 6:
                     ShowCommandeButton();
                     break;
-                case 8: 
+                case 8:
                     ShowStorage();
                     break;
                 case 9:
@@ -194,6 +193,7 @@ public class TutorialManager : MonoBehaviour
                     }
                     break;
                 case 5:
+                    _roomResearch.GetComponent<ResearchRoom>().ResearchCompleted += ResearchFinish;
                     if (_isResearchFinish)
                     {
                         _canContinue = true;
@@ -201,16 +201,30 @@ public class TutorialManager : MonoBehaviour
                     }
                     break;
                 case 6:
-                    if(QuestManager.Instance.QuestList.Count >= 1)
+                    if (QuestManager.Instance.QuestList.Count >= 1)
                     {
                         _canContinue = true;
                     }
+                    break;
+                case 9:
+                    if (GridManager.Instance.InstantiatedRooms[i].RoomData.RoomType == RoomType.Delivery)
+                    {
+                        _canContinue = true;
+                    }
+                    break;
+                case 11:
+                    if (GridManager.Instance.InstantiatedRooms[i].RoomData.RoomType == RoomType.Machining)
+                    {
+                        _canContinue = true;
+                    }
+                    break;
+                case 16:
+                    // lié a questManager cré un event pour le finish de la quete et ainsi avoir acces à la dernière phrase du tuto
                     break;
                 default:
                     _canContinue = true;
                     break;
             }
-
         }
     }
 
