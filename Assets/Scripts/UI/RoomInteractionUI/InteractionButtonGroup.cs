@@ -25,7 +25,7 @@ public class InteractionButtonGroup : MonoBehaviour
         HideButtons();
 
         _showButtonsSequence = DOTween.Sequence();
-        _showButtonsSequence.Append(_rectTransform.DOAnchorPos(_startPos, _time)).SetEase(Ease.InExpo).OnComplete(() =>
+        _showButtonsSequence.Append(_rectTransform.DOAnchorPos(new Vector2(_rectTransform.anchoredPosition.x, 0), _time)).SetEase(Ease.InExpo).OnComplete(() =>
         {
             CancelSequence();
         });
@@ -35,7 +35,7 @@ public class InteractionButtonGroup : MonoBehaviour
     {
         CancelSequence();
 
-        _rectTransform.anchoredPosition = new Vector2(_rectTransform.anchoredPosition.x, 0);
+        _rectTransform.anchoredPosition = _startPos;
     }
 
     /// <summary>

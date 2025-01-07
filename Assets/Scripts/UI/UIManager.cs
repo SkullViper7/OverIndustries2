@@ -75,12 +75,6 @@ public class UIManager : MonoBehaviour
     public GameObject InfoEmployeeButton { get; private set; }
 
     /// <summary>
-    /// Button to move this employee.
-    /// </summary>
-    [field: SerializeField, Tooltip("Button to move this employee.")]
-    public GameObject MoveEmployeeButton { get; private set; }
-
-    /// <summary>
     /// The pop up which displays room infos.
     /// </summary>
     [field: SerializeField, Space, Tooltip("The pop up which displays room infos.")]

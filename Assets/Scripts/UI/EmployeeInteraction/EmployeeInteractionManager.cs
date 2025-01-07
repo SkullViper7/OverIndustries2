@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EmployeeInteraction : MonoBehaviour
+public class EmployeeInteractionManager : MonoBehaviour
 {
     /// <summary>
     /// A reference to the interaction manager.
@@ -33,7 +33,9 @@ public class EmployeeInteraction : MonoBehaviour
     {
         _currentEmployeeSelected = employee;
         _uiManager.InfoEmployeeButton.SetActive(true);
-        _uiManager.MoveEmployeeButton.SetActive(true);
+
+        // Play animation
+        _uiManager.InteractionButtonGroup.ShowButtons();
     }
 
     /// <summary>
@@ -57,7 +59,8 @@ public class EmployeeInteraction : MonoBehaviour
     /// </summary>
     private void DesactivateAllButtons()
     {
+        _uiManager.InteractionButtonGroup.HideButtons();
+
         _uiManager.InfoEmployeeButton.SetActive(false);
-        _uiManager.MoveEmployeeButton.SetActive(false);
     }
 }
