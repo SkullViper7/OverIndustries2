@@ -54,10 +54,10 @@ public class QuestManager : MonoBehaviour
     {
         if (QuestList.Count > 0 && MaxCurrentQuest > CurrentQuestList.Count)
         {
-            _newQuest = Instantiate(_defaultQuest.GetComponent<Quest>(), _questContainer);
+            _newQuest = _defaultQuest.GetComponent<Quest>();
 
             int randomQuest = Random.Range(0, QuestList.Count);
-            _newQuest.GiveQuest(QuestList[randomQuest]);
+            _newQuest.QuestData = QuestList[randomQuest];
 
             for (int a = 0; a < _newQuest.QuestData.Objects.Count; a++)
             {
@@ -117,17 +117,29 @@ public class QuestManager : MonoBehaviour
         {
             for (int j = 0; j < CurrentQuestList[i].QuestData.Objects.Count; j++)
             {
-                if (CurrentQuestList[i].QuestData.Objects.Count > 1 && j == 0 && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Objects[j]) >= CurrentQuestList[i].QuestData.NumberOfObject[j] && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Objects[j + 1]) >= CurrentQuestList[i].QuestData.NumberOfObject[j + 1])
+                if (CurrentQuestList[i].QuestData.Objects.Count > 1 
+                    && j == 0 && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Objects[j]) 
+                    >= CurrentQuestList[i].QuestData.NumberOfObject[j] 
+                    && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Objects[j + 1]) 
+                    >= CurrentQuestList[i].QuestData.NumberOfObject[j + 1])
                 {
                     QuestComplited.Invoke(i);
                     ScoreManager.Instance.AddPS(CurrentQuestList[i].QuestData.PSWin);
                 }
-                if (CurrentQuestList[i].QuestData.Objects.Count > 2 && j == 0 && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Objects[j]) >= CurrentQuestList[i].QuestData.NumberOfObject[j] && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Objects[j + 1]) >= CurrentQuestList[i].QuestData.NumberOfObject[j + 1] && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Objects[j + 2]) >= CurrentQuestList[i].QuestData.NumberOfObject[j + 2])
+                if (CurrentQuestList[i].QuestData.Objects.Count > 2 
+                    && j == 0 && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Objects[j]) 
+                    >= CurrentQuestList[i].QuestData.NumberOfObject[j] 
+                    && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Objects[j + 1]) 
+                    >= CurrentQuestList[i].QuestData.NumberOfObject[j + 1] 
+                    && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Objects[j + 2]) 
+                    >= CurrentQuestList[i].QuestData.NumberOfObject[j + 2])
                 {
                     QuestComplited.Invoke(i);
                     ScoreManager.Instance.AddPS(CurrentQuestList[i].QuestData.PSWin);
                 }
-                if (CurrentQuestList[i].QuestData.Objects.Count == 1 && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Objects[j]) >= CurrentQuestList[i].QuestData.NumberOfObject[j])
+                if (CurrentQuestList[i].QuestData.Objects.Count == 1 
+                    && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].QuestData.Objects[j])
+                    >= CurrentQuestList[i].QuestData.NumberOfObject[j])
                 {
                     QuestComplited.Invoke(i);
                     ScoreManager.Instance.AddPS(CurrentQuestList[i].QuestData.PSWin);
@@ -148,17 +160,29 @@ public class QuestManager : MonoBehaviour
         {
             for (int j = 0; j < CurrentQuestList[i].QuestData.Component.Count; j++)
             {
-                if (CurrentQuestList[i].QuestData.Component.Count > 1 && j == 0 && ItemStorage.Instance.ReturnNumberOfThisComponent(CurrentQuestList[i].QuestData.Component[j]) >= CurrentQuestList[i].QuestData.NumberOfComponent[j] && ItemStorage.Instance.ReturnNumberOfThisComponent(CurrentQuestList[i].QuestData.Component[j + 1]) >= CurrentQuestList[i].QuestData.NumberOfComponent[j + 1])
+                if (CurrentQuestList[i].QuestData.Component.Count > 1 && j == 0 && 
+                    ItemStorage.Instance.ReturnNumberOfThisComponent(CurrentQuestList[i].QuestData.Component[j]) 
+                    >= CurrentQuestList[i].QuestData.NumberOfComponent[j] && 
+                    ItemStorage.Instance.ReturnNumberOfThisComponent(CurrentQuestList[i].QuestData.Component[j + 1]) 
+                    >= CurrentQuestList[i].QuestData.NumberOfComponent[j + 1])
                 {
                     QuestComplited.Invoke(i);
                     ScoreManager.Instance.AddPS(CurrentQuestList[i].QuestData.PSWin);
                 }
-                if (CurrentQuestList[i].QuestData.Component.Count > 2 && j == 0 && ItemStorage.Instance.ReturnNumberOfThisComponent(CurrentQuestList[i].QuestData.Component[j]) >= CurrentQuestList[i].QuestData.NumberOfComponent[j] && ItemStorage.Instance.ReturnNumberOfThisComponent(CurrentQuestList[i].QuestData.Component[j + 1]) >= CurrentQuestList[i].QuestData.NumberOfComponent[j + 1] && ItemStorage.Instance.ReturnNumberOfThisComponent(CurrentQuestList[i].QuestData.Component[j + 2]) >= CurrentQuestList[i].QuestData.NumberOfComponent[j + 2])
+                if (CurrentQuestList[i].QuestData.Component.Count > 2 && j == 0 && 
+                    ItemStorage.Instance.ReturnNumberOfThisComponent(CurrentQuestList[i].QuestData.Component[j]) 
+                    >= CurrentQuestList[i].QuestData.NumberOfComponent[j] 
+                    && ItemStorage.Instance.ReturnNumberOfThisComponent(CurrentQuestList[i].QuestData.Component[j + 1]) 
+                    >= CurrentQuestList[i].QuestData.NumberOfComponent[j + 1] 
+                    && ItemStorage.Instance.ReturnNumberOfThisComponent(CurrentQuestList[i].QuestData.Component[j + 2]) 
+                    >= CurrentQuestList[i].QuestData.NumberOfComponent[j + 2])
                 {
                     QuestComplited.Invoke(i);
                     ScoreManager.Instance.AddPS(CurrentQuestList[i].QuestData.PSWin);
                 }
-                if (CurrentQuestList[i].QuestData.Component.Count == 1 && ItemStorage.Instance.ReturnNumberOfThisComponent(CurrentQuestList[i].QuestData.Component[j]) >= CurrentQuestList[i].QuestData.NumberOfComponent[j])
+                if (CurrentQuestList[i].QuestData.Component.Count == 1 
+                    && ItemStorage.Instance.ReturnNumberOfThisComponent(CurrentQuestList[i].QuestData.Component[j]) 
+                    >= CurrentQuestList[i].QuestData.NumberOfComponent[j])
                 {
                     QuestComplited.Invoke(i);
                     ScoreManager.Instance.AddPS(CurrentQuestList[i].QuestData.PSWin);
