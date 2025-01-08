@@ -67,12 +67,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OuterPointSet: 1
-  OuterPoint: {x: 12, y: 1.87, z: -4}
-  OuterPointDistance: 40.645294
+  OuterPoint: {x: 0, y: 1.87, z: -4}
+  OuterPointDistance: 6
   isHollow: 0
   InnerPointSet: 1
-  InnerPoint: {x: 12, y: 1.87, z: -4}
-  InnerPointDistance: 40.645294
+  InnerPoint: {x: 0, y: 1.87, z: -4}
+  InnerPointDistance: 6
   InnerPointInside: 0
   boxCollider: {fileID: 5565031965141447464}
   center: {x: 6, y: 2, z: -2}
@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 4712151179962101581}
   - component: {fileID: 2400009917980145417}
   - component: {fileID: 2051464940439400187}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: InteractPoint
   m_TagString: InteractPoint
   m_Icon: {fileID: 0}
@@ -201,7 +201,7 @@ Transform:
   m_GameObject: {fileID: 4301650720081991015}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 12, y: 1.87, z: -4}
+  m_LocalPosition: {x: 0, y: 1.87, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -403,7 +403,7 @@ GameObject:
   - component: {fileID: 305522737211050201}
   - component: {fileID: 4441222390018650349}
   - component: {fileID: 4808424964264767049}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: InteractPoint (2)
   m_TagString: InteractPoint
   m_Icon: {fileID: 0}
@@ -640,7 +640,7 @@ GameObject:
   - component: {fileID: 1836061045990713282}
   - component: {fileID: 7506414121783555880}
   - component: {fileID: 5703884211403366696}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: InteractPoint (1)
   m_TagString: InteractPoint
   m_Icon: {fileID: 0}
@@ -736,7 +736,7 @@ GameObject:
   - component: {fileID: 6448988796099541281}
   - component: {fileID: 7024621731593543110}
   - component: {fileID: 1372230681112126073}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: RoomAssembly_002_NavMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}

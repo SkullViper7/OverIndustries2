@@ -107,12 +107,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OuterPointSet: 1
-  OuterPoint: {x: 12, y: 1.87, z: -4}
-  OuterPointDistance: 40.645294
+  OuterPoint: {x: 0, y: 1.87, z: -4}
+  OuterPointDistance: 6
   isHollow: 0
   InnerPointSet: 1
-  InnerPoint: {x: 12, y: 1.87, z: -4}
-  InnerPointDistance: 40.645294
+  InnerPoint: {x: 0, y: 1.87, z: -4}
+  InnerPointDistance: 6
   InnerPointInside: 0
   boxCollider: {fileID: 1975655201018980739}
   center: {x: 6, y: 2, z: -2}
@@ -147,7 +147,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4338050700129293600}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: NavMeshObstacle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -186,7 +186,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7279968442933605845}
   - component: {fileID: 744114665830060435}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: NavMesh_Obstacle (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -514,7 +514,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5953407307637121345}
   - component: {fileID: 3017406588570976933}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: NavMesh_Obstacle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -562,7 +562,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5104860389199142609}
   - component: {fileID: 4220626768354288286}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: NavMesh_Obstacle (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -610,7 +610,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5524277889036760825}
   - component: {fileID: 8954727785551413296}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: NavMesh_Obstacle (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -660,7 +660,7 @@ GameObject:
   - component: {fileID: 5381905641606348780}
   - component: {fileID: 5045258383048055865}
   - component: {fileID: 596426499081532210}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: InteractPoint (5)
   m_TagString: InteractPoint
   m_Icon: {fileID: 0}
@@ -1037,7 +1037,7 @@ GameObject:
   - component: {fileID: 1884486171664537921}
   - component: {fileID: 8260011918934829245}
   - component: {fileID: 2422788644388783259}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: InteractPoint (3)
   m_TagString: InteractPoint
   m_Icon: {fileID: 0}
@@ -1134,7 +1134,7 @@ GameObject:
   - component: {fileID: 954393151237105601}
   - component: {fileID: 908173174851675149}
   - component: {fileID: 6496074107962983495}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: InteractPoint (2)
   m_TagString: InteractPoint
   m_Icon: {fileID: 0}
@@ -1369,7 +1369,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7872746465335767040}
   - component: {fileID: 7466839187682355444}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: NavMesh_Obstacle (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1419,7 +1419,7 @@ GameObject:
   - component: {fileID: 2181704542918617269}
   - component: {fileID: 8542099782206068236}
   - component: {fileID: 926971298617692646}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: InteractPoint (1)
   m_TagString: InteractPoint
   m_Icon: {fileID: 0}
@@ -1514,7 +1514,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7237023679436215424}
   - component: {fileID: 5225243186139215937}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: NavMesh_Obstacle (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1704,7 +1704,7 @@ GameObject:
   - component: {fileID: 6851659301676522609}
   - component: {fileID: 4172861191473361596}
   - component: {fileID: 7828868781192422211}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: InteractPoint
   m_TagString: InteractPoint
   m_Icon: {fileID: 0}
@@ -1801,7 +1801,7 @@ GameObject:
   - component: {fileID: 3893825544955150108}
   - component: {fileID: 8325687196182161620}
   - component: {fileID: 7884146382176035210}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: InteractPoint (4)
   m_TagString: InteractPoint
   m_Icon: {fileID: 0}
@@ -1896,7 +1896,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8143813823900816471}
   - component: {fileID: 6812532190368559300}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: NavMesh_Obstacle (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1945,7 +1945,7 @@ GameObject:
   - component: {fileID: 5567370510819766556}
   - component: {fileID: 1784022993003215162}
   - component: {fileID: 1598233054429626102}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: RoomDelivery_003_NavMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2046,7 +2046,7 @@ Transform:
   m_GameObject: {fileID: 7056751578804140890}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 12, y: 1.87, z: -4}
+  m_LocalPosition: {x: 0, y: 1.87, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

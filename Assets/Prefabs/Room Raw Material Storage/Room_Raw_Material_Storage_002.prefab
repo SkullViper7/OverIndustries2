@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6719981861169582641}
   - component: {fileID: 1004439680284621201}
   - component: {fileID: 683130805874932125}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: RoomRawMaterial_002_NavMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 8948771713167307306}
   - component: {fileID: 6467943469208679753}
   - component: {fileID: 6455460016192157241}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: InteractPoint (1)
   m_TagString: InteractPoint
   m_Icon: {fileID: 0}
@@ -192,7 +192,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2425220045086289953}
   - component: {fileID: 7908628599707453970}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: NavMesh_Obstacle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -240,7 +240,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7248186790894674849}
   - component: {fileID: 9042945003101997503}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: NavMesh_Obstacle (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -305,7 +305,7 @@ Transform:
   m_GameObject: {fileID: 3175286073364581913}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 12, y: 1.87, z: -4}
+  m_LocalPosition: {x: 0, y: 1.87, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -507,7 +507,7 @@ GameObject:
   - component: {fileID: 273114817868028363}
   - component: {fileID: 2877216318125953718}
   - component: {fileID: 5719023023439234511}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: InteractPoint (3)
   m_TagString: InteractPoint
   m_Icon: {fileID: 0}
@@ -601,7 +601,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8192101427051720354}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: NavMeshObstacle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -736,12 +736,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OuterPointSet: 1
-  OuterPoint: {x: 12, y: 1.87, z: -4}
-  OuterPointDistance: 40.645294
+  OuterPoint: {x: 0, y: 1.87, z: -4}
+  OuterPointDistance: 6
   isHollow: 0
   InnerPointSet: 1
-  InnerPoint: {x: 12, y: 1.87, z: -4}
-  InnerPointDistance: 40.645294
+  InnerPoint: {x: 0, y: 1.87, z: -4}
+  InnerPointDistance: 6
   InnerPointInside: 0
   boxCollider: {fileID: 3714767637644171489}
   center: {x: 6, y: 2, z: -2}
@@ -919,7 +919,7 @@ GameObject:
   - component: {fileID: 6886585721047108061}
   - component: {fileID: 6582856830015692695}
   - component: {fileID: 2577288444758687241}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: InteractPoint
   m_TagString: InteractPoint
   m_Icon: {fileID: 0}
@@ -1016,7 +1016,7 @@ GameObject:
   - component: {fileID: 3184736245836596295}
   - component: {fileID: 1021936475696163322}
   - component: {fileID: 2876377306427272233}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: InteractPoint (2)
   m_TagString: InteractPoint
   m_Icon: {fileID: 0}
