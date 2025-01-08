@@ -15,9 +15,7 @@ public class JobProfileGenerator : MonoBehaviour
     private string _name;
     private int _numberOfJob;
     private Employee _employeeGenerate;
-
-    [field: SerializeField] public float PourcentageHasTwoJob { get; private set; }
-    [field: SerializeField] public float PourcentageHasThreeJob { get; private set; }
+    private DirectorRoom _directorRoom;
 
     private void Awake()
     {
@@ -33,11 +31,23 @@ public class JobProfileGenerator : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        GridManager.Instance.GridInitializedEvent += GetDirectorRoom;
+    }
+    private void GetDirectorRoom()
+    {
+        _directorRoom = DirectorRoom.Instance;
+    }
+
     /// <summary>
     /// Generate random name + random number of jobs
     /// </summary>
     public void GenerateProfile(Employee employee)
     {
+        Debug.Log("two "+_directorRoom.PourcentageHasTwoJob);
+        Debug.Log("three "+_directorRoom.PourcentageHasThreeJob);
+
         _employeeGenerate = employee;
         ResetForNewProfile();
 
@@ -48,12 +58,12 @@ public class JobProfileGenerator : MonoBehaviour
 
         //Calcule pourcentage d'avoir tant de jobs
         int k = Random.Range(0, 100);
-        if (k < PourcentageHasThreeJob)
+        if (k < _directorRoom.PourcentageHasThreeJob)
         {
             _numberOfJob = 3;
             RandomJob(_numberOfJob);
         }
-        else if (k < PourcentageHasTwoJob)
+        else if (k < _directorRoom.PourcentageHasTwoJob)
         {
             _numberOfJob = 2;
             RandomJob(_numberOfJob);

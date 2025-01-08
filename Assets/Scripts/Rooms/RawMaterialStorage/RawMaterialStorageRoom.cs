@@ -28,7 +28,6 @@ public class RawMaterialStorageRoom : MonoBehaviour, IRoomBehaviour
         _roomMain = roomMain;
 
         IncreaseStorageCapacity(1);
-
         _roomMain.NewLvl += IncreaseStorageCapacity;
     }
 

@@ -16,6 +16,10 @@ public class DirectorRoom : MonoBehaviour, IRoomBehaviour
     public int PoolEmployeeID { get; private set; }
     private GameObject _newEmployee;
 
+    //Value number of jobs
+    public int PourcentageHasTwoJob {  get; private set; }
+    public int PourcentageHasThreeJob {  get; private set; }
+
     //Wait create new employee
     private int secondSinceCreateEmployee;
     [field: SerializeField] public List<GameObject> RecrutementList { get; private set; } = new List<GameObject>();
@@ -39,6 +43,9 @@ public class DirectorRoom : MonoBehaviour, IRoomBehaviour
     {
         DirectorRoomData = (DirectorRoomData)roomBehaviourData;
         RoomMain = roomMain;
+
+        UpdateDirectorRoom(1);
+        RoomMain.NewLvl += UpdateDirectorRoom;
     }
 
     public void Start()
@@ -63,6 +70,9 @@ public class DirectorRoom : MonoBehaviour, IRoomBehaviour
         }
     }
 
+    /// <summary>
+    /// Instanciate a new employee and call job profile generator
+    /// </summary>
     public void CreateEmployee()
     {
         if (RoomMain.EmployeeAssign.Count < RoomMain.RoomData.Capacity)
@@ -80,5 +90,24 @@ public class DirectorRoom : MonoBehaviour, IRoomBehaviour
     public void MaxEmployeeAssign()
     {
         MaxAssignEmployee.Invoke(RoomMain);
+    }
+
+    private void UpdateDirectorRoom(int newLvl)
+    {
+        switch(newLvl)
+        {
+            case 1:
+                PourcentageHasTwoJob = DirectorRoomData.PourcentageHasTwoJobAtLvl1;
+                PourcentageHasThreeJob = DirectorRoomData.PourcentageHasThreeJobAtLvl1;
+                break;
+            case 2:
+                PourcentageHasTwoJob = DirectorRoomData.PourcentageHasTwoJobAtLvl2;
+                PourcentageHasThreeJob = DirectorRoomData.PourcentageHasThreeJobAtLvl2;
+                break;
+            case 3:
+                PourcentageHasTwoJob = DirectorRoomData.PourcentageHasTwoJobAtLvl3;
+                PourcentageHasThreeJob = DirectorRoomData.PourcentageHasThreeJobAtLvl3;
+                break;
+        }
     }
 }
