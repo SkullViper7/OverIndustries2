@@ -79,7 +79,6 @@ public class Employee : MonoBehaviour
             if (AssignRoom != null)
             {
                 _animator.SetBool("Assign", true);
-
                 for (int i = 0; i < AssignRoom.transform.GetChild(0).gameObject.transform.childCount; i++)
                 {
                     if (AssignRoom.transform.GetChild(0).GetChild(i).tag == "InteractPoint")

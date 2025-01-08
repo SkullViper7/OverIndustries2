@@ -61,7 +61,7 @@ public class HireEmployee : MonoBehaviour
             EmployeeList.Instance.AddEmployee(employeeToHire.gameObject);
             DirectorRoom.Instance.RecrutementList.Remove(employeeToHire.gameObject);
 
-            employeeToHire.AssignRoom = this.gameObject;
+            employeeToHire.AssignRoom = DirectorRoom.Instance.gameObject;
             DirectorRoom.Instance.RoomMain.EmployeeAssign.Add(employeeToHire);
 
             employeeToHire.SetEmployee();
