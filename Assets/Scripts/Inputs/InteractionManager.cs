@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using static UnityEditor.Recorder.OutputPath;
 
 public class InteractionManager : MonoBehaviour
 {
@@ -74,47 +75,39 @@ public class InteractionManager : MonoBehaviour
     /// </summary>
     private void FindTarget()
     {
-        if (!IsPointerOverUI(Touchscreen.current.primaryTouch.position.ReadValue()))
+        // Get the touch position on the screen and set its z-coordinate to the camera's distance
+        Vector3 touchPosition = Touchscreen.current.primaryTouch.position.ReadValue();
+        touchPosition.z = Mathf.Abs(Camera.main.transform.position.z);
+
+        // Calculate the direction from the camera to the touch position in world space
+        Vector3 direction = new Vector3(Camera.main.ScreenToWorldPoint(touchPosition).x - Camera.main.transform.position.x,
+                                        Camera.main.ScreenToWorldPoint(touchPosition).y - Camera.main.transform.position.y,
+                                        Camera.main.ScreenToWorldPoint(touchPosition).z - Camera.main.transform.position.z).normalized;
+
+        Debug.DrawRay(Camera.main.transform.position, direction * 100f, Color.green, 1000f);
+
+        RaycastHit hit;
+        // Cast a ray from the camera in the calculated direction and check for hits
+        if (Physics.Raycast(Camera.main.transform.position, direction, out hit, 1000))
         {
-            RaycastHit hit;
-
-            // Get the touch position on the screen and set its z-coordinate to the camera's distance
-            Vector3 touchPosition = Touchscreen.current.primaryTouch.position.ReadValue();
-            touchPosition.z = Mathf.Abs(Camera.main.transform.position.z);
-
-            // Calculate the direction from the camera to the touch position in world space
-            Vector3 direction = new Vector3(Camera.main.ScreenToWorldPoint(touchPosition).x - Camera.main.transform.position.x,
-                                            Camera.main.ScreenToWorldPoint(touchPosition).y - Camera.main.transform.position.y,
-                                            Camera.main.ScreenToWorldPoint(touchPosition).z - Camera.main.transform.position.z).normalized;
-
-            // Cast a ray from the camera in the calculated direction and check for hits
-            if (Physics.Raycast(Camera.main.transform.position, direction, out hit, 200))
+            // If the ray hits an object with an employee component, trigger its event with datas of the employee
+            // or if it's an object with a room component, trigger its event with datas of the room
+            if (hit.collider.TryGetComponent<Employee>(out Employee employee))
             {
-                //Debug.DrawRay(Camera.main.transform.position, direction * 100f, Color.green, 1000f);
-
-                // If the ray hits an object with an employee component, trigger its event with datas of the employee
-                // or if it's an object with a room component, trigger its event with datas of the room
-                if (hit.collider.TryGetComponent<Employee>(out Employee employee))
-                {
-                    if (CurrentEmployeeSelected != employee)
-                    {
-                        CurrentEmployeeSelected = employee;
-                        EmployeeInteraction?.Invoke(employee);
-                    }
-                }
-                else if (hit.collider.transform.parent.TryGetComponent<Room>(out Room room))
-                {
-                    if (CurrentRoomSelected != room)
-                    {
-                        CurrentRoomSelected = room;
-                        RoomInteraction?.Invoke(room);
-                    }
-                }
-                else
+                if (CurrentEmployeeSelected != employee)
                 {
                     CurrentRoomSelected = null;
+                    CurrentEmployeeSelected = employee;
+                    EmployeeInteraction?.Invoke(employee);
+                }
+            }
+            else if (hit.collider.transform.parent.TryGetComponent<Room>(out Room room))
+            {
+                if (CurrentRoomSelected != room)
+                {
                     CurrentEmployeeSelected = null;
-                    NoInteraction?.Invoke();
+                    CurrentRoomSelected = room;
+                    RoomInteraction?.Invoke(room);
                 }
             }
             else
@@ -124,40 +117,36 @@ public class InteractionManager : MonoBehaviour
                 NoInteraction?.Invoke();
             }
         }
+        else
+        {
+            CurrentRoomSelected = null;
+            CurrentEmployeeSelected = null;
+            NoInteraction?.Invoke();
+        }
     }
 
     public void FindDragAndDropTarget()
     {
-        if (!IsPointerOverUI(Touchscreen.current.primaryTouch.position.ReadValue()))
+        // Get the touch position on the screen and set its z-coordinate to the camera's distance
+        Vector3 touchPosition = Touchscreen.current.primaryTouch.position.ReadValue();
+        touchPosition.z = Mathf.Abs(Camera.main.transform.position.z);
+
+        // Calculate the direction from the camera to the touch position in world space
+        Vector3 direction = new Vector3(Camera.main.ScreenToWorldPoint(touchPosition).x - Camera.main.transform.position.x,
+                                        Camera.main.ScreenToWorldPoint(touchPosition).y - Camera.main.transform.position.y,
+                                        Camera.main.ScreenToWorldPoint(touchPosition).z - Camera.main.transform.position.z).normalized;
+
+        RaycastHit hit;
+        // Cast a ray from the camera in the calculated direction and check for hits
+        if (Physics.Raycast(Camera.main.transform.position, direction, out hit, 1000))
         {
-            RaycastHit hit;
-
-            // Get the touch position on the screen and set its z-coordinate to the camera's distance
-            Vector3 touchPosition = Touchscreen.current.primaryTouch.position.ReadValue();
-            touchPosition.z = Mathf.Abs(Camera.main.transform.position.z);
-
-            // Calculate the direction from the camera to the touch position in world space
-            Vector3 direction = new Vector3(Camera.main.ScreenToWorldPoint(touchPosition).x - Camera.main.transform.position.x,
-                                            Camera.main.ScreenToWorldPoint(touchPosition).y - Camera.main.transform.position.y,
-                                            Camera.main.ScreenToWorldPoint(touchPosition).z - Camera.main.transform.position.z).normalized;
-
-            // Cast a ray from the camera in the calculated direction and check for hits
-            if (Physics.Raycast(Camera.main.transform.position, direction, out hit, 200))
+            // If the ray hits an object with an employee component, trigger its event with datas of the employee
+            // or if it's an object with a room component, trigger its event with datas of the room
+            if (hit.collider.TryGetComponent<Employee>(out Employee employee))
             {
-                // If the ray hits an object with an employee component, trigger its event with datas of the employee
-                // or if it's an object with a room component, trigger its event with datas of the room
-                if (hit.collider.TryGetComponent<Employee>(out Employee employee))
-                {
-                    CurrentEmployeeSelected = employee;
-                    employee.StopRoutine();
-                    EmployeeDragAndDrop?.Invoke(employee);
-                }
-                else
-                {
-                    CurrentRoomSelected = null;
-                    CurrentEmployeeSelected = null;
-                    NoInteraction?.Invoke();
-                }
+                CurrentEmployeeSelected = employee;
+                employee.StopRoutine();
+                EmployeeDragAndDrop?.Invoke(employee);
             }
             else
             {
@@ -165,6 +154,12 @@ public class InteractionManager : MonoBehaviour
                 CurrentEmployeeSelected = null;
                 NoInteraction?.Invoke();
             }
+        }
+        else
+        {
+            CurrentRoomSelected = null;
+            CurrentEmployeeSelected = null;
+            NoInteraction?.Invoke();
         }
     }
 
@@ -173,33 +168,32 @@ public class InteractionManager : MonoBehaviour
     /// </summary>
     private void FindDoubleTapTarget()
     {
-        if (!IsPointerOverUI(Touchscreen.current.primaryTouch.position.ReadValue()))
+        // Get the touch position on the screen and set its z-coordinate to the camera's distance
+        Vector3 touchPosition = Touchscreen.current.primaryTouch.position.ReadValue();
+        touchPosition.z = Mathf.Abs(Camera.main.transform.position.z);
+
+        // Calculate the direction from the camera to the touch position in world space
+        Vector3 direction = new Vector3(Camera.main.ScreenToWorldPoint(touchPosition).x - Camera.main.transform.position.x,
+                                        Camera.main.ScreenToWorldPoint(touchPosition).y - Camera.main.transform.position.y,
+                                        Camera.main.ScreenToWorldPoint(touchPosition).z - Camera.main.transform.position.z).normalized;
+
+        RaycastHit hit;
+        // Cast a ray from the camera in the calculated direction and check for hits
+        if (Physics.Raycast(Camera.main.transform.position, direction, out hit, 1000))
         {
-            RaycastHit hit;
-
-            // Get the touch position on the screen and set its z-coordinate to the camera's distance
-            Vector3 touchPosition = Touchscreen.current.primaryTouch.position.ReadValue();
-            touchPosition.z = Mathf.Abs(Camera.main.transform.position.z);
-
-            // Calculate the direction from the camera to the touch position in world space
-            Vector3 direction = new Vector3(Camera.main.ScreenToWorldPoint(touchPosition).x - Camera.main.transform.position.x,
-                                            Camera.main.ScreenToWorldPoint(touchPosition).y - Camera.main.transform.position.y,
-                                            Camera.main.ScreenToWorldPoint(touchPosition).z - Camera.main.transform.position.z).normalized;
-
-            // Cast a ray from the camera in the calculated direction and check for hits
-            if (Physics.Raycast(Camera.main.transform.position, direction, out hit, 200))
+            // If the ray hits an object with a room component, trigger its event with datas of the room
+            if (hit.collider.transform.parent.TryGetComponent<Room>(out Room room))
             {
-                // If the ray hits an object with a room component, trigger its event with datas of the room
-                if (hit.collider.transform.parent.TryGetComponent<Room>(out Room room))
+                if (room == CurrentRoomSelected)
                 {
-                    CurrentRoomSelected = room;
+                    CurrentEmployeeSelected = null;
                     RoomDoubleTap?.Invoke(room);
                 }
                 else
                 {
-                    CurrentRoomSelected = null;
                     CurrentEmployeeSelected = null;
-                    NoInteraction?.Invoke();
+                    CurrentRoomSelected = room;
+                    RoomInteraction?.Invoke(room);
                 }
             }
             else
@@ -209,23 +203,11 @@ public class InteractionManager : MonoBehaviour
                 NoInteraction?.Invoke();
             }
         }
-    }
-
-    /// <summary>
-    /// Called to checks if the start of the input is not over a UI element.
-    /// </summary>
-    /// <param name="screenPosition"> Position of the start of the input. </param>
-    /// <returns></returns>
-    private bool IsPointerOverUI(Vector2 screenPosition)
-    {
-        PointerEventData pointerData = new(EventSystem.current)
+        else
         {
-            position = screenPosition
-        };
-
-        var raycastResults = new System.Collections.Generic.List<RaycastResult>();
-        EventSystem.current.RaycastAll(pointerData, raycastResults);
-
-        return raycastResults.Count > 0;
+            CurrentRoomSelected = null;
+            CurrentEmployeeSelected = null;
+            NoInteraction?.Invoke();
+        }
     }
 }

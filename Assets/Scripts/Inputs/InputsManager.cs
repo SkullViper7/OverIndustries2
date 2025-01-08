@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class InputsManager : MonoBehaviour
@@ -61,24 +62,33 @@ public class InputsManager : MonoBehaviour
                 case "Tap":
                     if (context.performed)
                     {
-                        Tap?.Invoke();
-                        TapContext?.Invoke(context);
+                        if (!IsPointerOverUI(Touchscreen.current.primaryTouch.position.ReadValue()))
+                        {
+                            Tap?.Invoke();
+                            TapContext?.Invoke(context);
+                        }
                     }
                     break;
 
                 case "DoubleTap":
                     if (context.performed)
                     {
-                        DoubleTap?.Invoke();
-                        DoubleTapContext?.Invoke(context);
+                        if (!IsPointerOverUI(Touchscreen.current.primaryTouch.position.ReadValue()))
+                        {
+                            DoubleTap?.Invoke();
+                            DoubleTapContext?.Invoke(context);
+                        }
                     }
                     break;
 
                 case "TouchContact0":
                     if (context.started)
                     {
-                        Touch0ContactStarted?.Invoke();
-                        Touch0ContactStartedContext?.Invoke(context);
+                        if (!IsPointerOverUI(Touchscreen.current.primaryTouch.position.ReadValue()))
+                        {
+                            Touch0ContactStarted?.Invoke();
+                            Touch0ContactStartedContext?.Invoke(context);
+                        }
                     }
                     if (context.canceled)
                     {
@@ -90,8 +100,11 @@ public class InputsManager : MonoBehaviour
                 case "TouchContact1":
                     if (context.started)
                     {
-                        Touch1ContactStarted?.Invoke();
-                        Touch1ContactStartedContext?.Invoke(context);
+                        if (!IsPointerOverUI(Touchscreen.current.primaryTouch.position.ReadValue()))
+                        {
+                            Touch1ContactStarted?.Invoke();
+                            Touch1ContactStartedContext?.Invoke(context);
+                        }
                     }
                     if (context.canceled)
                     {
@@ -119,7 +132,10 @@ public class InputsManager : MonoBehaviour
                 case "DragAndDrop0":
                     if (context.started)
                     {
-                        DragAndDropStarted?.Invoke();
+                        if (!IsPointerOverUI(Touchscreen.current.primaryTouch.position.ReadValue()))
+                        {
+                            DragAndDropStarted?.Invoke();
+                        }
                     }
                     else if (context.performed)
                     {
@@ -132,5 +148,23 @@ public class InputsManager : MonoBehaviour
                     break;
             }
         }
+    }
+
+    /// <summary>
+    /// Called to checks if the start of the input is not over a UI element.
+    /// </summary>
+    /// <param name="screenPosition"> Position of the start of the input. </param>
+    /// <returns></returns>
+    private bool IsPointerOverUI(Vector2 screenPosition)
+    {
+        PointerEventData pointerData = new(EventSystem.current)
+        {
+            position = screenPosition
+        };
+
+        var raycastResults = new System.Collections.Generic.List<RaycastResult>();
+        EventSystem.current.RaycastAll(pointerData, raycastResults);
+
+        return raycastResults.Count > 0;
     }
 }
