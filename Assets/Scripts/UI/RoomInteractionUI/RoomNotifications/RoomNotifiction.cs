@@ -4,23 +4,23 @@ using UnityEngine.UI;
 
 public class RoomNotifiction : MonoBehaviour
 {
-    /// <summary>
-    /// Picto of the notification.
-    /// </summary>
+    [Header("Notification"), SerializeField]
+    private GameObject _notificationPictoObj;
+
     [SerializeField]
-    private Image _notificationPicto;
+    private Image _notificationPictoImg;
 
     /// <summary>
     /// Gauge to show when it's a notification for a production or a research.
     /// </summary>
-    [SerializeField]
+    [Space, Header("Gauge"), SerializeField]
     private GameObject _gaugeObject;
 
     /// <summary>
     /// Gauge.
     /// </summary>
     [SerializeField]
-    private Image _gauge;
+    private Image _gaugeFillAmount;
 
     /// <summary>
     /// Picto of the gauge.
@@ -31,13 +31,23 @@ public class RoomNotifiction : MonoBehaviour
     /// <summary>
     /// Count of the production.
     /// </summary>
+    [Space, Header("Production Count"), SerializeField]
+    private GameObject _productionCountObj;
+
     [SerializeField]
-    private TMP_Text _productionCount;
+    private TMP_Text _productionCountTxt;
 
     /// <summary>
     /// Image component of the notification.
     /// </summary>
-    private Image _image;
+    [Space, Header("Notification"), SerializeField]
+    private Image _notificationOutline;
+
+    /// <summary>
+    /// Image component of the notification.
+    /// </summary>
+    [SerializeField]
+    private Image _notificationBG;
 
     /// <summary>
     /// Button component of the notification.
@@ -51,8 +61,15 @@ public class RoomNotifiction : MonoBehaviour
 
     private void Awake()
     {
-        _image = GetComponent<Image>();
         _button = GetComponent<Button>();
+
+        // Desactivate notification components
+        _notificationBG.enabled = false;
+        _notificationBG.raycastTarget = true;
+        _notificationPictoObj.SetActive(false);
+        _gaugeObject.SetActive(false);
+        _productionCountObj.SetActive(false);
+        _button.interactable = false;
     }
 
     /// <summary>
@@ -64,7 +81,8 @@ public class RoomNotifiction : MonoBehaviour
         _currentRoom = room;
 
         RectTransform rectTransform = GetComponent<RectTransform>();
-        rectTransform.position = GridManager.Instance.ConvertGridPosIntoWorldPos(_currentRoom.RoomPosition);
+        Vector2 position = GridManager.Instance.ConvertGridPosIntoWorldPos(_currentRoom.RoomPosition);
+        rectTransform.position = new Vector3(position.x, position.y, -0.1f);
         rectTransform.sizeDelta = new Vector2(_currentRoom.RoomData.Size * 3, 4);
 
         switch (_currentRoom.RoomData.RoomType)
@@ -90,11 +108,9 @@ public class RoomNotifiction : MonoBehaviour
     /// </summary>
     private void InitForDeliveryRoom()
     {
-        _image.enabled = true;
-        _notificationPicto.gameObject.SetActive(true);
-        _button.interactable = true;
-
-        _notificationPicto.sprite = ((DeliveryRoomData)_currentRoom.RoomBehaviourData).RawMaterialPicto;
+        _notificationBG.enabled = true;
+        _notificationPictoObj.SetActive(true);
+        _notificationPictoImg.sprite = ((DeliveryRoomData)_currentRoom.RoomBehaviourData).RawMaterialPicto;
 
         RawMaterialStorage rawMaterialStorage = RawMaterialStorage.Instance;
 
@@ -114,12 +130,26 @@ public class RoomNotifiction : MonoBehaviour
     {
         if (RawMaterialStorage.Instance.IsStorageFull())
         {
-            _image.color = new Color32(255, 0, 0, 175);
+            if (ColorUtility.TryParseHtmlString("#F76A74", out Color newColor))
+            {
+                _notificationOutline.color = newColor;
+                newColor = new Color(newColor.r, newColor.g, newColor.b, 60f / 255f);
+                _notificationBG.raycastTarget = false;
+                _notificationBG.color = newColor;
+            }
+
             _button.interactable = false;
         }
         else
         {
-            _image.color = new Color32(0, 255, 0, 175);
+            if (ColorUtility.TryParseHtmlString("#40C1AA", out Color newColor))
+            {
+                _notificationOutline.color = newColor;
+                newColor = new Color(newColor.r, newColor.g, newColor.b, 60f / 255f);
+                _notificationBG.raycastTarget = true;
+                _notificationBG.color = newColor;
+            }
+
             _button.interactable = true;
         }
     }
@@ -135,8 +165,10 @@ public class RoomNotifiction : MonoBehaviour
 
         _gaugeObject.SetActive(true);
         _gaugePicto.sprite = machiningRoom.CurrentComponentManufactured.ComponentPicto;
-        _gauge.fillAmount = 0;
-        _productionCount.text = "";
+        _gaugeFillAmount.fillAmount = 0;
+
+        _productionCountObj.SetActive(true);
+        _productionCountTxt.text = "";
 
         ItemStorage itemStorage = ItemStorage.Instance;
 
@@ -156,7 +188,7 @@ public class RoomNotifiction : MonoBehaviour
     /// <param name="newChrono"> New chrono of the room. </param>
     private void UpdateGaugeForComponent(int newChrono)
     {
-        _gauge.fillAmount = 1f / ((MachiningRoom)_currentRoom.RoomBehaviour).CurrentProductionTime * newChrono;
+        _gaugeFillAmount.fillAmount = 1f / ((MachiningRoom)_currentRoom.RoomBehaviour).CurrentProductionTime * newChrono;
     }
     #endregion
 
@@ -170,8 +202,10 @@ public class RoomNotifiction : MonoBehaviour
 
         _gaugeObject.SetActive(true);
         _gaugePicto.sprite = assemblyRoom.CurrentObjectManufactured.ObjectPicto;
-        _gauge.fillAmount = 0;
-        _productionCount.text = "";
+        _gaugeFillAmount.fillAmount = 0;
+
+        _productionCountObj.SetActive(true);
+        _productionCountTxt.text = "";
 
         ItemStorage itemStorage = ItemStorage.Instance;
 
@@ -191,7 +225,7 @@ public class RoomNotifiction : MonoBehaviour
     /// <param name="newChrono"> New chrono of the room. </param>
     private void UpdateGaugeForObject(int newChrono)
     {
-        _gauge.fillAmount = 1f / ((AssemblyRoom)_currentRoom.RoomBehaviour).CurrentProductionTime * newChrono;
+        _gaugeFillAmount.fillAmount = 1f / ((AssemblyRoom)_currentRoom.RoomBehaviour).CurrentProductionTime * newChrono;
     }
     #endregion
 
@@ -207,15 +241,15 @@ public class RoomNotifiction : MonoBehaviour
         if (researchRoom.CurrentComponentResearched != null)
         {
             _gaugePicto.sprite = researchRoom.CurrentComponentResearched.ComponentPicto;
-            _notificationPicto.sprite = researchRoom.CurrentComponentResearched.ComponentPicto;
+            _notificationPictoImg.sprite = researchRoom.CurrentComponentResearched.ComponentPicto;
         }
         else if (researchRoom.CurrentObjectResearched != null)
         {
             _gaugePicto.sprite = researchRoom.CurrentObjectResearched.ObjectPicto;
-            _notificationPicto.sprite = researchRoom.CurrentObjectResearched.ObjectPicto;
+            _notificationPictoImg.sprite = researchRoom.CurrentObjectResearched.ObjectPicto;
         }
 
-        _gauge.fillAmount = 0;
+        _gaugeFillAmount.fillAmount = 0;
 
         researchRoom.NewChrono += UpdateGaugeForResearch;
         researchRoom.ResearchCompleted += OnResearchCompleted;
@@ -227,7 +261,7 @@ public class RoomNotifiction : MonoBehaviour
     /// <param name="newChrono"> New chrono of the room. </param>
     private void UpdateGaugeForResearch(int newChrono)
     {
-        _gauge.fillAmount = 1f / ((ResearchRoom)_currentRoom.RoomBehaviour).CurrentResearchTime * newChrono;
+        _gaugeFillAmount.fillAmount = 1f / ((ResearchRoom)_currentRoom.RoomBehaviour).CurrentResearchTime * newChrono;
     }
 
     /// <summary>
@@ -235,11 +269,15 @@ public class RoomNotifiction : MonoBehaviour
     /// </summary>
     private void OnResearchCompleted()
     {
-        _image.color = new Color32(0, 255, 0, 175);
-        _image.enabled = true;
-        _image.raycastTarget = true;
+        if (ColorUtility.TryParseHtmlString("#40C1AA", out Color newColor))
+        {
+            _notificationBG.raycastTarget = true;
+            _notificationBG.color = newColor;
+            _notificationOutline.color = newColor;
+        }
+        _notificationBG.enabled = true;
         _gaugeObject.SetActive(false);
-        _notificationPicto.gameObject.SetActive(true);
+        _notificationPictoObj.SetActive(true);
         _button.interactable = true;
 
         UIManager.Instance.StopProductionButton.SetActive(false);
@@ -254,16 +292,18 @@ public class RoomNotifiction : MonoBehaviour
     {
         if (newCount > 0)
         {
-            _image.enabled = true;
+            _notificationOutline.enabled = true;
+            _notificationBG.enabled = true;
             CheckItemStorage(0);
         }
         else
         {
-            _image.enabled = false;
+            _notificationOutline.enabled = false;
+            _notificationBG.enabled = false;
             _button.interactable = false;
         }
 
-        _productionCount.text = newCount.ToString();
+        _productionCountTxt.text = newCount.ToString();
     }
 
     /// <summary>
@@ -274,14 +314,24 @@ public class RoomNotifiction : MonoBehaviour
     {
         if (ItemStorage.Instance.IsStorageFull())
         {
-            _image.raycastTarget = false;
-            _image.color = new Color32(255, 0, 0, 175);
+            if (ColorUtility.TryParseHtmlString("#F76A74", out Color newColor))
+            {
+                _notificationOutline.color = newColor;
+                newColor = new Color(newColor.r, newColor.g, newColor.b, 60f / 255f);
+                _notificationBG.raycastTarget = false;
+                _notificationBG.color = newColor;
+            }
             _button.interactable = false;
         }
         else
         {
-            _image.raycastTarget = true;
-            _image.color = new Color32(0, 255, 0, 175);
+            if (ColorUtility.TryParseHtmlString("#40C1AA", out Color newColor))
+            {
+                _notificationOutline.color = newColor;
+                newColor = new Color(newColor.r, newColor.g, newColor.b, 60f / 255f);
+                _notificationBG.raycastTarget = true;
+                _notificationBG.color = newColor;
+            }
             _button.interactable = true;
         }
     }
@@ -292,11 +342,12 @@ public class RoomNotifiction : MonoBehaviour
     public void DesactivateNotification()
     {
         // Desactivate notification components
-        _image.enabled = false;
-        _image.raycastTarget = true;
-        _notificationPicto.gameObject.SetActive(false);
-        _button.interactable = false;
+        _notificationBG.enabled = false;
+        _notificationBG.raycastTarget = true;
+        _notificationPictoObj.SetActive(false);
         _gaugeObject.SetActive(false);
+        _productionCountObj.SetActive(false);
+        _button.interactable = false;
 
         // Remove all listeners
         switch (_currentRoom.RoomData.RoomType)
