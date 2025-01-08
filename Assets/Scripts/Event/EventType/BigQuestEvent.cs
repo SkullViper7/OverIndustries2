@@ -8,11 +8,10 @@ public class BigQuestEvent : MonoBehaviour
     /// </summary>
 
     [SerializeField] private EventData _eventData;
-    private Quest _bigQuest;
+    private QuestData _bigQuest;
 
     void Start()
     {
-        _bigQuest = GetComponent<Quest>();
         EventManager.Instance.CheckCondition(_eventData);
         EventManager.Instance.EventConditionCompleted += EventComportement;
     }

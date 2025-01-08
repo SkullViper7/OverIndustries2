@@ -186,7 +186,7 @@ public class JobProfileUI : MonoBehaviour
         for (int i = 0; i < employee.EmployeeJob.Count; i++)
         {
             _jobTextParent.transform.GetChild(i).GetChild(0).GetComponentInChildren<TextMeshProUGUI>().text = employee.EmployeeJob[i].JobName;
-            _jobTextParent.transform.GetChild(i).GetChild(0).gameObject.SetActive(true);
+            _jobTextParent.transform.GetChild(i).gameObject.SetActive(true);
         }
     }
 
@@ -280,13 +280,13 @@ public class JobProfileUI : MonoBehaviour
                 _employee4JobTextList[i].transform.parent.gameObject.SetActive(false);
                 _employee5JobTextList[i].transform.parent.gameObject.SetActive(false);
 
-                _jobTextParent.transform.GetChild(i).GetChild(0).gameObject.SetActive(false);
+                _jobTextParent.transform.GetChild(i).gameObject.SetActive(false);
             }
         }
 
         for (int i = 0; i < _jobTextParent.transform.childCount; i++)
         {
-            _jobTextParent.transform.GetChild(i).GetChild(0).gameObject.SetActive(false);
+            _jobTextParent.transform.GetChild(i).gameObject.SetActive(false);
         }
     }
 }

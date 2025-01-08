@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 418616311222392642}
   - component: {fileID: 8906309298252515018}
   - component: {fileID: 316289762846902772}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: InteractPoint (1)
   m_TagString: InteractPoint
   m_Icon: {fileID: 0}
@@ -142,12 +142,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OuterPointSet: 1
-  OuterPoint: {x: 6, y: 1.87, z: -4}
-  OuterPointDistance: 46.587982
+  OuterPoint: {x: 0, y: 1.87, z: -4}
+  OuterPointDistance: 6
   isHollow: 0
   InnerPointSet: 1
-  InnerPoint: {x: 6, y: 1.87, z: -4}
-  InnerPointDistance: 46.587982
+  InnerPoint: {x: 0, y: 1.87, z: -4}
+  InnerPointDistance: 6
   InnerPointInside: 0
   boxCollider: {fileID: 3421753733089840876}
   center: {x: 3, y: 2, z: -2}
@@ -324,7 +324,7 @@ GameObject:
   - component: {fileID: 5527691664534924205}
   - component: {fileID: 2172684182747171134}
   - component: {fileID: 5150873601504194433}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: RoomDirector_003_NavMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -410,7 +410,7 @@ GameObject:
   - component: {fileID: 5624442853351366020}
   - component: {fileID: 3412359496976242467}
   - component: {fileID: 7621233982539108376}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: InteractPoint (2)
   m_TagString: InteractPoint
   m_Icon: {fileID: 0}
@@ -503,7 +503,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 362796000238713357}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: NavMeshObstacle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -538,7 +538,7 @@ GameObject:
   - component: {fileID: 97959225522558899}
   - component: {fileID: 8977258263939578050}
   - component: {fileID: 1517032098317433108}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: InteractPoint
   m_TagString: InteractPoint
   m_Icon: {fileID: 0}
@@ -633,7 +633,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7519801957358961245}
   - component: {fileID: 388916697020197793}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: NavMesh_Obstacle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -763,7 +763,7 @@ Transform:
   m_GameObject: {fileID: 9042478900751926577}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6, y: 1.87, z: -4}
+  m_LocalPosition: {x: 0, y: 1.87, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
