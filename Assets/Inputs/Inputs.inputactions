@@ -6,6 +6,15 @@
             "id": "73869630-deb0-48b7-aa71-a61fc968add4",
             "actions": [
                 {
+                    "name": "TouchScreen",
+                    "type": "Button",
+                    "id": "9518c79f-2ad3-44d8-9f11-7fd639c965e2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Tap",
                     "type": "Button",
                     "id": "d333c9f3-4a76-4ed3-8330-1e64b8326648",
@@ -105,17 +114,6 @@
                 },
                 {
                     "name": "",
-                    "id": "44e86c36-d089-4947-ae3d-cdabb62fcb60",
-                    "path": "<Touchscreen>/touch0/press",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Tap",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "29c25d0e-8563-437f-b99b-2d560c6bedc2",
                     "path": "<Touchscreen>/touch0/press",
                     "interactions": "",
@@ -144,6 +142,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "DragAndDrop0",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "31616e67-299a-44ae-a484-a679b1db1ea5",
+                    "path": "<Touchscreen>/primaryTouch/press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TouchScreen",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "44e86c36-d089-4947-ae3d-cdabb62fcb60",
+                    "path": "<Touchscreen>/touch0/press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tap",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

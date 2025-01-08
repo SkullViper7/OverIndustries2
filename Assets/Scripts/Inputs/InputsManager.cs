@@ -16,7 +16,7 @@ public class InputsManager : MonoBehaviour
     /// Events to get some inputs.
     /// </summary>
     public delegate void Inputs();
-    public event Inputs Tap, DragAndDropStarted, DragAndDropPerformed, DragAndDropCanceled, DoubleTap, Touch0ContactStarted, Touch0ContactCanceled, Touch1ContactStarted, Touch1ContactCanceled, Hold0, Hold1;
+    public event Inputs TouchScreen, Tap, DragAndDropStarted, DragAndDropPerformed, DragAndDropCanceled, DoubleTap, Touch0ContactStarted, Touch0ContactCanceled, Touch1ContactStarted, Touch1ContactCanceled, Hold0, Hold1;
 
     /// <summary>
     /// Events to get some context about inputs.
@@ -51,6 +51,13 @@ public class InputsManager : MonoBehaviour
         {
             switch (context.action.name)
             {
+                case "TouchScreen":
+                    if (context.started)
+                    {
+                        TouchScreen?.Invoke();
+                    }
+                    break;
+
                 case "Tap":
                     if (context.performed)
                     {
