@@ -40,13 +40,13 @@ public class ScreenSizeFitter : MonoBehaviour
     [SerializeField, Tooltip("The maximum anchor ratio that the object must adopt if the screen size is too small.")]
     private Vector2 _fittMaxAnchorRatio;
 
-    [SerializeField]
     private RectTransform _canvasRectTransform;
 
     private RectTransform _rectTransform;
 
     private void Awake()
     {
+        _canvasRectTransform = GameObject.FindGameObjectWithTag("Canvas").GetComponent<RectTransform>();
         _rectTransform = GetComponent<RectTransform>();
     }
 
