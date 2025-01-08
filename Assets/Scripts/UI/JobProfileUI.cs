@@ -74,31 +74,31 @@ public class JobProfileUI : MonoBehaviour
 
         for (int i = 0; i < _jobTextParentHired[0].transform.childCount; i++)
         {
-            _job = _jobTextParentHired[0].transform.GetChild(i).gameObject;
+            _job = _jobTextParentHired[0].transform.GetChild(i).GetChild(0).gameObject;
             _employee1JobTextList.Add(_job.GetComponent<TextMeshProUGUI>());
         }
 
         for (int i = 0; i < _jobTextParentHired[1].transform.childCount; i++)
         {
-            _job = _jobTextParentHired[1].transform.GetChild(i).gameObject;
+            _job = _jobTextParentHired[1].transform.GetChild(i).GetChild(0).gameObject;
             _employee2JobTextList.Add(_job.GetComponent<TextMeshProUGUI>());
         }
 
         for (int i = 0; i < _jobTextParentHired[2].transform.childCount; i++)
         {
-            _job = _jobTextParentHired[2].transform.GetChild(i).gameObject;
+            _job = _jobTextParentHired[2].transform.GetChild(i).GetChild(0).gameObject;
             _employee3JobTextList.Add(_job.GetComponent<TextMeshProUGUI>());
         }
 
         for (int i = 0; i < _jobTextParentHired[3].transform.childCount; i++)
         {
-            _job = _jobTextParentHired[3].transform.GetChild(i).gameObject;
+            _job = _jobTextParentHired[3].transform.GetChild(i).GetChild(0).gameObject;
             _employee4JobTextList.Add(_job.GetComponent<TextMeshProUGUI>());
         }
 
         for (int i = 0; i < _jobTextParentHired[4].transform.childCount; i++)
         {
-            _job = _jobTextParentHired[4].transform.GetChild(i).gameObject;
+            _job = _jobTextParentHired[4].transform.GetChild(i).GetChild(0).gameObject;
             _employee5JobTextList.Add(_job.GetComponent<TextMeshProUGUI>());
         }
     }
@@ -134,7 +134,7 @@ public class JobProfileUI : MonoBehaviour
             for (int i = 0; i < _directorRoom.RecrutementList[0].GetComponent<Employee>().EmployeeJob.Count; i++)
             {
                 _employee1JobTextList[i].text = _directorRoom.RecrutementList[0].GetComponent<Employee>().EmployeeJob[i].JobName;
-                _employee1JobTextList[i].gameObject.SetActive(true);
+                _employee1JobTextList[i].transform.parent.gameObject.SetActive(true);
             }
         }
         if (_directorRoom.RecrutementList.Count > 1)
@@ -142,7 +142,7 @@ public class JobProfileUI : MonoBehaviour
             for (int i = 0; i < _directorRoom.RecrutementList[1].GetComponent<Employee>().EmployeeJob.Count; i++)
             {
                 _employee2JobTextList[i].text = _directorRoom.RecrutementList[1].GetComponent<Employee>().EmployeeJob[i].JobName;
-                _employee2JobTextList[i].gameObject.SetActive(true);
+                _employee2JobTextList[i].transform.parent.gameObject.SetActive(true);
             }
         }
         if (_directorRoom.RecrutementList.Count > 2)
@@ -150,7 +150,7 @@ public class JobProfileUI : MonoBehaviour
             for (int i = 0; i < _directorRoom.RecrutementList[2].GetComponent<Employee>().EmployeeJob.Count; i++)
             {
                 _employee3JobTextList[i].text = _directorRoom.RecrutementList[2].GetComponent<Employee>().EmployeeJob[i].JobName;
-                _employee3JobTextList[i].gameObject.SetActive(true);
+                _employee3JobTextList[i].transform.parent.gameObject.SetActive(true);
             }
         }
         if (_directorRoom.RecrutementList.Count > 3)
@@ -158,7 +158,7 @@ public class JobProfileUI : MonoBehaviour
             for (int i = 0; i < _directorRoom.RecrutementList[3].GetComponent<Employee>().EmployeeJob.Count; i++)
             {
                 _employee4JobTextList[i].text = _directorRoom.RecrutementList[3].GetComponent<Employee>().EmployeeJob[i].JobName;
-                _employee4JobTextList[i].gameObject.SetActive(true);
+                _employee4JobTextList[i].transform.parent.gameObject.SetActive(true);
             }
         }
         if (_directorRoom.RecrutementList.Count > 4)
@@ -166,7 +166,7 @@ public class JobProfileUI : MonoBehaviour
             for (int i = 0; i < _directorRoom.RecrutementList[4].GetComponent<Employee>().EmployeeJob.Count; i++)
             {
                 _employee5JobTextList[i].text = _directorRoom.RecrutementList[4].GetComponent<Employee>().EmployeeJob[i].JobName;
-                _employee5JobTextList[i].gameObject.SetActive(true);
+                _employee5JobTextList[i].transform.parent.gameObject.SetActive(true);
             }
         }
     }
@@ -185,8 +185,8 @@ public class JobProfileUI : MonoBehaviour
 
         for (int i = 0; i < employee.EmployeeJob.Count; i++)
         {
-            _jobTextParent.transform.GetChild(i).GetComponentInChildren<TextMeshProUGUI>().text = employee.EmployeeJob[i].JobName;
-            _jobTextParent.transform.GetChild(i).gameObject.SetActive(true);
+            _jobTextParent.transform.GetChild(i).GetChild(0).GetComponentInChildren<TextMeshProUGUI>().text = employee.EmployeeJob[i].JobName;
+            _jobTextParent.transform.GetChild(i).GetChild(0).gameObject.SetActive(true);
         }
     }
 
@@ -235,7 +235,11 @@ public class JobProfileUI : MonoBehaviour
             _pay.text = $"{_job.Pay[0]} \n{_job.Pay[1]}";
         }
 
-        if (_job.Studies.Count == 5)
+        if (_job.Studies.Count == 4)
+        {
+            _studies.text = $"{_job.Studies[0]} \n{_job.Studies[1]} \n{_job.Studies[2]} \n{_job.Studies[3]}";
+        }
+        else if (_job.Studies.Count == 5)
         {
             _studies.text = $"{_job.Studies[0]} \n{_job.Studies[1]} \n{_job.Studies[2]} \n{_job.Studies[3]} \n{_job.Studies[4]}";
         }
@@ -270,19 +274,19 @@ public class JobProfileUI : MonoBehaviour
             for (int i = 0; i < _directorRoom.RecrutementList[j].GetComponent<Employee>().EmployeeJob.Count; i++)
             {
                 JobProfileList[i].SetActive(false);
-                _employee1JobTextList[i].gameObject.SetActive(false);
-                _employee2JobTextList[i].gameObject.SetActive(false);
-                _employee3JobTextList[i].gameObject.SetActive(false);
-                _employee4JobTextList[i].gameObject.SetActive(false);
-                _employee5JobTextList[i].gameObject.SetActive(false);
+                _employee1JobTextList[i].transform.parent.gameObject.SetActive(false);
+                _employee2JobTextList[i].transform.parent.gameObject.SetActive(false);
+                _employee3JobTextList[i].transform.parent.gameObject.SetActive(false);
+                _employee4JobTextList[i].transform.parent.gameObject.SetActive(false);
+                _employee5JobTextList[i].transform.parent.gameObject.SetActive(false);
 
-                _jobTextParent.transform.GetChild(i).gameObject.SetActive(false);
+                _jobTextParent.transform.GetChild(i).GetChild(0).gameObject.SetActive(false);
             }
         }
 
         for (int i = 0; i < _jobTextParent.transform.childCount; i++)
         {
-            _jobTextParent.transform.GetChild(i).gameObject.SetActive(false);
+            _jobTextParent.transform.GetChild(i).GetChild(0).gameObject.SetActive(false);
         }
     }
 }
