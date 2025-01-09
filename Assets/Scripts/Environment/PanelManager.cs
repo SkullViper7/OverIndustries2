@@ -8,7 +8,7 @@ public class PanelManager : MonoBehaviour
     const string _rowFormat = "row{0}";
     const string _columnFormat = "column{0}";
 
-    void Start()
+    public void InitListeners()
     {
         GridManager.Instance.GridInitializedEvent += InitPanel;
     }
@@ -16,7 +16,7 @@ public class PanelManager : MonoBehaviour
     /// <summary>
     /// Called to initialize the panel grid.
     /// </summary>
-    public void InitPanel()
+    private void InitPanel()
     {
         // Create all slots in the dictionnary
         for (int i = 0; i < GridManager.Instance.GridSize.y; i++)

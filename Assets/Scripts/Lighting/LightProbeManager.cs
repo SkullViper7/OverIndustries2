@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -32,6 +33,8 @@ public class LightProbeManager : MonoBehaviour
 
     Dictionary<string, Dictionary<string, List<LightProbe>>> _lightProbeGrid = new();
 
+    public Action ProbesInitialized;
+
     /// <summary>
     /// Row name format.
     /// </summary>
@@ -56,31 +59,7 @@ public class LightProbeManager : MonoBehaviour
         }
     }
 
-    void Start()
-    {
-        InitGrid();
-
-        // for (int i = 0; i < _lightProbeGrid[string.Format(_rowFormat, 0)][string.Format(_columnFormat, 0)].Count; i++)
-        // {
-        //     Debug.DrawRay(_lightProbeGrid[string.Format(_rowFormat, 0)][string.Format(_columnFormat, 0)][i].ProbePosition, Vector3.back * 100, Color.red, 1000);
-        // }
-    }
-
-    public List<LightProbe> GetProbesForThisRoom(Room room)
-    {
-        Vector2 position = room.RoomPosition;
-        int size = room.RoomData.Size;
-        List<LightProbe> probes = new();
-
-        for (int i = 0; i < size; i++)
-        {
-            probes.AddRange(_lightProbeGrid[string.Format(_rowFormat, position.y)][string.Format(_columnFormat, position.x + i)]);
-        }
-
-        return probes;
-    }
-
-    void InitGrid()
+    public void InitGrid()
     {
         // Create all slots in the dictionnary
         for (int i = 0; i < GridManager.Instance.GridSize.y; i++)
@@ -105,9 +84,25 @@ public class LightProbeManager : MonoBehaviour
         {
             AssociateProbeToCell(probes[i], _probePositions[i], i);
         }
+
+        ProbesInitialized?.Invoke();
     }
 
-    void AssociateProbeToCell(SphericalHarmonicsL2 probe, Vector3 position, int index)
+    public List<LightProbe> GetProbesForThisRoom(Room room)
+    {
+        Vector2 position = room.RoomPosition;
+        int size = room.RoomData.Size;
+        List<LightProbe> probes = new();
+
+        for (int i = 0; i < size; i++)
+        {
+            probes.AddRange(_lightProbeGrid[string.Format(_rowFormat, position.y)][string.Format(_columnFormat, position.x + i)]);
+        }
+
+        return probes;
+    }
+
+    private void AssociateProbeToCell(SphericalHarmonicsL2 probe, Vector3 position, int index)
     {
         LightProbe lightProbeCell = new();
         lightProbeCell.Probe = probe;
