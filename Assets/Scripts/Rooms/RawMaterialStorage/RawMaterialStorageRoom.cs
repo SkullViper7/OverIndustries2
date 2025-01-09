@@ -47,6 +47,7 @@ public class RawMaterialStorageRoom : MonoBehaviour, IRoomBehaviour
                 break;
             case 3:
                 _storage.IncreaseCapacity(RawMaterialStorageRoomData.CapacityBonusAtLvl3);
+                ScoreManager.Instance.AddRoomLevelMax();
                 break;
         }
     }

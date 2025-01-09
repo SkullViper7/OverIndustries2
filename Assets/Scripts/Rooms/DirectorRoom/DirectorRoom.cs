@@ -107,6 +107,7 @@ public class DirectorRoom : MonoBehaviour, IRoomBehaviour
             case 3:
                 PourcentageHasTwoJob = DirectorRoomData.PourcentageHasTwoJobAtLvl3;
                 PourcentageHasThreeJob = DirectorRoomData.PourcentageHasThreeJobAtLvl3;
+                ScoreManager.Instance.AddRoomLevelMax();
                 break;
         }
     }

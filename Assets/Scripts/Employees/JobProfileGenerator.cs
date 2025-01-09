@@ -45,9 +45,6 @@ public class JobProfileGenerator : MonoBehaviour
     /// </summary>
     public void GenerateProfile(Employee employee)
     {
-        Debug.Log("two "+_directorRoom.PourcentageHasTwoJob);
-        Debug.Log("three "+_directorRoom.PourcentageHasThreeJob);
-
         _employeeGenerate = employee;
         ResetForNewProfile();
 

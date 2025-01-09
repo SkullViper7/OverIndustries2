@@ -39,6 +39,7 @@ public class RestRoom : MonoBehaviour, IRoomBehaviour
                 break;
             case 3:
                 EmployeeManager.Instance.AddCapacity(RestRoomData.CapacityBonusAtLvl3);
+                ScoreManager.Instance.AddRoomLevelMax();
                 break;
         }
     }
