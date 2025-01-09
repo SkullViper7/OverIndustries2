@@ -67,6 +67,7 @@ public class HireEmployee : MonoBehaviour
             employeeToHire.SetEmployee();
 
             SetButton();
+            ScoreManager.Instance.AddEmployee();
         }
         else
         {

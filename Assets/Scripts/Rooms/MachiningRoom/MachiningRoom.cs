@@ -271,6 +271,7 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
             case 3:
                 _currentChrono = 0;
                 CurrentInternalCapacity = MachiningRoomData.InternalStorageAtLvl3;
+                ScoreManager.Instance.AddRoomLevelMax();
                 break;
         }
     }

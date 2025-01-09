@@ -48,6 +48,7 @@ public class StorageRoom : MonoBehaviour, IRoomBehaviour
                 break;
             case 3:
                 _storage.IncreaseCapacity(StorageRoomData.CapacityBonusAtLvl3);
+                ScoreManager.Instance.AddRoomLevelMax();
                 break;
         }
     }

@@ -267,6 +267,7 @@ public class AssemblyRoom : MonoBehaviour, IRoomBehaviour
             case 3:
                 _currentChrono = 0;
                 CurrentInternalCapacity = AssemblyRoomData.InternalStorageAtLvl3;
+                ScoreManager.Instance.AddRoomLevelMax();
                 break;
         }
     }
