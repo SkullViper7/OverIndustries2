@@ -279,7 +279,6 @@ public class ItemToResearchPopUp : MonoBehaviour
 
         UpdateResearchCostForObject(RawMaterialStorage.Instance.AmoutOfRawMaterial);
         RawMaterialStorage.Instance.AmountHasChanged += UpdateResearchCostForObject;
-        _validationButton.onClick.AddListener(LaunchObjectResearch);
 
         _popUp.SetActive(true);
     }
