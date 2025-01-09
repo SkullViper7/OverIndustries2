@@ -48,17 +48,18 @@ public class InputsManager : MonoBehaviour
 
     private void OnAction(InputAction.CallbackContext context)
     {
+        if (context.action.name == "TouchScreen")
+        {
+            if (context.started)
+            {
+                TouchScreen?.Invoke();
+            }
+        }
+
         if (!GameManager.Instance.UIIsOpen)
         {
             switch (context.action.name)
             {
-                case "TouchScreen":
-                    if (context.started)
-                    {
-                        TouchScreen?.Invoke();
-                    }
-                    break;
-
                 case "Tap":
                     if (context.performed)
                     {

@@ -66,6 +66,7 @@ public class RoomNotifiction : MonoBehaviour
         // Desactivate notification components
         _notificationBG.enabled = false;
         _notificationBG.raycastTarget = true;
+        _notificationOutline.enabled = false;
         _notificationPictoObj.SetActive(false);
         _gaugeObject.SetActive(false);
         _productionCountObj.SetActive(false);
@@ -110,6 +111,7 @@ public class RoomNotifiction : MonoBehaviour
     {
         _notificationBG.enabled = true;
         _notificationPictoObj.SetActive(true);
+        _notificationOutline.enabled = true;
         _notificationPictoImg.sprite = ((DeliveryRoomData)_currentRoom.RoomBehaviourData).RawMaterialPicto;
 
         RawMaterialStorage rawMaterialStorage = RawMaterialStorage.Instance;
@@ -167,7 +169,6 @@ public class RoomNotifiction : MonoBehaviour
         _gaugePicto.sprite = machiningRoom.CurrentComponentManufactured.ComponentPicto;
         _gaugeFillAmount.fillAmount = 0;
 
-        _productionCountObj.SetActive(true);
         _productionCountTxt.text = "";
 
         ItemStorage itemStorage = ItemStorage.Instance;
@@ -292,12 +293,14 @@ public class RoomNotifiction : MonoBehaviour
     {
         if (newCount > 0)
         {
+            _productionCountObj.SetActive(true);
             _notificationOutline.enabled = true;
             _notificationBG.enabled = true;
             CheckItemStorage(0);
         }
         else
         {
+            _productionCountObj.SetActive(false);
             _notificationOutline.enabled = false;
             _notificationBG.enabled = false;
             _button.interactable = false;
@@ -344,6 +347,7 @@ public class RoomNotifiction : MonoBehaviour
         // Desactivate notification components
         _notificationBG.enabled = false;
         _notificationBG.raycastTarget = true;
+        _notificationOutline.enabled = false;
         _notificationPictoObj.SetActive(false);
         _gaugeObject.SetActive(false);
         _productionCountObj.SetActive(false);
