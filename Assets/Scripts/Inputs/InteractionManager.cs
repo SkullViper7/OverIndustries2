@@ -1,7 +1,5 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using static UnityEditor.Recorder.OutputPath;
 
 public class InteractionManager : MonoBehaviour
 {

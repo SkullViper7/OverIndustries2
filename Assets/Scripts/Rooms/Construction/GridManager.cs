@@ -67,9 +67,9 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    private void Start()
+    public void InitListeners()
     {
-        InitGrid();
+        LightProbeManager.Instance.ProbesInitialized += InitGrid;
     }
 
     private void InitGrid()
