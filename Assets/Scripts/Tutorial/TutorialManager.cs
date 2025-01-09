@@ -58,23 +58,23 @@ public class TutorialManager : MonoBehaviour
                 case 2:
                     ShowConstructButton();
                     break;
-                case 3:
-                    DesactiveConstructButton();
-                    break;
-                case 5:
-                    //_navigationManager.AutoZoomOrZoomOut(_roomResearch.GetComponent<Room>());
-                    break;
-                case 6:
-                    ShowCommandeButton();
+                //case 3:
+                //    ShowStorage();
+                //    break;
+                case 4:
+                    //DesactiveConstructButton();
                     break;
                 case 8:
-                    ShowStorage();
-                    break;
-                case 9:
                     ShowConstructButton();
                     break;
-                case 14:
+                case 9:
                     DesactiveConstructButton();
+                    break;
+                case 10:
+                    ShowCommandeButton();
+                    break;
+                case 12:
+                    ShowConstructButton();
                     break;
             }
         }
@@ -185,26 +185,41 @@ public class TutorialManager : MonoBehaviour
             switch (_currentStep)
             {
                 case 2:
-                    if (GridManager.Instance.InstantiatedRooms[i].RoomData.RoomType == RoomType.Research)
+                    if (GridManager.Instance.InstantiatedRooms[i].RoomData.RoomType == RoomType.Storage)
                     {
-                        _roomResearch = GridManager.Instance.InstantiatedRooms[i].gameObject;
                         _canContinue = true;
                     }
                     break;
                 case 3:
+                    if (GridManager.Instance.InstantiatedRooms[i].RoomData.RoomType == RoomType.Delivery)
+                    {
+                        _roomDelivery = GridManager.Instance.InstantiatedRooms[i].gameObject;
+                        _canContinue = true;
+                    }
+                    break;
+                case 4:
                     if (DirectorRoom.Instance.RoomMain.EmployeeAssign.Count >= 1)
                     {
                         _roomDirector = DirectorRoom.Instance.RoomMain.gameObject;
                         _canContinue = true;
                     }
                     break;
-                case 4:
-                    if (_roomResearch.GetComponent<Room>().EmployeeAssign.Count >= 1)
+                case 5:
+                    if (_roomDelivery.GetComponent<Room>().EmployeeAssign.Count >= 1)
                     {
                         _canContinue = true;
                     }
                     break;
-                case 5:
+                case 8:
+                    //_roomDirector.GetComponent<DirectorRoom>().EmployeeAssign[0].GetComponent<Employee>().EmployeeJob = Job.MachiningTechnician;
+                    if(GridManager.Instance.InstantiatedRooms[i].RoomData.RoomType == RoomType.Research)
+                    {
+                        _roomResearch = GridManager.Instance.InstantiatedRooms[i].gameObject;
+
+                        if (_roomResearch.GetComponent<Room>().EmployeeAssign.Count >= 1) { _canContinue = true; }
+                    }
+                    break;
+                case 9:
                     _roomResearch.GetComponent<ResearchRoom>().ResearchCompleted += ResearchFinish;
                     if (_isResearchFinish)
                     {
@@ -212,29 +227,22 @@ public class TutorialManager : MonoBehaviour
 
                     }
                     break;
-                case 6:
+                case 10:
                     if (QuestManager.Instance.QuestList.Count >= 1)
                     {
                         _canContinue = true;
                     }
                     break;
-                case 9:
-                    if (GridManager.Instance.InstantiatedRooms[i].RoomData.RoomType == RoomType.Delivery)
-                    {
-                        _roomDelivery = GridManager.Instance.InstantiatedRooms[i].gameObject;
-                        if(_roomDelivery.GetComponent<Room>().EmployeeAssign.Count >= 1) { _canContinue = true;}
-                    }
-                    break;
-                case 11:
+                case 12:
                     if (GridManager.Instance.InstantiatedRooms[i].RoomData.RoomType == RoomType.Machining)
                     {
                         _roomMachining = GridManager.Instance.InstantiatedRooms[i].gameObject;
                         if (_roomMachining.GetComponent<Room>().EmployeeAssign.Count >= 1) { _canContinue = true; }
                     }
                     break;
-                case 16:
-                    // lié a questManager cré un event pour le finish de la quete et ainsi avoir acces à la dernière phrase du tuto
-                    break;
+                //case 15:
+                //    // lié a questManager cré un event pour le finish de la quete et ainsi avoir acces à la dernière phrase du tuto
+                //    break;
                 default:
                     _canContinue = true;
                     break;
