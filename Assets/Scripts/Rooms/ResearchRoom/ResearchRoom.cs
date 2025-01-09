@@ -50,6 +50,9 @@ public class ResearchRoom : MonoBehaviour, IRoomBehaviour
         _roomMain = roomMain;
 
         ResearchManager.Instance.InitNewResearchRoomListeners(this);
+
+        UpgradeRoom(1);
+        _roomMain.NewLvl += UpgradeRoom;
     }
 
     /// <summary>
@@ -129,7 +132,6 @@ public class ResearchRoom : MonoBehaviour, IRoomBehaviour
         }
     }
 
-
     /// <summary>
     /// Called when the player clicked on the notification when the research is completed.
     /// </summary>
@@ -169,5 +171,19 @@ public class ResearchRoom : MonoBehaviour, IRoomBehaviour
         _currentChrono = 0;
         CurrentComponentResearched = null;
         CurrentObjectResearched = null;
+    }
+
+    private void UpgradeRoom(int newLvl)
+    {
+        switch (newLvl)
+        {
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                ScoreManager.Instance.AddRoomLevelMax();
+                break;
+        }
     }
 }

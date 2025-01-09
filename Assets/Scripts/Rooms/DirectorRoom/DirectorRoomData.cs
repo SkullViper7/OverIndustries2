@@ -7,20 +7,38 @@ public class DirectorRoomData : ScriptableObject, IRoomBehaviourData
     /// Capacity to add to the director room at lvl 1.
     /// </summary>
     [Header("Capacity bonus"), SerializeField, Tooltip("Capacity to add to the director room at lvl 1.")]
-    private int _capacityBonusAtLvl1;
+    private int _pourcentageHasTwoJobAtLvl1;
+
+    /// <summary>
+    /// Capacity to add to the director room at lvl 1.
+    /// </summary>
+    [SerializeField, Tooltip("Capacity to add to the director room at lvl 1.")]
+    private int _pourcentageHasThreeJobAtLvl1;
 
     /// <summary>
     /// Capacity to add to the  director room at lvl 2.
     /// </summary>
-    [SerializeField, Tooltip("Capacity to add to the  director room at lvl 2.")]
-    private int _capacityBonusAtLvl2;
+    [SerializeField, Tooltip("Capacity to add to the director room at lvl 2.")]
+    private int _pourcentageHasTwoJobAtLvl2;
+
+    /// <summary>
+    /// Capacity to add to the  director room at lvl 2.
+    /// </summary>
+    [SerializeField, Tooltip("Capacity to add to the director room at lvl 2.")]
+    private int _pourcentageHasThreeJobAtLvl2;
 
     /// <summary>
     /// Capacity to add to the  director room at lvl 3.
     /// </summary> 
-    [SerializeField, Tooltip("Capacity to add to the  director room at lvl 3.")]
-    private int _capacityBonusAtLvl3;
-    
+    [SerializeField, Tooltip("Capacity to add to the director room at lvl 3.")]
+    private int _pourcentageHasTwoJobAtLvl3;
+
+    /// <summary>
+    /// Capacity to add to the  director room at lvl 3.
+    /// </summary> 
+    [SerializeField, Tooltip("Capacity to add to the director room at lvl 3.")]
+    private int _pourcentageHasThreeJobAtLvl3;
+
     /// <summary>
     /// Employee prefab for create employee
     /// </summary>
@@ -32,7 +50,37 @@ public class DirectorRoomData : ScriptableObject, IRoomBehaviourData
     /// </summary>
     [SerializeField, Tooltip("Time to wait before create a new employee")]
     private int _waitTime;
+
+    /// <summary>
+    /// Gets the capacity to add to the storage at lvl 1.
+    /// </summary>
+    public int PourcentageHasTwoJobAtLvl1 { get { return _pourcentageHasTwoJobAtLvl1; } private set { } }
     
+    /// <summary>
+    /// Gets the capacity to add to the storage at lvl 1.
+    /// </summary>
+    public int PourcentageHasThreeJobAtLvl1 { get { return _pourcentageHasThreeJobAtLvl1; } private set { } }
+
+    /// <summary>
+    /// Gets the capacity to add to the storage at lvl 2.
+    /// </summary>
+    public int PourcentageHasTwoJobAtLvl2 { get { return _pourcentageHasTwoJobAtLvl2; } private set { } }
+   
+    /// <summary>
+    /// Gets the capacity to add to the storage at lvl 2.
+    /// </summary>
+    public int PourcentageHasThreeJobAtLvl2 { get { return _pourcentageHasThreeJobAtLvl2; } private set { } }
+
+    /// <summary>
+    /// Gets the capacity to add to the storage at lvl 3.
+    /// </summary>
+    public int PourcentageHasTwoJobAtLvl3 { get { return _pourcentageHasTwoJobAtLvl3; } private set { } }
+    
+    /// <summary>
+    /// Gets the capacity to add to the storage at lvl 3.
+    /// </summary>
+    public int PourcentageHasThreeJobAtLvl3 { get { return _pourcentageHasThreeJobAtLvl3; } private set { } }
+
     /// <summary>
     /// Employee prefab for create employee
     /// </summary>

@@ -163,6 +163,7 @@ public class DeliveryRoom : MonoBehaviour, IRoomBehaviour
                 CurrentDeliveryTime = DeliveryRoomData.DeliveryTimeAtLvl3;
                 CurrentProductionPerDelivery = DeliveryRoomData.ProductionPerDeliveryAtLvl3;
                 CurrentInternalCapacity = DeliveryRoomData.InternalStorageAtLvl3;
+                ScoreManager.Instance.AddRoomLevelMax();
                 break;
         }
     }
