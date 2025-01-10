@@ -13,6 +13,7 @@ public class RawMaterialUI : MonoBehaviour
     private void Start()
     {
         RawMaterialStorage.Instance.NewAmountInInternalStorage += ChangeDisplay;
+        ChangeDisplay(RawMaterialStorage.Instance.AmoutOfRawMaterial, RawMaterialStorage.Instance.StorageCapacity);
     }
 
     /// <summary>

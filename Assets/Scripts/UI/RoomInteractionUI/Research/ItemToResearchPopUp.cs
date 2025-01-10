@@ -90,30 +90,6 @@ public class ItemToResearchPopUp : MonoBehaviour
     private TMP_Text _productionTime1;
 
     /// <summary>
-    /// Header of the production time at lvl 2.
-    /// </summary>
-    [SerializeField]
-    private TMP_Text _productionTime2Header;
-
-    /// <summary>
-    /// Production time at lvl 1.
-    /// </summary>
-    [SerializeField]
-    private TMP_Text _productionTime2;
-
-    /// <summary>
-    /// Header of the production time at lvl 3.
-    /// </summary>
-    [SerializeField]
-    private TMP_Text _productionTime3Header;
-
-    /// <summary>
-    /// Production time at lvl 1.
-    /// </summary>
-    [SerializeField]
-    private TMP_Text _productionTime3;
-
-    /// <summary>
     /// The cell where component cost is displayed.
     /// </summary>
     [Space, Header("Component"), SerializeField]
@@ -177,6 +153,12 @@ public class ItemToResearchPopUp : MonoBehaviour
     /// </summary>
     private ObjectData _currentObjectData;
 
+    [SerializeField]
+    private SwitchButtons _statsButton;
+
+    [SerializeField]
+    private SwitchButtons _descriptionButton;
+
     private void Awake()
     {
         _popUp.SetActive(false);
@@ -208,17 +190,15 @@ public class ItemToResearchPopUp : MonoBehaviour
         _question.text = "Débloquer " + _currentComponentData.Name + " ?";
         _itemPicto.sprite = _currentComponentData.ComponentPicto;
         _itemName.text = _currentComponentData.Name;
+        _statsButton.Select();
+        _descriptionButton.Unselect();
         _itemDescription.text = _currentComponentData.Description;
         _researchTime.text = _currentComponentData.ResearchTime.ToString();
         _itemTypeImg.sprite = _currentComponentData.GenericComponentPicto;
         _itemType.text = "Pièce détachée";
         _roomType.text = "Salle d'usinage";
         _productionTime1Header.text = "Durée de fabrication au niveau 1 :";
-        _productionTime2Header.text = "Durée de fabrication au niveau 2 :";
-        _productionTime3Header.text = "Durée de fabrication au niveau 3 :";
         _productionTime1.text = _currentComponentData.ProductionTimeAtLvl1.ToString();
-        _productionTime2.text = _currentComponentData.ProductionTimeAtLvl2.ToString();
-        _productionTime3.text = _currentComponentData.ProductionTimeAtLvl3.ToString();
 
         // Display specific data
         _componentCostCell.SetActive(true);
@@ -245,16 +225,14 @@ public class ItemToResearchPopUp : MonoBehaviour
         _itemPicto.sprite = _currentObjectData.ObjectPicto;
         _itemName.text = _currentObjectData.Name;
         _itemDescription.text = _currentObjectData.Description;
+        _statsButton.Select();
+        _descriptionButton.Unselect();
         _researchTime.text = _currentObjectData.ResearchTime.ToString();
         _itemTypeImg.sprite = _currentObjectData.GenericObjectPicto;
         _itemType.text = "Objet complet";
         _roomType.text = "Salle d'assemblage";
         _productionTime1Header.text = "Durée d'assemblage au niveau 1 :";
-        _productionTime2Header.text = "Durée d'assemblage au niveau 2 :";
-        _productionTime3Header.text = "Durée d'assemblage au niveau 3 :";
         _productionTime1.text = _currentObjectData.ProductionTimeAtLvl1.ToString();
-        _productionTime2.text = _currentObjectData.ProductionTimeAtLvl2.ToString();
-        _productionTime3.text = _currentObjectData.ProductionTimeAtLvl3.ToString();
 
         // Display specific data
         _objectRecipeCell.SetActive(true);
@@ -368,6 +346,9 @@ public class ItemToResearchPopUp : MonoBehaviour
         {
             ResearchRoom researchRoom = (ResearchRoom)currentRoomSelected.RoomBehaviour;
             researchRoom.StartNewComponentResearch(_currentComponentData);
+            UIManager.Instance.UpgradeButton.SetActive(false);
+            UIManager.Instance.ResearchButton.SetActive(false);
+            UIManager.Instance.StopProductionButton.SetActive(true);
             UIManager.Instance.RoomResearchPopUp.GetComponent<ResearchPopUp>().ClosePopUp();
             ClosePopUp();
             UIManager.Instance.CloseUI();
@@ -385,6 +366,9 @@ public class ItemToResearchPopUp : MonoBehaviour
         {
             ResearchRoom researchRoom = (ResearchRoom)currentRoomSelected.RoomBehaviour;
             researchRoom.StartNewObjectResearch(_currentObjectData);
+            UIManager.Instance.UpgradeButton.SetActive(false);
+            UIManager.Instance.ResearchButton.SetActive(false);
+            UIManager.Instance.StopProductionButton.SetActive(true);
             UIManager.Instance.RoomResearchPopUp.GetComponent<ResearchPopUp>().ClosePopUp();
             ClosePopUp();
             UIManager.Instance.CloseUI();

@@ -205,7 +205,6 @@ public class RoomNotifiction : MonoBehaviour
         _gaugePicto.sprite = assemblyRoom.CurrentObjectManufactured.ObjectPicto;
         _gaugeFillAmount.fillAmount = 0;
 
-        _productionCountObj.SetActive(true);
         _productionCountTxt.text = "";
 
         ItemStorage itemStorage = ItemStorage.Instance;
@@ -272,9 +271,10 @@ public class RoomNotifiction : MonoBehaviour
     {
         if (ColorUtility.TryParseHtmlString("#40C1AA", out Color newColor))
         {
+            _notificationOutline.color = newColor;
+            newColor = new Color(newColor.r, newColor.g, newColor.b, 60f / 255f);
             _notificationBG.raycastTarget = true;
             _notificationBG.color = newColor;
-            _notificationOutline.color = newColor;
         }
         _notificationBG.enabled = true;
         _gaugeObject.SetActive(false);

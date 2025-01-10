@@ -124,6 +124,12 @@ public class RoomInfoPopUp : MonoBehaviour
     [Space, Header("Buttons"), SerializeField]
     private GameObject _switchButtons;
 
+    [SerializeField]
+    private SwitchButtons _statsButton;
+
+    [SerializeField]
+    private SwitchButtons _descriptionButton;
+
     /// <summary>
     /// The current room selected.
     /// </summary>
@@ -228,6 +234,8 @@ public class RoomInfoPopUp : MonoBehaviour
         _capacity.SetActive(true);
         _statsContainer.SetActive(true);
         _switchButtons.SetActive(true);
+        _statsButton.Select();
+        _descriptionButton.Unselect();
     }
 
     /// <summary>
@@ -257,6 +265,8 @@ public class RoomInfoPopUp : MonoBehaviour
             _capacity.SetActive(true);
             _statsContainer.SetActive(true);
             _switchButtons.SetActive(true);
+            _statsButton.Select();
+            _descriptionButton.Unselect();
         }
         else
         {
@@ -291,6 +301,8 @@ public class RoomInfoPopUp : MonoBehaviour
             _capacity.SetActive(true);
             _statsContainer.SetActive(true);
             _switchButtons.SetActive(true);
+            _statsButton.Select();
+            _descriptionButton.Unselect();
         }
         else
         {
@@ -314,6 +326,8 @@ public class RoomInfoPopUp : MonoBehaviour
         _capacity.SetActive(true);
         _statsContainer.SetActive(true);
         _switchButtons.SetActive(true);
+        _statsButton.Select();
+        _descriptionButton.Unselect();
     }
 
     /// <summary>
@@ -332,6 +346,8 @@ public class RoomInfoPopUp : MonoBehaviour
         _capacity.SetActive(true);
         _statsContainer.SetActive(true);
         _switchButtons.SetActive(true);
+        _statsButton.Select();
+        _descriptionButton.Unselect();
     }
 
     /// <summary>
@@ -351,6 +367,8 @@ public class RoomInfoPopUp : MonoBehaviour
             _production.SetActive(true);
             _statsContainer.SetActive(true);
             _switchButtons.SetActive(true);
+            _statsButton.Select();
+            _descriptionButton.Unselect();
         }
         else if (researchRoom.CurrentObjectResearched != null)
         {
@@ -360,6 +378,8 @@ public class RoomInfoPopUp : MonoBehaviour
             _production.SetActive(true);
             _statsContainer.SetActive(true);
             _switchButtons.SetActive(true);
+            _statsButton.Select();
+            _descriptionButton.Unselect();
         }
         else
         {

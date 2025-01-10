@@ -111,6 +111,12 @@ public class UpgradeRoomPopUp : MonoBehaviour
     /// </summary>
     private Room _currentRoomSelected;
 
+    [SerializeField]
+    private SwitchButtons _statsButton;
+
+    [SerializeField]
+    private SwitchButtons _descriptionButton;
+
     /// <summary>
     /// The current room behaviour selected.
     /// </summary>
@@ -147,6 +153,8 @@ public class UpgradeRoomPopUp : MonoBehaviour
 
             _nameLvl.text = "Améliorer " + _currentRoomSelected.RoomData.Name + " au niveau " + (_currentRoomSelected.CurrentLvl + 1).ToString() + " ?";
             _description.text = _currentRoomSelected.RoomData.Description;
+            _statsButton.Select();
+            _descriptionButton.Unselect();
             _name.text = _currentRoomSelected.RoomData.Name;
             SetUpgradeCost();
 
