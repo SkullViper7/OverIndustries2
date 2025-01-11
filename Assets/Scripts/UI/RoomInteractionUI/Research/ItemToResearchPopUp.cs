@@ -159,6 +159,13 @@ public class ItemToResearchPopUp : MonoBehaviour
     [SerializeField]
     private SwitchButtons _descriptionButton;
 
+    [SerializeField]
+    private Sprite _componentPicto;
+
+
+    [SerializeField]
+    private Sprite _objectPicto;
+
     private void Awake()
     {
         _popUp.SetActive(false);
@@ -194,7 +201,7 @@ public class ItemToResearchPopUp : MonoBehaviour
         _descriptionButton.Unselect();
         _itemDescription.text = _currentComponentData.Description;
         _researchTime.text = _currentComponentData.ResearchTime.ToString();
-        _itemTypeImg.sprite = _currentComponentData.GenericComponentPicto;
+        _itemTypeImg.sprite = _componentPicto;
         _itemType.text = "Pièce détachée";
         _roomType.text = "Salle d'usinage";
         _productionTime1Header.text = "Durée de fabrication au niveau 1 :";
@@ -228,7 +235,7 @@ public class ItemToResearchPopUp : MonoBehaviour
         _statsButton.Select();
         _descriptionButton.Unselect();
         _researchTime.text = _currentObjectData.ResearchTime.ToString();
-        _itemTypeImg.sprite = _currentObjectData.GenericObjectPicto;
+        _itemTypeImg.sprite = _objectPicto;
         _itemType.text = "Objet complet";
         _roomType.text = "Salle d'assemblage";
         _productionTime1Header.text = "Durée d'assemblage au niveau 1 :";

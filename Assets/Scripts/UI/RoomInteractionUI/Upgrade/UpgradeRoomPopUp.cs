@@ -117,6 +117,9 @@ public class UpgradeRoomPopUp : MonoBehaviour
     [SerializeField]
     private SwitchButtons _descriptionButton;
 
+    [SerializeField]
+    private ScrollRect _scrollRect;
+
     /// <summary>
     /// The current room behaviour selected.
     /// </summary>
@@ -130,6 +133,7 @@ public class UpgradeRoomPopUp : MonoBehaviour
         _capacity.SetActive(false);
         _newRawMaterialProductionRate.SetActive(false);
         _upgradedProductionTime.SetActive(false);
+        _scrollRect.enabled = false;
     }
 
     private void OnEnable()
@@ -307,6 +311,8 @@ public class UpgradeRoomPopUp : MonoBehaviour
     {
         ResearchManager researchManager = ResearchManager.Instance;
 
+        _scrollRect.enabled = true;
+
         switch (_currentRoomSelected.CurrentLvl)
         {
             case 1:
@@ -439,6 +445,8 @@ public class UpgradeRoomPopUp : MonoBehaviour
         _capacity.SetActive(false);
         _newRawMaterialProductionRate.SetActive(false);
         _upgradedProductionTime.SetActive(false);
+
+        _scrollRect.enabled = false;
 
         for (int i = 0; i < _newResearchContainers.Count; i++)
         {
