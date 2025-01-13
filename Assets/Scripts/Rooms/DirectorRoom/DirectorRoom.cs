@@ -17,8 +17,8 @@ public class DirectorRoom : MonoBehaviour, IRoomBehaviour
     private GameObject _newEmployee;
 
     //Value number of jobs
-    public int PourcentageHasTwoJob {  get; private set; }
-    public int PourcentageHasThreeJob {  get; private set; }
+    //public int PourcentageHasTwoJob {  get; private set; }
+    //public int PourcentageHasThreeJob {  get; private set; }
 
     //Wait create new employee
     private int secondSinceCreateEmployee;
@@ -96,17 +96,17 @@ public class DirectorRoom : MonoBehaviour, IRoomBehaviour
     {
         switch(newLvl)
         {
-            case 1:
-                PourcentageHasTwoJob = DirectorRoomData.PourcentageHasTwoJobAtLvl1;
-                PourcentageHasThreeJob = DirectorRoomData.PourcentageHasThreeJobAtLvl1;
-                break;
-            case 2:
-                PourcentageHasTwoJob = DirectorRoomData.PourcentageHasTwoJobAtLvl2;
-                PourcentageHasThreeJob = DirectorRoomData.PourcentageHasThreeJobAtLvl2;
-                break;
+            //case 1:
+            //    PourcentageHasTwoJob = DirectorRoomData.PourcentageHasTwoJobAtLvl1;
+            //    PourcentageHasThreeJob = DirectorRoomData.PourcentageHasThreeJobAtLvl1;
+            //    break;
+            //case 2:
+            //    PourcentageHasTwoJob = DirectorRoomData.PourcentageHasTwoJobAtLvl2;
+            //    PourcentageHasThreeJob = DirectorRoomData.PourcentageHasThreeJobAtLvl2;
+            //    break;
             case 3:
-                PourcentageHasTwoJob = DirectorRoomData.PourcentageHasTwoJobAtLvl3;
-                PourcentageHasThreeJob = DirectorRoomData.PourcentageHasThreeJobAtLvl3;
+                //PourcentageHasTwoJob = DirectorRoomData.PourcentageHasTwoJobAtLvl3;
+                //PourcentageHasThreeJob = DirectorRoomData.PourcentageHasThreeJobAtLvl3;
                 ScoreManager.Instance.AddRoomLevelMax();
                 break;
         }
