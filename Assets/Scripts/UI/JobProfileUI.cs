@@ -10,14 +10,18 @@ public class JobProfileUI : MonoBehaviour
 
     [Header("UI Reference for hired job profile")]
     [SerializeField] private GameObject _jobProfileHired;
-    [field :SerializeField] public List<GameObject> JobProfileList { get; private set; }
+    [field: SerializeField] public List<GameObject> JobProfileList { get; private set; }
     [SerializeField] private List<TextMeshProUGUI> _employeeNameHired;
     [SerializeField] private List<GameObject> _jobTextParentHired;
+    [SerializeField] private List<TextMeshProUGUI> _jobRoomTextHired;
+
 
     [Space, Header("UI Reference for job profile")]
     [SerializeField] private GameObject _jobProfile;
     [SerializeField] private TextMeshProUGUI _employeeName;
     [SerializeField] private GameObject _jobTextParent;
+    [SerializeField] private TextMeshProUGUI _jobRoomText;
+
 
     [Space, Header("UI Reference for fiche métier")]
     [SerializeField] private TextMeshProUGUI _jobName;
@@ -26,6 +30,7 @@ public class JobProfileUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _studies;
     [SerializeField] private TextMeshProUGUI _careerDevelopment;
     [SerializeField] private TextMeshProUGUI _room;
+
 
     private GameObject _job;
     private int _jobChoose;
@@ -114,6 +119,7 @@ public class JobProfileUI : MonoBehaviour
             ShowJob();
             _jobProfileHired.SetActive(true);
 
+
             for (int i = 0; i < _directorRoom.RecrutementList.Count; i++)
             {
                 _directorRoom.RecrutementList[i].SetActive(true);
@@ -176,9 +182,12 @@ public class JobProfileUI : MonoBehaviour
         for (int i = 0; i < _directorRoom.RecrutementList.Count; i++)
         {
             _employeeNameHired[i].text = _directorRoom.RecrutementList[i].GetComponent<Employee>().EmployeeName;
+            _jobRoomTextHired[i].text = _directorRoom.RecrutementList[i].GetComponent<Employee>().EmployeeJob[0].Room;
         }
     }
 
+
+    //show employee selected profil
     public void ShowProfile(Employee employee)
     {
         _employeeName.text = employee.EmployeeName;
@@ -187,6 +196,7 @@ public class JobProfileUI : MonoBehaviour
         {
             _jobTextParent.transform.GetChild(i).GetChild(0).GetComponentInChildren<TextMeshProUGUI>().text = employee.EmployeeJob[i].JobName;
             _jobTextParent.transform.GetChild(i).gameObject.SetActive(true);
+            _jobRoomText.text = employee.EmployeeJob[0].Room;
         }
     }
 
@@ -258,9 +268,8 @@ public class JobProfileUI : MonoBehaviour
         }
         else
         {
-            _careerDevelopment.text = $"{_job.CareerDevelopment[0]} \n{_job.CareerDevelopment[1]} \n{_job.CareerDevelopment[2]} \n{_job.CareerDevelopment[3]} \n{_job.CareerDevelopment[4]}";
+            _careerDevelopment.text = $"{_job.CareerDevelopment[0]} \n{_job.CareerDevelopment[1]} \n{_job.CareerDevelopment[2]} \n{_job.CareerDevelopment[3]}";
         }
-
         _room.text = _job.Room;
     }
 

@@ -493,13 +493,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5118975127220922701}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 9.11, y: 0.5, z: 7.4}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 10.92, y: 0.5, z: 6.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5916170098516055222}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!54 &1214223483548421889
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -623,7 +623,7 @@ GameObject:
   - component: {fileID: 8674933063664668249}
   - component: {fileID: 6564615048590980348}
   - component: {fileID: 5931312974689821698}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Area Light (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1515,7 +1515,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6436107795290263052}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 21625ece6b22d3049af2e49fdffd900f, type: 3}
   m_Name: 
@@ -1556,7 +1556,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 4239682119357796204, guid: f5b723c88d46b6f44854d1bb9fc86594, type: 3}
+  m_Mesh: {fileID: 4721330941063291756, guid: f5b723c88d46b6f44854d1bb9fc86594, type: 3}
 --- !u!114 &5862030442754595254
 MonoBehaviour:
   m_ObjectHideFlags: 0
