@@ -103,9 +103,6 @@ public class Employee : MonoBehaviour
         {
             if (_jobNameList[i] == EmployeeJob[0].JobName)
             {
-                Debug.Log(_jobNameList[i]);
-                Debug.Log("set hat");
-
                 _hat.sprite = _hatList[i];
             }
         }

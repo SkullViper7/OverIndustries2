@@ -85,7 +85,6 @@ public class JobProfileGenerator : MonoBehaviour
             _employeeGenerate.EmployeeJob.Add(_jobsList[_job]);
 
             _jobsList.Remove(_jobsList[_job]);
-            _employeeGenerate.SetHatColor();
         }
     }
 

@@ -86,13 +86,13 @@ MonoBehaviour:
   - {fileID: -7450341587224014561, guid: 3acc852ba40e57f4892ecdf235bcf146, type: 3}
   - {fileID: -7450341587224014561, guid: 3acc852ba40e57f4892ecdf235bcf146, type: 3}
   _jobNameList:
-  - Dessinateur industriel
-  - Ajusteur monteur
-  - Monteur assembleur
+  - Dessinateur Industriel
+  - Ajusteur / Monteur
+  - Monteur - Assembleur
   - Chaudronnier
   - Soudeur
   - Technicien d'usinage
-  - "Technicien en \xE9lectronique"
+  - "Technicien en \xC9lectronique"
   - Electricien industriel
   - "Ing\xE9nieur logiciel embarqu\xE9"
   _wayPointList: []
@@ -185,6 +185,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Sprite_Employee
+      objectReference: {fileID: 0}
+    - target: {fileID: 6500902692010189033, guid: cbdbaa47ed1d1f941ac7a65cf8fb9dc8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
