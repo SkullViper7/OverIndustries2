@@ -7,19 +7,21 @@ public class QuestManager : MonoBehaviour
     public static QuestManager Instance => _instance;
 
     [field: SerializeField] public List<QuestData> QuestList { get; private set; }
-    public List<QuestData> CurrentQuestList { get; private set; } = new List<QuestData>();
+    [field: SerializeField] public List<QuestData> CurrentQuestList { get; private set; } = new List<QuestData>();
     [field: SerializeField, Tooltip("Maximum number of current quest")] public int MaxCurrentQuest { get; private set; }
 
     [Space, Header("Quest Stats")]
     private int _objectUnlock;
     private int _componentUnlock;
+    private int _checkQuest;
+
     [field: SerializeField, Tooltip("Minimum number of object need to all quest")] public int MinNumberQuestObject { get; private set; }
     [field: SerializeField, Tooltip("Maximum number of object need to all quest")] public int MaxNumberQuestObject { get; private set; }
     [field: SerializeField, Tooltip("Minimum number of component need to all quest")] public int MinNumberQuestComponent { get; private set; }
     [field: SerializeField, Tooltip("Maximum number of component need to all quest")] public int MaxNumberQuestComponent { get; private set; }
 
     public event System.Action<QuestData> NewQuestGenerate;
-    public event System.Action UpdateAdvancementQuest, ResetQuestText;
+    public event System.Action UpdateAdvancementQuest, ResetQuestText, MaxQuest;
     public event System.Action<int> QuestComplited;
 
     private void Awake()
@@ -42,6 +44,7 @@ public class QuestManager : MonoBehaviour
         ItemStorage.Instance.StorageComponentChanged += QuestComponentAdvancement;
     }
 
+
     /// <summary>
     /// Choisi une nouvelle quête, chaque quête garde son nom, sa description et son objet associer, seul le nombre d'objets nécessaire change
     /// </summary>
@@ -51,28 +54,6 @@ public class QuestManager : MonoBehaviour
         {
             int randomQuest = Random.Range(0, QuestList.Count);
             QuestData _newQuest = QuestList[randomQuest];
-
-            for (int a = 0; a < _newQuest.Objects.Count; a++)
-            {
-                for (int b = 0; b < ResearchManager.Instance.ManufacturableObjects.Count; b++)
-                {
-                    if (_newQuest.Objects[a].Name == ResearchManager.Instance.ManufacturableObjects[b].Name)
-                    {
-                        _objectUnlock++;
-                    }
-                }
-            }
-            
-            for (int c = 0; c < _newQuest.Component.Count; c++)
-            {
-                for (int d = 0; d < ResearchManager.Instance.ManufacturableComponents.Count; d++)
-                {
-                    if (_newQuest.Component[c].Name == ResearchManager.Instance.ManufacturableComponents[d].Name)
-                    {
-                        _componentUnlock++;
-                    }
-                }
-            }
 
             for (int i = 0; i < _newQuest.NumberOfObject.Count; i++)
             {
@@ -86,11 +67,58 @@ public class QuestManager : MonoBehaviour
                 _newQuest.NumberOfComponent[j] = randomNumberOfThisComponent;
             }
 
+            for (int a = 0; a < _newQuest.Objects.Count; a++)
+            {
+                for (int b = 0; b < ResearchManager.Instance.ManufacturableObjects.Count; b++)
+                {
+                    if (_newQuest.Objects[a].Name == ResearchManager.Instance.ManufacturableObjects[b].Name)
+                    {
+                        _objectUnlock++;
+                    }
+                }
+            }
+
+            for (int c = 0; c < _newQuest.Component.Count; c++)
+            {
+                for (int d = 0; d < ResearchManager.Instance.ManufacturableComponents.Count; d++)
+                {
+                    if (_newQuest.Component[c].Name == ResearchManager.Instance.ManufacturableComponents[d].Name)
+                    {
+                        _componentUnlock++;
+                    }
+                }
+            }
+
             //check if quest product are unlock
             if (_newQuest.Component.Count == _componentUnlock && _newQuest.Objects.Count == _objectUnlock)
             {
                 NewQuestGenerate.Invoke(_newQuest);
+
+                _componentUnlock = 0;
+                _objectUnlock = 0;
             }
+            else
+            {
+                _checkQuest++;
+
+                _componentUnlock = 0;
+                _objectUnlock = 0;
+
+                if(_checkQuest < QuestList.Count)
+                {
+                    GenerateNewQuest();
+                }
+                else
+                {
+                    _checkQuest = 0;
+
+                    MaxQuest?.Invoke();
+                }
+            }
+        }
+        else
+        {
+            MaxQuest?.Invoke();
         }
     }
 
@@ -112,27 +140,27 @@ public class QuestManager : MonoBehaviour
         {
             for (int j = 0; j < CurrentQuestList[i].Objects.Count; j++)
             {
-                if (CurrentQuestList[i].Objects.Count > 1 
-                    && j == 0 && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].Objects[j]) 
-                    >= CurrentQuestList[i].NumberOfObject[j] 
-                    && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].Objects[j + 1]) 
+                if (CurrentQuestList[i].Objects.Count > 1
+                    && j == 0 && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].Objects[j])
+                    >= CurrentQuestList[i].NumberOfObject[j]
+                    && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].Objects[j + 1])
                     >= CurrentQuestList[i].NumberOfObject[j + 1])
                 {
                     QuestComplited.Invoke(i);
                     ScoreManager.Instance.AddPS(CurrentQuestList[i].PSWin);
                 }
-                if (CurrentQuestList[i].Objects.Count > 2 
-                    && j == 0 && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].Objects[j]) 
-                    >= CurrentQuestList[i].NumberOfObject[j] 
-                    && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].Objects[j + 1]) 
-                    >= CurrentQuestList[i].NumberOfObject[j + 1] 
-                    && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].Objects[j + 2]) 
+                if (CurrentQuestList[i].Objects.Count > 2
+                    && j == 0 && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].Objects[j])
+                    >= CurrentQuestList[i].NumberOfObject[j]
+                    && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].Objects[j + 1])
+                    >= CurrentQuestList[i].NumberOfObject[j + 1]
+                    && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].Objects[j + 2])
                     >= CurrentQuestList[i].NumberOfObject[j + 2])
                 {
                     QuestComplited.Invoke(i);
                     ScoreManager.Instance.AddPS(CurrentQuestList[i].PSWin);
                 }
-                if (CurrentQuestList[i].Objects.Count == 1 
+                if (CurrentQuestList[i].Objects.Count == 1
                     && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].Objects[j])
                     >= CurrentQuestList[i].NumberOfObject[j])
                 {
@@ -155,28 +183,28 @@ public class QuestManager : MonoBehaviour
         {
             for (int j = 0; j < CurrentQuestList[i].Component.Count; j++)
             {
-                if (CurrentQuestList[i].Component.Count > 1 && j == 0 && 
-                    ItemStorage.Instance.ReturnNumberOfThisComponent(CurrentQuestList[i].Component[j]) 
-                    >= CurrentQuestList[i].NumberOfComponent[j] && 
-                    ItemStorage.Instance.ReturnNumberOfThisComponent(CurrentQuestList[i].Component[j + 1]) 
+                if (CurrentQuestList[i].Component.Count > 1 && j == 0 &&
+                    ItemStorage.Instance.ReturnNumberOfThisComponent(CurrentQuestList[i].Component[j])
+                    >= CurrentQuestList[i].NumberOfComponent[j] &&
+                    ItemStorage.Instance.ReturnNumberOfThisComponent(CurrentQuestList[i].Component[j + 1])
                     >= CurrentQuestList[i].NumberOfComponent[j + 1])
                 {
                     QuestComplited.Invoke(i);
                     ScoreManager.Instance.AddPS(CurrentQuestList[i].PSWin);
                 }
-                if (CurrentQuestList[i].Component.Count > 2 && j == 0 && 
-                    ItemStorage.Instance.ReturnNumberOfThisComponent(CurrentQuestList[i].Component[j]) 
-                    >= CurrentQuestList[i].NumberOfComponent[j] 
-                    && ItemStorage.Instance.ReturnNumberOfThisComponent(CurrentQuestList[i].Component[j + 1]) 
-                    >= CurrentQuestList[i].NumberOfComponent[j + 1] 
-                    && ItemStorage.Instance.ReturnNumberOfThisComponent(CurrentQuestList[i].Component[j + 2]) 
+                if (CurrentQuestList[i].Component.Count > 2 && j == 0 &&
+                    ItemStorage.Instance.ReturnNumberOfThisComponent(CurrentQuestList[i].Component[j])
+                    >= CurrentQuestList[i].NumberOfComponent[j]
+                    && ItemStorage.Instance.ReturnNumberOfThisComponent(CurrentQuestList[i].Component[j + 1])
+                    >= CurrentQuestList[i].NumberOfComponent[j + 1]
+                    && ItemStorage.Instance.ReturnNumberOfThisComponent(CurrentQuestList[i].Component[j + 2])
                     >= CurrentQuestList[i].NumberOfComponent[j + 2])
                 {
                     QuestComplited.Invoke(i);
                     ScoreManager.Instance.AddPS(CurrentQuestList[i].PSWin);
                 }
-                if (CurrentQuestList[i].Component.Count == 1 
-                    && ItemStorage.Instance.ReturnNumberOfThisComponent(CurrentQuestList[i].Component[j]) 
+                if (CurrentQuestList[i].Component.Count == 1
+                    && ItemStorage.Instance.ReturnNumberOfThisComponent(CurrentQuestList[i].Component[j])
                     >= CurrentQuestList[i].NumberOfComponent[j])
                 {
                     QuestComplited.Invoke(i);

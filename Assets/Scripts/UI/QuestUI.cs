@@ -4,33 +4,36 @@ using UnityEngine;
 
 public class QuestUI : MonoBehaviour
 {
-    //QuestInfo
-    [field: SerializeField] public TextMeshProUGUI QuestNameText { get; private set; }
-    [field: SerializeField] public TextMeshProUGUI QuestDescriptionText { get; private set; }
-    [field: SerializeField] public TextMeshProUGUI QuestObjectifText { get; private set; }
+    [SerializeField] private GameObject _newQuestPopUp;
 
-    //InfoCurrentQuest
-    [field: SerializeField] public GameObject CurrentQuestTextParent { get; private set; }
+    [Space, Header("Quest Info")]
+    [field: SerializeField] private TextMeshProUGUI _questNameText;
+    [field: SerializeField] private TextMeshProUGUI _questDescriptionText;
+    [field: SerializeField] private TextMeshProUGUI _questObjectifText;
+
+    [Space, Header("Info current quest")]
+    [field: SerializeField] private GameObject _currentQuestTextParent;
     private List<TextMeshProUGUI> _nameCurrentQuestTextList = new List<TextMeshProUGUI>();
     private List<TextMeshProUGUI> _objectifCurrentQuestTextList = new List<TextMeshProUGUI>();
 
-    //ComplitedQuest
-    [field: SerializeField] public GameObject ButtonQuestComplited { get; private set; }
+    [Space, Header("Complited quest")]
+    [field: SerializeField] private GameObject _buttonQuestComplited;
     private List<GameObject> _buttonQuestComplitedList = new List<GameObject>();
-    [field: SerializeField] public Color32 QuestComplitedColorText { get; private set; }
 
+    [Space, Header("Complited quest")]
+    [SerializeField] private GameObject _warningQuestPopUp;
     private QuestData _actualQuest;
 
     void Start()
     {
-        for (int i = 0; i < CurrentQuestTextParent.transform.childCount; i++)
+        for (int i = 0; i < _currentQuestTextParent.transform.childCount; i++)
         {
-            _nameCurrentQuestTextList.Add(CurrentQuestTextParent.transform.GetChild(i).GetComponentInChildren<TextMeshProUGUI>());
-            _objectifCurrentQuestTextList.Add(CurrentQuestTextParent.transform.GetChild(i).GetChild(0).GetComponentInChildren<TextMeshProUGUI>());
+            _nameCurrentQuestTextList.Add(_currentQuestTextParent.transform.GetChild(i).GetComponentInChildren<TextMeshProUGUI>());
+            _objectifCurrentQuestTextList.Add(_currentQuestTextParent.transform.GetChild(i).GetChild(0).GetComponentInChildren<TextMeshProUGUI>());
         }
-        for (int j = 0; j < ButtonQuestComplited.transform.childCount; j++)
+        for (int j = 0; j < _buttonQuestComplited.transform.childCount; j++)
         {
-            _buttonQuestComplitedList.Add(ButtonQuestComplited.transform.GetChild(j).gameObject);
+            _buttonQuestComplitedList.Add(_buttonQuestComplited.transform.GetChild(j).gameObject);
         }
 
         QuestManager.Instance.NewQuestGenerate += ShowQuestInfo;
@@ -38,6 +41,7 @@ public class QuestUI : MonoBehaviour
         QuestManager.Instance.UpdateAdvancementQuest += UpdateCurrentAdvancementQuestObject;
         QuestManager.Instance.QuestComplited += QuestComplited;
         QuestManager.Instance.ResetQuestText += ResetQuestText;
+        QuestManager.Instance.MaxQuest += QuestWarning;
     }
 
     /// <summary>
@@ -46,38 +50,39 @@ public class QuestUI : MonoBehaviour
     /// <param name="_quest"></param>
     public void ShowQuestInfo(QuestData _quest)
     {
+        _newQuestPopUp.SetActive(true);
         _actualQuest = _quest;
 
-        QuestNameText.text = _actualQuest.Name;
-        QuestDescriptionText.text = _actualQuest.Description;
+        _questNameText.text = _actualQuest.Name;
+        _questDescriptionText.text = _actualQuest.Description;
 
         if (_quest.NumberOfComponent.Count != 0)
         {
             if (_quest.NumberOfComponent.Count == 1)
             {
-                QuestObjectifText.text = $"{_quest.NumberOfComponent[0]} {_quest.Component[0].Name}";
+                _questObjectifText.text = $"{_quest.NumberOfComponent[0]} {_quest.Component[0].Name}";
             }
             if (_quest.NumberOfComponent.Count == 2)
             {
-                QuestObjectifText.text = $"{_quest.NumberOfComponent[0]} {_quest.Component[0].Name} " +
+                _questObjectifText.text = $"{_quest.NumberOfComponent[0]} {_quest.Component[0].Name} " +
                     $"\n{_quest.NumberOfComponent[1]} {_quest.Component[1].Name}";
             }
             if (_quest.NumberOfComponent.Count == 3)
             {
-                QuestObjectifText.text = $"{_quest.NumberOfComponent[0]} {_quest.Component[0].Name} " +
+                _questObjectifText.text = $"{_quest.NumberOfComponent[0]} {_quest.Component[0].Name} " +
                     $"\n{_quest.NumberOfComponent[1]} {_quest.Component[1].Name} " +
                     $"\n{_quest.NumberOfComponent[2]} {_quest.Component[2].Name}";
             }
             if (_quest.NumberOfComponent.Count == 4)
             {
-                QuestObjectifText.text = $"{_quest.NumberOfComponent[0]} {_quest.Component[0].Name} " +
+                _questObjectifText.text = $"{_quest.NumberOfComponent[0]} {_quest.Component[0].Name} " +
                     $"\n{_quest.NumberOfComponent[1]} {_quest.Component[1].Name} " +
                     $"\n{_quest.NumberOfComponent[2]} {_quest.Component[2].Name} " +
                     $"\n{_quest.NumberOfComponent[3]} {_quest.Component[3].Name}";
             }
             if (_quest.NumberOfComponent.Count == 5)
             {
-                QuestObjectifText.text = $"{_quest.NumberOfComponent[0]} {_quest.Component[0].Name} " +
+                _questObjectifText.text = $"{_quest.NumberOfComponent[0]} {_quest.Component[0].Name} " +
                     $"\n{_quest.NumberOfComponent[1]} {_quest.Component[1].Name} " +
                     $"\n{_quest.NumberOfComponent[2]} {_quest.Component[2].Name} " +
                     $"\n{_quest.NumberOfComponent[3]} {_quest.Component[3].Name} " +
@@ -89,22 +94,29 @@ public class QuestUI : MonoBehaviour
         {
             if (_quest.NumberOfObject.Count == 1)
             {
-                QuestObjectifText.text = $"{QuestObjectifText.text} {_quest.NumberOfObject[0]} {_quest.Objects[0].Name}";
+                _questObjectifText.text = $"{_questObjectifText.text} {_quest.NumberOfObject[0]} {_quest.Objects[0].Name}";
             }
             if (_quest.NumberOfObject.Count == 2)
             {
-                QuestObjectifText.text = $"{QuestObjectifText.text} " +
+                _questObjectifText.text = $"{_questObjectifText.text} " +
                     $"{_quest.NumberOfObject[0]} {_quest.Objects[0].Name} " +
                     $"\n{_quest.NumberOfObject[1]} {_quest.Objects[1].Name}";
             }
             if (_quest.NumberOfObject.Count == 3)
             {
-                QuestObjectifText.text = $"{QuestObjectifText.text} " +
+                _questObjectifText.text = $"{_questObjectifText.text} " +
                     $"{_quest.NumberOfObject[0]} {_quest.Objects[0].Name} " +
                     $"\n{_quest.NumberOfObject[1]} {_quest.Objects[1].Name} " +
                     $"\n{_quest.NumberOfObject[2]} {_quest.Objects[2].Name}";
             }
         }
+    }
+
+    //Warning pop up 
+    public void QuestWarning()
+    {
+        Debug.Log("quest warning");
+        //_warningQuestPopUp.SetActive(true);
     }
 
     public void QuestAccept()
@@ -133,7 +145,7 @@ public class QuestUI : MonoBehaviour
             {
                 _objectifCurrentQuestTextList[i].text =
                     $"{ItemStorage.Instance.ReturnNumberOfThisComponent(_currentQuest.Component[0])} " +
-                    $"/ {_currentQuest.NumberOfComponent[0]}{_currentQuest.Component[0].Name}";
+                    $"/ {_currentQuest.NumberOfComponent[0]} {_currentQuest.Component[0].Name}";
             }
             if (_currentQuest.Component.Count == 2)
             {
@@ -172,7 +184,7 @@ public class QuestUI : MonoBehaviour
                     $"/ {_currentQuest.NumberOfComponent[0]} {_currentQuest.Component[0].Name} " +
                     $"\n{ItemStorage.Instance.ReturnNumberOfThisComponent(_currentQuest.Component[1])} " +
                     $"/ {_currentQuest.NumberOfComponent[1]} {_currentQuest.Component[1].Name} " +
-                    $"\n{ItemStorage.Instance.ReturnNumberOfThisComponent(_currentQuest             .Component[2])} " +
+                    $"\n{ItemStorage.Instance.ReturnNumberOfThisComponent(_currentQuest.Component[2])} " +
                     $"/ {_currentQuest.NumberOfComponent[2]} {_currentQuest.Component[2].Name}" +
                     $"\n{ItemStorage.Instance.ReturnNumberOfThisComponent(_currentQuest.Component[3])} " +
                     $"/ {_currentQuest.NumberOfComponent[3]} {_currentQuest.Component[3].Name}" +
@@ -196,7 +208,7 @@ public class QuestUI : MonoBehaviour
             {
                 _objectifCurrentQuestTextList[i].text =
                     $"{_objectifCurrentQuestTextList[i].text} {ItemStorage.Instance.ReturnNumberOfThisObject(_currentQuest.Objects[0])} " +
-                    $"/ {_currentQuest.NumberOfObject[0]} {_currentQuest  .Objects[0].Name}";
+                    $"/ {_currentQuest.NumberOfObject[0]} {_currentQuest.Objects[0].Name}";
             }
             if (_currentQuest.NumberOfObject.Count == 2)
             {
@@ -226,9 +238,6 @@ public class QuestUI : MonoBehaviour
     {
         for (int i = 0; i < _objectifCurrentQuestTextList.Count; i++)
         {
-            _nameCurrentQuestTextList[i].color = Color.black;
-            _objectifCurrentQuestTextList[i].color = Color.black;
-
             _buttonQuestComplitedList[i].SetActive(false);
             _nameCurrentQuestTextList[i].text = "";
             _objectifCurrentQuestTextList[i].text = "";
@@ -241,8 +250,6 @@ public class QuestUI : MonoBehaviour
     /// <param name="_currentQuestID"></param>
     public void QuestComplited(int _currentQuestID)
     {
-        _nameCurrentQuestTextList[_currentQuestID].color = QuestComplitedColorText;
-        _objectifCurrentQuestTextList[_currentQuestID].color = QuestComplitedColorText;
         _buttonQuestComplitedList[_currentQuestID].SetActive(true);
         _buttonQuestComplitedList[_currentQuestID].GetComponent<Quest>().QuestData = QuestManager.Instance.CurrentQuestList[_currentQuestID];
     }
