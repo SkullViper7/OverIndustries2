@@ -8,13 +8,20 @@ public class QualitySetting : MonoBehaviour
 
     private int _qualityLvl;
 
-    private void Awake()
+    private void OnEnable()
     {
-        _qualityLvl = 0;
-        SetQualityLvl(0);
+        if (PlayerPrefs.HasKey("QualityLevel"))
+        {
+            LoadQuality();
+        }
+        else
+        {
+            _qualityLvl = 1;
+            SetQuality(0);
+        }
     }
 
-    public void SetQualityLvl(int valueToAdd)
+    public void SetQuality(int valueToAdd)
     {
         _qualityLvl += valueToAdd;
 
@@ -28,6 +35,32 @@ public class QualitySetting : MonoBehaviour
         }
 
         switch(_qualityLvl)
+        {
+            case 1:
+                _text.text = "Performance";
+                QualitySettings.SetQualityLevel(0);
+                break;
+            case 2:
+                _text.text = "Équilibré";
+                QualitySettings.SetQualityLevel(1);
+                break;
+            case 3:
+                _text.text = "Qualité";
+                QualitySettings.SetQualityLevel(2);
+                break;
+        }
+
+        SaveQuality(_qualityLvl);
+    }
+
+    private void SaveQuality(int qualityLevel)
+    {
+        PlayerPrefs.SetInt("QualityLevel", qualityLevel);
+    }
+
+    private void LoadQuality()
+    {
+        switch (PlayerPrefs.GetInt("QualityLevel"))
         {
             case 1:
                 _text.text = "Performance";
