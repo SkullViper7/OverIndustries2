@@ -7,7 +7,9 @@ public class RoomLightInitializer : MonoBehaviour
 {
     private Room _room;
 
-    void Start()
+    private int _lightCount;
+
+    void OnEnable()
     {
         _room = GetComponentInParent<Room>();
         InitProbes();
@@ -20,6 +22,7 @@ public class RoomLightInitializer : MonoBehaviour
     void InitProbes()
     {
         List<Light> lights = GetComponentsInChildren<Light>().ToList();
+        _lightCount = lights.Count;
 
         LightProbe[] lightProbes = LightProbeManager.Instance.GetProbesForThisRoom(_room).ToArray();
 
@@ -120,20 +123,13 @@ public class RoomLightInitializer : MonoBehaviour
             // If the probe can see the sample point, add the light contribution to the SH coefficients.
             if (!Physics.Raycast(samplePosition, lightToProbe.normalized, lightToProbe.magnitude))
             {
-                Debug.DrawRay(samplePosition, lightToProbe, Color.green, 5f);
-
                 // Attenuation
                 float attenuation = 1.0F / Mathf.Max(1f, lightToProbe.sqrMagnitude * LightProbeManager.Instance.Attenuation);
 
-                float contribution = 1f / sampleOffsets.Length;
+                float contribution = 1f / sampleOffsets.Length / _lightCount;
 
                 // Add to SH coefficients
                 sh.AddDirectionalLight(-lightToProbe.normalized, color, contribution);
-            }
-
-            else
-            {
-                Debug.DrawRay(samplePosition, lightToProbe, Color.red, 5f);
             }
         }
     }
