@@ -55,21 +55,22 @@ public class JobProfileGenerator : MonoBehaviour
 
         //Calcule pourcentage d'avoir tant de jobs
         int k = Random.Range(0, 100);
-        if (k < _directorRoom.PourcentageHasThreeJob)
-        {
-            _numberOfJob = 3;
-            RandomJob(_numberOfJob);
-        }
-        else if (k < _directorRoom.PourcentageHasTwoJob)
-        {
-            _numberOfJob = 2;
-            RandomJob(_numberOfJob);
-        }
-        else
-        {
+
+        //if (k < _directorRoom.PourcentageHasThreeJob)
+        //{
+        //    _numberOfJob = 3;
+        //    RandomJob(_numberOfJob);
+        //}
+        //else if (k < _directorRoom.PourcentageHasTwoJob)
+        //{
+        //    _numberOfJob = 2;
+        //    RandomJob(_numberOfJob);
+        //}
+        //else
+        //{
             _numberOfJob = 1;
             RandomJob(_numberOfJob);
-        }
+        //}
     }
 
     /// <summary>
@@ -84,6 +85,7 @@ public class JobProfileGenerator : MonoBehaviour
             _employeeGenerate.EmployeeJob.Add(_jobsList[_job]);
 
             _jobsList.Remove(_jobsList[_job]);
+            _employeeGenerate.SetHatColor();
         }
     }
 

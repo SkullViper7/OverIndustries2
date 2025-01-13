@@ -10,7 +10,7 @@ public class JobProfileUI : MonoBehaviour
 
     [Header("UI Reference for hired job profile")]
     [SerializeField] private GameObject _jobProfileHired;
-    [field :SerializeField] public List<GameObject> JobProfileList { get; private set; }
+    [field: SerializeField] public List<GameObject> JobProfileList { get; private set; }
     [SerializeField] private List<TextMeshProUGUI> _employeeNameHired;
     [SerializeField] private List<GameObject> _jobTextParentHired;
 
@@ -179,6 +179,8 @@ public class JobProfileUI : MonoBehaviour
         }
     }
 
+
+    //show employee selected profil
     public void ShowProfile(Employee employee)
     {
         _employeeName.text = employee.EmployeeName;
@@ -258,9 +260,8 @@ public class JobProfileUI : MonoBehaviour
         }
         else
         {
-            _careerDevelopment.text = $"{_job.CareerDevelopment[0]} \n{_job.CareerDevelopment[1]} \n{_job.CareerDevelopment[2]} \n{_job.CareerDevelopment[3]} \n{_job.CareerDevelopment[4]}";
+            _careerDevelopment.text = $"{_job.CareerDevelopment[0]} \n{_job.CareerDevelopment[1]} \n{_job.CareerDevelopment[2]} \n{_job.CareerDevelopment[3]}";
         }
-
         _room.text = _job.Room;
     }
 
