@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class TutorialUI : MonoBehaviour
 {
-    [Header("Tutorial Panel")]
+    [Header("Tutorial Buttons")]
     [SerializeField]
     private List<GameObject> _buttonActions;
 
@@ -14,6 +14,15 @@ public class TutorialUI : MonoBehaviour
 
     [SerializeField]
     private TutorialManager _tutorialManager;
+
+    [SerializeField]
+    private GameObject _background;
+
+    [SerializeField]
+    private GameObject _tutoralContinuePopUp;
+
+    [SerializeField]
+    private UIManager _uiManager;
 
     private void Start()
     {
@@ -31,6 +40,9 @@ public class TutorialUI : MonoBehaviour
         _tutorialManager.OnTutorialImageHide += HideTutorialStep;
         _tutorialManager.OnTutorialButtonShow += ShowButtonAction;
         _tutorialManager.OnTutorialButtonHide += ShowButtonAction;
+        _tutorialManager.OnTutorialHideBackground += HideBackground;
+        _tutorialManager.OnTutorialShowBackground += ShowBackground;
+        _tutorialManager.OnTutorialContinuePopUp += ShowTutorialContinuePopUp;
     }
 
     public void ShowTutorialStep(int imageActive)
@@ -63,5 +75,28 @@ public class TutorialUI : MonoBehaviour
         {
             _buttonActions[i].SetActive(true);
         }
+    }
+
+    public void HideBackground()
+    {
+        _background.SetActive(false);
+    }
+
+    public void ShowBackground()
+    {
+        _background.SetActive(true);
+    }
+
+    public void ShowTutorialContinuePopUp()
+    {
+        _uiManager.OpenSFX();
+        _uiManager.OpenUI();
+        ChronoManager.Instance.StopChronometer();
+        _tutoralContinuePopUp.SetActive(true);
+    }
+
+    public void ContinueGame()
+    {
+        ChronoManager.Instance.StartChronometer(20);
     }
 }

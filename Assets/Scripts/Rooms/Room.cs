@@ -180,6 +180,20 @@ public class Room : MonoBehaviour
     }
 
     /// <summary>
+    /// Reset employee waypoint when the room is upgrade
+    /// </summary>
+    private void SetEmployeeAssign()
+    {
+        if(EmployeeAssign != null)
+        {
+            for(int i = 0; i < EmployeeAssign.Count; i++)
+            {
+                EmployeeAssign[i].SetRoutineParameter();
+            }
+        }
+    }
+
+    /// <summary>
     /// Add this employee in the list of employee assign in this room
     /// </summary>
     /// <param name="employee"></param>
@@ -236,6 +250,7 @@ public class Room : MonoBehaviour
 
                     GameObject newVisualRoom = Instantiate(RoomData.RoomLvl2, transform);
                     _currentVisualRoom = newVisualRoom;
+                    SetEmployeeAssign();
                     break;
                 }
             case 3:
@@ -250,6 +265,7 @@ public class Room : MonoBehaviour
 
                     GameObject newVisualRoom = Instantiate(RoomData.RoomLvl3, transform);
                     _currentVisualRoom = newVisualRoom;
+                    SetEmployeeAssign();
                     break;
                 }
         }
