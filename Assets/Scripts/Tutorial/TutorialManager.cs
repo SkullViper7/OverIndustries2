@@ -1,8 +1,6 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -21,12 +19,8 @@ public class TutorialManager : MonoBehaviour
     private string[] _tutorialSteps;
     private int _currentCharIndex = 0;
 
-    [SerializeField]
-    private List<GameObject> _buttonActions;
-
     private bool _canContinue = true;
     private bool _isConditionIsMet = false;
-    private bool _cantRevealText = false;
 
     //Rooms
     private GameObject _roomResearch;
@@ -36,15 +30,12 @@ public class TutorialManager : MonoBehaviour
 
     public event System.Action<int> OnTutorialImageStep;
     public event System.Action OnTutorialImageHide;
+    public event System.Action<int> OnTutorialButtonShow;
+    public event System.Action OnTutorialButtonHide;
 
     void Start()
     {
         ShowTutorialStep();
-
-        for (int i = 0; i < _buttonActions.Count; i++)
-        {
-            _buttonActions[i].SetActive(false);
-        }
     }
 
     /// <summary>
@@ -58,11 +49,6 @@ public class TutorialManager : MonoBehaviour
             _tutoralText.text = ""; // Clear the text initially
             StartCoroutine(RevealText(_tutorialSteps[_currentStep])); // Start revealing the text
 
-            for (int i = 0; i < _buttonActions.Count; i++)
-            {
-                _buttonActions[i].SetActive(true);
-            }
-
             switch (_currentStep)
             {
                 case 3:
@@ -72,18 +58,22 @@ public class TutorialManager : MonoBehaviour
                 case 4:
                     OnTutorialImageHide?.Invoke();
                     OnTutorialImageStep?.Invoke(2);
+                    OnTutorialButtonShow?.Invoke(0);
                     break;
                 case 5:
                     OnTutorialImageHide?.Invoke();
                     OnTutorialImageStep?.Invoke(3);
+                    OnTutorialButtonShow?.Invoke(1);
                     break;
                 case 6:
                     OnTutorialImageHide?.Invoke();
                     OnTutorialImageStep?.Invoke(4);
+                    OnTutorialButtonShow?.Invoke(2);
                     break;
                 case 7:
                     OnTutorialImageHide?.Invoke();
                     OnTutorialImageStep?.Invoke(5);
+                    OnTutorialButtonShow?.Invoke(3);
                     break;
                 case 8:
                     OnTutorialImageHide?.Invoke();
@@ -143,28 +133,6 @@ public class TutorialManager : MonoBehaviour
                     OnTutorialImageStep?.Invoke(26);
                     OnTutorialImageStep?.Invoke(27);
                     break;
-
-                    //case 2:
-                    //    ShowConstructButton();
-                    //    break;
-                    ////case 3:
-                    ////    ShowStorage();
-                    ////    break;
-                    //case 4:
-                    //    //DesactiveConstructButton();
-                    //    break;
-                    //case 8:
-                    //    ShowConstructButton();
-                    //    break;
-                    //case 9:
-                    //    DesactiveConstructButton();
-                    //    break;
-                    //case 10:
-                    //    ShowCommandeButton();
-                    //    break;
-                    //case 12:
-                    //    ShowConstructButton();
-                    //    break;
             }
         }
         else
@@ -229,29 +197,8 @@ public class TutorialManager : MonoBehaviour
     public void SkipTutorial()
     {
         _currentStep = _tutorialSteps.Length;
+        OnTutorialButtonHide?.Invoke();
         HideTutorialStep();
-    }
-
-    void ShowConstructButton()
-    {
-        _buttonActions[0].SetActive(true);
-    }
-
-    void DesactiveConstructButton()
-    {
-        _buttonActions[0].SetActive(false);
-    }
-
-    void ShowStorage()
-    {
-        _buttonActions[0].SetActive(false);
-        _buttonActions[1].SetActive(false);
-        _buttonActions[2].SetActive(true);
-    }
-
-    void ShowCommandeButton()
-    {
-        _buttonActions[1].SetActive(true);
     }
 
     /// <summary>
@@ -259,11 +206,7 @@ public class TutorialManager : MonoBehaviour
     /// </summary>
     public void HideTutorialStep()
     {
-        for (int i = 0; i < _buttonActions.Count; i++)
-        {
-            _buttonActions[i].SetActive(true);
-        }
-
+        OnTutorialButtonHide?.Invoke();
         _tutorialPanel.SetActive(false);
     }
 
