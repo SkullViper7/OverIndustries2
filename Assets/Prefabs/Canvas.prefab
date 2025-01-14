@@ -7100,7 +7100,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 585.29724, y: -46.70273}
-  m_SizeDelta: {x: 0, y: 93.40546}
+  m_SizeDelta: {x: 93.40546, y: 93.40546}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &7890857387790658282
 MonoBehaviour:
@@ -14342,7 +14342,6 @@ MonoBehaviour:
   - {fileID: 2049367451488974775}
   - {fileID: 7471509389802480598}
   - {fileID: 4292955938618044239}
-  - {fileID: 0}
   _statsButton: {fileID: 5788753378672694037}
   _descriptionButton: {fileID: 3648532509245453730}
 --- !u!1 &1826723892069595504
@@ -23990,7 +23989,7 @@ GameObject:
   - component: {fileID: 5341782697419473534}
   - component: {fileID: 6508492209032029200}
   m_Layer: 5
-  m_Name: Score
+  m_Name: ScoreText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30027,7 +30026,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 333.42276, y: -46.70273}
-  m_SizeDelta: {x: 0, y: 93.40546}
+  m_SizeDelta: {x: 330.34357, y: 93.40546}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &3623681815594122679
 MonoBehaviour:
@@ -40764,6 +40763,7 @@ GameObject:
   - component: {fileID: 3808120680221982482}
   - component: {fileID: 1567304169394067929}
   - component: {fileID: 8273354661404407517}
+  - component: {fileID: 2239853701664003197}
   - component: {fileID: 7970376779131073793}
   m_Layer: 5
   m_Name: Canvas
@@ -40997,6 +40997,20 @@ MonoBehaviour:
   _maxEmployeeNotAssign: "Assigne tes employ\xE9s dans des salles avant d'en embaucher
     de nouveaux."
   _assignRoomIsFull: "La limite d'employ\xE9s a \xE9t\xE9 atteinte dans cette salle."
+--- !u!114 &2239853701664003197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4761016143343523893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0b8eeac1e379e940899ce7b2c2430f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scorePopUp: {fileID: 6924642580968061690}
+  _scoreText: {fileID: 6508492209032029200}
 --- !u!114 &7970376779131073793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51063,7 +51077,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 1868.1082, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6162801178532453748
 CanvasRenderer:
@@ -58147,7 +58161,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6179554456765103895}
   m_Layer: 5
-  m_Name: ScoreUI
+  m_Name: ScorePopUpUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -64371,7 +64385,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6092405981431784612
 RectTransform:
   m_ObjectHideFlags: 0
