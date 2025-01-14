@@ -6,7 +6,7 @@ public class FPSSetting : MonoBehaviour
     [SerializeField]
     private Toggle _toggle;
 
-    private void OnEnable()
+    private void Awake()
     {
         _toggle.onValueChanged.AddListener(ActivateLowSetting);
 
