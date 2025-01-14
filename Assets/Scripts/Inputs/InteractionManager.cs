@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -40,6 +41,10 @@ public class InteractionManager : MonoBehaviour
     /// </summary>
     public delegate void NoInteractionDelegate();
     public event NoInteractionDelegate NoInteraction;
+
+    public event Action<Room> RoomSelected;
+
+    public event Action RoomUnselected;
 
     private void Awake()
     {
@@ -95,6 +100,7 @@ public class InteractionManager : MonoBehaviour
                 if (CurrentEmployeeSelected != employee)
                 {
                     CurrentRoomSelected = null;
+                    RoomUnselected?.Invoke();
                     CurrentEmployeeSelected = employee;
                     EmployeeInteraction?.Invoke(employee);
                 }
@@ -105,12 +111,14 @@ public class InteractionManager : MonoBehaviour
                 {
                     CurrentEmployeeSelected = null;
                     CurrentRoomSelected = room;
+                    RoomSelected?.Invoke(room);
                     RoomInteraction?.Invoke(room);
                 }
             }
             else
             {
                 CurrentRoomSelected = null;
+                RoomUnselected?.Invoke();
                 CurrentEmployeeSelected = null;
                 NoInteraction?.Invoke();
             }
@@ -118,6 +126,7 @@ public class InteractionManager : MonoBehaviour
         else
         {
             CurrentRoomSelected = null;
+            RoomUnselected?.Invoke();
             CurrentEmployeeSelected = null;
             NoInteraction?.Invoke();
         }
@@ -142,6 +151,8 @@ public class InteractionManager : MonoBehaviour
             // or if it's an object with a room component, trigger its event with datas of the room
             if (hit.collider.TryGetComponent<Employee>(out Employee employee))
             {
+                CurrentRoomSelected = null;
+                RoomUnselected?.Invoke();
                 CurrentEmployeeSelected = employee;
                 employee.StopRoutine();
                 EmployeeDragAndDrop?.Invoke(employee);
@@ -149,6 +160,7 @@ public class InteractionManager : MonoBehaviour
             else
             {
                 CurrentRoomSelected = null;
+                RoomUnselected?.Invoke();
                 CurrentEmployeeSelected = null;
                 NoInteraction?.Invoke();
             }
@@ -156,6 +168,7 @@ public class InteractionManager : MonoBehaviour
         else
         {
             CurrentRoomSelected = null;
+            RoomUnselected?.Invoke();
             CurrentEmployeeSelected = null;
             NoInteraction?.Invoke();
         }
@@ -191,12 +204,14 @@ public class InteractionManager : MonoBehaviour
                 {
                     CurrentEmployeeSelected = null;
                     CurrentRoomSelected = room;
+                    RoomSelected?.Invoke(room);
                     RoomInteraction?.Invoke(room);
                 }
             }
             else
             {
                 CurrentRoomSelected = null;
+                RoomUnselected?.Invoke();
                 CurrentEmployeeSelected = null;
                 NoInteraction?.Invoke();
             }
@@ -204,6 +219,7 @@ public class InteractionManager : MonoBehaviour
         else
         {
             CurrentRoomSelected = null;
+            RoomUnselected?.Invoke();
             CurrentEmployeeSelected = null;
             NoInteraction?.Invoke();
         }
