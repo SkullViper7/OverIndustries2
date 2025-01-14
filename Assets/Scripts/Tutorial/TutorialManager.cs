@@ -32,6 +32,8 @@ public class TutorialManager : MonoBehaviour
     public event System.Action OnTutorialImageHide;
     public event System.Action<int> OnTutorialButtonShow;
     public event System.Action OnTutorialButtonHide;
+    public event System.Action OnTutorialHideBackground;
+    public event System.Action OnTutorialShowBackground;
 
     void Start()
     {
@@ -91,18 +93,24 @@ public class TutorialManager : MonoBehaviour
                     OnTutorialImageStep?.Invoke(9);
                     break;
                 case 12:
+                    OnTutorialShowBackground?.Invoke();
+
                     OnTutorialImageHide?.Invoke();
                     OnTutorialImageStep?.Invoke(2);
                     OnTutorialImageStep?.Invoke(10);
                     OnTutorialImageStep?.Invoke(11);
                     break;
                 case 13:
+                    OnTutorialShowBackground?.Invoke();
+
                     OnTutorialImageHide?.Invoke();
                     OnTutorialImageStep?.Invoke(12);
                     OnTutorialImageStep?.Invoke(13);
                     OnTutorialImageStep?.Invoke(14);
                     break;
                 case 14:
+                    OnTutorialShowBackground?.Invoke();
+
                     OnTutorialImageHide?.Invoke();
                     OnTutorialImageStep?.Invoke(12);
                     OnTutorialImageStep?.Invoke(15);
@@ -111,23 +119,31 @@ public class TutorialManager : MonoBehaviour
                     OnTutorialImageStep?.Invoke(18);
                     break;
                 case 15:
+                    OnTutorialShowBackground?.Invoke();
+
                     OnTutorialImageHide?.Invoke();
                     OnTutorialImageStep?.Invoke(17);
                     OnTutorialImageStep?.Invoke(19);
                     OnTutorialImageStep?.Invoke(20);
                     break;
                 case 16:
+                    OnTutorialShowBackground?.Invoke();
+
                     OnTutorialImageHide?.Invoke();
                     OnTutorialImageStep?.Invoke(21);
                     OnTutorialImageStep?.Invoke(22);
                     break;
                 case 17:
+                    OnTutorialShowBackground?.Invoke();
+
                     OnTutorialImageHide?.Invoke();
                     OnTutorialImageStep?.Invoke(3);
                     OnTutorialImageStep?.Invoke(23);
                     OnTutorialImageStep?.Invoke(24);
                     break;
                 case 19:
+                    OnTutorialShowBackground?.Invoke();
+
                     OnTutorialImageHide?.Invoke();
                     OnTutorialImageStep?.Invoke(25);
                     OnTutorialImageStep?.Invoke(26);
@@ -207,6 +223,7 @@ public class TutorialManager : MonoBehaviour
     public void HideTutorialStep()
     {
         OnTutorialButtonHide?.Invoke();
+        OnTutorialHideBackground?.Invoke();
         _tutorialPanel.SetActive(false);
     }
 
@@ -218,6 +235,8 @@ public class TutorialManager : MonoBehaviour
             {
                 case 12:
                     OnTutorialImageHide?.Invoke();
+                    OnTutorialHideBackground?.Invoke();
+
                     if (GridManager.Instance.InstantiatedRooms[i].RoomData.RoomType == RoomType.Research)
                     {
                         _roomResearch = GridManager.Instance.InstantiatedRooms[i].gameObject;
@@ -226,6 +245,8 @@ public class TutorialManager : MonoBehaviour
                     break;
                 case 13:
                     OnTutorialImageHide?.Invoke();
+                    OnTutorialHideBackground?.Invoke();
+
                     if (DirectorRoom.Instance.RoomMain.EmployeeAssign.Count >= 1)
                     {
                         _roomDirector = DirectorRoom.Instance.RoomMain.gameObject;
@@ -234,6 +255,8 @@ public class TutorialManager : MonoBehaviour
                     break;
                 case 14:
                     OnTutorialImageHide?.Invoke();
+                    OnTutorialHideBackground?.Invoke();
+
                     if (_roomResearch.GetComponent<Room>().EmployeeAssign.Count >= 1)
                     {
                         _canContinue = true;
@@ -241,6 +264,8 @@ public class TutorialManager : MonoBehaviour
                     break;
                 case 15:
                     OnTutorialImageHide?.Invoke();
+                    OnTutorialHideBackground?.Invoke();
+
                     _roomResearch.GetComponent<ResearchRoom>().StartReasearch += ConditionIsMet;
                     if (_isConditionIsMet)
                     {
@@ -250,6 +275,8 @@ public class TutorialManager : MonoBehaviour
                     break;
                 case 16:
                     OnTutorialImageHide?.Invoke();
+                    OnTutorialHideBackground?.Invoke();
+
                     _roomResearch.GetComponent<ResearchRoom>().ResearchCompleted += ConditionIsMet;
                     if (_isConditionIsMet)
                     {
@@ -259,6 +286,8 @@ public class TutorialManager : MonoBehaviour
                     break;
                 case 17:
                     OnTutorialImageHide?.Invoke();
+                    OnTutorialHideBackground?.Invoke();
+
                     if (QuestManager.Instance.CurrentQuestList.Count >= 1)
                     {
                         _canContinue = true;
@@ -266,6 +295,7 @@ public class TutorialManager : MonoBehaviour
                     break;
                 case 18:
                     OnTutorialImageHide?.Invoke();
+                    OnTutorialHideBackground?.Invoke();
 
                     bool isStorage = false;
                     bool isAssembly = false;
