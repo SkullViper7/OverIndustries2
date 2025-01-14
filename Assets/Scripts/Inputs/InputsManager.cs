@@ -56,99 +56,102 @@ public class InputsManager : MonoBehaviour
             }
         }
 
-        if (!GameManager.Instance.UIIsOpen)
+        if (GameManager.Instance != null)
         {
-            switch (context.action.name)
+            if (!GameManager.Instance.UIIsOpen)
             {
-                case "Tap":
-                    if (context.performed)
-                    {
-                        if (!IsPointerOverUI(Touchscreen.current.primaryTouch.position.ReadValue()))
+                switch (context.action.name)
+                {
+                    case "Tap":
+                        if (context.performed)
                         {
-                            Tap?.Invoke();
-                            TapContext?.Invoke(context);
+                            if (!IsPointerOverUI(Touchscreen.current.primaryTouch.position.ReadValue()))
+                            {
+                                Tap?.Invoke();
+                                TapContext?.Invoke(context);
+                            }
                         }
-                    }
-                    break;
+                        break;
 
-                case "DoubleTap":
-                    if (context.performed)
-                    {
-                        if (!IsPointerOverUI(Touchscreen.current.primaryTouch.position.ReadValue()))
+                    case "DoubleTap":
+                        if (context.performed)
                         {
-                            DoubleTap?.Invoke();
-                            DoubleTapContext?.Invoke(context);
+                            if (!IsPointerOverUI(Touchscreen.current.primaryTouch.position.ReadValue()))
+                            {
+                                DoubleTap?.Invoke();
+                                DoubleTapContext?.Invoke(context);
+                            }
                         }
-                    }
-                    break;
+                        break;
 
-                case "TouchContact0":
-                    if (context.started)
-                    {
-                        if (!IsPointerOverUI(Touchscreen.current.primaryTouch.position.ReadValue()))
+                    case "TouchContact0":
+                        if (context.started)
                         {
-                            Touch0ContactStarted?.Invoke();
-                            Touch0ContactStartedContext?.Invoke(context);
+                            if (!IsPointerOverUI(Touchscreen.current.primaryTouch.position.ReadValue()))
+                            {
+                                Touch0ContactStarted?.Invoke();
+                                Touch0ContactStartedContext?.Invoke(context);
+                            }
                         }
-                    }
-                    if (context.canceled)
-                    {
-                        Touch0ContactCanceled?.Invoke();
-                        Touch0ContactCanceledContext?.Invoke(context);
-                    }
-                    break;
-
-                case "TouchContact1":
-                    if (context.started)
-                    {
-                        if (!IsPointerOverUI(Touchscreen.current.primaryTouch.position.ReadValue()))
+                        if (context.canceled)
                         {
-                            Touch1ContactStarted?.Invoke();
-                            Touch1ContactStartedContext?.Invoke(context);
+                            Touch0ContactCanceled?.Invoke();
+                            Touch0ContactCanceledContext?.Invoke(context);
                         }
-                    }
-                    if (context.canceled)
-                    {
-                        Touch1ContactCanceled?.Invoke();
-                        Touch1ContactCanceledContext?.Invoke(context);
-                    }
-                    break;
+                        break;
 
-                case "Hold0":
-                    if (context.performed)
-                    {
-                        Hold0?.Invoke();
-                        Hold0Context?.Invoke(context);
-                    }
-                    break;
-
-                case "Hold1":
-                    if (context.performed)
-                    {
-                        Hold1?.Invoke();
-                        Hold1Context?.Invoke(context);
-                    }
-                    break;
-
-                case "DragAndDrop0":
-                    if (context.started)
-                    {
-                        if (!IsPointerOverUI(Touchscreen.current.primaryTouch.position.ReadValue()))
+                    case "TouchContact1":
+                        if (context.started)
                         {
-                            DragAndDropStarted?.Invoke();
+                            if (!IsPointerOverUI(Touchscreen.current.primaryTouch.position.ReadValue()))
+                            {
+                                Touch1ContactStarted?.Invoke();
+                                Touch1ContactStartedContext?.Invoke(context);
+                            }
                         }
-                    }
-                    else if (context.performed)
-                    {
-                        DragAndDropPerformed?.Invoke();
-                    }
-                    else if (context.canceled)
-                    {
-                        DragAndDropCanceled?.Invoke();
-                    }
-                    break;
+                        if (context.canceled)
+                        {
+                            Touch1ContactCanceled?.Invoke();
+                            Touch1ContactCanceledContext?.Invoke(context);
+                        }
+                        break;
+
+                    case "Hold0":
+                        if (context.performed)
+                        {
+                            Hold0?.Invoke();
+                            Hold0Context?.Invoke(context);
+                        }
+                        break;
+
+                    case "Hold1":
+                        if (context.performed)
+                        {
+                            Hold1?.Invoke();
+                            Hold1Context?.Invoke(context);
+                        }
+                        break;
+
+                    case "DragAndDrop0":
+                        if (context.started)
+                        {
+                            if (!IsPointerOverUI(Touchscreen.current.primaryTouch.position.ReadValue()))
+                            {
+                                DragAndDropStarted?.Invoke();
+                            }
+                        }
+                        else if (context.performed)
+                        {
+                            DragAndDropPerformed?.Invoke();
+                        }
+                        else if (context.canceled)
+                        {
+                            DragAndDropCanceled?.Invoke();
+                        }
+                        break;
+                }
             }
-        }
+        }       
     }
 
     /// <summary>
