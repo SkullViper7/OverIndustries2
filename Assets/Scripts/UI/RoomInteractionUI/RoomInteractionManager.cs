@@ -17,8 +17,8 @@ public class RoomInteractionManager : MonoBehaviour
         _interactionManager = InteractionManager.Instance;
         _uiManager = UIManager.Instance;
 
-        _interactionManager.RoomInteraction += ShowButtons;
-        _interactionManager.NoInteraction += DesactivateAllButtons;
+        _interactionManager.RoomSelected += ShowButtons;
+        _interactionManager.RoomUnselected += DesactivateAllButtons;
     }
 
     /// <summary>

@@ -170,6 +170,18 @@ public class UIManager : MonoBehaviour
     [SerializeField, Tooltip("SFX to play when a UI is open.")]
     private AudioClip _closeSFX;
 
+    public void HideButtons()
+    {
+        InteractionButtonGroup.HideButtons();
+        InfoRoomButton.SetActive(false);
+        UpgradeButton.SetActive(false);
+        ProductionButton.SetActive(false);
+        StopProductionButton.SetActive(false);
+        ResearchButton.SetActive(false);
+        EmbaucheEmployeeButton.SetActive(false);
+        InfoEmployeeButton.SetActive(false);
+    }
+
     public void ClickSFX()
     {
         _SFXSource.PlayOneShot(_clickSFX);

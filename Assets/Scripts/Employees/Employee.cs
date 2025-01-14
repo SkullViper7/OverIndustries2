@@ -33,8 +33,8 @@ public class Employee : MonoBehaviour
 
     [Space, Header("Hat color")]
     [SerializeField] private SpriteRenderer _hat;
-    [field: SerializeField] private List<Sprite> _hatList;
-    [field: SerializeField] private List<string> _jobNameList;
+    [SerializeField] private List<Sprite> _hatList;
+    [SerializeField] private List<string> _jobNameList;
 
     /// <summary>
     /// List of wayPoint who employee can interact and have a animation
@@ -48,6 +48,9 @@ public class Employee : MonoBehaviour
     private Animator _animator;
 
     private GameObject _actualWayPoint;
+
+    [SerializeField]
+    private GameObject _outline;
 
     public void SetEmployee()
     {
@@ -226,5 +229,15 @@ public class Employee : MonoBehaviour
         yield return new WaitForSeconds(i);
 
         RandomWayPoint();
+    }
+
+    public void ShowOutline()
+    {
+        _outline.SetActive(true);
+    }
+
+    public void HideOutline()
+    {
+        _outline.SetActive(false);
     }
 }

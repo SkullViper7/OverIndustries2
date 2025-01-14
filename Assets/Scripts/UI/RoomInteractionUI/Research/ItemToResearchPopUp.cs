@@ -376,7 +376,8 @@ public class ItemToResearchPopUp : MonoBehaviour
         _popUp.SetActive(false);
 
         RawMaterialStorage.Instance.AmountHasChanged -= UpdateResearchCostForComponent;
-        RawMaterialStorage.Instance.AmountHasChanged -= UpdateResearchCostForObject;
+        RawMaterialStorage.Instance.RawMaterialStorageHasChanged -= UpdateResearchCostForObject;
+        ItemStorage.Instance.ItemStorageHasChanged -= UpdateResearchCostForObject;
 
         _description.SetActive(false);
         _stats.SetActive(true);

@@ -21,18 +21,20 @@ public class EmployeeInteractionManager : MonoBehaviour
         _interactionManager = InteractionManager.Instance;
         _uiManager = UIManager.Instance;
 
-        _interactionManager.EmployeeInteraction += ShowButtons;
-        _interactionManager.NoInteraction += DesactivateAllButtons;
+        _interactionManager.EmployeeSelected += SelectEmployee;
+        _interactionManager.EmployeeUnselected += DesactivateAllButtons;
     }
 
     /// <summary>
-    /// Called to show some buttons when an interaction on a room is triggered.
+    /// Called to show some buttons when an interaction on an employee is triggered.
     /// </summary>
-    /// <param name="employee"> Main component of the room. </param>
-    public void ShowButtons(Employee employee)
+    /// <param name="employee"> Main component of the employee. </param>
+    public void SelectEmployee(Employee employee)
     {
         _currentEmployeeSelected = employee;
         _uiManager.InfoEmployeeButton.SetActive(true);
+
+        employee.StopRoutine();
 
         // Play animation
         _uiManager.InteractionButtonGroup.ShowButtons();
@@ -59,8 +61,11 @@ public class EmployeeInteractionManager : MonoBehaviour
     /// </summary>
     private void DesactivateAllButtons()
     {
-        _uiManager.InteractionButtonGroup.HideButtons();
+        if (_currentEmployeeSelected != null)
+        {
+            _currentEmployeeSelected.SetRoutineParameter();
+        }
 
-        _uiManager.InfoEmployeeButton.SetActive(false);
+        _uiManager.InteractionButtonGroup.HideButtons();
     }
 }
