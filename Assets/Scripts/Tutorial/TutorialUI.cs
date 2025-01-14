@@ -15,6 +15,9 @@ public class TutorialUI : MonoBehaviour
     [SerializeField]
     private TutorialManager _tutorialManager;
 
+    [SerializeField]
+    private GameObject _background;
+
     private void Start()
     {
         for (int i = 0; i < _buttonActions.Count; i++)
@@ -31,6 +34,8 @@ public class TutorialUI : MonoBehaviour
         _tutorialManager.OnTutorialImageHide += HideTutorialStep;
         _tutorialManager.OnTutorialButtonShow += ShowButtonAction;
         _tutorialManager.OnTutorialButtonHide += ShowButtonAction;
+        _tutorialManager.OnTutorialHideBackground += HideBackground;
+        _tutorialManager.OnTutorialShowBackground += ShowBackground;
     }
 
     public void ShowTutorialStep(int imageActive)
@@ -63,5 +68,15 @@ public class TutorialUI : MonoBehaviour
         {
             _buttonActions[i].SetActive(true);
         }
+    }
+
+    public void HideBackground()
+    {
+        _background.SetActive(false);
+    }
+
+    public void ShowBackground()
+    {
+        _background.SetActive(true);
     }
 }
