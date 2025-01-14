@@ -46,7 +46,6 @@ public class HireEmployee : MonoBehaviour
     public void HiredEmployeeButton(int i)
     {
         HiredEmployee(_buttonHireList[i].Employee);
-
     }
 
     /// <summary>
