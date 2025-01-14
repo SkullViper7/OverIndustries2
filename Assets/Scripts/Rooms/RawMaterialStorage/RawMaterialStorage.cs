@@ -35,14 +35,11 @@ public class RawMaterialStorage : MonoBehaviour
     /// <summary>
     /// Events to indicate changes about the raw material storage.
     /// </summary>
-    public event Action<int> AmountHasChanged, CapacityHasChanged;
-
-    /// <summary>
-    /// For the recycling room
-    /// </summary>
-    public event Action<int> RawMaterialToRecycle, RawMaterialProduct;
+    public event Action<int> AmountHasChanged, CapacityHasChanged, RawMaterialToRecycle, RawMaterialProduct;
 
     public event Action<int, int> NewAmountInInternalStorage;
+
+    public event Action RawMaterialStorageHasChanged;
 
     private void Awake()
     {
@@ -72,6 +69,7 @@ public class RawMaterialStorage : MonoBehaviour
         _amoutOfRawMaterial += amountToAdd;
         Mathf.Clamp(_amoutOfRawMaterial, 0, _storageCapacity);
 
+        RawMaterialStorageHasChanged?.Invoke();
         AmountHasChanged?.Invoke(_amoutOfRawMaterial);
         RawMaterialProduct?.Invoke(amountToAdd);
         NewAmountInInternalStorage?.Invoke(_amoutOfRawMaterial, _storageCapacity);
@@ -86,6 +84,7 @@ public class RawMaterialStorage : MonoBehaviour
         _amoutOfRawMaterial -= amountToSubstract;
         Mathf.Clamp(_amoutOfRawMaterial, 0, _storageCapacity);
 
+        RawMaterialStorageHasChanged?.Invoke();
         AmountHasChanged?.Invoke(_amoutOfRawMaterial);
         NewAmountInInternalStorage?.Invoke(_amoutOfRawMaterial, _storageCapacity);
     }
@@ -126,6 +125,7 @@ public class RawMaterialStorage : MonoBehaviour
     {
         _storageCapacity += capacityToAdd;
 
+        RawMaterialStorageHasChanged?.Invoke();
         CapacityHasChanged?.Invoke(_storageCapacity);
         NewAmountInInternalStorage?.Invoke(_amoutOfRawMaterial, _storageCapacity);
     }

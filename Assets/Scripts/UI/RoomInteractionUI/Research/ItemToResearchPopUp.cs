@@ -242,7 +242,6 @@ public class ItemToResearchPopUp : MonoBehaviour
         _productionTime1.text = _currentObjectData.ProductionTimeAtLvl1.ToString();
 
         // Display specific data
-        _objectRecipeCell.SetActive(true);
         List<Ingredient> recipe = _currentObjectData.Ingredients;
         for (int i = 0; i < recipe.Count; i++)
         {
@@ -250,8 +249,8 @@ public class ItemToResearchPopUp : MonoBehaviour
             _objectRecipe[i].GetComponentInChildren<Image>().sprite = recipe[i].ComponentData.ComponentPicto;
             _objectRecipe[i].GetComponentInChildren<TMP_Text>().text = recipe[i].Quantity.ToString();
         }
+        _objectRecipeCell.SetActive(true);
 
-        _objectResearchCostCell.SetActive(true);
         List<Ingredient> recipeCost = _currentObjectData.ResearchCost.IngredientsCost;
         for (int i = 0; i < recipeCost.Count; i++)
         {
@@ -259,11 +258,12 @@ public class ItemToResearchPopUp : MonoBehaviour
             _objectResearchCostInComponents[i].GetComponentInChildren<Image>().sprite = recipe[i].ComponentData.ComponentPicto;
             _objectResearchCostInComponents[i].GetComponentInChildren<TMP_Text>().text = recipeCost[i].Quantity.ToString();
         }
-
         _objectResearchCostInRawMaterial.text = _currentObjectData.ResearchCost.RawMaterialCost.ToString();
+        _objectResearchCostCell.SetActive(true);
 
-        UpdateResearchCostForObject(RawMaterialStorage.Instance.AmoutOfRawMaterial);
-        RawMaterialStorage.Instance.AmountHasChanged += UpdateResearchCostForObject;
+        UpdateResearchCostForObject();
+        RawMaterialStorage.Instance.RawMaterialStorageHasChanged += UpdateResearchCostForObject;
+        ItemStorage.Instance.ItemStorageHasChanged += UpdateResearchCostForObject;
 
         _popUp.SetActive(true);
     }
@@ -290,55 +290,41 @@ public class ItemToResearchPopUp : MonoBehaviour
     /// <summary>
     /// Called to update the availability of the research cost for an object.
     /// </summary>
-    /// <param name="newAmount"> New amount in raw material storage. </param>
-    private void UpdateResearchCostForObject(int newAmount)
+    private void UpdateResearchCostForObject()
     {
         _validationButton.onClick.RemoveAllListeners();
+
+        bool isCostAvailbale = true;
 
         // Check for raw material
         if (RawMaterialStorage.Instance.AmoutOfRawMaterial >= _currentObjectData.ResearchCost.RawMaterialCost)
         {
             _objectResearchCostInRawMaterial.color = Color.white;
-
-            // Check for components
-            List<Ingredient> recipeCost = _currentObjectData.ResearchCost.IngredientsCost;
-            bool isRecipeInTheStorage = true;
-            for (int i = 0; i < recipeCost.Count; i++)
-            {
-                if (ItemStorage.Instance.ThereIsEnoughComponentsInStorage(recipeCost[i].ComponentData, recipeCost[i].Quantity))
-                {
-                    _objectResearchCostInComponents[i].GetComponentInChildren<TMP_Text>().color = Color.white;
-                }
-                else
-                {
-                    _objectResearchCostInComponents[i].GetComponentInChildren<TMP_Text>().color = Color.red;
-                    isRecipeInTheStorage = false;
-                }
-            }
-
-            if (isRecipeInTheStorage)
-            {
-                _validationButton.onClick.AddListener(LaunchObjectResearch);
-            }
-
         }
         else
         {
             _objectResearchCostInRawMaterial.color = Color.red;
+            isCostAvailbale = false;
+        }
 
-            // Check for components
-            List<Ingredient> recipeCost = _currentObjectData.ResearchCost.IngredientsCost;
-            for (int i = 0; i < recipeCost.Count; i++)
+        // Check for components
+        List<Ingredient> recipeCost = _currentObjectData.ResearchCost.IngredientsCost;
+        for (int i = 0; i < recipeCost.Count; i++)
+        {
+            if (ItemStorage.Instance.ThereIsEnoughComponentsInStorage(recipeCost[i].ComponentData, recipeCost[i].Quantity))
             {
-                if (ItemStorage.Instance.ThereIsEnoughComponentsInStorage(recipeCost[i].ComponentData, recipeCost[i].Quantity))
-                {
-                    _objectResearchCostInComponents[i].GetComponentInChildren<TMP_Text>().color = Color.white;
-                }
-                else
-                {
-                    _objectResearchCostInComponents[i].GetComponentInChildren<TMP_Text>().color = Color.red;
-                }
+                _objectResearchCostInComponents[i].GetComponentInChildren<TMP_Text>().color = Color.white;
             }
+            else
+            {
+                _objectResearchCostInComponents[i].GetComponentInChildren<TMP_Text>().color = Color.red;
+                isCostAvailbale = false;
+            }
+        }
+
+        if (isCostAvailbale)
+        {
+            _validationButton.onClick.AddListener(LaunchObjectResearch);
         }
     }
 
