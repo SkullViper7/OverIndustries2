@@ -52,6 +52,15 @@ public class Employee : MonoBehaviour
     [SerializeField]
     private GameObject _outline;
 
+    private void Start()
+    {
+        if (gameObject.transform.GetChild(0).gameObject.activeInHierarchy)
+        {
+            SetEmployee();
+            SetRoutineParameter();
+            SetHatColor();
+        }
+    }
     public void SetEmployee()
     {
         _navMeshAgent = GetComponent<NavMeshAgent>();
@@ -84,11 +93,18 @@ public class Employee : MonoBehaviour
             if (AssignRoom != null)
             {
                 _animator.SetBool("Assign", true);
-                for (int i = 0; i < AssignRoom.transform.GetChild(0).gameObject.transform.childCount; i++)
+
+                for (int a = 0; a < AssignRoom.transform.childCount; a++)
                 {
-                    if (AssignRoom.transform.GetChild(0).GetChild(i).tag == "InteractPoint")
+                    if (AssignRoom.transform.GetChild(a).tag == "Room" && AssignRoom.transform.GetChild(a).gameObject.activeInHierarchy)
                     {
-                        _wayPointList.Add(AssignRoom.transform.GetChild(0).GetChild(i).gameObject);
+                        for (int i = 0; i < AssignRoom.transform.GetChild(a).gameObject.transform.childCount; i++)
+                        {
+                            if (AssignRoom.transform.GetChild(a).GetChild(i).tag == "InteractPoint")
+                            {
+                                _wayPointList.Add(AssignRoom.transform.GetChild(a).GetChild(i).gameObject);
+                            }
+                        }
                     }
                 }
 
@@ -118,12 +134,11 @@ public class Employee : MonoBehaviour
     /// </summary>
     public void RandomWayPoint()
     {
-
         if (!GameManager.Instance.InDragAndDrop && !_navMeshAgent.hasPath && IsHired)
         {
             int i = Random.Range(0, _wayPointList.Count);
 
-            if (_wayPointList[i] != _actualWayPoint)
+            if (_wayPointList[i] != _actualWayPoint || _wayPointList.Count == 0)
             {
                 _actualWayPoint = _wayPointList[i];
                 SetWalkAnimation();
