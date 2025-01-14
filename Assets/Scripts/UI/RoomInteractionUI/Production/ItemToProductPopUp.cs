@@ -297,11 +297,10 @@ public class ItemToProductPopUp : MonoBehaviour
     /// </summary>
     public void ClosePopUp()
     {
-        _popUp.SetActive(false);
-
         _validationButton.onClick.RemoveAllListeners();
 
         _popUp.SetActive(false);
+
         _description.SetActive(false);
         _stats.SetActive(true);
         _componentCostCell.SetActive(false);
