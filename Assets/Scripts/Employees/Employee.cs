@@ -64,6 +64,8 @@ public class Employee : MonoBehaviour
     {
         if (IsHired)
         {
+            Debug.Log("set routine");
+
             gameObject.transform.Rotate(Vector3.zero);
 
             SetIdleAnimation();
@@ -113,6 +115,7 @@ public class Employee : MonoBehaviour
     /// </summary>
     public void RandomWayPoint()
     {
+
         if (!GameManager.Instance.InDragAndDrop && !_navMeshAgent.hasPath && IsHired)
         {
             int i = Random.Range(0, _wayPointList.Count);
@@ -136,7 +139,10 @@ public class Employee : MonoBehaviour
             }
         }
         else
-        { SetIdleAnimation(); }
+        {
+            _navMeshAgent.ResetPath();
+            SetIdleAnimation();
+        }
     }
 
     /// <summary>
@@ -163,6 +169,7 @@ public class Employee : MonoBehaviour
         if (!GameManager.Instance.InDragAndDrop)
         {
             gameObject.transform.rotation = _interactPoint.transform.rotation;
+            _navMeshAgent.ResetPath();
 
             _animator.SetTrigger("Interact");
             int i = Random.Range(0, _interactPoint._interactTriggerAnimation.Count);
