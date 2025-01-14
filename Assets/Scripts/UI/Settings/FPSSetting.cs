@@ -6,34 +6,13 @@ public class FPSSetting : MonoBehaviour
     [SerializeField]
     private Toggle _toggle;
 
-    private void Awake()
+    private void Start()
     {
-        _toggle.onValueChanged.AddListener(ActivateLowSetting);
-
-        if (PlayerPrefs.HasKey("BatterySavingSetting"))
-        {
-            LoadSetting();
-        }
-        else
-        {
-            ActivateLowSetting(true);
-        }
+        _toggle.onValueChanged.AddListener(SettingsManager.Instance.ActivateLowSetting);
     }
 
-    private void ActivateLowSetting(bool isOn)
-    {
-        Application.targetFrameRate = isOn ? 30 : 60;
-        SaveSetting(isOn);
-    }
-
-    private void SaveSetting(bool isOn)
-    {
-        PlayerPrefs.SetInt("BatterySavingSetting", isOn ? 1 : 0);
-    }
-
-    private void LoadSetting()
+    private void OnEnable()
     {
         _toggle.isOn = PlayerPrefs.GetInt("BatterySavingSetting") == 1;
-        Application.targetFrameRate = PlayerPrefs.GetInt("BatterySavingSetting") == 1 ? 30 : 60;
     }
 }

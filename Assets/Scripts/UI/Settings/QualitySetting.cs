@@ -1,78 +1,41 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class QualitySetting : MonoBehaviour
 {
     [SerializeField] 
     private TMP_Text _text;
 
-    private int _qualityLvl;
+    [SerializeField]
+    private Button _leftButton;
+
+    [SerializeField]
+    private Button _rightButton;
+
+    private void Start()
+    {
+        _leftButton.onClick.AddListener(() => { SettingsManager.Instance.SetQuality(-1); SetQualityText(); });
+        _rightButton.onClick.AddListener(() => { SettingsManager.Instance.SetQuality(1); SetQualityText(); });
+    }
 
     private void OnEnable()
     {
-        if (PlayerPrefs.HasKey("QualityLevel"))
-        {
-            LoadQuality();
-        }
-        else
-        {
-            _qualityLvl = 1;
-            SetQuality(0);
-        }
+        SetQualityText();
     }
 
-    public void SetQuality(int valueToAdd)
+    public void SetQualityText()
     {
-        _qualityLvl += valueToAdd;
-
-        if (_qualityLvl < 1 )
-        {
-            _qualityLvl = 3;
-        }
-        else if (_qualityLvl > 3)
-        {
-            _qualityLvl = 1;
-        }
-
-        switch(_qualityLvl)
+        switch(PlayerPrefs.GetInt("QualityLevel"))
         {
             case 1:
                 _text.text = "Performance";
-                QualitySettings.SetQualityLevel(0);
                 break;
             case 2:
                 _text.text = "Équilibré";
-                QualitySettings.SetQualityLevel(1);
                 break;
             case 3:
                 _text.text = "Qualité";
-                QualitySettings.SetQualityLevel(2);
-                break;
-        }
-
-        SaveQuality(_qualityLvl);
-    }
-
-    private void SaveQuality(int qualityLevel)
-    {
-        PlayerPrefs.SetInt("QualityLevel", qualityLevel);
-    }
-
-    private void LoadQuality()
-    {
-        switch (PlayerPrefs.GetInt("QualityLevel"))
-        {
-            case 1:
-                _text.text = "Performance";
-                QualitySettings.SetQualityLevel(0);
-                break;
-            case 2:
-                _text.text = "Équilibré";
-                QualitySettings.SetQualityLevel(1);
-                break;
-            case 3:
-                _text.text = "Qualité";
-                QualitySettings.SetQualityLevel(2);
                 break;
         }
     }
