@@ -34,6 +34,7 @@ public class TutorialManager : MonoBehaviour
     public event System.Action OnTutorialButtonHide;
     public event System.Action OnTutorialHideBackground;
     public event System.Action OnTutorialShowBackground;
+    public event System.Action OnTutorialContinuePopUp;
 
     void Start()
     {
@@ -225,6 +226,7 @@ public class TutorialManager : MonoBehaviour
         OnTutorialButtonHide?.Invoke();
         OnTutorialHideBackground?.Invoke();
         _tutorialPanel.SetActive(false);
+        OnTutorialContinuePopUp?.Invoke();
     }
 
     void CanContinue()
