@@ -29,6 +29,8 @@ public class TutorialUI : MonoBehaviour
 
         _tutorialManager.OnTutorialImageStep += ShowTutorialStep;
         _tutorialManager.OnTutorialImageHide += HideTutorialStep;
+        _tutorialManager.OnTutorialButtonShow += ShowButtonAction;
+        _tutorialManager.OnTutorialButtonHide += ShowButtonAction;
     }
 
     public void ShowTutorialStep(int imageActive)
@@ -39,11 +41,27 @@ public class TutorialUI : MonoBehaviour
         }
     }
 
+    public void ShowButtonAction(int buttonActive)
+    {
+        if (buttonActive <= _buttonActions.Count)
+        {
+            _buttonActions[buttonActive].SetActive(true);
+        }
+    }
+
     public void HideTutorialStep()
     {
         for (int i = 0; i < _tutorialImages.Count; i++)
         {
             _tutorialImages[i].gameObject.SetActive(false);
+        }
+    }
+
+    public void ShowButtonAction()
+    {
+        for (int i = 0; i < _buttonActions.Count; i++)
+        {
+            _buttonActions[i].SetActive(true);
         }
     }
 }
