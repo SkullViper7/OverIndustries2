@@ -12,15 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80c7f1bd272a03540b3f54254c200947, type: 3}
   m_Name: HandPalletTruckData
   m_EditorClassIdentifier: 
+  _genericObjectPicto: {fileID: 0}
   _objectPicto: {fileID: 21300000, guid: d3ba1a77d16f5bd4f9f24fe2be386647, type: 3}
   _objectType: 9
   _name: Transpalette manuel
   _description: "Un transpalette manuel est un \xE9quipement de manutention utilis\xE9
     pour soulever et d\xE9placer des palettes dans l'industrie."
   _ingredients:
-  - <ComponentData>k__BackingField: {fileID: 11400000, guid: 85015567544834f4c9967190335481d6,
-      type: 2}
-    <Quantity>k__BackingField: 3
   - <ComponentData>k__BackingField: {fileID: 11400000, guid: ce83a3afa3dabee4e81eb7bae6e1a546,
       type: 2}
     <Quantity>k__BackingField: 10
@@ -42,9 +40,6 @@ MonoBehaviour:
   _researchCost:
     <RawMaterialCost>k__BackingField: 150
     <IngredientsCost>k__BackingField:
-    - <ComponentData>k__BackingField: {fileID: 11400000, guid: 85015567544834f4c9967190335481d6,
-        type: 2}
-      <Quantity>k__BackingField: 1
     - <ComponentData>k__BackingField: {fileID: 11400000, guid: 7fc26cd3d7b2c6b4c895e8d2aee44ed7,
         type: 2}
       <Quantity>k__BackingField: 1
