@@ -43,6 +43,7 @@ public class ResearchRoom : MonoBehaviour, IRoomBehaviour
     public event Action<int> NewChrono;
     public event Action<ComponentData> ComponentResearchStarted, ComponentResearchStoped, ComponentResearchCompleted;
     public event Action<ObjectData> ObjectResearchStarted, ObjectResearchStoped, ObjectResearchCompleted;
+    public event Action StartReasearch;
 
     public void InitRoomBehaviour(IRoomBehaviourData behaviourData, Room roomMain)
     {
@@ -61,6 +62,8 @@ public class ResearchRoom : MonoBehaviour, IRoomBehaviour
     /// <param name="componentToUnlock"> The component to unlock. </param>
     public void StartNewComponentResearch(ComponentData componentToUnlock)
     {
+        StartReasearch?.Invoke();
+
         // Set object researched
         CurrentComponentResearched = componentToUnlock;
 

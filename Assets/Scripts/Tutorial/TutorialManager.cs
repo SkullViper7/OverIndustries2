@@ -25,13 +25,17 @@ public class TutorialManager : MonoBehaviour
     private List<GameObject> _buttonActions;
 
     private bool _canContinue = true;
-    private bool _isResearchFinish = false;
+    private bool _isConditionIsMet = false;
+    private bool _cantRevealText = false;
 
     //Rooms
     private GameObject _roomResearch;
     private GameObject _roomDirector;
     private GameObject _roomAssembly;
     private GameObject _roomMachining;
+
+    public event System.Action<int> OnTutorialImageStep;
+    public event System.Action OnTutorialImageHide;
 
     void Start()
     {
@@ -59,30 +63,109 @@ public class TutorialManager : MonoBehaviour
                 _buttonActions[i].SetActive(true);
             }
 
-            //switch (_currentStep)
-            //{
-            //case 2:
-            //    ShowConstructButton();
-            //    break;
-            ////case 3:
-            ////    ShowStorage();
-            ////    break;
-            //case 4:
-            //    //DesactiveConstructButton();
-            //    break;
-            //case 8:
-            //    ShowConstructButton();
-            //    break;
-            //case 9:
-            //    DesactiveConstructButton();
-            //    break;
-            //case 10:
-            //    ShowCommandeButton();
-            //    break;
-            //case 12:
-            //    ShowConstructButton();
-            //    break;
-            //}
+            switch (_currentStep)
+            {
+                case 3:
+                    OnTutorialImageStep?.Invoke(0);
+                    OnTutorialImageStep?.Invoke(1);
+                    break;
+                case 4:
+                    OnTutorialImageHide?.Invoke();
+                    OnTutorialImageStep?.Invoke(2);
+                    break;
+                case 5:
+                    OnTutorialImageHide?.Invoke();
+                    OnTutorialImageStep?.Invoke(3);
+                    break;
+                case 6:
+                    OnTutorialImageHide?.Invoke();
+                    OnTutorialImageStep?.Invoke(4);
+                    break;
+                case 7:
+                    OnTutorialImageHide?.Invoke();
+                    OnTutorialImageStep?.Invoke(5);
+                    break;
+                case 8:
+                    OnTutorialImageHide?.Invoke();
+                    OnTutorialImageStep?.Invoke(6);
+                    break;
+                case 10:
+                    OnTutorialImageHide?.Invoke();
+                    OnTutorialImageStep?.Invoke(7);
+                    OnTutorialImageStep?.Invoke(8);
+                    break;
+                case 11:
+                    OnTutorialImageHide?.Invoke();
+                    OnTutorialImageStep?.Invoke(6);
+                    OnTutorialImageStep?.Invoke(7);
+                    OnTutorialImageStep?.Invoke(9);
+                    break;
+                case 12:
+                    OnTutorialImageHide?.Invoke();
+                    OnTutorialImageStep?.Invoke(2);
+                    OnTutorialImageStep?.Invoke(10);
+                    OnTutorialImageStep?.Invoke(11);
+                    break;
+                case 13:
+                    OnTutorialImageHide?.Invoke();
+                    OnTutorialImageStep?.Invoke(12);
+                    OnTutorialImageStep?.Invoke(13);
+                    OnTutorialImageStep?.Invoke(14);
+                    break;
+                case 14:
+                    OnTutorialImageHide?.Invoke();
+                    OnTutorialImageStep?.Invoke(12);
+                    OnTutorialImageStep?.Invoke(15);
+                    OnTutorialImageStep?.Invoke(16);
+                    OnTutorialImageStep?.Invoke(17);
+                    OnTutorialImageStep?.Invoke(18);
+                    break;
+                case 15:
+                    OnTutorialImageHide?.Invoke();
+                    OnTutorialImageStep?.Invoke(17);
+                    OnTutorialImageStep?.Invoke(19);
+                    OnTutorialImageStep?.Invoke(20);
+                    break;
+                case 16:
+                    OnTutorialImageHide?.Invoke();
+                    OnTutorialImageStep?.Invoke(21);
+                    OnTutorialImageStep?.Invoke(22);
+                    break;
+                case 17:
+                    OnTutorialImageHide?.Invoke();
+                    OnTutorialImageStep?.Invoke(3);
+                    OnTutorialImageStep?.Invoke(23);
+                    OnTutorialImageStep?.Invoke(24);
+                    break;
+                case 19:
+                    OnTutorialImageHide?.Invoke();
+                    OnTutorialImageStep?.Invoke(25);
+                    OnTutorialImageStep?.Invoke(26);
+                    OnTutorialImageStep?.Invoke(27);
+                    break;
+
+                    //case 2:
+                    //    ShowConstructButton();
+                    //    break;
+                    ////case 3:
+                    ////    ShowStorage();
+                    ////    break;
+                    //case 4:
+                    //    //DesactiveConstructButton();
+                    //    break;
+                    //case 8:
+                    //    ShowConstructButton();
+                    //    break;
+                    //case 9:
+                    //    DesactiveConstructButton();
+                    //    break;
+                    //case 10:
+                    //    ShowCommandeButton();
+                    //    break;
+                    //case 12:
+                    //    ShowConstructButton();
+                    //    break;
+            }
         }
         else
         {
@@ -120,8 +203,8 @@ public class TutorialManager : MonoBehaviour
         else
         {
             CanContinue();
-            Debug.Log(_canContinue);
 
+            //_canContinue = true;
             if (_canContinue)
             {
                 _currentStep++;
@@ -190,54 +273,57 @@ public class TutorialManager : MonoBehaviour
         {
             switch (_currentStep)
             {
-                //case 2:
-                //    if (GridManager.Instance.InstantiatedRooms[i].RoomData.RoomType == RoomType.Storage)
-                //    {
-                //        _canContinue = true;
-                //    }
-                //    break;
-
-                case 13:
-                    //_roomDirector.GetComponent<DirectorRoom>().EmployeeAssign[0].GetComponent<Employee>().EmployeeJob = Job.MachiningTechnician;
+                case 12:
+                    OnTutorialImageHide?.Invoke();
                     if (GridManager.Instance.InstantiatedRooms[i].RoomData.RoomType == RoomType.Research)
                     {
                         _roomResearch = GridManager.Instance.InstantiatedRooms[i].gameObject;
                         _canContinue = true;
                     }
                     break;
-                case 15:
+                case 13:
+                    OnTutorialImageHide?.Invoke();
                     if (DirectorRoom.Instance.RoomMain.EmployeeAssign.Count >= 1)
                     {
                         _roomDirector = DirectorRoom.Instance.RoomMain.gameObject;
                         _canContinue = true;
                     }
                     break;
-                case 17:
+                case 14:
+                    OnTutorialImageHide?.Invoke();
                     if (_roomResearch.GetComponent<Room>().EmployeeAssign.Count >= 1)
                     {
                         _canContinue = true;
                     }
                     break;
-                //case 19:
-                //    if (_roomResearch.GetComponent<ResearchRoom>().ObjectResearchStarted += ConditionIsMet)
-                //    {
-                //        _canContinue = true;
-                //    }
-                //    break;
-                case 21:
-                    _roomResearch.GetComponent<ResearchRoom>().ResearchCompleted += ConditionIsMet;
-                    if (_isResearchFinish)
+                case 15:
+                    OnTutorialImageHide?.Invoke();
+                    _roomResearch.GetComponent<ResearchRoom>().StartReasearch += ConditionIsMet;
+                    if (_isConditionIsMet)
                     {
+                        _isConditionIsMet = false;
                         _canContinue = true;
                     }
                     break;
-                case 23:
+                case 16:
+                    OnTutorialImageHide?.Invoke();
+                    _roomResearch.GetComponent<ResearchRoom>().ResearchCompleted += ConditionIsMet;
+                    if (_isConditionIsMet)
+                    {
+                        _isConditionIsMet = false;
+                        _canContinue = true;
+                    }
+                    break;
+                case 17:
+                    OnTutorialImageHide?.Invoke();
                     if (QuestManager.Instance.CurrentQuestList.Count >= 1)
                     {
                         _canContinue = true;
                     }
                     break;
-                case 24:
+                case 18:
+                    OnTutorialImageHide?.Invoke();
+
                     bool isStorage = false;
                     bool isAssembly = false;
                     bool isMachining = false;
@@ -297,6 +383,6 @@ public class TutorialManager : MonoBehaviour
 
     void ConditionIsMet()
     {
-        _isResearchFinish = true;
+        _isConditionIsMet = true;
     }
 }
