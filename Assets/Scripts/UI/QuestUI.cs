@@ -115,8 +115,7 @@ public class QuestUI : MonoBehaviour
     //Warning pop up 
     public void QuestWarning()
     {
-        Debug.Log("quest warning");
-        //_warningQuestPopUp.SetActive(true);
+        _warningQuestPopUp.SetActive(true);
     }
 
     public void QuestAccept()
