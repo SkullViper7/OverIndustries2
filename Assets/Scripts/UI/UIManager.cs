@@ -147,6 +147,12 @@ public class UIManager : MonoBehaviour
     public GameObject SkipTutoUI { get; private set; }
 
     /// <summary>
+    /// The UI on screen whene player finish the tutorial.
+    /// </summary>
+    [field: SerializeField, Tooltip("The UI on screen whene player finish the tutorial")]
+    public GameObject ContinueAfterTutoUI { get; private set; }
+
+    /// <summary>
     /// AudioSource to play SFX.
     /// </summary>
     [Space, Header("SFX"), SerializeField, Tooltip("AudioSource to play SFX.")]
