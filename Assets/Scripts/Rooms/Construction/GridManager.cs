@@ -17,6 +17,7 @@ public class GridManager : MonoBehaviour
 
     public delegate void GridModificationDelegate(Vector2 position);
     public event GridModificationDelegate RoomAddEvent, RoomRemoveEvent;
+    public event Action RoomBuild;
 
     /// <summary>
     /// List of the room already in the scene at the start of the game.
@@ -67,9 +68,9 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    private void Start()
+    public void InitListeners()
     {
-        InitGrid();
+        LightProbeManager.Instance.ProbesInitialized += InitGrid;
     }
 
     private void InitGrid()
@@ -128,6 +129,7 @@ public class GridManager : MonoBehaviour
 
         // Add the room to the list of instantiated rooms
         InstantiatedRooms.Add(room);
+        RoomBuild?.Invoke();
     }
 
     /// <summary>

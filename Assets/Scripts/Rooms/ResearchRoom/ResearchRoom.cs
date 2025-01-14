@@ -43,6 +43,7 @@ public class ResearchRoom : MonoBehaviour, IRoomBehaviour
     public event Action<int> NewChrono;
     public event Action<ComponentData> ComponentResearchStarted, ComponentResearchStoped, ComponentResearchCompleted;
     public event Action<ObjectData> ObjectResearchStarted, ObjectResearchStoped, ObjectResearchCompleted;
+    public event Action StartReasearch;
 
     public void InitRoomBehaviour(IRoomBehaviourData behaviourData, Room roomMain)
     {
@@ -50,6 +51,9 @@ public class ResearchRoom : MonoBehaviour, IRoomBehaviour
         _roomMain = roomMain;
 
         ResearchManager.Instance.InitNewResearchRoomListeners(this);
+
+        UpgradeRoom(1);
+        _roomMain.NewLvl += UpgradeRoom;
     }
 
     /// <summary>
@@ -58,6 +62,8 @@ public class ResearchRoom : MonoBehaviour, IRoomBehaviour
     /// <param name="componentToUnlock"> The component to unlock. </param>
     public void StartNewComponentResearch(ComponentData componentToUnlock)
     {
+        StartReasearch?.Invoke();
+
         // Set object researched
         CurrentComponentResearched = componentToUnlock;
 
@@ -129,7 +135,6 @@ public class ResearchRoom : MonoBehaviour, IRoomBehaviour
         }
     }
 
-
     /// <summary>
     /// Called when the player clicked on the notification when the research is completed.
     /// </summary>
@@ -169,5 +174,19 @@ public class ResearchRoom : MonoBehaviour, IRoomBehaviour
         _currentChrono = 0;
         CurrentComponentResearched = null;
         CurrentObjectResearched = null;
+    }
+
+    private void UpgradeRoom(int newLvl)
+    {
+        switch (newLvl)
+        {
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                ScoreManager.Instance.AddRoomLevelMax();
+                break;
+        }
     }
 }

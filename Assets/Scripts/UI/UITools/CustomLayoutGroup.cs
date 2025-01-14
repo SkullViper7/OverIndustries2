@@ -268,7 +268,7 @@ public class CustomLayoutGroup : MonoBehaviour
                                 float childrenHeight = childrenWidth * (_ratio / 100f);
 
                                 // Check if children height don't exceed the height of the parent
-                                if ((childrenHeight * children.Count) + (verticalLayoutGroup.spacing * (children.Count - 1)) + (verticalLayoutGroup.padding.vertical) > rectSize.x)
+                                if ((childrenHeight * children.Count) + (verticalLayoutGroup.spacing * (children.Count - 1)) + (verticalLayoutGroup.padding.vertical) > rectSize.y)
                                 {
                                     // Calculate new children height
                                     childrenHeight = (rectSize.y / children.Count) - ((verticalLayoutGroup.spacing * (children.Count - 1)) / children.Count) - (verticalLayoutGroup.padding.vertical / children.Count);

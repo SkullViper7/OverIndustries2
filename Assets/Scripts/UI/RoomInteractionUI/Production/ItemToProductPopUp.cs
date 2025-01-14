@@ -105,6 +105,12 @@ public class ItemToProductPopUp : MonoBehaviour
     /// </summary>
     private ObjectData _currentObjectData;
 
+    [SerializeField]
+    private SwitchButtons _statsButton;
+
+    [SerializeField]
+    private SwitchButtons _descriptionButton;
+
     private void Awake()
     {
         _popUp.SetActive(false);
@@ -129,6 +135,8 @@ public class ItemToProductPopUp : MonoBehaviour
         _question.text = "Produire " + _currentComponentData.Name + " ?";
         _itemPicto.sprite = _currentComponentData.ComponentPicto;
         _itemName.text = _currentComponentData.Name;
+        _statsButton.Select();
+        _descriptionButton.Unselect();
         _itemDescription.text = _currentComponentData.Description;
         _productionTimeHeader.text = "Durée d'un cycle de production :";
 
@@ -189,6 +197,8 @@ public class ItemToProductPopUp : MonoBehaviour
         _itemPicto.sprite = _currentObjectData.ObjectPicto;
         _itemName.text = _currentObjectData.Name;
         _itemDescription.text = _currentObjectData.Description;
+        _statsButton.Select();
+        _descriptionButton.Unselect();
         _productionTimeHeader.text = "Durée d'un cycle d'assemblage :";
 
         switch (InteractionManager.Instance.CurrentRoomSelected.CurrentLvl)
@@ -253,6 +263,9 @@ public class ItemToProductPopUp : MonoBehaviour
         {
             MachiningRoom machiningRoom = (MachiningRoom)currentRoomSelected.RoomBehaviour;
             machiningRoom.StartNewProduction(_currentComponentData);
+            UIManager.Instance.UpgradeButton.SetActive(false);
+            UIManager.Instance.ProductionButton.SetActive(false);
+            UIManager.Instance.StopProductionButton.SetActive(true);
             UIManager.Instance.RoomProductionPopUp.GetComponent<RoomProductionPopUp>().ClosePopUp();
             ClosePopUp();
             UIManager.Instance.CloseUI();
@@ -270,6 +283,9 @@ public class ItemToProductPopUp : MonoBehaviour
         {
             AssemblyRoom assemblyRoom = (AssemblyRoom)currentRoomSelected.RoomBehaviour;
             assemblyRoom.StartNewProduction(_currentObjectData);
+            UIManager.Instance.UpgradeButton.SetActive(false);
+            UIManager.Instance.ProductionButton.SetActive(false);
+            UIManager.Instance.StopProductionButton.SetActive(true);
             UIManager.Instance.RoomProductionPopUp.GetComponent<RoomProductionPopUp>().ClosePopUp();
             ClosePopUp();
             UIManager.Instance.CloseUI();

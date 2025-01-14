@@ -20,6 +20,8 @@ public class ScoreManager : MonoBehaviour
     [Space, Header("Point de satisfaction")]
     [SerializeField] private TextMeshProUGUI _PSText;
 
+    public event System.Action<float> ShowScore;
+
     private void Awake()
     {
         // Singleton
@@ -34,6 +36,11 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        ChronoManager.Instance.ChronoEnded += CalculateScore;
+    }
+
     public void AddPS(int _psWin)
     {
         if (EventManager.Instance.CurrentEvent && EventManager.Instance.ActualEvent.PSMultiplicator > 0)
@@ -44,7 +51,7 @@ public class ScoreManager : MonoBehaviour
         { TotalPS = TotalPS + _psWin; }
     }
 
-    public void AddTotalEmployee()
+    public void AddEmployee()
     { _totalEmployee++; }
 
     public void AddRoomLevelMax()
@@ -54,5 +61,6 @@ public class ScoreManager : MonoBehaviour
     {
         FinalScore = Mathf.Round((TotalPS * _psImportance) + (_totalEmployee * _employeeImportance) + (_totalRoomLevelMax * _roomLevelMaxImportance));
         Debug.Log("Score : " + FinalScore);
+        ShowScore?.Invoke(FinalScore);
     }
 }

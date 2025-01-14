@@ -52,7 +52,7 @@ public class RoomInteractionManager : MonoBehaviour
             case RoomType.Director:
                 DesactivateAllButtons();
                 _uiManager.InfoRoomButton.SetActive(true);
-                _uiManager.EmbaucheEmployee.SetActive(true);
+                _uiManager.EmbaucheEmployeeButton.SetActive(true);
 
                 // Show upgrade button only if the room is not at max lvl
                 if (roomMain.CurrentLvl < 3)
@@ -147,5 +147,7 @@ public class RoomInteractionManager : MonoBehaviour
         _uiManager.ProductionButton.SetActive(false);
         _uiManager.StopProductionButton.SetActive(false);
         _uiManager.ResearchButton.SetActive(false);
+        _uiManager.InfoEmployeeButton.SetActive(false);
+        _uiManager.EmbaucheEmployeeButton.SetActive(false);
     }
 }

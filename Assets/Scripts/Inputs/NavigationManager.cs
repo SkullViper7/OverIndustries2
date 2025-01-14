@@ -27,12 +27,14 @@ public class NavigationManager : MonoBehaviour
 
     private Vector2 _hold0Delta;
 
+    [SerializeField]
     private bool _hold0Performed;
 
     private Vector2 _hold1Position;
 
     private Vector2 _hold1Delta;
 
+    [SerializeField]
     private bool _hold1Performed;
 
 
@@ -46,7 +48,6 @@ public class NavigationManager : MonoBehaviour
 
     private Sequence _zoomOrZoomOutSequence;
 
-    [SerializeField]
     private bool _isZoomedOnARoom;
 
     void Awake()
@@ -119,7 +120,7 @@ public class NavigationManager : MonoBehaviour
             _hold0Delta = context.ReadValue<Vector2>() - _hold0Position;
             _hold0Position = context.ReadValue<Vector2>();
 
-            if (!_hold1Performed)
+            if (!_hold1Performed && _hold0Performed)
             {
                 Scroll(_hold0Delta);
             }
@@ -136,7 +137,7 @@ public class NavigationManager : MonoBehaviour
             _hold1Delta = context.ReadValue<Vector2>() - _hold1Position;
             _hold1Position = context.ReadValue<Vector2>();
 
-            if (!_hold0Performed)
+            if (!_hold0Performed && _hold1Performed)
             {
                 Scroll(_hold1Delta);
             }
@@ -265,7 +266,7 @@ public class NavigationManager : MonoBehaviour
                 _zoomOrZoomOutSequence = DOTween.Sequence();
                 _zoomOrZoomOutSequence.Append(_camera.transform.DOMove(zoomOutPosition, 0.5f)).SetEase(Ease.InExpo).OnComplete(() =>
                 {
-                    _isZoomedOnARoom = false; 
+                    _isZoomedOnARoom = false;
                     CancelSequence();
                 });
             }

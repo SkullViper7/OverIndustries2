@@ -9,10 +9,22 @@ public class ResearchButton : MonoBehaviour
     [SerializeField]
     private Image _picto;
 
+    [SerializeField]
+    private GameObject _alreadyResearchedFilter;
+
+    [SerializeField]
+    private Sprite _researchable;
+
+    [SerializeField]
+    private Sprite _unresearchable;
+
+    [SerializeField]
+    private Sprite _desactivate;
+
     /// <summary>
     /// Image component of the button.
     /// </summary>
-    private Image _image;
+    private Image _background;
 
     /// <summary>
     /// Button Component.
@@ -46,7 +58,7 @@ public class ResearchButton : MonoBehaviour
     public void InitButtonForComponent(ComponentData componentData)
     {
         _button = GetComponent<Button>();
-        _image = GetComponent<Image>();
+        _background = GetComponent<Image>();
 
         _researchManager = ResearchManager.Instance;
         _interactionManager = InteractionManager.Instance;
@@ -64,25 +76,36 @@ public class ResearchButton : MonoBehaviour
                 if (!_researchManager.HasThisComponentAlreadyBeenSearched(_componentData))
                 {
                     _button.interactable = true;
-                    _image.color = Color.green;
+                    _background.sprite = _researchable;
                     _button.onClick.AddListener(OpenComponentToResearchPopUp);
                 }
                 else
                 {
                     _button.interactable = false;
-                    _image.color = Color.grey;
+                    _background.sprite = _desactivate;
                 }
             }
             else
             {
                 _button.interactable = true;
-                _image.color = Color.yellow;
+                _background.sprite = _researchable;
+                _alreadyResearchedFilter.SetActive(true);
             }
         }
         else
         {
-            _button.interactable = true;
-            _image.color = Color.magenta;
+            // Check if the component is already searched
+            if (!_researchManager.IsThisComponentAlreadySearched(_componentData))
+            {
+                _button.interactable = true;
+                _background.sprite = _unresearchable;
+            }
+            else
+            {
+                _button.interactable = true;
+                _background.sprite = _unresearchable;
+                _alreadyResearchedFilter.SetActive(true);
+            }
         }
     }
 
@@ -93,7 +116,7 @@ public class ResearchButton : MonoBehaviour
     public void InitButtonForObject(ObjectData objectData)
     {
         _button = GetComponent<Button>();
-        _image = GetComponent<Image>();
+        _background = GetComponent<Image>();
 
         _researchManager = ResearchManager.Instance;
         _interactionManager = InteractionManager.Instance;
@@ -111,25 +134,36 @@ public class ResearchButton : MonoBehaviour
                 if (!_researchManager.HasThisObjectAlreadyBeenSearched(_objectData))
                 {
                     _button.interactable = true;
-                    _image.color = Color.green;
+                    _background.sprite = _researchable;
                     _button.onClick.AddListener(OpenObjectToResearchPopUp);
                 }
                 else
                 {
                     _button.interactable = false;
-                    _image.color = Color.grey;
+                    _background.sprite = _desactivate;
                 }
             }
             else
             {
                 _button.interactable = true;
-                _image.color = Color.yellow;
+                _background.sprite = _researchable;
+                _alreadyResearchedFilter.SetActive(true);
             }
         }
         else
         {
-            _button.interactable = true;
-            _image.color = Color.magenta;
+            // Check if the component is already searched
+            if (!_researchManager.IsThisObjectAlreadySearched(_objectData))
+            {
+                _button.interactable = true;
+                _background.sprite = _unresearchable;
+            }
+            else
+            {
+                _button.interactable = true;
+                _background.sprite = _unresearchable;
+                _alreadyResearchedFilter.SetActive(true);
+            }
         }
     }
 
@@ -138,6 +172,7 @@ public class ResearchButton : MonoBehaviour
     /// </summary>
     private void OpenComponentToResearchPopUp()
     {
+        UIManager.Instance.OpenSFX();
         UIManager.Instance.ItemToResearchPopUp.SetActive(true);
         UIManager.Instance.ItemToResearchPopUp.GetComponent<ItemToResearchPopUp>().InitPopUpForComponent(_componentData);
     }
@@ -147,6 +182,7 @@ public class ResearchButton : MonoBehaviour
     /// </summary>
     private void OpenObjectToResearchPopUp()
     {
+        UIManager.Instance.OpenSFX();
         UIManager.Instance.ItemToResearchPopUp.SetActive(true);
         UIManager.Instance.ItemToResearchPopUp.GetComponent<ItemToResearchPopUp>().InitPopUpForObject(_objectData);
     }

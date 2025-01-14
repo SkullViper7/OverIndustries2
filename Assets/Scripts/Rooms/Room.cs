@@ -169,6 +169,7 @@ public class Room : MonoBehaviour
             case 2:
                 if (RawMaterialStorage.Instance.ThereIsEnoughRawMaterialInStorage(RoomData.UpgradeCostToLvl3))
                 {
+                    UIManager.Instance.UpgradeButton.SetActive(false);
                     RawMaterialStorage.Instance.SubstractRawMaterials(RoomData.UpgradeCostToLvl3);
                     CurrentLvl++;
                     NewLvl?.Invoke(CurrentLvl);

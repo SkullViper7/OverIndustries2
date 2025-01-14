@@ -66,7 +66,7 @@ public class UIManager : MonoBehaviour
     /// Button to embauche employee in director room.
     /// </summary>
     [field: SerializeField, Tooltip(" Button to embauche employee in director room.")]
-    public GameObject EmbaucheEmployee { get; private set; }
+    public GameObject EmbaucheEmployeeButton { get; private set; }
 
     /// <summary>
     /// Button to show informations about a employee.

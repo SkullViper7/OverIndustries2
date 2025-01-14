@@ -34,7 +34,7 @@ public class Employee : MonoBehaviour
     [Space, Header("Hat color")]
     [SerializeField] private SpriteRenderer _hat;
     [field: SerializeField] private List<Sprite> _hatList;
-    [field: SerializeField] private List<string> _roomNameList;
+    [field: SerializeField] private List<string> _jobNameList;
 
     /// <summary>
     /// List of wayPoint who employee can interact and have a animation
@@ -64,6 +64,8 @@ public class Employee : MonoBehaviour
     {
         if (IsHired)
         {
+            Debug.Log("set routine");
+
             gameObject.transform.Rotate(Vector3.zero);
 
             SetIdleAnimation();
@@ -79,7 +81,6 @@ public class Employee : MonoBehaviour
             if (AssignRoom != null)
             {
                 _animator.SetBool("Assign", true);
-
                 for (int i = 0; i < AssignRoom.transform.GetChild(0).gameObject.transform.childCount; i++)
                 {
                     if (AssignRoom.transform.GetChild(0).GetChild(i).tag == "InteractPoint")
@@ -92,8 +93,6 @@ public class Employee : MonoBehaviour
             }
             else
             { _animator.SetBool("Assign", false); }
-
-            SetHatColor();
         }
     }
 
@@ -102,19 +101,12 @@ public class Employee : MonoBehaviour
     /// </summary>
     public void SetHatColor()
     {
-        for (int i = 0; i < _roomNameList.Count; i++)
+        for (int i = 0; i < _jobNameList.Count; i++)
         {
-            if (AssignRoom != null)
+            if (_jobNameList[i] == EmployeeJob[0].JobName)
             {
-                if (_roomNameList[i] == AssignRoom.name)
-                {
-                    _hat.sprite = _hatList[i];
-                }
-                else
-                { _hat.sprite = _hatList[0]; }
+                _hat.sprite = _hatList[i];
             }
-            else
-            { _hat.sprite = _hatList[0]; }
         }
     }
 
@@ -123,6 +115,7 @@ public class Employee : MonoBehaviour
     /// </summary>
     public void RandomWayPoint()
     {
+
         if (!GameManager.Instance.InDragAndDrop && !_navMeshAgent.hasPath && IsHired)
         {
             int i = Random.Range(0, _wayPointList.Count);
@@ -146,7 +139,10 @@ public class Employee : MonoBehaviour
             }
         }
         else
-        { SetIdleAnimation(); }
+        {
+            _navMeshAgent.ResetPath();
+            SetIdleAnimation();
+        }
     }
 
     /// <summary>
@@ -173,6 +169,7 @@ public class Employee : MonoBehaviour
         if (!GameManager.Instance.InDragAndDrop)
         {
             gameObject.transform.rotation = _interactPoint.transform.rotation;
+            _navMeshAgent.ResetPath();
 
             _animator.SetTrigger("Interact");
             int i = Random.Range(0, _interactPoint._interactTriggerAnimation.Count);

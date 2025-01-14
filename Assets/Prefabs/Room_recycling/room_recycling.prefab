@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5636923352108568450}
   - component: {fileID: 4352498197423737057}
   - component: {fileID: 5954229218204207908}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: InteractPoint (2)
   m_TagString: InteractPoint
   m_Icon: {fileID: 0}
@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 2106083979843330113}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 3.807, y: 0.793, z: 6.091}
+  m_LocalPosition: {x: 3.807, y: 0.793, z: 5.26}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 5455113774172126316}
   - component: {fileID: 4540728988047833178}
   - component: {fileID: 1809347099732145418}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: InteractPoint
   m_TagString: InteractPoint
   m_Icon: {fileID: 0}
@@ -124,7 +124,7 @@ Transform:
   m_GameObject: {fileID: 5646310862963699670}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 0.894, y: 0.827, z: 0.713}
+  m_LocalPosition: {x: 2.3, y: 0.827, z: 3.19}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -144,6 +144,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <_interactTriggerAnimation>k__BackingField:
   - BaseInteract
+  - ShematicsCheck
 --- !u!54 &4540728988047833178
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -420,7 +421,7 @@ GameObject:
   - component: {fileID: 22759572138473968}
   - component: {fileID: 1677974269822439932}
   - component: {fileID: 4686250337797112882}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: RoomDelivery_001_NavMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -583,7 +584,7 @@ GameObject:
   - component: {fileID: 4848030522791715574}
   - component: {fileID: 3686961686339430175}
   - component: {fileID: 1753682167535893084}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Area Light (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -788,7 +789,7 @@ GameObject:
   - component: {fileID: 4402503157857845535}
   - component: {fileID: 1102677325039442532}
   - component: {fileID: 3392247607872650301}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: InteractPoint (1)
   m_TagString: InteractPoint
   m_Icon: {fileID: 0}
@@ -803,13 +804,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8218756971752517592}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.1, y: 0.72, z: 1.08}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 4.93, y: 0.72, z: 2.09}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5780554712253347448}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!114 &4402503157857845535
 MonoBehaviour:
   m_ObjectHideFlags: 0
