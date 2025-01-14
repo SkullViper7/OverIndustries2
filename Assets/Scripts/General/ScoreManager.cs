@@ -43,12 +43,14 @@ public class ScoreManager : MonoBehaviour
 
     public void AddPS(int _psWin)
     {
-        if (EventManager.Instance.CurrentEvent && EventManager.Instance.ActualEvent.PSMultiplicator > 0)
-        {
-            TotalPS = TotalPS + (int)Mathf.Round(_psWin * EventManager.Instance.ActualEvent.PSMultiplicator);
-        }
-        else
-        { TotalPS = TotalPS + _psWin; }
+        //if (EventManager.Instance.CurrentEvent && EventManager.Instance.ActualEvent.PSMultiplicator > 0)
+        //{
+        //    TotalPS = TotalPS + (int)Mathf.Round(_psWin * EventManager.Instance.ActualEvent.PSMultiplicator);
+        //}
+        //else
+        //{ 
+            TotalPS = TotalPS + _psWin; 
+        //}
     }
 
     public void AddEmployee()
