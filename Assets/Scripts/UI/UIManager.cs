@@ -1,24 +1,12 @@
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class UIManager : MonoBehaviour
 {
     // Singleton
     private static UIManager _instance = null;
     public static UIManager Instance => _instance;
-
-    private void Awake()
-    {
-        // Singleton
-        if (_instance != null && _instance != this)
-        {
-            Destroy(this.gameObject);
-            return;
-        }
-        else
-        {
-            _instance = this;
-        }
-    }
 
     /// <summary>
     /// Main UI of the game.
@@ -31,6 +19,15 @@ public class UIManager : MonoBehaviour
     /// </summary>
     [field: SerializeField, Tooltip("Button group for interactions.")]
     public InteractionButtonGroup InteractionButtonGroup { get; private set; }
+
+
+    /// <summary>
+    /// Global volume to do a blur effect in background when UI is open.
+    /// </summary>
+    [field: SerializeField, Tooltip("Global volume to do a blur effect in background when UI is open.")]
+    public Volume Blur { get; private set; }
+
+    private DepthOfField _depthOfField;
 
     /// <summary>
     /// Button to show informations about a room.
@@ -182,6 +179,28 @@ public class UIManager : MonoBehaviour
     [SerializeField, Tooltip("SFX to play when a UI is open.")]
     private AudioClip _closeSFX;
 
+    private void Awake()
+    {
+        // Singleton
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+        else
+        {
+            _instance = this;
+        }
+    }
+
+    private void Start()
+    {
+        if (Blur != null && Blur.profile.TryGet(out _depthOfField))
+        {
+            return;
+        }
+    }
+
     public void HideButtons()
     {
         InteractionButtonGroup.HideButtons();
@@ -220,6 +239,7 @@ public class UIManager : MonoBehaviour
     public void OpenUI()
     {
         GameManager.Instance.OpenUI();
+        _depthOfField.aperture.value = 1;
     }
 
     /// <summary>
@@ -228,5 +248,6 @@ public class UIManager : MonoBehaviour
     public void CloseUI()
     {
         GameManager.Instance.CloseUI();
+        _depthOfField.aperture.value = 32;
     }
 }

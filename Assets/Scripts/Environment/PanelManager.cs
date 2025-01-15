@@ -54,8 +54,9 @@ public class PanelManager : MonoBehaviour
     /// <param name="position">Position in the grid.</param>
     public void InstantiatePanel(Vector2 position)
     {
+        Vector3 worldPos = GridManager.Instance.ConvertGridPosIntoWorldPos(position);
         // Instantiate a new panel at the world position corresponding to the grid position
-        GameObject panel = Instantiate(_panel, GridManager.Instance.ConvertGridPosIntoWorldPos(position), Quaternion.identity, transform);
+        GameObject panel = Instantiate(_panel, new Vector3(worldPos.x, worldPos.y, 0.17f), Quaternion.identity, transform);
 
         // Store the panel in the grid
         _grid[string.Format(_rowFormat, position.y)][string.Format(_columnFormat, position.x)] = panel;
