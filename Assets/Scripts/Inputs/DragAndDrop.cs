@@ -55,6 +55,7 @@ public class DragAndDrop : MonoBehaviour
     {
         GameManager.Instance.StartDragAndDrop();
         employee.ShowOutline();
+        employee.EmployeeOverlapUI();
 
         EmployeeToMove = employee;
         _startPosition = employee.gameObject.transform.position;
@@ -181,6 +182,7 @@ public class DragAndDrop : MonoBehaviour
         EmployeeToMove.transform.position = _startPosition;
         GameManager.Instance.StopDragAndDrop();
         EmployeeToMove.HideOutline();
+        EmployeeToMove.EmployeeDoesntOverlapUI();
 
         EmployeeToMove.GetComponent<NavMeshAgent>().enabled = true;
         EmployeeToMove.SetRoutineParameter();

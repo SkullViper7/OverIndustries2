@@ -67,7 +67,7 @@ public class RawMaterialStorage : MonoBehaviour
     public void AddRawMaterials(int amountToAdd)
     {
         _amoutOfRawMaterial += amountToAdd;
-        Mathf.Clamp(_amoutOfRawMaterial, 0, _storageCapacity);
+        _amoutOfRawMaterial = Mathf.Clamp(_amoutOfRawMaterial, 0, _storageCapacity);
 
         RawMaterialStorageHasChanged?.Invoke();
         AmountHasChanged?.Invoke(_amoutOfRawMaterial);
@@ -82,7 +82,7 @@ public class RawMaterialStorage : MonoBehaviour
     public void SubstractRawMaterials(int amountToSubstract)
     {
         _amoutOfRawMaterial -= amountToSubstract;
-        Mathf.Clamp(_amoutOfRawMaterial, 0, _storageCapacity);
+        _amoutOfRawMaterial = Mathf.Clamp(_amoutOfRawMaterial, 0, _storageCapacity);
 
         RawMaterialStorageHasChanged?.Invoke();
         AmountHasChanged?.Invoke(_amoutOfRawMaterial);

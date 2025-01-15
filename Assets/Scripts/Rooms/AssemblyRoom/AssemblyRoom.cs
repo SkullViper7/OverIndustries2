@@ -179,7 +179,7 @@ public class AssemblyRoom : MonoBehaviour, IRoomBehaviour
     private void AddObjectInInternalStorage()
     {
         CurrentAmountInInternalStorage++;
-        Mathf.Clamp(CurrentAmountInInternalStorage, 0, CurrentInternalCapacity);
+        CurrentAmountInInternalStorage = Mathf.Clamp(CurrentAmountInInternalStorage, 0, CurrentInternalCapacity);
         NewProductionCount?.Invoke(CurrentAmountInInternalStorage);
         NewAmountInInternalStorage?.Invoke(CurrentAmountInInternalStorage, CurrentInternalCapacity);
     }
@@ -191,7 +191,7 @@ public class AssemblyRoom : MonoBehaviour, IRoomBehaviour
     private void RemoveObjectsFromInternalStorage(int amount)
     {
         CurrentAmountInInternalStorage -= amount;
-        Mathf.Clamp(CurrentAmountInInternalStorage, 0, CurrentInternalCapacity);
+        CurrentAmountInInternalStorage = Mathf.Clamp(CurrentAmountInInternalStorage, 0, CurrentInternalCapacity);
         NewProductionCount?.Invoke(CurrentAmountInInternalStorage);
         NewAmountInInternalStorage?.Invoke(CurrentAmountInInternalStorage, CurrentInternalCapacity);
     }
