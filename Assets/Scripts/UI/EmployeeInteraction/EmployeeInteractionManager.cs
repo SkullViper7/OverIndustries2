@@ -35,6 +35,7 @@ public class EmployeeInteractionManager : MonoBehaviour
         _uiManager.InfoEmployeeButton.SetActive(true);
 
         employee.StopRoutine();
+        employee.ShowOutline();
 
         // Play animation
         _uiManager.InteractionButtonGroup.ShowButtons();
@@ -64,6 +65,7 @@ public class EmployeeInteractionManager : MonoBehaviour
         if (_currentEmployeeSelected != null)
         {
             _currentEmployeeSelected.SetRoutineParameter();
+            _currentEmployeeSelected.HideOutline();
         }
 
         _uiManager.InteractionButtonGroup.HideButtons();

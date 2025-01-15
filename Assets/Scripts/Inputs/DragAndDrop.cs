@@ -30,12 +30,19 @@ public class DragAndDrop : MonoBehaviour
 
     void Start()
     {
-        InteractionManager.Instance.EmployeeDragAndDrop += StartDragAndDrop;
+        InteractionManager.Instance.EmployeeDragAndDrop += PerformedDragAndDrop;
+        InteractionManager.Instance.EmployeeStartDragAndDrop += StartDragAndDrop;
     }
 
-    public void StartDragAndDrop(Employee employee)
+    private void StartDragAndDrop(Employee employee)
+    {
+        employee.StopRoutine();
+    }
+
+    public void PerformedDragAndDrop(Employee employee)
     {
         GameManager.Instance.StartDragAndDrop();
+        employee.ShowOutline();
 
         EmployeeToMove = employee;
         _startPosition = employee.gameObject.transform.position;
@@ -122,7 +129,6 @@ public class DragAndDrop : MonoBehaviour
                         {
                             EmployeeToMove.AssignRoom.GetComponent<Room>().RemoveAssignEmployeeInThisRoom(EmployeeToMove);
                         }
-
                         SetParameter(room);
                     }
                     else
@@ -145,6 +151,7 @@ public class DragAndDrop : MonoBehaviour
     {
         EmployeeToMove.transform.position = _startPosition;
         GameManager.Instance.StopDragAndDrop();
+        EmployeeToMove.HideOutline();
 
         EmployeeToMove.GetComponent<NavMeshAgent>().enabled = true;
         EmployeeToMove.SetRoutineParameter();
@@ -156,6 +163,7 @@ public class DragAndDrop : MonoBehaviour
 
         room.AssignEmployeeInThisRoom(EmployeeToMove);
         EmployeeToMove.AssignRoom = room.gameObject;
+        EmployeeToMove.HideOutline();
 
         EmployeeToMove.transform.position = room.gameObject.transform.GetComponentInChildren<InteractAnimation>().gameObject.transform.position;
         EmployeeToMove.GetComponent<NavMeshAgent>().enabled = true;
