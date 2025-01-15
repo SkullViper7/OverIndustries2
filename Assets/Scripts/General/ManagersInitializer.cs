@@ -7,6 +7,7 @@ public class ManagersInitializer : MonoBehaviour
 
     private void Start()
     {
+        RoomNotificationManager.Instance.Init();
         GridManager.Instance.InitListeners();
         _panelManager.InitListeners();
         LightProbeManager.Instance.InitGrid();

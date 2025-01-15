@@ -37,7 +37,7 @@ public class RoomNotificationManager : MonoBehaviour
         }
     }
 
-    private void Start()
+    public void Init()
     {
         // Create the pool for notifications
         _notificationsPoolID = ObjectPoolManager.Instance.NewObjectPool(_notificationPrefab);
