@@ -76,8 +76,6 @@ public class Employee : MonoBehaviour
     {
         if (IsHired)
         {
-            Debug.Log("set routine");
-
             gameObject.transform.Rotate(Vector3.zero);
 
             SetIdleAnimation();
@@ -107,7 +105,6 @@ public class Employee : MonoBehaviour
                         }
                     }
                 }
-
                 RandomWayPoint();
             }
             else
