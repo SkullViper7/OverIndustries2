@@ -196,6 +196,7 @@ public class TutorialManager : MonoBehaviour
 
                 if (_currentStep >= _tutorialSteps.Length)
                 {
+                    OnTutorialContinuePopUp?.Invoke();
                     HideTutorialStep();
                 }
                 else
@@ -226,7 +227,6 @@ public class TutorialManager : MonoBehaviour
         OnTutorialButtonHide?.Invoke();
         OnTutorialHideBackground?.Invoke();
         _tutorialPanel.SetActive(false);
-        OnTutorialContinuePopUp?.Invoke();
     }
 
     void CanContinue()
