@@ -96,10 +96,11 @@ public class DirectorRoom : MonoBehaviour, IRoomBehaviour
     {
         switch(newLvl)
         {
-            //case 1:
-            //    PourcentageHasTwoJob = DirectorRoomData.PourcentageHasTwoJobAtLvl1;
-            //    PourcentageHasThreeJob = DirectorRoomData.PourcentageHasThreeJobAtLvl1;
-            //    break;
+            case 1:
+                //PourcentageHasTwoJob = DirectorRoomData.PourcentageHasTwoJobAtLvl1;
+                //PourcentageHasThreeJob = DirectorRoomData.PourcentageHasThreeJobAtLvl1;
+                EmployeeManager.Instance.AddCapacity(DirectorRoomData.CapacityBonusAtLvl1);
+                break;
             //case 2:
             //    PourcentageHasTwoJob = DirectorRoomData.PourcentageHasTwoJobAtLvl2;
             //    PourcentageHasThreeJob = DirectorRoomData.PourcentageHasThreeJobAtLvl2;
