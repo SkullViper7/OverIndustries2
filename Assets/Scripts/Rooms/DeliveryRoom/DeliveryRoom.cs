@@ -56,7 +56,7 @@ public class DeliveryRoom : MonoBehaviour, IRoomBehaviour
 
     public event Action<int> NewChrono, NewProductionCount;
 
-    public event Action ProductionStart, ProductionCantStart;
+    public event Action ProductionStart, ProductionCantStart, ProductionGet;
 
     /// <summary>
     /// Called at the start to initialize the delivery room.
@@ -84,6 +84,8 @@ public class DeliveryRoom : MonoBehaviour, IRoomBehaviour
 
     private void TryStartProductionCycle()
     {
+        ProductionGet -= TryStartProductionCycle;
+
         if (_roomMain.EmployeeAssign.Count > 0)
         {
             // If there is the good employee in the room launch a cycle
@@ -96,6 +98,7 @@ public class DeliveryRoom : MonoBehaviour, IRoomBehaviour
                         ProductionStart?.Invoke();
 
                         _roomMain.EmployeesHaveChanged -= TryStartProductionCycle;
+                        _roomMain.EmployeesHaveChanged += TryStartProductionCycle;
 
                         ProductionCycleHasStarted = true;
 
@@ -127,6 +130,7 @@ public class DeliveryRoom : MonoBehaviour, IRoomBehaviour
             ProductionCycleHasStarted = false;
 
             _roomMain.EmployeesHaveChanged += TryStartProductionCycle;
+            ProductionGet += TryStartProductionCycle;
         }
     }
 
@@ -148,6 +152,12 @@ public class DeliveryRoom : MonoBehaviour, IRoomBehaviour
                 _currentChrono++;
                 NewChrono?.Invoke(_currentChrono);
             }
+        }
+        else
+        {
+            ProductionCycleHasStarted = false;
+            ChronoManager.Instance.NewSecondTick -= DeliveryUpdateChrono;
+            ProductionGet += TryStartProductionCycle;
         }
     }
 
@@ -188,11 +198,13 @@ public class DeliveryRoom : MonoBehaviour, IRoomBehaviour
             {
                 _storage.AddRawMaterials(CurrentAmountInInternalStorage);
                 RemoveRawMaterialFromInternalStorage(CurrentAmountInInternalStorage);
+                ProductionGet?.Invoke();
             }
             else
             {
                 _storage.AddRawMaterials(remainingStorage);
                 RemoveRawMaterialFromInternalStorage(remainingStorage);
+                ProductionGet?.Invoke();
             }
         }
     }
@@ -207,18 +219,21 @@ public class DeliveryRoom : MonoBehaviour, IRoomBehaviour
         {
             case 1:
                 _currentChrono = 0;
+                NewChrono?.Invoke(_currentChrono);
                 CurrentDeliveryTime = DeliveryRoomData.DeliveryTimeAtLvl1;
                 CurrentProductionPerDelivery = DeliveryRoomData.ProductionPerDeliveryAtLvl1;
                 CurrentInternalCapacity = DeliveryRoomData.InternalStorageAtLvl1;
                 break;
             case 2:
                 _currentChrono = 0;
+                NewChrono?.Invoke(_currentChrono);
                 CurrentDeliveryTime = DeliveryRoomData.DeliveryTimeAtLvl2;
                 CurrentProductionPerDelivery = DeliveryRoomData.ProductionPerDeliveryAtLvl2;
                 CurrentInternalCapacity = DeliveryRoomData.InternalStorageAtLvl2;
                 break;
             case 3:
                 _currentChrono = 0;
+                NewChrono?.Invoke(_currentChrono);
                 CurrentDeliveryTime = DeliveryRoomData.DeliveryTimeAtLvl3;
                 CurrentProductionPerDelivery = DeliveryRoomData.ProductionPerDeliveryAtLvl3;
                 CurrentInternalCapacity = DeliveryRoomData.InternalStorageAtLvl3;

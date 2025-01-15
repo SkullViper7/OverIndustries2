@@ -136,14 +136,13 @@ public class RoomNotifiction : MonoBehaviour
 
     private void EmployeInTheRoom()
     {
-        _gaugeObject.SetActive(true);
         _notificationPictoObj.SetActive(false);
+        _gaugeFillAmount.fillAmount = 0f;
+        _gaugeObject.SetActive(true);
 
-        _notificationOutline.enabled = false;
-        _notificationBG.enabled = false;
-        _button.interactable = false;
+        UpdateDeliveryCount(((DeliveryRoom)_currentRoom.RoomBehaviour).CurrentAmountInInternalStorage);
 
-        _button.interactable = false;
+        CheckRawMaterialStorage(0);
     }
 
     private void NoEmployeeInTheRoom()
@@ -151,8 +150,10 @@ public class RoomNotifiction : MonoBehaviour
         if (!_isBlocked)
         {
             _gaugeObject.SetActive(false);
-            _notificationPictoObj.SetActive(true);
+            _gaugeFillAmount.fillAmount = 0f;
+
             _notificationPictoImg.sprite = _noEmployeePicto;
+            _notificationPictoObj.SetActive(true);
 
             if (ColorUtility.TryParseHtmlString("#F76A74", out Color newColor))
             {
@@ -165,6 +166,10 @@ public class RoomNotifiction : MonoBehaviour
             }
 
             _button.interactable = false;
+        }
+        else
+        {
+            _gaugeFillAmount.fillAmount = 0f;
         }
     }
 
