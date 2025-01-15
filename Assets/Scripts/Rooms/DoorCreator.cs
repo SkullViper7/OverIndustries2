@@ -38,7 +38,7 @@ public class DoorCreator : MonoBehaviour
 
         if (doorPrefab != null)
         {
-            GameObject newDoor = Instantiate(doorPrefab, transform.position, Quaternion.identity, transform);
+            GameObject newDoor = Instantiate(doorPrefab, new Vector3(transform.position.x, transform.position.y, -0.001f), Quaternion.identity, transform);
             _animator = newDoor.GetComponent<Animator>();
             _room.InitAnimator(_animator);
         }

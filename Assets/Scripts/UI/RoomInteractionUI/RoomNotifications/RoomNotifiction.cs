@@ -91,7 +91,7 @@ public class RoomNotifiction : MonoBehaviour
 
         RectTransform rectTransform = GetComponent<RectTransform>();
         Vector2 position = GridManager.Instance.ConvertGridPosIntoWorldPos(_currentRoom.RoomPosition);
-        rectTransform.position = new Vector3(position.x, position.y, -0.1f);
+        rectTransform.position = new Vector3(position.x, position.y, -0.001f);
         rectTransform.sizeDelta = new Vector2(_currentRoom.RoomData.Size * 3, 4);
 
         switch (_currentRoom.RoomData.RoomType)
@@ -122,6 +122,9 @@ public class RoomNotifiction : MonoBehaviour
         _gaugePicto.sprite = _rawMaterialPicto;
 
         RawMaterialStorage rawMaterialStorage = RawMaterialStorage.Instance;
+
+        _currentRoom.UpgradeStart += () => _gaugeObject.SetActive(false);
+        _currentRoom.UpgradeEnd += () => _gaugeObject.SetActive(true);
 
         deliveryRoom.ProductionStart += EmployeInTheRoom;
         deliveryRoom.ProductionCantStart += NoEmployeeInTheRoom;

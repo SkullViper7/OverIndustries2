@@ -417,6 +417,7 @@ public class UpgradeRoomPopUp : MonoBehaviour
                     {
                         _currentRoomSelected.UpgradeRoom();
                         UIManager.Instance.CloseSFX();
+                        UIManager.Instance.DeliveryUpgradeWarningPopUp.SetActive(false);
                         ClosePopUp();
                     });
                 }

@@ -52,7 +52,7 @@ public class Room : MonoBehaviour
     public delegate void UpgradeDelegate(int newLvl);
     public event UpgradeDelegate NewLvl;
 
-    public event Action OnInitialized, EmployeesHaveChanged;
+    public event Action OnInitialized, EmployeesHaveChanged, UpgradeStart, UpgradeEnd;
 
     /// <summary>
     /// Called at the start to initialize the room.
@@ -132,7 +132,6 @@ public class Room : MonoBehaviour
                 break;
         }
 
-        UpgradeRoom();
         OnInitialized?.Invoke();
     }
 
@@ -143,6 +142,7 @@ public class Room : MonoBehaviour
     public void InitAnimator(Animator doorAnimator)
     {
         _doorAnimator = doorAnimator;
+        UpgradeRoom();
     }
 
     /// <summary>
@@ -230,15 +230,40 @@ public class Room : MonoBehaviour
         {
             case 1:
                 {
+                    UpgradeStart?.Invoke();
+
+                    _doorAnimator.Play("RoomOpening", 0, 0f);
+
                     GameObject newVisualRoom = Instantiate(RoomData.RoomLvl1, transform);
                     _currentVisualRoom = newVisualRoom;
+
+                    // Attendre un frame pour garantir que l'animation démarre
+                    yield return null;
+
+                    // Récupérer les informations sur l'état en cours dans le layer 0
+                    AnimatorStateInfo stateInfo = _doorAnimator.GetCurrentAnimatorStateInfo(0);
+
+                    // Attendre la moitié de l'animation
+                    yield return new WaitForSeconds(stateInfo.length);
+
+                    UpgradeEnd?.Invoke();
+
                     break;
                 }
             case 2:
                 {
-                    _doorAnimator.Play("Room_upgrade", 0, 0f);
+                    UpgradeStart?.Invoke();
 
-                    yield return new WaitForSeconds(0.55f);
+                    _doorAnimator.Play("RoomUpgrade", 0, 0f);
+
+                    // Attendre un frame pour garantir que l'animation démarre
+                    yield return null;
+
+                    // Récupérer les informations sur l'état en cours dans le layer 0
+                    AnimatorStateInfo stateInfo = _doorAnimator.GetCurrentAnimatorStateInfo(0);
+
+                    // Attendre la moitié de l'animation
+                    yield return new WaitForSeconds(stateInfo.length / 2f);
 
                     if (_currentVisualRoom != null)
                     {
@@ -248,12 +273,27 @@ public class Room : MonoBehaviour
                     GameObject newVisualRoom = Instantiate(RoomData.RoomLvl2, transform);
                     _currentVisualRoom = newVisualRoom;
                     SetEmployeeAssign();
+
+                    // Attendre l'autre moitié de l'animation
+                    yield return new WaitForSeconds(stateInfo.length / 2f);
+
+                    UpgradeEnd?.Invoke();
                     break;
                 }
             case 3:
                 {
-                    _doorAnimator.Play("Room_upgrade", 0, 0f);
-                    yield return new WaitForSeconds(0.55f);
+                    UpgradeStart?.Invoke();
+
+                    _doorAnimator.Play("RoomUpgrade", 0, 0f);
+
+                    // Attendre un frame pour garantir que l'animation démarre
+                    yield return null;
+
+                    // Récupérer les informations sur l'état en cours dans le layer 0
+                    AnimatorStateInfo stateInfo = _doorAnimator.GetCurrentAnimatorStateInfo(0);
+
+                    // Attendre la moitié de l'animation
+                    yield return new WaitForSeconds(stateInfo.length / 2f);
 
                     if (_currentVisualRoom != null)
                     {
@@ -263,6 +303,11 @@ public class Room : MonoBehaviour
                     GameObject newVisualRoom = Instantiate(RoomData.RoomLvl3, transform);
                     _currentVisualRoom = newVisualRoom;
                     SetEmployeeAssign();
+
+                    // Attendre l'autre moitié de l'animation
+                    yield return new WaitForSeconds(stateInfo.length / 2f);
+
+                    UpgradeEnd?.Invoke();
                     break;
                 }
         }

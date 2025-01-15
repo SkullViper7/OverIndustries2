@@ -18,13 +18,15 @@ public class DragAndDrop : MonoBehaviour
 
     private Vector3 _screenPos;
 
-    [SerializeField]
     private bool _isMovingHorizontally;
-    [SerializeField]
+
     private bool _isMovingVertically;
 
     [SerializeField]
     private float _speed;
+
+    [SerializeField]
+    private float _yOffset;
 
     private void Awake()
     {
@@ -66,6 +68,10 @@ public class DragAndDrop : MonoBehaviour
         InputsManager.Instance.Hold0Context += IsDraging;
         InputsManager.Instance.DragAndDropCanceled += StopDragAndDrop;
 
+        if (Touchscreen.current.touches.Count > 0)
+        {
+            OnHold(Touchscreen.current.touches[0].position.ReadValue());
+        }
     }
 
     private void IsDraging(InputAction.CallbackContext context)
@@ -74,7 +80,7 @@ public class DragAndDrop : MonoBehaviour
         _screenPos = context.ReadValue<Vector2>();
     }
 
-    void OnHold0(Vector3 holdPosition)
+    void OnHold(Vector3 holdPosition)
     {
         // Get the touch position on the screen (2D vector)
         Vector3 touchPosition = holdPosition;
@@ -87,6 +93,8 @@ public class DragAndDrop : MonoBehaviour
 
         // Convert screen position to world position with a fixed Z value
         Vector3 worldTouchPosition = Camera.main.ScreenToWorldPoint(touchPosition);
+
+        worldTouchPosition.y += _yOffset;
 
         // Fix the Z-coordinate to the desired constant value (e.g., -2)
         worldTouchPosition.z = fixedZ;
@@ -195,6 +203,7 @@ public class DragAndDrop : MonoBehaviour
         room.AssignEmployeeInThisRoom(EmployeeToMove);
         EmployeeToMove.AssignRoom = room.gameObject;
         EmployeeToMove.HideOutline();
+        EmployeeToMove.EmployeeDoesntOverlapUI();
 
         EmployeeToMove.transform.position = room.gameObject.transform.GetComponentInChildren<InteractAnimation>().gameObject.transform.position;
         EmployeeToMove.GetComponent<NavMeshAgent>().enabled = true;
@@ -234,7 +243,7 @@ public class DragAndDrop : MonoBehaviour
 
         if (_isDraging)
         {
-            OnHold0(_screenPos);
+            OnHold(_screenPos);
         }
     }
 }

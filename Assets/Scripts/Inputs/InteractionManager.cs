@@ -71,7 +71,7 @@ public class InteractionManager : MonoBehaviour
                                         Camera.main.ScreenToWorldPoint(touchPosition).y - Camera.main.transform.position.y,
                                         Camera.main.ScreenToWorldPoint(touchPosition).z - Camera.main.transform.position.z).normalized;
 
-        //Debug.DrawRay(Camera.main.transform.position, direction * 100f, Color.green, 1000f);
+        Debug.DrawRay(Camera.main.transform.position, direction * 100f, Color.green, 1000f);
 
         RaycastHit hit;
         // Cast a ray from the camera in the calculated direction and check for hits
@@ -143,6 +143,7 @@ public class InteractionManager : MonoBehaviour
                 RoomUnselected?.Invoke();
 
                 CurrentEmployeeSelected = employee;
+                EmployeeSelected?.Invoke(employee);
                 EmployeeStartDragAndDrop?.Invoke(employee);
             }
             else

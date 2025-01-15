@@ -77,8 +77,7 @@ public class DeliveryRoom : MonoBehaviour, IRoomBehaviour
             _roomNotification.GetComponent<Button>().onClick.AddListener(AddRawMaterialInStorage);
         }
 
-        TryStartProductionCycle();
-
+        _roomMain.UpgradeEnd += TryStartProductionCycle;
         _roomMain.EmployeesHaveChanged += TryStartProductionCycle;
     }
 
@@ -218,22 +217,31 @@ public class DeliveryRoom : MonoBehaviour, IRoomBehaviour
         switch (newLvl)
         {
             case 1:
+                ProductionCycleHasStarted = false;
+                ChronoManager.Instance.NewSecondTick -= DeliveryUpdateChrono;
                 _currentChrono = 0;
                 NewChrono?.Invoke(_currentChrono);
+                RemoveRawMaterialFromInternalStorage(CurrentAmountInInternalStorage);
                 CurrentDeliveryTime = DeliveryRoomData.DeliveryTimeAtLvl1;
                 CurrentProductionPerDelivery = DeliveryRoomData.ProductionPerDeliveryAtLvl1;
                 CurrentInternalCapacity = DeliveryRoomData.InternalStorageAtLvl1;
                 break;
             case 2:
+                ProductionCycleHasStarted = false;
+                ChronoManager.Instance.NewSecondTick -= DeliveryUpdateChrono;
                 _currentChrono = 0;
                 NewChrono?.Invoke(_currentChrono);
+                RemoveRawMaterialFromInternalStorage(CurrentAmountInInternalStorage);
                 CurrentDeliveryTime = DeliveryRoomData.DeliveryTimeAtLvl2;
                 CurrentProductionPerDelivery = DeliveryRoomData.ProductionPerDeliveryAtLvl2;
                 CurrentInternalCapacity = DeliveryRoomData.InternalStorageAtLvl2;
                 break;
             case 3:
+                ProductionCycleHasStarted = false;
+                ChronoManager.Instance.NewSecondTick -= DeliveryUpdateChrono;
                 _currentChrono = 0;
                 NewChrono?.Invoke(_currentChrono);
+                RemoveRawMaterialFromInternalStorage(CurrentAmountInInternalStorage);
                 CurrentDeliveryTime = DeliveryRoomData.DeliveryTimeAtLvl3;
                 CurrentProductionPerDelivery = DeliveryRoomData.ProductionPerDeliveryAtLvl3;
                 CurrentInternalCapacity = DeliveryRoomData.InternalStorageAtLvl3;
