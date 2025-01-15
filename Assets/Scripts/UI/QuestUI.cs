@@ -94,6 +94,8 @@ public class QuestUI : MonoBehaviour
         {
             if (_quest.NumberOfObject.Count == 1)
             {
+                Debug.Log("quest " + _quest.NumberOfObject.Count);
+
                 _questObjectifText.text = $"{_questObjectifText.text} {_quest.NumberOfObject[0]} {_quest.Objects[0].Name}";
             }
             if (_quest.NumberOfObject.Count == 2)
@@ -121,12 +123,13 @@ public class QuestUI : MonoBehaviour
     public void QuestAccept()
     {
         QuestManager.Instance.NewCurrentQuest(_actualQuest);
-
+        _questObjectifText.text = "";
         UpdateCurrentAdvancementQuestObject();
         UpdateCurrentAdvancementQuestComponent();
     }
     public void QuestRefuse()
     {
+        _questObjectifText.text = "";
         Debug.Log("Quest refuse");
     }
 
