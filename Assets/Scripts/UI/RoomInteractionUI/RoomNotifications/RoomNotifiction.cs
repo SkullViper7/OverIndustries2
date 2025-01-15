@@ -119,7 +119,7 @@ public class RoomNotifiction : MonoBehaviour
     {
         DeliveryRoom deliveryRoom = (DeliveryRoom)_currentRoom.RoomBehaviour;
 
-        _notificationPictoImg.sprite = deliveryRoom.DeliveryRoomData.RawMaterialPicto;
+        _gaugePicto.sprite = _rawMaterialPicto;
 
         RawMaterialStorage rawMaterialStorage = RawMaterialStorage.Instance;
 
@@ -157,9 +157,11 @@ public class RoomNotifiction : MonoBehaviour
             if (ColorUtility.TryParseHtmlString("#F76A74", out Color newColor))
             {
                 _notificationOutline.color = newColor;
+                _notificationOutline.enabled = true;
                 newColor = new Color(newColor.r, newColor.g, newColor.b, 60f / 255f);
                 _notificationBG.raycastTarget = false;
                 _notificationBG.color = newColor;
+                _notificationBG.enabled = true;
             }
 
             _button.interactable = false;
@@ -187,7 +189,7 @@ public class RoomNotifiction : MonoBehaviour
         }
         else
         {
-            _isBlocked = false;
+            _isBlocked = true;
             if (ColorUtility.TryParseHtmlString("#40C1AA", out Color newColor))
             {
                 _notificationOutline.color = newColor;
@@ -215,6 +217,7 @@ public class RoomNotifiction : MonoBehaviour
         }
         else
         {
+            _isBlocked = false;
             _productionCountObj.SetActive(false);
             _notificationOutline.enabled = false;
             _notificationBG.enabled = false;
