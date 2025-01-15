@@ -13,6 +13,12 @@ public class GameManager : MonoBehaviour
     public int GameTime { get; private set; }
 
     /// <summary>
+    /// Time of the game (in minutes).
+    /// </summary>
+    [field : SerializeField, Tooltip("Time of the Tutoral (in minutes).")]
+    public int TutorialGameTime { get; private set; }
+
+    /// <summary>
     /// Gets if the game is in pause.
     /// </summary>
     public bool GameIsInPause { get; private set; }
@@ -43,7 +49,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        ChronoManager.Instance.StartChronometer(GameTime);
+        ChronoManager.Instance.StartChronometer(TutorialGameTime);
     }
 
     public void PauseGame()
