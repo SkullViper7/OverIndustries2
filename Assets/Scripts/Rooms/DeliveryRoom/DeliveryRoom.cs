@@ -45,11 +45,18 @@ public class DeliveryRoom : MonoBehaviour, IRoomBehaviour
     public int CurrentInternalCapacity { get; private set; }
 
     /// <summary>
+    /// A value indicating if a production cycle has started.
+    /// </summary>
+    public bool ProductionCycleHasStarted { get; private set; }
+
+    /// <summary>
     /// Notification of the room when raw material is recoverable.
     /// </summary>
     private RoomNotifiction _roomNotification;
 
-    public event Action<int, int> NewAmountInInternalStorage;
+    public event Action<int> NewChrono, NewProductionCount;
+
+    public event Action ProductionStart, ProductionCantStart;
 
     /// <summary>
     /// Called at the start to initialize the delivery room.
@@ -61,9 +68,49 @@ public class DeliveryRoom : MonoBehaviour, IRoomBehaviour
         _roomMain = roomMain;
 
         UpgradeRoom(1);
-
-        ChronoManager.Instance.NewSecondTick += DeliveryUpdateChrono;
         _roomMain.NewLvl += UpgradeRoom;
+
+        // If there is already not a notification on the room add a notification and add a listener for when player will clicks on.
+        if (_roomNotification == null)
+        {
+            _roomNotification = RoomNotificationManager.Instance.NewNotification(_roomMain);
+            _roomNotification.GetComponent<Button>().onClick.AddListener(AddRawMaterialInStorage);
+        }
+
+        TryStartProductionCycle();
+
+        _roomMain.EmployeesHaveChanged += TryStartProductionCycle;
+    }
+
+    private void TryStartProductionCycle()
+    {
+        // If there is the good employee in the room launch a cycle
+        for (int i = 0; i < _roomMain.EmployeeAssign.Count; i++)
+        {
+            if (_roomMain.EmployeeAssign[i].EmployeeJob[0].JobType == Job.FitterAssembler)
+            {
+                if (!ProductionCycleHasStarted)
+                {
+                    ProductionStart?.Invoke();
+
+                    _roomMain.EmployeesHaveChanged -= TryStartProductionCycle;
+
+                    ProductionCycleHasStarted = true;
+
+                    ChronoManager.Instance.NewSecondTick += DeliveryUpdateChrono;
+                }
+
+                break;
+            }
+            else
+            {
+                ProductionCantStart?.Invoke();
+
+                ProductionCycleHasStarted = false;
+
+                _roomMain.EmployeesHaveChanged += TryStartProductionCycle;
+            }
+        }
     }
 
     /// <summary>
@@ -76,11 +123,13 @@ public class DeliveryRoom : MonoBehaviour, IRoomBehaviour
             if (_currentChrono + 1 >= CurrentDeliveryTime)
             {
                 _currentChrono = 0;
+                NewChrono?.Invoke(_currentChrono);
                 AddRawMaterialInInternalStorage(CurrentProductionPerDelivery);
             }
             else
             {
                 _currentChrono++;
+                NewChrono?.Invoke(_currentChrono);
             }
         }
     }
@@ -94,14 +143,7 @@ public class DeliveryRoom : MonoBehaviour, IRoomBehaviour
         CurrentAmountInInternalStorage += amount;
         Mathf.Clamp(CurrentAmountInInternalStorage, 0, CurrentInternalCapacity);
 
-        NewAmountInInternalStorage?.Invoke(CurrentAmountInInternalStorage, CurrentInternalCapacity);
-
-        // If there is already not a notification on the room add a notification and add a listener for when player will clicks on.
-        if (_roomNotification == null)
-        {
-            _roomNotification = RoomNotificationManager.Instance.NewNotification(_roomMain);
-            _roomNotification.GetComponent<Button>().onClick.AddListener(AddRawMaterialInStorage);
-        }
+        NewProductionCount?.Invoke(CurrentAmountInInternalStorage);
     }
 
     /// <summary>
@@ -112,6 +154,8 @@ public class DeliveryRoom : MonoBehaviour, IRoomBehaviour
     {
         CurrentAmountInInternalStorage -= amount;
         Mathf.Clamp(CurrentAmountInInternalStorage, 0, CurrentInternalCapacity);
+
+        NewProductionCount?.Invoke(CurrentAmountInInternalStorage);
     }
 
     /// <summary>
@@ -123,7 +167,7 @@ public class DeliveryRoom : MonoBehaviour, IRoomBehaviour
         {
             int remainingStorage = _storage.GetRemainingStorage();
 
-            if(remainingStorage >= CurrentAmountInInternalStorage)
+            if (remainingStorage >= CurrentAmountInInternalStorage)
             {
                 _storage.AddRawMaterials(CurrentAmountInInternalStorage);
                 RemoveRawMaterialFromInternalStorage(CurrentAmountInInternalStorage);

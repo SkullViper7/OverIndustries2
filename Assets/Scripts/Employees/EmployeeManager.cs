@@ -10,12 +10,12 @@ public class EmployeeManager : MonoBehaviour
     /// <summary>
     /// Capacity of the factory.
     /// </summary>
-    public int Capacity;
+    public int Capacity { get; private set; }
 
     /// <summary>
     /// List which contains employees.
     /// </summary>
-    public List<Employee> Employees = new();
+    public List<Employee> Employees { get; private set; } = new();
 
     private void Awake()
     {

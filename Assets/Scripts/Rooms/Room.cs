@@ -52,7 +52,7 @@ public class Room : MonoBehaviour
     public delegate void UpgradeDelegate(int newLvl);
     public event UpgradeDelegate NewLvl;
 
-    public event Action OnInitialized;
+    public event Action OnInitialized, EmployeesHaveChanged;
 
     /// <summary>
     /// Called at the start to initialize the room.
@@ -184,9 +184,9 @@ public class Room : MonoBehaviour
     /// </summary>
     private void SetEmployeeAssign()
     {
-        if(EmployeeAssign != null)
+        if (EmployeeAssign != null)
         {
-            for(int i = 0; i < EmployeeAssign.Count; i++)
+            for (int i = 0; i < EmployeeAssign.Count; i++)
             {
                 EmployeeAssign[i].SetRoutineParameter();
             }
@@ -206,24 +206,21 @@ public class Room : MonoBehaviour
             if (employee.AssignRoom != this.gameObject)
             {
                 EmployeeAssign.Add(employee);
+                EmployeesHaveChanged?.Invoke();
             }
         }
     }
 
     /// <summary>
-    /// Add this employee in the list of employee assign in this room
+    /// Remove this employee in the list of employee assign in this room
     /// </summary>
     /// <param name="employee"></param>
     public void RemoveAssignEmployeeInThisRoom(Employee employee)
     {
-        //Check if the room can add a employee
-        if (EmployeeAssign.Count != 0)
+        if (employee != null && EmployeeAssign.Contains(employee))
         {
-            //Check if this employee is not already in this room
-            if (employee.AssignRoom == this.gameObject)
-            {
-                EmployeeAssign.Remove(employee);
-            }
+            EmployeeAssign.Remove(employee);
+            EmployeesHaveChanged?.Invoke();
         }
     }
 

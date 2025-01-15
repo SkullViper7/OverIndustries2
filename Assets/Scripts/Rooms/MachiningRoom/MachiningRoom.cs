@@ -69,7 +69,6 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
     private static readonly object _lockObject = new object();
 
     public event Action<int> NewChrono, NewProductionCount;
-    public event Action<int, int> NewAmountInInternalStorage;
 
     /// <summary>
     /// Called at the start to initialize the machining room.
@@ -185,7 +184,6 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
         CurrentAmountInInternalStorage++;
         Mathf.Clamp(CurrentAmountInInternalStorage, 0, CurrentInternalCapacity);
         NewProductionCount?.Invoke(CurrentAmountInInternalStorage);
-        NewAmountInInternalStorage?.Invoke(CurrentAmountInInternalStorage, CurrentInternalCapacity);
     }
 
     /// <summary>
@@ -197,7 +195,6 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
         CurrentAmountInInternalStorage -= amount;
         Mathf.Clamp(CurrentAmountInInternalStorage, 0, CurrentInternalCapacity);
         NewProductionCount?.Invoke(CurrentAmountInInternalStorage);
-        NewAmountInInternalStorage?.Invoke(CurrentAmountInInternalStorage, CurrentInternalCapacity);
     }
 
     /// <summary>

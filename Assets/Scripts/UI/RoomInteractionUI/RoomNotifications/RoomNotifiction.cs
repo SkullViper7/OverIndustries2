@@ -10,6 +10,12 @@ public class RoomNotifiction : MonoBehaviour
     [SerializeField]
     private Image _notificationPictoImg;
 
+    [SerializeField]
+    private Sprite _rawMaterialPicto;
+
+    [SerializeField]
+    private Sprite _noEmployeePicto;
+
     /// <summary>
     /// Gauge to show when it's a notification for a production or a research.
     /// </summary>
@@ -58,6 +64,8 @@ public class RoomNotifiction : MonoBehaviour
     /// Current room on which the notification is.
     /// </summary>
     private Room _currentRoom;
+
+    private bool _isBlocked = false;
 
     private void Awake()
     {
@@ -109,19 +117,53 @@ public class RoomNotifiction : MonoBehaviour
     /// </summary>
     private void InitForDeliveryRoom()
     {
-        _notificationBG.enabled = true;
-        _notificationPictoObj.SetActive(true);
-        _notificationOutline.enabled = true;
-        _notificationPictoImg.sprite = ((DeliveryRoomData)_currentRoom.RoomBehaviourData).RawMaterialPicto;
+        DeliveryRoom deliveryRoom = (DeliveryRoom)_currentRoom.RoomBehaviour;
+
+        _notificationPictoImg.sprite = deliveryRoom.DeliveryRoomData.RawMaterialPicto;
 
         RawMaterialStorage rawMaterialStorage = RawMaterialStorage.Instance;
 
-        // Check if raw material storage is already full to change color
-        CheckRawMaterialStorage(0);
+        deliveryRoom.ProductionStart += EmployeInTheRoom;
+        deliveryRoom.ProductionCantStart += NoEmployeeInTheRoom;
 
         rawMaterialStorage.CapacityHasChanged += CheckRawMaterialStorage;
 
         rawMaterialStorage.AmountHasChanged += CheckRawMaterialStorage;
+
+        deliveryRoom.NewChrono += UpdateGaugeForDelivery;
+        deliveryRoom.NewProductionCount += UpdateDeliveryCount;
+    }
+
+    private void EmployeInTheRoom()
+    {
+        _gaugeObject.SetActive(true);
+        _notificationPictoObj.SetActive(false);
+
+        _notificationOutline.enabled = false;
+        _notificationBG.enabled = false;
+        _button.interactable = false;
+
+        _button.interactable = false;
+    }
+
+    private void NoEmployeeInTheRoom()
+    {
+        if (!_isBlocked)
+        {
+            _gaugeObject.SetActive(false);
+            _notificationPictoObj.SetActive(true);
+            _notificationPictoImg.sprite = _noEmployeePicto;
+
+            if (ColorUtility.TryParseHtmlString("#F76A74", out Color newColor))
+            {
+                _notificationOutline.color = newColor;
+                newColor = new Color(newColor.r, newColor.g, newColor.b, 60f / 255f);
+                _notificationBG.raycastTarget = false;
+                _notificationBG.color = newColor;
+            }
+
+            _button.interactable = false;
+        }
     }
 
     /// <summary>
@@ -132,6 +174,7 @@ public class RoomNotifiction : MonoBehaviour
     {
         if (RawMaterialStorage.Instance.IsStorageFull())
         {
+            _isBlocked = true;
             if (ColorUtility.TryParseHtmlString("#F76A74", out Color newColor))
             {
                 _notificationOutline.color = newColor;
@@ -144,6 +187,7 @@ public class RoomNotifiction : MonoBehaviour
         }
         else
         {
+            _isBlocked = false;
             if (ColorUtility.TryParseHtmlString("#40C1AA", out Color newColor))
             {
                 _notificationOutline.color = newColor;
@@ -154,6 +198,39 @@ public class RoomNotifiction : MonoBehaviour
 
             _button.interactable = true;
         }
+    }
+
+    /// <summary>
+    /// Called to update the delivery count.
+    /// </summary>
+    /// <param name="newCount"> New count of the delivery. </param>
+    private void UpdateDeliveryCount(int newCount)
+    {
+        if (newCount > 0)
+        {
+            _productionCountObj.SetActive(true);
+            _notificationOutline.enabled = true;
+            _notificationBG.enabled = true;
+            CheckRawMaterialStorage(0);
+        }
+        else
+        {
+            _productionCountObj.SetActive(false);
+            _notificationOutline.enabled = false;
+            _notificationBG.enabled = false;
+            _button.interactable = false;
+        }
+
+        _productionCountTxt.text = newCount.ToString();
+    }
+
+    /// <summary>
+    /// Called to update the fill amount of the gauge for delivery.
+    /// </summary>
+    /// <param name="newChrono"> New chrono of the room. </param>
+    private void UpdateGaugeForDelivery(int newChrono)
+    {
+        _gaugeFillAmount.fillAmount = 1f / ((DeliveryRoom)_currentRoom.RoomBehaviour).CurrentDeliveryTime * newChrono;
     }
     #endregion
 
