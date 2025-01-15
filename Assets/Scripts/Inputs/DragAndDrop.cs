@@ -14,6 +14,18 @@ public class DragAndDrop : MonoBehaviour
 
     public event System.Action<Room> RoomAssignIsFull;
 
+    private bool _isDraging;
+
+    private Vector3 _screenPos;
+
+    [SerializeField]
+    private bool _isMovingHorizontally;
+    [SerializeField]
+    private bool _isMovingVertically;
+
+    [SerializeField]
+    private float _speed;
+
     private void Awake()
     {
         // Singleton
@@ -50,55 +62,72 @@ public class DragAndDrop : MonoBehaviour
         EmployeeToMove.GetComponent<NavMeshAgent>().enabled = false;
         EmployeeToMove.SetIdleAnimation();
 
-        InputsManager.Instance.Hold0Context += OnHold0;
+        InputsManager.Instance.Hold0Context += IsDraging;
         InputsManager.Instance.DragAndDropCanceled += StopDragAndDrop;
 
     }
 
-    void OnHold0(InputAction.CallbackContext context)
+    private void IsDraging(InputAction.CallbackContext context)
     {
-        RaycastHit hit;
+        _isDraging = true;
+        _screenPos = context.ReadValue<Vector2>();
+    }
 
-        // Get the touch position on the screen and set its z-coordinate to the camera's distance
-        Vector3 touchPosition = context.ReadValue<Vector2>();
-        touchPosition.z = Mathf.Abs(Camera.main.transform.position.z);
+    void OnHold0(Vector3 holdPosition)
+    {
+        // Get the touch position on the screen (2D vector)
+        Vector3 touchPosition = holdPosition;
 
-        // Calculate the direction from the camera to the touch position in world space
-        Vector3 direction = new Vector3(Camera.main.ScreenToWorldPoint(touchPosition).x - Camera.main.transform.position.x,
-                                        Camera.main.ScreenToWorldPoint(touchPosition).y - Camera.main.transform.position.y,
-                                        Camera.main.ScreenToWorldPoint(touchPosition).z - Camera.main.transform.position.z).normalized;
+        // Set the Z-coordinate to a fixed value (e.g., -2)
+        float fixedZ = -3f;
 
-        // Cast a ray from the camera in the calculated direction and check for hits
-        if (Physics.Raycast(Camera.main.transform.position, direction, out hit, 200))
+        // Convert touch position to world space, but we adjust Z manually to keep it constant
+        touchPosition.z = Mathf.Abs(Camera.main.transform.position.z) + fixedZ;  // Adjust the Z to avoid perspective distortions
+
+        // Convert screen position to world position with a fixed Z value
+        Vector3 worldTouchPosition = Camera.main.ScreenToWorldPoint(touchPosition);
+
+        // Fix the Z-coordinate to the desired constant value (e.g., -2)
+        worldTouchPosition.z = fixedZ;
+
+        // Move the object to the calculated position using Lerp for smooth movement
+        EmployeeToMove.transform.position = worldTouchPosition;
+
+        //déplace la caméra suivant la position en Y de l'employer
+        if (touchPosition.y >= (Camera.main.scaledPixelHeight / 5 * 4) ||
+            touchPosition.y <= (Camera.main.scaledPixelHeight / 5))
         {
-            int PosX = (int)Mathf.Round(hit.point.x);
-            int PosY = (int)Mathf.Round(hit.point.y);
-
-            EmployeeToMove.gameObject.transform.position = new Vector3(PosX, PosY, -2);
-
-            //déplace la caméra suivant la position en Y de l'employer
-            if (Camera.main.WorldToScreenPoint(EmployeeToMove.gameObject.transform.position).y >= (Camera.main.scaledPixelHeight / 5 * 4) ||
-                Camera.main.WorldToScreenPoint(EmployeeToMove.gameObject.transform.position).y <= (Camera.main.scaledPixelHeight / 5))
-            {
-                //Camera.main.transform.Translate(Vector3.down * 0.2f, Space.World);
-                Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position,
-                    new Vector3(Camera.main.transform.position.x, EmployeeToMove.gameObject.transform.position.y, Camera.main.transform.position.z), 0.08f);
-            }
-
-            //déplace la caméra suivant la position en X de l'employer
-            if (Camera.main.WorldToScreenPoint(EmployeeToMove.gameObject.transform.position).x >= (Camera.main.scaledPixelWidth / 5 * 4) ||
-                Camera.main.WorldToScreenPoint(EmployeeToMove.gameObject.transform.position).x <= (Camera.main.scaledPixelWidth / 5))
-            {
-                Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position,
-                    new Vector3(EmployeeToMove.gameObject.transform.position.x, Camera.main.transform.position.y, Camera.main.transform.position.z), 0.05f);
-            }
+            _isMovingVertically = true;
+            //Camera.main.transform.Translate(Vector3.down * 0.2f, Space.World);
+            Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position,
+                new Vector3(Camera.main.transform.position.x, EmployeeToMove.gameObject.transform.position.y, Camera.main.transform.position.z), 0.08f);
+        }
+        else
+        {
+            _isMovingVertically = false;
         }
 
+        //déplace la caméra suivant la position en X de l'employer
+        if (touchPosition.x >= (Camera.main.scaledPixelWidth / 10 * 9) ||
+            touchPosition.x <= (Camera.main.scaledPixelWidth / 10))
+        {
+            _isMovingHorizontally = true;
+            Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position,
+                new Vector3(EmployeeToMove.gameObject.transform.position.x, Camera.main.transform.position.y, Camera.main.transform.position.z), 0.05f);
+        }
+        else
+        {
+            _isMovingHorizontally = false;
+        }
     }
 
     public void StopDragAndDrop()
     {
-        InputsManager.Instance.Hold0Context -= OnHold0;
+        _isMovingHorizontally = false;
+        _isMovingVertically = false;
+        _isDraging = false;
+        _screenPos = Vector3.zero;
+        InputsManager.Instance.Hold0Context -= IsDraging;
         InputsManager.Instance.DragAndDropCanceled -= StopDragAndDrop;
 
         RaycastHit hit;
@@ -169,5 +198,41 @@ public class DragAndDrop : MonoBehaviour
         EmployeeToMove.GetComponent<NavMeshAgent>().enabled = true;
 
         EmployeeToMove.SetRoutineParameter();
+    }
+
+    private void Update()
+    {
+        // Déplacement continu horizontal
+        if (_isMovingHorizontally)
+        {
+            // Déplacer la caméra continuellement dans la direction de l'axe X
+            float moveDirection = (EmployeeToMove.gameObject.transform.position.x > Camera.main.transform.position.x) ? 1 : -1;
+
+            // Appliquer le mouvement
+            Camera.main.transform.position = new Vector3(
+                Camera.main.transform.position.x + moveDirection * _speed * Time.deltaTime,
+                Camera.main.transform.position.y,
+                Camera.main.transform.position.z
+            );
+        }
+
+        // Déplacement continu vertical
+        if (_isMovingVertically)
+        {
+            // Déplacer la caméra continuellement dans la direction de l'axe Y
+            float moveDirection = (EmployeeToMove.gameObject.transform.position.y > Camera.main.transform.position.y) ? 1 : -1;
+
+            // Appliquer le mouvement
+            Camera.main.transform.position = new Vector3(
+                Camera.main.transform.position.x,
+                Camera.main.transform.position.y + moveDirection * _speed * Time.deltaTime,
+                Camera.main.transform.position.z
+            );
+        }
+
+        if (_isDraging)
+        {
+            OnHold0(_screenPos);
+        }
     }
 }

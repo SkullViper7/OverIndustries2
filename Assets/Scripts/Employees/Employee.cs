@@ -131,32 +131,35 @@ public class Employee : MonoBehaviour
     /// </summary>
     public void RandomWayPoint()
     {
-        if (!GameManager.Instance.InDragAndDrop && !_navMeshAgent.hasPath && IsHired)
+        if (_navMeshAgent.enabled)
         {
-            int i = Random.Range(0, _wayPointList.Count);
-
-            if (_wayPointList[i] != _actualWayPoint || _wayPointList.Count == 0)
+            if (!GameManager.Instance.InDragAndDrop && !_navMeshAgent.hasPath && IsHired)
             {
-                _actualWayPoint = _wayPointList[i];
-                SetWalkAnimation();
+                int i = Random.Range(0, _wayPointList.Count);
 
-                _navMeshAgent.destination = _actualWayPoint.transform.position;
+                if (_wayPointList[i] != _actualWayPoint || _wayPointList.Count == 0)
+                {
+                    _actualWayPoint = _wayPointList[i];
+                    SetWalkAnimation();
 
-                //Bloque la rotation pendant le déplacement
-                _navMeshAgent.updateRotation = false;
-                SetRotation();
-                StartCoroutine(WaitNewDestination());
+                    _navMeshAgent.destination = _actualWayPoint.transform.position;
+
+                    //Bloque la rotation pendant le déplacement
+                    _navMeshAgent.updateRotation = false;
+                    SetRotation();
+                    StartCoroutine(WaitNewDestination());
+                }
+                else
+                {
+                    _navMeshAgent.ResetPath();
+                    RandomWayPoint();
+                }
             }
             else
             {
                 _navMeshAgent.ResetPath();
-                RandomWayPoint();
+                SetIdleAnimation();
             }
-        }
-        else
-        {
-            _navMeshAgent.ResetPath();
-            SetIdleAnimation();
         }
     }
 

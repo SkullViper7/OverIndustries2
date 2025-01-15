@@ -361,6 +361,11 @@ public class NavigationManager : MonoBehaviour
 
     private void Update()
     {
+        Vector3 clampedPosition = _camera.transform.position;
+        clampedPosition.x = Mathf.Clamp(clampedPosition.x, _minPosLeftCorner.x, _maxPosRightCorner.x);
+        clampedPosition.y = Mathf.Clamp(clampedPosition.y, _minPosLeftCorner.y, _maxPosRightCorner.y);
+        _camera.transform.position = clampedPosition;
+
         if (_hold0Performed && _hold1Performed)
         {
             Zoom();
