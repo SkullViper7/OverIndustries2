@@ -52,6 +52,9 @@ public class Employee : MonoBehaviour
     [SerializeField]
     private GameObject _outline;
 
+    [SerializeField]
+    private List<SpriteRenderer> _sprites;
+
     private void Start()
     {
         if (gameObject.transform.GetChild(0).gameObject.activeInHierarchy)
@@ -254,5 +257,21 @@ public class Employee : MonoBehaviour
     public void HideOutline()
     {
         _outline.SetActive(false);
+    }
+
+    public void EmployeeOverlapUI()
+    {
+        for (int i = 0;  i < _sprites.Count; i++)
+        {
+            _sprites[i].sortingOrder += 20;
+        }
+    }
+
+    public void EmployeeDoesntOverlapUI()
+    {
+        for (int i = 0; i < _sprites.Count; i++)
+        {
+            _sprites[i].sortingOrder -= 20;
+        }
     }
 }

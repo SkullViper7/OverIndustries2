@@ -168,7 +168,7 @@ public class DeliveryRoom : MonoBehaviour, IRoomBehaviour
     private void AddRawMaterialInInternalStorage(int amount)
     {
         CurrentAmountInInternalStorage += amount;
-        Mathf.Clamp(CurrentAmountInInternalStorage, 0, CurrentInternalCapacity);
+        CurrentAmountInInternalStorage = Mathf.Clamp(CurrentAmountInInternalStorage, 0, CurrentInternalCapacity);
 
         NewProductionCount?.Invoke(CurrentAmountInInternalStorage);
     }
@@ -180,7 +180,7 @@ public class DeliveryRoom : MonoBehaviour, IRoomBehaviour
     private void RemoveRawMaterialFromInternalStorage(int amount)
     {
         CurrentAmountInInternalStorage -= amount;
-        Mathf.Clamp(CurrentAmountInInternalStorage, 0, CurrentInternalCapacity);
+        CurrentAmountInInternalStorage = Mathf.Clamp(CurrentAmountInInternalStorage, 0, CurrentInternalCapacity);
 
         NewProductionCount?.Invoke(CurrentAmountInInternalStorage);
     }

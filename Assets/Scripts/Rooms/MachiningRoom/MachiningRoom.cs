@@ -182,7 +182,7 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
     private void AddComponentInInternalStorage()
     {
         CurrentAmountInInternalStorage++;
-        Mathf.Clamp(CurrentAmountInInternalStorage, 0, CurrentInternalCapacity);
+        CurrentAmountInInternalStorage = Mathf.Clamp(CurrentAmountInInternalStorage, 0, CurrentInternalCapacity);
         NewProductionCount?.Invoke(CurrentAmountInInternalStorage);
     }
 
@@ -193,7 +193,7 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
     private void RemoveComponentsFromInternalStorage(int amount)
     {
         CurrentAmountInInternalStorage -= amount;
-        Mathf.Clamp(CurrentAmountInInternalStorage, 0, CurrentInternalCapacity);
+        CurrentAmountInInternalStorage = Mathf.Clamp(CurrentAmountInInternalStorage, 0, CurrentInternalCapacity);
         NewProductionCount?.Invoke(CurrentAmountInInternalStorage);
     }
 
