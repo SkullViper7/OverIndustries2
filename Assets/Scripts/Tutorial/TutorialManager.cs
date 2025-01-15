@@ -300,28 +300,14 @@ public class TutorialManager : MonoBehaviour
                     OnTutorialHideBackground?.Invoke();
 
                     bool isStorage = false;
-                    bool isAssembly = false;
                     bool isMachining = false;
 
                     if (GridManager.Instance.InstantiatedRooms[i].RoomData.RoomType == RoomType.Storage)
                     {
                         GameObject roomStorage = GridManager.Instance.InstantiatedRooms[i].RoomData.RoomType == RoomType.Storage ? GridManager.Instance.InstantiatedRooms[i].gameObject : null;
-                        if (roomStorage.GetComponent<Room>().EmployeeAssign.Count >= 1)
-                        {
-                            isStorage = true;
-                        }
 
-                        for (int j = 0; j < GridManager.Instance.InstantiatedRooms.Count; j++)
-                        {
-                            if (GridManager.Instance.InstantiatedRooms[j].RoomData.RoomType == RoomType.Assembly)
-                            {
-                                _roomAssembly = GridManager.Instance.InstantiatedRooms[j].gameObject;
-                                if (_roomAssembly.GetComponent<Room>().EmployeeAssign.Count >= 1)
-                                {
-                                    isAssembly = true;
-                                }
-                            }
-                        }
+                        isStorage = true;
+
 
                         for (int k = 0; k < GridManager.Instance.InstantiatedRooms.Count; k++)
                         {
@@ -335,7 +321,7 @@ public class TutorialManager : MonoBehaviour
                             }
                         }
 
-                        if (isStorage && isAssembly && isMachining)
+                        if (isStorage && isMachining)
                         {
                             _canContinue = true;
                         }

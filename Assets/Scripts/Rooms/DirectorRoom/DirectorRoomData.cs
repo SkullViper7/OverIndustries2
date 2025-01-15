@@ -52,6 +52,12 @@ public class DirectorRoomData : ScriptableObject, IRoomBehaviourData
     private int _waitTime;
 
     /// <summary>
+    /// Capacity to add to the factory at lvl 1.
+    /// </summary>
+    [Space, Header("Employee capacity"), SerializeField, Tooltip("Capacity to add to the factory at lvl 1.")]
+    private int _capacityBonusAtLvl1;
+
+    /// <summary>
     /// Gets the capacity to add to the storage at lvl 1.
     /// </summary>
     public int PourcentageHasTwoJobAtLvl1 { get { return _pourcentageHasTwoJobAtLvl1; } private set { } }
@@ -90,4 +96,10 @@ public class DirectorRoomData : ScriptableObject, IRoomBehaviourData
     /// Time to wait before create a new employee
     /// </summary>
     public int WaitTime { get { return _waitTime; } }
+
+
+    /// <summary>
+    /// Gets the capacity to add to the factory at lvl 1.
+    /// </summary>
+    public int CapacityBonusAtLvl1 { get { return _capacityBonusAtLvl1; } private set { } }
 }

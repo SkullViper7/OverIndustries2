@@ -97,6 +97,6 @@ public class TutorialUI : MonoBehaviour
 
     public void ContinueGame()
     {
-        ChronoManager.Instance.StartChronometer(20);
+        ChronoManager.Instance.StartChronometer(GameManager.Instance.GameTime);
     }
 }
