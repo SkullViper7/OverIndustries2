@@ -25,7 +25,7 @@ public class InteractionManager : MonoBehaviour
 
     public event Action<Room> RoomSelected, RoomDoubleTap;
 
-    public event Action<Employee> EmployeeSelected, EmployeeDragAndDrop;
+    public event Action<Employee> EmployeeSelected, EmployeeDragAndDrop, EmployeeStartDragAndDrop;
 
     public event Action RoomUnselected, EmployeeUnselected;
 
@@ -54,6 +54,7 @@ public class InteractionManager : MonoBehaviour
         _inputsManager.Tap += FindTarget;
         _inputsManager.DoubleTap += FindDoubleTapTarget;
         _inputsManager.DragAndDropPerformed += FindDragAndDropTarget;
+        _inputsManager.DragAndDropStarted += FindStartDragAndDropTarget;
     }
 
     /// <summary>
@@ -119,7 +120,7 @@ public class InteractionManager : MonoBehaviour
         }
     }
 
-    public void FindDragAndDropTarget()
+    private void FindStartDragAndDropTarget()
     {
         // Get the touch position on the screen and set its z-coordinate to the camera's distance
         Vector3 touchPosition = Touchscreen.current.primaryTouch.position.ReadValue();
@@ -142,7 +143,61 @@ public class InteractionManager : MonoBehaviour
                 RoomUnselected?.Invoke();
 
                 CurrentEmployeeSelected = employee;
-                EmployeeDragAndDrop?.Invoke(employee);
+                EmployeeStartDragAndDrop?.Invoke(employee);
+            }
+            else
+            {
+                CurrentRoomSelected = null;
+                RoomUnselected?.Invoke();
+
+                CurrentEmployeeSelected = null;
+                EmployeeUnselected?.Invoke();
+            }
+        }
+        else
+        {
+            CurrentRoomSelected = null;
+            RoomUnselected?.Invoke();
+
+            CurrentEmployeeSelected = null;
+            EmployeeUnselected?.Invoke();
+        }
+    }
+
+    public void FindDragAndDropTarget()
+    {
+        // Get the touch position on the screen and set its z-coordinate to the camera's distance
+        Vector3 touchPosition = Touchscreen.current.primaryTouch.position.ReadValue();
+        touchPosition.z = Mathf.Abs(Camera.main.transform.position.z);
+
+        // Calculate the direction from the camera to the touch position in world space
+        Vector3 direction = new Vector3(Camera.main.ScreenToWorldPoint(touchPosition).x - Camera.main.transform.position.x,
+                                        Camera.main.ScreenToWorldPoint(touchPosition).y - Camera.main.transform.position.y,
+                                        Camera.main.ScreenToWorldPoint(touchPosition).z - Camera.main.transform.position.z).normalized;
+
+        RaycastHit hit;
+        // Cast a ray from the camera in the calculated direction and check for hits
+        if (Physics.Raycast(Camera.main.transform.position, direction, out hit, 1000))
+        {
+            // If the ray hits an object with an employee component, trigger its event with datas of the employee
+            // or if it's an object with a room component, trigger its event with datas of the room
+            if (hit.collider.TryGetComponent<Employee>(out Employee employee))
+            {
+                if (CurrentEmployeeSelected == employee)
+                {
+                    CurrentRoomSelected = null;
+                    RoomUnselected?.Invoke();
+
+                    EmployeeDragAndDrop?.Invoke(employee);
+                }
+                else
+                {
+                    CurrentRoomSelected = null;
+                    RoomUnselected?.Invoke();
+
+                    CurrentEmployeeSelected = null;
+                    EmployeeUnselected?.Invoke();
+                }
             }
             else
             {
