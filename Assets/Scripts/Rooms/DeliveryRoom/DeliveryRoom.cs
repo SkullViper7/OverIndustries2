@@ -84,32 +84,49 @@ public class DeliveryRoom : MonoBehaviour, IRoomBehaviour
 
     private void TryStartProductionCycle()
     {
-        // If there is the good employee in the room launch a cycle
-        for (int i = 0; i < _roomMain.EmployeeAssign.Count; i++)
+        if (_roomMain.EmployeeAssign.Count > 0)
         {
-            if (_roomMain.EmployeeAssign[i].EmployeeJob[0].JobType == Job.FitterAssembler)
+            // If there is the good employee in the room launch a cycle
+            for (int i = 0; i < _roomMain.EmployeeAssign.Count; i++)
             {
-                if (!ProductionCycleHasStarted)
+                if (_roomMain.EmployeeAssign[i].EmployeeJob[0].JobType == Job.FitterAssembler)
                 {
-                    ProductionStart?.Invoke();
+                    if (!ProductionCycleHasStarted)
+                    {
+                        ProductionStart?.Invoke();
 
-                    _roomMain.EmployeesHaveChanged -= TryStartProductionCycle;
+                        _roomMain.EmployeesHaveChanged -= TryStartProductionCycle;
 
-                    ProductionCycleHasStarted = true;
+                        ProductionCycleHasStarted = true;
 
-                    ChronoManager.Instance.NewSecondTick += DeliveryUpdateChrono;
+                        ChronoManager.Instance.NewSecondTick += DeliveryUpdateChrono;
+                    }
+
+                    break;
                 }
+                else
+                {
+                    ChronoManager.Instance.NewSecondTick -= DeliveryUpdateChrono;
+                    _currentChrono = 0;
 
-                break;
+                    ProductionCantStart?.Invoke();
+
+                    ProductionCycleHasStarted = false;
+
+                    _roomMain.EmployeesHaveChanged += TryStartProductionCycle;
+                }
             }
-            else
-            {
-                ProductionCantStart?.Invoke();
+        }
+        else
+        {
+            ChronoManager.Instance.NewSecondTick -= DeliveryUpdateChrono;
+            _currentChrono = 0;
 
-                ProductionCycleHasStarted = false;
+            ProductionCantStart?.Invoke();
 
-                _roomMain.EmployeesHaveChanged += TryStartProductionCycle;
-            }
+            ProductionCycleHasStarted = false;
+
+            _roomMain.EmployeesHaveChanged += TryStartProductionCycle;
         }
     }
 
@@ -171,8 +188,6 @@ public class DeliveryRoom : MonoBehaviour, IRoomBehaviour
             {
                 _storage.AddRawMaterials(CurrentAmountInInternalStorage);
                 RemoveRawMaterialFromInternalStorage(CurrentAmountInInternalStorage);
-                _roomNotification.DesactivateNotification();
-                _roomNotification = null;
             }
             else
             {
