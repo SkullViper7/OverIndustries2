@@ -147,7 +147,6 @@ public class QuestManager : MonoBehaviour
                     >= CurrentQuestList[i].NumberOfObject[j + 1])
                 {
                     QuestComplited.Invoke(i);
-                    ScoreManager.Instance.AddPS(CurrentQuestList[i].PSWin);
                 }
                 if (CurrentQuestList[i].Objects.Count > 2
                     && j == 0 && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].Objects[j])
@@ -158,14 +157,12 @@ public class QuestManager : MonoBehaviour
                     >= CurrentQuestList[i].NumberOfObject[j + 2])
                 {
                     QuestComplited.Invoke(i);
-                    ScoreManager.Instance.AddPS(CurrentQuestList[i].PSWin);
                 }
                 if (CurrentQuestList[i].Objects.Count == 1
                     && ItemStorage.Instance.ReturnNumberOfThisObject(CurrentQuestList[i].Objects[j])
                     >= CurrentQuestList[i].NumberOfObject[j])
                 {
                     QuestComplited.Invoke(i);
-                    ScoreManager.Instance.AddPS(CurrentQuestList[i].PSWin);
                 }
             }
         }
@@ -190,7 +187,6 @@ public class QuestManager : MonoBehaviour
                     >= CurrentQuestList[i].NumberOfComponent[j + 1])
                 {
                     QuestComplited.Invoke(i);
-                    ScoreManager.Instance.AddPS(CurrentQuestList[i].PSWin);
                 }
                 if (CurrentQuestList[i].Component.Count > 2 && j == 0 &&
                     ItemStorage.Instance.ReturnNumberOfThisComponent(CurrentQuestList[i].Component[j])
@@ -201,14 +197,12 @@ public class QuestManager : MonoBehaviour
                     >= CurrentQuestList[i].NumberOfComponent[j + 2])
                 {
                     QuestComplited.Invoke(i);
-                    ScoreManager.Instance.AddPS(CurrentQuestList[i].PSWin);
                 }
                 if (CurrentQuestList[i].Component.Count == 1
                     && ItemStorage.Instance.ReturnNumberOfThisComponent(CurrentQuestList[i].Component[j])
                     >= CurrentQuestList[i].NumberOfComponent[j])
                 {
                     QuestComplited.Invoke(i);
-                    ScoreManager.Instance.AddPS(CurrentQuestList[i].PSWin);
                 }
             }
         }
@@ -225,6 +219,7 @@ public class QuestManager : MonoBehaviour
             if (_quest.QuestData.Name == CurrentQuestList[i].Name)
             {
                 CurrentQuestList.Remove(CurrentQuestList[i]);
+                ScoreManager.Instance.AddPS(_quest.QuestData.PSWin);
                 ResetQuestText.Invoke();
             }
         }
