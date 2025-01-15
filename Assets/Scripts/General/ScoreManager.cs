@@ -21,6 +21,7 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _PSText;
 
     public event System.Action<float> ShowScore;
+    public event System.Action<int> ShowPS;
 
     private void Awake()
     {
@@ -49,7 +50,8 @@ public class ScoreManager : MonoBehaviour
         //}
         //else
         //{ 
-            TotalPS = TotalPS + _psWin; 
+        TotalPS = TotalPS + _psWin;
+        ShowPS?.Invoke(TotalPS);
         //}
     }
 

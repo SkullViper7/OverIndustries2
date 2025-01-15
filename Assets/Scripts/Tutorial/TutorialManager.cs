@@ -150,6 +150,9 @@ public class TutorialManager : MonoBehaviour
                     OnTutorialImageStep?.Invoke(26);
                     OnTutorialImageStep?.Invoke(27);
                     break;
+                case 20:
+                    OnTutorialImageHide?.Invoke();
+                    break;
             }
         }
         else
