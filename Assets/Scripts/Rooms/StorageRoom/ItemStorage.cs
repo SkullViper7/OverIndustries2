@@ -43,6 +43,8 @@ public class ItemStorage : MonoBehaviour
     /// <summary>
     /// Events to indicate changes about the storage.
     /// </summary>
+    public delegate void ItemsDelegate();
+    public event ItemsDelegate ItemStorageHasChanged;
     public event Action<int> AmountHasChanged, CapacityHasChanged;
 
     /// <summary>
@@ -50,8 +52,6 @@ public class ItemStorage : MonoBehaviour
     /// </summary>
     public event Action<ObjectType, int> StorageObjectChanged;
     public event Action<ComponentType, int> StorageComponentChanged;
-
-    public event Action ItemStorageHasChanged;
 
     private void Awake()
     {

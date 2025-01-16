@@ -79,12 +79,11 @@ public class DeliveryRoom : MonoBehaviour, IRoomBehaviour
 
         _roomMain.UpgradeEnd += TryStartProductionCycle;
         _roomMain.EmployeesHaveChanged += TryStartProductionCycle;
+        ProductionGet += TryStartProductionCycle;
     }
 
     private void TryStartProductionCycle()
     {
-        ProductionGet -= TryStartProductionCycle;
-
         if (_roomMain.EmployeeAssign.Count > 0)
         {
             // If there is the good employee in the room launch a cycle
@@ -95,9 +94,6 @@ public class DeliveryRoom : MonoBehaviour, IRoomBehaviour
                     if (!ProductionCycleHasStarted)
                     {
                         ProductionStart?.Invoke();
-
-                        _roomMain.EmployeesHaveChanged -= TryStartProductionCycle;
-                        _roomMain.EmployeesHaveChanged += TryStartProductionCycle;
 
                         ProductionCycleHasStarted = true;
 
@@ -114,8 +110,6 @@ public class DeliveryRoom : MonoBehaviour, IRoomBehaviour
                     ProductionCantStart?.Invoke();
 
                     ProductionCycleHasStarted = false;
-
-                    _roomMain.EmployeesHaveChanged += TryStartProductionCycle;
                 }
             }
         }
@@ -127,9 +121,6 @@ public class DeliveryRoom : MonoBehaviour, IRoomBehaviour
             ProductionCantStart?.Invoke();
 
             ProductionCycleHasStarted = false;
-
-            _roomMain.EmployeesHaveChanged += TryStartProductionCycle;
-            ProductionGet += TryStartProductionCycle;
         }
     }
 
@@ -156,7 +147,6 @@ public class DeliveryRoom : MonoBehaviour, IRoomBehaviour
         {
             ProductionCycleHasStarted = false;
             ChronoManager.Instance.NewSecondTick -= DeliveryUpdateChrono;
-            ProductionGet += TryStartProductionCycle;
         }
     }
 

@@ -61,14 +61,21 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
     private RoomNotifiction _roomNotification;
 
     /// <summary>
-    /// A reference to the lambda who tries to launch a production each second.
+    /// A reference to the lambda who tries to launch a production if employees change or raw material storage changes.
     /// </summary>
-    private ChronoManager.TickDelegate _productionOnHold;
+    private Room.EmployeeDelegate _productionOnHoldCauseOfEmployee;
+    private RawMaterialStorage.RawMaterialDelegate _productionOnHoldCauseOfRawMaterial;
+    private MachiningRoom.InternalStorageDelegate _productionOnHoldCauseOfInternalStorage;
 
     // Lock object shared between all instances
     private static readonly object _lockObject = new object();
 
     public event Action<int> NewChrono, NewProductionCount;
+
+    public event Action ThereIsAnEmployee, ThereIsRawMaterial, NoEmployeeInTheRoom, NoRawMaterial;
+
+    public delegate void InternalStorageDelegate();
+    public event InternalStorageDelegate ProductionGet;
 
     /// <summary>
     /// Called at the start to initialize the machining room.
@@ -84,72 +91,114 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
         _roomMain.NewLvl += UpgradeRoom;
     }
 
-    /// <summary>
-    /// Called to try to start a new production.
-    /// </summary>
-    /// <param name="componentToProduct"> The component we want to product. </param>
-    public void StartNewProduction(ComponentData componentToProduct)
-    {
-        // Reset production if there is already one
-        if (CurrentComponentManufactured != null || _currentChrono != 0)
-        {
-            StopProduction();
-        }
-
-        // Set component manufactured and production time depending on the room lvl
-        CurrentComponentManufactured = componentToProduct;
-
-        switch (_roomMain.CurrentLvl)
-        {
-            case 1:
-                CurrentProductionTime = CurrentComponentManufactured.ProductionTimeAtLvl1;
-                break;
-            case 2:
-                CurrentProductionTime = CurrentComponentManufactured.ProductionTimeAtLvl2;
-                break;
-            case 3:
-                CurrentProductionTime = CurrentComponentManufactured.ProductionTimeAtLvl3;
-                break;
-        }
-
-        // If there is already not a notification on the room add a notification and add a listener for when player will clicks on.
-        if (_roomNotification == null)
-        {
-            _roomNotification = RoomNotificationManager.Instance.NewNotification(_roomMain);
-            _roomNotification.GetComponent<Button>().onClick.AddListener(AddComponentsInStorage);
-        }
-
-        TryStartProductionCycle();
-    }
-
-    private void TryStartProductionCycle()
+    public void TryStartProductionCycle(ComponentData componentToProduct)
     {
         // Synchronization between instances
         lock (_lockObject)
         {
-            // If there is enough raw material in storage, launch production, else, checks each second if it is possible
-            if (CurrentAmountInInternalStorage < CurrentInternalCapacity && _rawMaterialStorage.ThereIsEnoughRawMaterialInStorage(CurrentComponentManufactured.Cost))
+            // Set component manufactured and production time depending on the room lvl
+            CurrentComponentManufactured = componentToProduct;
+
+            switch (_roomMain.CurrentLvl)
             {
-                // Remove production on hold if there is one
-                if (_productionOnHold != null)
+                case 1:
+                    CurrentProductionTime = CurrentComponentManufactured.ProductionTimeAtLvl1;
+                    break;
+                case 2:
+                    CurrentProductionTime = CurrentComponentManufactured.ProductionTimeAtLvl2;
+                    break;
+                case 3:
+                    CurrentProductionTime = CurrentComponentManufactured.ProductionTimeAtLvl3;
+                    break;
+            }
+
+            // Remove production on hold if there is one
+            if (_productionOnHoldCauseOfInternalStorage != null)
+            {
+                this.ProductionGet -= _productionOnHoldCauseOfInternalStorage;
+                _productionOnHoldCauseOfInternalStorage = null;
+            }
+            if (_productionOnHoldCauseOfRawMaterial != null)
+            {
+                _rawMaterialStorage.RawMaterialStorageHasChanged -= _productionOnHoldCauseOfRawMaterial;
+                _productionOnHoldCauseOfRawMaterial = null;
+            }
+            if (_productionOnHoldCauseOfEmployee != null)
+            {
+                _roomMain.EmployeesHaveChanged -= _productionOnHoldCauseOfEmployee;
+                _productionOnHoldCauseOfEmployee = null;
+            }
+
+            // Add listeners
+            _productionOnHoldCauseOfInternalStorage = () => TryStartProductionCycle(CurrentComponentManufactured);
+            this.ProductionGet += _productionOnHoldCauseOfInternalStorage;
+
+            _productionOnHoldCauseOfRawMaterial = () => TryStartProductionCycle(CurrentComponentManufactured);
+            _rawMaterialStorage.RawMaterialStorageHasChanged += _productionOnHoldCauseOfRawMaterial;
+
+            _productionOnHoldCauseOfEmployee = () => TryStartProductionCycle(CurrentComponentManufactured);
+            _roomMain.EmployeesHaveChanged += _productionOnHoldCauseOfEmployee;
+
+            // If there is already not a notification on the room add a notification and add a listener for when player will clicks on.
+            if (_roomNotification == null)
+            {
+                _roomNotification = RoomNotificationManager.Instance.NewNotification(_roomMain);
+                _roomNotification.GetComponent<Button>().onClick.AddListener(AddComponentsInStorage);
+            }
+
+            if (_roomMain.EmployeeAssign.Count > 0)
+            {
+                // If there is the good employee in the room launch the production
+                for (int i = 0; i < _roomMain.EmployeeAssign.Count; i++)
                 {
-                    ChronoManager.Instance.NewSecondTick -= _productionOnHold;
-                    _productionOnHold = null;
+                    if (_roomMain.EmployeeAssign[i].EmployeeJob[0].JobType == CurrentComponentManufactured.JobNeeded.JobType)
+                    {
+                        ThereIsAnEmployee?.Invoke();
+
+                        // If there is enough raw material in storage, launch production, else, checks if there is a change
+                        if (_rawMaterialStorage.ThereIsEnoughRawMaterialInStorage(CurrentComponentManufactured.Cost))
+                        {
+                            ThereIsRawMaterial?.Invoke();
+
+                            if (!ProductionCycleHasStarted)
+                            {
+                                ProductionCycleHasStarted = true;
+
+                                // Remove cost of the component from the raw material storage
+                                _rawMaterialStorage.SubstractRawMaterials(CurrentComponentManufactured.Cost);
+
+                                // Launch production
+                                ChronoManager.Instance.NewSecondTick += ProductionUpdateChrono;
+                            }
+
+                            break;
+                        }
+                        else
+                        {
+                            NoRawMaterial?.Invoke();
+
+                            ProductionCycleHasStarted = false;
+                        }
+                    }
+                    else
+                    {
+                        ChronoManager.Instance.NewSecondTick -= ProductionUpdateChrono;
+                        _currentChrono = 0;
+
+                        NoEmployeeInTheRoom?.Invoke();
+
+                        ProductionCycleHasStarted = false;
+                    }
                 }
-
-                // Remove cost of the component from the raw material storage
-                _rawMaterialStorage.SubstractRawMaterials(CurrentComponentManufactured.Cost);
-
-                ChronoManager.Instance.NewSecondTick += ProductionUpdateChrono;
-                ProductionCycleHasStarted = true;
             }
             else
             {
-                if (_productionOnHold == null)
-                {
-                    _productionOnHold = () => TryStartProductionCycle();
-                    ChronoManager.Instance.NewSecondTick += _productionOnHold;
-                }
+                ChronoManager.Instance.NewSecondTick -= ProductionUpdateChrono;
+                _currentChrono = 0;
+
+                NoEmployeeInTheRoom?.Invoke();
+
+                ProductionCycleHasStarted = false;
             }
         }
     }
@@ -159,20 +208,28 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
     /// </summary>
     private void ProductionUpdateChrono()
     {
-        if (_currentChrono + 1 >= CurrentProductionTime)
+        if (CurrentAmountInInternalStorage < CurrentInternalCapacity)
         {
-            _currentChrono = 0;
-            NewChrono?.Invoke(_currentChrono);
-            AddComponentInInternalStorage();
+            if (_currentChrono + 1 >= CurrentProductionTime)
+            {
+                _currentChrono = 0;
+                NewChrono?.Invoke(_currentChrono);
+                AddComponentInInternalStorage();
 
-            ChronoManager.Instance.NewSecondTick -= ProductionUpdateChrono;
-            ProductionCycleHasStarted = false;
-            TryStartProductionCycle();
+                ChronoManager.Instance.NewSecondTick -= ProductionUpdateChrono;
+                ProductionCycleHasStarted = false;
+                TryStartProductionCycle(CurrentComponentManufactured);
+            }
+            else
+            {
+                _currentChrono++;
+                NewChrono?.Invoke(_currentChrono);
+            }
         }
         else
         {
-            _currentChrono++;
-            NewChrono?.Invoke(_currentChrono);
+            ProductionCycleHasStarted = false;
+            ChronoManager.Instance.NewSecondTick -= ProductionUpdateChrono;
         }
     }
 
@@ -210,11 +267,13 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
             {
                 _itemStorage.AddComponents(CurrentComponentManufactured, CurrentAmountInInternalStorage);
                 RemoveComponentsFromInternalStorage(CurrentAmountInInternalStorage);
+                ProductionGet?.Invoke();
             }
             else
             {
                 _itemStorage.AddComponents(CurrentComponentManufactured, remainingStorage);
                 RemoveComponentsFromInternalStorage(remainingStorage);
+                ProductionGet?.Invoke();
             }
         }
     }
@@ -224,14 +283,26 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
     /// </summary>
     public void StopProduction()
     {
+        ChronoManager.Instance.NewSecondTick -= ProductionUpdateChrono;
+
         // Remove production on hold if there is one
-        if (_productionOnHold != null)
+        if (_productionOnHoldCauseOfEmployee != null)
         {
-            ChronoManager.Instance.NewSecondTick -= _productionOnHold;
-            _productionOnHold = null;
+            _roomMain.EmployeesHaveChanged -= _productionOnHoldCauseOfEmployee;
+            _productionOnHoldCauseOfEmployee = null;
         }
 
-        ChronoManager.Instance.NewSecondTick -= ProductionUpdateChrono;
+        if (_productionOnHoldCauseOfRawMaterial != null)
+        {
+            _rawMaterialStorage.RawMaterialStorageHasChanged -= _productionOnHoldCauseOfRawMaterial;
+            _productionOnHoldCauseOfRawMaterial = null;
+        }
+
+        if (_productionOnHoldCauseOfInternalStorage != null)
+        {
+            this.ProductionGet -= _productionOnHoldCauseOfInternalStorage;
+            _productionOnHoldCauseOfInternalStorage = null;
+        }
 
         if (ProductionCycleHasStarted)
         {

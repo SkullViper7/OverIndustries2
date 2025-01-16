@@ -72,6 +72,17 @@ public class ResearchRoom : MonoBehaviour, IRoomBehaviour
 
         ComponentResearchStarted?.Invoke(CurrentComponentResearched);
 
+        // Remove research on hold if there is one
+        if (_researchOnHold != null)
+        {
+            _roomMain.EmployeesHaveChanged -= _researchOnHold;
+            _researchOnHold = null;
+        }
+
+        // Set listener
+        _researchOnHold = () => TryStartComponentResearch(CurrentComponentResearched);
+        _roomMain.EmployeesHaveChanged += _researchOnHold;
+
         // Set research time
         CurrentResearchTime = CurrentComponentResearched.ResearchTime;
 
@@ -96,16 +107,6 @@ public class ResearchRoom : MonoBehaviour, IRoomBehaviour
                     {
                         ResearchHasStarted = true;
 
-                        // Remove research on hold if there is one
-                        if (_researchOnHold != null)
-                        {
-                            _roomMain.EmployeesHaveChanged -= _researchOnHold;
-                            _researchOnHold = null;
-                        }
-
-                        _researchOnHold = () => TryStartComponentResearch(CurrentComponentResearched);
-                        _roomMain.EmployeesHaveChanged += _researchOnHold;
-
                         ResearchStart?.Invoke();
 
                         // Launch research
@@ -122,16 +123,6 @@ public class ResearchRoom : MonoBehaviour, IRoomBehaviour
                     ResearchCantStart?.Invoke();
 
                     ResearchHasStarted = false;
-
-                    // Remove research on hold if there is one
-                    if (_researchOnHold != null)
-                    {
-                        _roomMain.EmployeesHaveChanged -= _researchOnHold;
-                        _researchOnHold = null;
-                    }
-
-                    _researchOnHold = () => TryStartComponentResearch(CurrentComponentResearched);
-                    _roomMain.EmployeesHaveChanged += _researchOnHold;
                 }
             }
         }
@@ -143,16 +134,6 @@ public class ResearchRoom : MonoBehaviour, IRoomBehaviour
             ResearchCantStart?.Invoke();
 
             ResearchHasStarted = false;
-
-            // Remove research on hold if there is one
-            if (_researchOnHold != null)
-            {
-                _roomMain.EmployeesHaveChanged -= _researchOnHold;
-                _researchOnHold = null;
-            }
-
-            _researchOnHold = () => TryStartComponentResearch(CurrentComponentResearched);
-            _roomMain.EmployeesHaveChanged += _researchOnHold;
         }
     }
 
@@ -162,6 +143,17 @@ public class ResearchRoom : MonoBehaviour, IRoomBehaviour
         CurrentObjectResearched = objectToUnlock;
 
         ObjectResearchStarted?.Invoke(CurrentObjectResearched);
+
+        // Remove research on hold if there is one
+        if (_researchOnHold != null)
+        {
+            _roomMain.EmployeesHaveChanged -= _researchOnHold;
+            _researchOnHold = null;
+        }
+
+        // Set listener
+        _researchOnHold = () => TryStartObjectResearch(CurrentObjectResearched);
+        _roomMain.EmployeesHaveChanged += _researchOnHold;
 
         // Set research time
         CurrentResearchTime = CurrentObjectResearched.ResearchTime;
@@ -188,16 +180,6 @@ public class ResearchRoom : MonoBehaviour, IRoomBehaviour
                     {
                         ResearchHasStarted = true;
 
-                        // Remove research on hold if there is one
-                        if (_researchOnHold != null)
-                        {
-                            _roomMain.EmployeesHaveChanged -= _researchOnHold;
-                            _researchOnHold = null;
-                        }
-
-                        _researchOnHold = () => TryStartObjectResearch(CurrentObjectResearched);
-                        _roomMain.EmployeesHaveChanged += _researchOnHold;
-
                         ResearchStart?.Invoke();
 
                         // Launch research
@@ -214,16 +196,6 @@ public class ResearchRoom : MonoBehaviour, IRoomBehaviour
                     ResearchCantStart?.Invoke();
 
                     ResearchHasStarted = false;
-
-                    // Remove research on hold if there is one
-                    if (_researchOnHold != null)
-                    {
-                        _roomMain.EmployeesHaveChanged -= _researchOnHold;
-                        _researchOnHold = null;
-                    }
-
-                    _researchOnHold = () => TryStartObjectResearch(CurrentObjectResearched);
-                    _roomMain.EmployeesHaveChanged += _researchOnHold;
                 }
             }
         }
@@ -235,16 +207,6 @@ public class ResearchRoom : MonoBehaviour, IRoomBehaviour
             ResearchCantStart?.Invoke();
 
             ResearchHasStarted = false;
-
-            // Remove research on hold if there is one
-            if (_researchOnHold != null)
-            {
-                _roomMain.EmployeesHaveChanged -= _researchOnHold;
-                _researchOnHold = null;
-            }
-
-            _researchOnHold = () => TryStartObjectResearch(CurrentObjectResearched);
-            _roomMain.EmployeesHaveChanged += _researchOnHold;
         }
     }
 

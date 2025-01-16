@@ -25,6 +25,10 @@ public class Room : MonoBehaviour
     /// </summary>
     public int CurrentLvl { get; private set; }
 
+    private bool _isUpgrading;
+
+    private bool _isAlreadyUpgrading;
+
     /// <summary>
     /// Position of the room in the grid (leftmost slot of the room)
     /// </summary>
@@ -233,6 +237,12 @@ public class Room : MonoBehaviour
         {
             case 1:
                 {
+                    if (_isUpgrading)
+                    {
+                        _isAlreadyUpgrading = true;
+                    }
+                    _isUpgrading = true;
+
                     UpgradeStart?.Invoke();
 
                     _doorAnimator.Play("RoomOpening", 0, 0f);
@@ -249,12 +259,26 @@ public class Room : MonoBehaviour
                     // Attendre la moitié de l'animation
                     yield return new WaitForSeconds(stateInfo.length);
 
-                    UpgradeEnd?.Invoke();
+                    if (!_isAlreadyUpgrading)
+                    {
+                        UpgradeEnd?.Invoke();
+                    }
+                    else
+                    {
+                        _isAlreadyUpgrading = false;
+                    }
+                    _isUpgrading = false;
 
                     break;
                 }
             case 2:
                 {
+                    if (_isUpgrading)
+                    {
+                        _isAlreadyUpgrading = true;
+                    }
+                    _isUpgrading = true;
+
                     UpgradeStart?.Invoke();
 
                     _doorAnimator.Play("RoomUpgrade", 0, 0f);
@@ -280,11 +304,26 @@ public class Room : MonoBehaviour
                     // Attendre l'autre moitié de l'animation
                     yield return new WaitForSeconds(stateInfo.length / 2f);
 
-                    UpgradeEnd?.Invoke();
+                    if (!_isAlreadyUpgrading)
+                    {
+                        UpgradeEnd?.Invoke();
+                    }
+                    else
+                    {
+                        _isAlreadyUpgrading = false;
+                    }
+                    _isUpgrading = false;
+
                     break;
                 }
             case 3:
                 {
+                    if (_isUpgrading)
+                    {
+                        _isAlreadyUpgrading = true;
+                    }
+                    _isUpgrading = true;
+
                     UpgradeStart?.Invoke();
 
                     _doorAnimator.Play("RoomUpgrade", 0, 0f);
@@ -310,7 +349,16 @@ public class Room : MonoBehaviour
                     // Attendre l'autre moitié de l'animation
                     yield return new WaitForSeconds(stateInfo.length / 2f);
 
-                    UpgradeEnd?.Invoke();
+                    if (!_isAlreadyUpgrading)
+                    {
+                        UpgradeEnd?.Invoke();
+                    }
+                    else
+                    {
+                        _isAlreadyUpgrading = false;
+                    }
+                    _isUpgrading = false;
+
                     break;
                 }
         }

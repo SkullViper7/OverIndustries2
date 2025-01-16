@@ -262,7 +262,7 @@ public class ItemToProductPopUp : MonoBehaviour
         if (currentRoomSelected != null)
         {
             MachiningRoom machiningRoom = (MachiningRoom)currentRoomSelected.RoomBehaviour;
-            machiningRoom.StartNewProduction(_currentComponentData);
+            machiningRoom.TryStartProductionCycle(_currentComponentData);
             UIManager.Instance.UpgradeButton.SetActive(false);
             UIManager.Instance.ProductionButton.SetActive(false);
             UIManager.Instance.StopProductionButton.SetActive(true);
@@ -282,7 +282,7 @@ public class ItemToProductPopUp : MonoBehaviour
         if (currentRoomSelected != null)
         {
             AssemblyRoom assemblyRoom = (AssemblyRoom)currentRoomSelected.RoomBehaviour;
-            assemblyRoom.StartNewProduction(_currentObjectData);
+            assemblyRoom.TryStartProductionCycle(_currentObjectData);
             UIManager.Instance.UpgradeButton.SetActive(false);
             UIManager.Instance.ProductionButton.SetActive(false);
             UIManager.Instance.StopProductionButton.SetActive(true);

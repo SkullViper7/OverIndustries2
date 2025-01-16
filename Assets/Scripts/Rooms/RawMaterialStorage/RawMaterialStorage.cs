@@ -35,11 +35,11 @@ public class RawMaterialStorage : MonoBehaviour
     /// <summary>
     /// Events to indicate changes about the raw material storage.
     /// </summary>
+    public delegate void RawMaterialDelegate();
+    public event RawMaterialDelegate RawMaterialStorageHasChanged;
     public event Action<int> AmountHasChanged, CapacityHasChanged, RawMaterialToRecycle, RawMaterialProduct;
 
     public event Action<int, int> NewAmountInInternalStorage;
-
-    public event Action RawMaterialStorageHasChanged;
 
     private void Awake()
     {

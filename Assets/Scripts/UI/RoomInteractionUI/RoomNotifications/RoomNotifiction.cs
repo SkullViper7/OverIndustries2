@@ -16,6 +16,12 @@ public class RoomNotifiction : MonoBehaviour
     [SerializeField]
     private Sprite _noEmployeePicto;
 
+    [SerializeField]
+    private Sprite _noRawMaterialPicto;
+
+    [SerializeField]
+    private Sprite _noComponentsPicto;
+
     /// <summary>
     /// Gauge to show when it's a notification for a production or a research.
     /// </summary>
@@ -65,8 +71,9 @@ public class RoomNotifiction : MonoBehaviour
     /// </summary>
     private Room _currentRoom;
 
-    private bool _isBlockedCauseOfStorage = false;
+    private bool _isBlockedCauseOfInternalStorage = false;
     private bool _isBlockedCauseOfEmployee = false;
+    private bool _isBlockedCauseOfRessources = false;
 
     private void Awake()
     {
@@ -128,7 +135,7 @@ public class RoomNotifiction : MonoBehaviour
         _currentRoom.UpgradeEnd += () => _gaugeObject.SetActive(true);
 
         deliveryRoom.ProductionStart += EmployeInTheDeliveryRoom;
-        deliveryRoom.ProductionCantStart += NoEmployeeInTheDeliveryRoom;
+        deliveryRoom.ProductionCantStart += NoEmployeeInTheRoom;
 
         rawMaterialStorage.CapacityHasChanged += CheckRawMaterialStorage;
 
@@ -150,42 +157,12 @@ public class RoomNotifiction : MonoBehaviour
         CheckRawMaterialStorage(0);
     }
 
-    private void NoEmployeeInTheDeliveryRoom()
-    {
-        _isBlockedCauseOfEmployee = true;
-        if (!_isBlockedCauseOfStorage)
-        {
-            _gaugeObject.SetActive(false);
-            _gaugeFillAmount.fillAmount = 0f;
-
-            _notificationPictoImg.sprite = _noEmployeePicto;
-            _notificationPictoObj.SetActive(true);
-
-            if (ColorUtility.TryParseHtmlString("#F76A74", out Color newColor))
-            {
-                _notificationOutline.color = newColor;
-                _notificationOutline.enabled = true;
-                newColor = new Color(newColor.r, newColor.g, newColor.b, 60f / 255f);
-                _notificationBG.raycastTarget = false;
-                _notificationBG.color = newColor;
-                _notificationBG.enabled = true;
-            }
-
-            _button.interactable = false;
-        }
-        else
-        {
-            _gaugeFillAmount.fillAmount = 0f;
-        }
-    }
-
     /// <summary>
     /// Called to change the color if the raw material storage is full or not.
     /// </summary>
     /// <param name="ignore"> Ignore this parameter. (put 0 in if you have to.) </param>
     private void CheckRawMaterialStorage(int ignore)
     {
-        _isBlockedCauseOfStorage = true;
         if (!_isBlockedCauseOfEmployee)
         {
             if (RawMaterialStorage.Instance.IsStorageFull())
@@ -223,7 +200,7 @@ public class RoomNotifiction : MonoBehaviour
     {
         if (newCount > 0)
         {
-            _isBlockedCauseOfStorage = true;
+            _isBlockedCauseOfInternalStorage = true;
             _productionCountObj.SetActive(true);
             _notificationOutline.enabled = true;
             _notificationBG.enabled = true;
@@ -231,7 +208,7 @@ public class RoomNotifiction : MonoBehaviour
         }
         else
         {
-            _isBlockedCauseOfStorage = false;
+            _isBlockedCauseOfInternalStorage = false;
             _productionCountObj.SetActive(false);
             _notificationOutline.enabled = false;
             _notificationBG.enabled = false;
@@ -259,22 +236,73 @@ public class RoomNotifiction : MonoBehaviour
     {
         MachiningRoom machiningRoom = (MachiningRoom)_currentRoom.RoomBehaviour;
 
-        _gaugeObject.SetActive(true);
         _gaugePicto.sprite = machiningRoom.CurrentComponentManufactured.ComponentPicto;
-        _gaugeFillAmount.fillAmount = 0;
-
-        _productionCountTxt.text = "";
 
         ItemStorage itemStorage = ItemStorage.Instance;
 
-        // Check if item storage is already full to change color
-        CheckItemStorage(0);
+        machiningRoom.ThereIsAnEmployee += EmployeInTheMachiningRoom;
+        machiningRoom.NoEmployeeInTheRoom += NoEmployeeInTheRoom;
+        machiningRoom.ThereIsRawMaterial += RessourcesInTheMachiningRoom;
+        machiningRoom.NoRawMaterial += NoRessourcesInTheMachiningRoom;
 
         itemStorage.CapacityHasChanged += CheckItemStorage;
         itemStorage.AmountHasChanged += CheckItemStorage;
 
         machiningRoom.NewChrono += UpdateGaugeForComponent;
         machiningRoom.NewProductionCount += UpdateProductionCount;
+    }
+
+    private void EmployeInTheMachiningRoom()
+    {
+        _isBlockedCauseOfEmployee = false;
+        _notificationPictoObj.SetActive(false);
+        _gaugeFillAmount.fillAmount = 0f;
+        _gaugeObject.SetActive(true);
+
+        UpdateProductionCount(((MachiningRoom)_currentRoom.RoomBehaviour).CurrentAmountInInternalStorage);
+
+        CheckItemStorage(0);
+    }
+
+    private void RessourcesInTheMachiningRoom()
+    {
+        _isBlockedCauseOfRessources = false;
+        _notificationPictoObj.SetActive(false);
+        _gaugeFillAmount.fillAmount = 0f;
+        _gaugeObject.SetActive(true);
+
+        UpdateProductionCount(((MachiningRoom)_currentRoom.RoomBehaviour).CurrentAmountInInternalStorage);
+
+        CheckItemStorage(0);
+    }
+
+    private void NoRessourcesInTheMachiningRoom()
+    {
+        _isBlockedCauseOfRessources = true;
+        if (!_isBlockedCauseOfInternalStorage && !_isBlockedCauseOfEmployee)
+        {
+            _gaugeObject.SetActive(false);
+            _gaugeFillAmount.fillAmount = 0f;
+
+            _notificationPictoImg.sprite = _noRawMaterialPicto;
+            _notificationPictoObj.SetActive(true);
+
+            if (ColorUtility.TryParseHtmlString("#F76A74", out Color newColor))
+            {
+                _notificationOutline.color = newColor;
+                _notificationOutline.enabled = true;
+                newColor = new Color(newColor.r, newColor.g, newColor.b, 60f / 255f);
+                _notificationBG.raycastTarget = false;
+                _notificationBG.color = newColor;
+                _notificationBG.enabled = true;
+            }
+
+            _button.interactable = false;
+        }
+        else
+        {
+            _gaugeFillAmount.fillAmount = 0f;
+        }
     }
 
     /// <summary>
@@ -295,22 +323,73 @@ public class RoomNotifiction : MonoBehaviour
     {
         AssemblyRoom assemblyRoom = (AssemblyRoom)_currentRoom.RoomBehaviour;
 
-        _gaugeObject.SetActive(true);
         _gaugePicto.sprite = assemblyRoom.CurrentObjectManufactured.ObjectPicto;
-        _gaugeFillAmount.fillAmount = 0;
-
-        _productionCountTxt.text = "";
 
         ItemStorage itemStorage = ItemStorage.Instance;
 
-        // Check if item storage is already full to change color
-        CheckItemStorage(0);
+        assemblyRoom.ThereIsAnEmployee += EmployeInTheAssemblyRoom;
+        assemblyRoom.NoEmployeeInTheRoom += NoEmployeeInTheRoom;
+        assemblyRoom.ThereIsComponents += RessourcesInTheAssemblyRoom;
+        assemblyRoom.NoComponents += NoRessourcesInTheAssemblyRoom;
 
         itemStorage.CapacityHasChanged += CheckItemStorage;
         itemStorage.AmountHasChanged += CheckItemStorage;
 
         assemblyRoom.NewChrono += UpdateGaugeForObject;
         assemblyRoom.NewProductionCount += UpdateProductionCount;
+    }
+
+    private void EmployeInTheAssemblyRoom()
+    {
+        _isBlockedCauseOfEmployee = false;
+        _notificationPictoObj.SetActive(false);
+        _gaugeFillAmount.fillAmount = 0f;
+        _gaugeObject.SetActive(true);
+
+        UpdateProductionCount(((MachiningRoom)_currentRoom.RoomBehaviour).CurrentAmountInInternalStorage);
+
+        CheckItemStorage(0);
+    }
+
+    private void RessourcesInTheAssemblyRoom()
+    {
+        _isBlockedCauseOfRessources = false;
+        _notificationPictoObj.SetActive(false);
+        _gaugeFillAmount.fillAmount = 0f;
+        _gaugeObject.SetActive(true);
+
+        UpdateProductionCount(((MachiningRoom)_currentRoom.RoomBehaviour).CurrentAmountInInternalStorage);
+
+        CheckItemStorage(0);
+    }
+
+    private void NoRessourcesInTheAssemblyRoom()
+    {
+        _isBlockedCauseOfRessources = true;
+        if (!_isBlockedCauseOfInternalStorage && !_isBlockedCauseOfEmployee)
+        {
+            _gaugeObject.SetActive(false);
+            _gaugeFillAmount.fillAmount = 0f;
+
+            _notificationPictoImg.sprite = _noComponentsPicto;
+            _notificationPictoObj.SetActive(true);
+
+            if (ColorUtility.TryParseHtmlString("#F76A74", out Color newColor))
+            {
+                _notificationOutline.color = newColor;
+                _notificationOutline.enabled = true;
+                newColor = new Color(newColor.r, newColor.g, newColor.b, 60f / 255f);
+                _notificationBG.raycastTarget = false;
+                _notificationBG.color = newColor;
+                _notificationBG.enabled = true;
+            }
+
+            _button.interactable = false;
+        }
+        else
+        {
+            _gaugeFillAmount.fillAmount = 0f;
+        }
     }
 
     /// <summary>
@@ -342,7 +421,7 @@ public class RoomNotifiction : MonoBehaviour
         _gaugeObject.SetActive(true);
 
         researchRoom.ResearchStart += EmployeInTheResearchRoom;
-        researchRoom.ResearchCantStart += NoEmployeeInTheResearchRoom;
+        researchRoom.ResearchCantStart += NoEmployeeInTheRoom;
 
         researchRoom.NewChrono += UpdateGaugeForResearch;
         researchRoom.ResearchCompleted += OnResearchCompleted;
@@ -356,35 +435,6 @@ public class RoomNotifiction : MonoBehaviour
         _gaugeObject.SetActive(true);
         _notificationOutline.enabled = false;
         _notificationBG.enabled = false;
-    }
-
-    private void NoEmployeeInTheResearchRoom()
-    {
-        _isBlockedCauseOfEmployee = true;
-        if (!_isBlockedCauseOfStorage)
-        {
-            _gaugeObject.SetActive(false);
-            _gaugeFillAmount.fillAmount = 0f;
-
-            _notificationPictoImg.sprite = _noEmployeePicto;
-            _notificationPictoObj.SetActive(true);
-
-            if (ColorUtility.TryParseHtmlString("#F76A74", out Color newColor))
-            {
-                _notificationOutline.color = newColor;
-                _notificationOutline.enabled = true;
-                newColor = new Color(newColor.r, newColor.g, newColor.b, 60f / 255f);
-                _notificationBG.raycastTarget = false;
-                _notificationBG.color = newColor;
-                _notificationBG.enabled = true;
-            }
-
-            _button.interactable = false;
-        }
-        else
-        {
-            _gaugeFillAmount.fillAmount = 0f;
-        }
     }
 
     /// <summary>
@@ -401,7 +451,7 @@ public class RoomNotifiction : MonoBehaviour
     /// </summary>
     private void OnResearchCompleted()
     {
-        _isBlockedCauseOfStorage = true;
+        _isBlockedCauseOfInternalStorage = true;
 
         if (ColorUtility.TryParseHtmlString("#40C1AA", out Color newColor))
         {
@@ -432,6 +482,35 @@ public class RoomNotifiction : MonoBehaviour
     }
     #endregion
 
+    private void NoEmployeeInTheRoom()
+    {
+        _isBlockedCauseOfEmployee = true;
+        if (!_isBlockedCauseOfInternalStorage)
+        {
+            _gaugeObject.SetActive(false);
+            _gaugeFillAmount.fillAmount = 0f;
+
+            _notificationPictoImg.sprite = _noEmployeePicto;
+            _notificationPictoObj.SetActive(true);
+
+            if (ColorUtility.TryParseHtmlString("#F76A74", out Color newColor))
+            {
+                _notificationOutline.color = newColor;
+                _notificationOutline.enabled = true;
+                newColor = new Color(newColor.r, newColor.g, newColor.b, 60f / 255f);
+                _notificationBG.raycastTarget = false;
+                _notificationBG.color = newColor;
+                _notificationBG.enabled = true;
+            }
+
+            _button.interactable = false;
+        }
+        else
+        {
+            _gaugeFillAmount.fillAmount = 0f;
+        }
+    }
+
     /// <summary>
     /// Called to update the production count.
     /// </summary>
@@ -440,6 +519,7 @@ public class RoomNotifiction : MonoBehaviour
     {
         if (newCount > 0)
         {
+            _isBlockedCauseOfInternalStorage = true;
             _productionCountObj.SetActive(true);
             _notificationOutline.enabled = true;
             _notificationBG.enabled = true;
@@ -447,6 +527,7 @@ public class RoomNotifiction : MonoBehaviour
         }
         else
         {
+            _isBlockedCauseOfInternalStorage = false;
             _productionCountObj.SetActive(false);
             _notificationOutline.enabled = false;
             _notificationBG.enabled = false;
@@ -462,18 +543,32 @@ public class RoomNotifiction : MonoBehaviour
     /// <param name="ignore"> Ignore this parameter. (put 0 in if you have to.) </param>
     private void CheckItemStorage(int ignore)
     {
-        if (ItemStorage.Instance.IsStorageFull())
+        if (!_isBlockedCauseOfEmployee && !_isBlockedCauseOfRessources)
         {
-            if (ColorUtility.TryParseHtmlString("#F76A74", out Color newColor))
+            if (ItemStorage.Instance.IsStorageFull())
             {
-                _notificationOutline.color = newColor;
-                newColor = new Color(newColor.r, newColor.g, newColor.b, 60f / 255f);
-                _notificationBG.raycastTarget = false;
-                _notificationBG.color = newColor;
+                if (ColorUtility.TryParseHtmlString("#F76A74", out Color newColor))
+                {
+                    _notificationOutline.color = newColor;
+                    newColor = new Color(newColor.r, newColor.g, newColor.b, 60f / 255f);
+                    _notificationBG.raycastTarget = false;
+                    _notificationBG.color = newColor;
+                }
+                _button.interactable = false;
             }
-            _button.interactable = false;
+            else
+            {
+                if (ColorUtility.TryParseHtmlString("#40C1AA", out Color newColor))
+                {
+                    _notificationOutline.color = newColor;
+                    newColor = new Color(newColor.r, newColor.g, newColor.b, 60f / 255f);
+                    _notificationBG.raycastTarget = true;
+                    _notificationBG.color = newColor;
+                }
+                _button.interactable = true;
+            }
         }
-        else
+        else if (_isBlockedCauseOfInternalStorage)
         {
             if (ColorUtility.TryParseHtmlString("#40C1AA", out Color newColor))
             {
@@ -499,8 +594,9 @@ public class RoomNotifiction : MonoBehaviour
         _gaugeObject.SetActive(false);
         _productionCountObj.SetActive(false);
         _button.interactable = false;
-        _isBlockedCauseOfStorage = false;
+        _isBlockedCauseOfInternalStorage = false;
         _isBlockedCauseOfEmployee = false;
+        _isBlockedCauseOfRessources = false;
 
         // Remove all listeners
         switch (_currentRoom.RoomData.RoomType)
@@ -512,26 +608,40 @@ public class RoomNotifiction : MonoBehaviour
                 RawMaterialStorage.Instance.AmountHasChanged -= CheckRawMaterialStorage;
 
                 deliveryRoom.ProductionStart -= EmployeInTheDeliveryRoom;
-                deliveryRoom.ProductionCantStart -= NoEmployeeInTheDeliveryRoom;
+                deliveryRoom.ProductionCantStart -= NoEmployeeInTheRoom;
 
                 deliveryRoom.NewChrono -= UpdateGaugeForDelivery;
                 deliveryRoom.NewProductionCount -= UpdateDeliveryCount;
                 break;
 
             case RoomType.Machining:
+                MachiningRoom machiningRoom = (MachiningRoom)_currentRoom.RoomBehaviour;
                 _button.onClick.RemoveAllListeners();
                 ItemStorage.Instance.CapacityHasChanged -= CheckItemStorage;
                 ItemStorage.Instance.AmountHasChanged -= CheckItemStorage;
-                ((MachiningRoom)_currentRoom.RoomBehaviour).NewChrono -= UpdateGaugeForComponent;
-                ((MachiningRoom)_currentRoom.RoomBehaviour).NewProductionCount -= UpdateProductionCount;
+
+                machiningRoom.ThereIsAnEmployee -= EmployeInTheMachiningRoom;
+                machiningRoom.NoEmployeeInTheRoom -= NoEmployeeInTheRoom;
+                machiningRoom.ThereIsRawMaterial -= RessourcesInTheMachiningRoom;
+                machiningRoom.NoRawMaterial -= NoRessourcesInTheMachiningRoom;
+
+                machiningRoom.NewChrono -= UpdateGaugeForComponent;
+                machiningRoom.NewProductionCount -= UpdateProductionCount;
                 break;
 
             case RoomType.Assembly:
+                AssemblyRoom assemblyRoom = (AssemblyRoom)_currentRoom.RoomBehaviour;
                 _button.onClick.RemoveAllListeners();
                 ItemStorage.Instance.CapacityHasChanged -= CheckItemStorage;
                 ItemStorage.Instance.AmountHasChanged -= CheckItemStorage;
-                ((AssemblyRoom)_currentRoom.RoomBehaviour).NewChrono -= UpdateGaugeForObject;
-                ((AssemblyRoom)_currentRoom.RoomBehaviour).NewProductionCount -= UpdateProductionCount;
+
+                assemblyRoom.ThereIsAnEmployee -= EmployeInTheAssemblyRoom;
+                assemblyRoom.NoEmployeeInTheRoom -= NoEmployeeInTheRoom;
+                assemblyRoom.ThereIsComponents -= RessourcesInTheAssemblyRoom;
+                assemblyRoom.NoComponents -= NoRessourcesInTheAssemblyRoom;
+
+                assemblyRoom.NewChrono -= UpdateGaugeForObject;
+                assemblyRoom.NewProductionCount -= UpdateProductionCount;
                 break;
 
             case RoomType.Research:
@@ -541,7 +651,7 @@ public class RoomNotifiction : MonoBehaviour
                 researchRoom.ResearchCompleted -= OnResearchCompleted;
 
                 researchRoom.ResearchStart -= EmployeInTheResearchRoom;
-                researchRoom.ResearchCantStart -= NoEmployeeInTheResearchRoom;
+                researchRoom.ResearchCantStart -= NoEmployeeInTheRoom;
                 break;
         }
 
