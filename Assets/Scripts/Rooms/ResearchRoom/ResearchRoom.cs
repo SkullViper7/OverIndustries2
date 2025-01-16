@@ -35,15 +35,24 @@ public class ResearchRoom : MonoBehaviour, IRoomBehaviour
     public int CurrentResearchTime { get; private set; }
 
     /// <summary>
+    /// A value indicating if a research has started.
+    /// </summary>
+    public bool ResearchHasStarted { get; private set; }
+
+    /// <summary>
     /// Notification of the room when a research is launched.
     /// </summary>
     private RoomNotifiction _roomNotification;
 
-    public event Action ResearchCompleted;
+    /// <summary>
+    /// A reference to the lambda who tries to launch a research when there is a change with employess.
+    /// </summary>
+    private Room.EmployeeDelegate _researchOnHold;
+
+    public event Action ResearchStart, ResearchCompleted, ResearchCantStart;
     public event Action<int> NewChrono;
     public event Action<ComponentData> ComponentResearchStarted, ComponentResearchStoped, ComponentResearchCompleted;
     public event Action<ObjectData> ObjectResearchStarted, ObjectResearchStoped, ObjectResearchCompleted;
-    public event Action StartReasearch;
 
     public void InitRoomBehaviour(IRoomBehaviourData behaviourData, Room roomMain)
     {
@@ -56,21 +65,18 @@ public class ResearchRoom : MonoBehaviour, IRoomBehaviour
         _roomMain.NewLvl += UpgradeRoom;
     }
 
-    /// <summary>
-    /// Called to start the research of a component.
-    /// </summary>
-    /// <param name="componentToUnlock"> The component to unlock. </param>
-    public void StartNewComponentResearch(ComponentData componentToUnlock)
+    public void TryStartComponentResearch(ComponentData componentToUnlock)
     {
-        StartReasearch?.Invoke();
+        ComponentResearchStarted?.Invoke(CurrentComponentResearched);
 
         // Set object researched
         CurrentComponentResearched = componentToUnlock;
 
-        ComponentResearchStarted?.Invoke(CurrentComponentResearched);
-
         // Set research time
         CurrentResearchTime = CurrentComponentResearched.ResearchTime;
+
+        // Consume ressources
+        RawMaterialStorage.Instance.SubstractRawMaterials(CurrentComponentResearched.ResearchCost);
 
         // If there is already not a notification on the room add a notification and add a listener for when player will clicks on.
         if (_roomNotification == null)
@@ -79,11 +85,75 @@ public class ResearchRoom : MonoBehaviour, IRoomBehaviour
             _roomNotification.GetComponent<Button>().onClick.AddListener(ValidateResearch);
         }
 
-        // Consume ressources
-        RawMaterialStorage.Instance.SubstractRawMaterials(CurrentComponentResearched.ResearchCost);
+        if (_roomMain.EmployeeAssign.Count > 0)
+        {
+            // If there is the good employee in the room launch the research
+            for (int i = 0; i < _roomMain.EmployeeAssign.Count; i++)
+            {
+                if (_roomMain.EmployeeAssign[i].EmployeeJob[0].JobType == ResearchRoomData.JobNeeded.JobType)
+                {
+                    if (!ResearchHasStarted)
+                    {
+                        ResearchHasStarted = true;
 
-        // Launch research
-        ChronoManager.Instance.NewSecondTick += ResearchUpdateChrono;
+                        // Remove research on hold if there is one
+                        if (_researchOnHold != null)
+                        {
+                            _roomMain.EmployeesHaveChanged -= _researchOnHold;
+                            _researchOnHold = null;
+                        }
+
+                        _researchOnHold = () => TryStartComponentResearch(CurrentComponentResearched);
+                        _roomMain.EmployeesHaveChanged += _researchOnHold;
+
+                        ResearchStart?.Invoke();
+
+                        // Launch research
+                        ChronoManager.Instance.NewSecondTick += ResearchUpdateChrono;
+                    }
+
+                    break;
+                }
+                else
+                {
+                    ChronoManager.Instance.NewSecondTick -= ResearchUpdateChrono;
+                    _currentChrono = 0;
+
+                    ResearchCantStart?.Invoke();
+
+                    ResearchHasStarted = false;
+
+                    // Remove research on hold if there is one
+                    if (_researchOnHold != null)
+                    {
+                        _roomMain.EmployeesHaveChanged -= _researchOnHold;
+                        _researchOnHold = null;
+                    }
+
+                    _researchOnHold = () => TryStartComponentResearch(CurrentComponentResearched);
+                    _roomMain.EmployeesHaveChanged += _researchOnHold;
+                }
+            }
+        }
+        else
+        {
+            ChronoManager.Instance.NewSecondTick -= ResearchUpdateChrono;
+            _currentChrono = 0;
+
+            ResearchCantStart?.Invoke();
+
+            ResearchHasStarted = false;
+
+            // Remove research on hold if there is one
+            if (_researchOnHold != null)
+            {
+                _roomMain.EmployeesHaveChanged -= _researchOnHold;
+                _researchOnHold = null;
+            }
+
+            _researchOnHold = () => TryStartComponentResearch(CurrentComponentResearched);
+            _roomMain.EmployeesHaveChanged += _researchOnHold;
+        }
     }
 
     /// <summary>

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -130,6 +131,13 @@ public class UIManager : MonoBehaviour
     /// </summary>
     [field: SerializeField, Tooltip("The UI on screen whene player is constructing a room.")]
     public GameObject ConstructionUI { get; private set; }
+
+
+    /// <summary>
+    /// The button to cancel construction.
+    /// </summary>
+    [field: SerializeField, Tooltip("The button to cancel construction.")]
+    public Button CancelConstructionButton { get; private set; }
 
     /// <summary>
     /// The UI on screen whene player pause the game.

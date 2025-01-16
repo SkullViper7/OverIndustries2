@@ -65,7 +65,8 @@ public class RoomNotifiction : MonoBehaviour
     /// </summary>
     private Room _currentRoom;
 
-    private bool _isBlocked = false;
+    private bool _isBlockedCauseOfStorage = false;
+    private bool _isBlockedCauseOfEmployee = false;
 
     private void Awake()
     {
@@ -139,6 +140,7 @@ public class RoomNotifiction : MonoBehaviour
 
     private void EmployeInTheRoom()
     {
+        _isBlockedCauseOfEmployee = false;
         _notificationPictoObj.SetActive(false);
         _gaugeFillAmount.fillAmount = 0f;
         _gaugeObject.SetActive(true);
@@ -150,7 +152,8 @@ public class RoomNotifiction : MonoBehaviour
 
     private void NoEmployeeInTheRoom()
     {
-        if (!_isBlocked)
+        _isBlockedCauseOfEmployee = true;
+        if (!_isBlockedCauseOfStorage)
         {
             _gaugeObject.SetActive(false);
             _gaugeFillAmount.fillAmount = 0f;
@@ -182,31 +185,33 @@ public class RoomNotifiction : MonoBehaviour
     /// <param name="ignore"> Ignore this parameter. (put 0 in if you have to.) </param>
     private void CheckRawMaterialStorage(int ignore)
     {
-        if (RawMaterialStorage.Instance.IsStorageFull())
+        _isBlockedCauseOfStorage = true;
+        if (!_isBlockedCauseOfEmployee)
         {
-            _isBlocked = true;
-            if (ColorUtility.TryParseHtmlString("#F76A74", out Color newColor))
+            if (RawMaterialStorage.Instance.IsStorageFull())
             {
-                _notificationOutline.color = newColor;
-                newColor = new Color(newColor.r, newColor.g, newColor.b, 60f / 255f);
-                _notificationBG.raycastTarget = false;
-                _notificationBG.color = newColor;
-            }
+                if (ColorUtility.TryParseHtmlString("#F76A74", out Color newColor))
+                {
+                    _notificationOutline.color = newColor;
+                    newColor = new Color(newColor.r, newColor.g, newColor.b, 60f / 255f);
+                    _notificationBG.raycastTarget = false;
+                    _notificationBG.color = newColor;
+                }
 
-            _button.interactable = false;
-        }
-        else
-        {
-            _isBlocked = true;
-            if (ColorUtility.TryParseHtmlString("#40C1AA", out Color newColor))
+                _button.interactable = false;
+            }
+            else
             {
-                _notificationOutline.color = newColor;
-                newColor = new Color(newColor.r, newColor.g, newColor.b, 60f / 255f);
-                _notificationBG.raycastTarget = true;
-                _notificationBG.color = newColor;
-            }
+                if (ColorUtility.TryParseHtmlString("#40C1AA", out Color newColor))
+                {
+                    _notificationOutline.color = newColor;
+                    newColor = new Color(newColor.r, newColor.g, newColor.b, 60f / 255f);
+                    _notificationBG.raycastTarget = true;
+                    _notificationBG.color = newColor;
+                }
 
-            _button.interactable = true;
+                _button.interactable = true;
+            }
         }
     }
 
@@ -218,6 +223,7 @@ public class RoomNotifiction : MonoBehaviour
     {
         if (newCount > 0)
         {
+            _isBlockedCauseOfStorage = true;
             _productionCountObj.SetActive(true);
             _notificationOutline.enabled = true;
             _notificationBG.enabled = true;
@@ -225,7 +231,7 @@ public class RoomNotifiction : MonoBehaviour
         }
         else
         {
-            _isBlocked = false;
+            _isBlockedCauseOfStorage = false;
             _productionCountObj.SetActive(false);
             _notificationOutline.enabled = false;
             _notificationBG.enabled = false;
@@ -324,6 +330,7 @@ public class RoomNotifiction : MonoBehaviour
     private void InitForResearchRoom()
     {
         ResearchRoom researchRoom = (ResearchRoom)_currentRoom.RoomBehaviour;
+
 
         _gaugeObject.SetActive(true);
         if (researchRoom.CurrentComponentResearched != null)

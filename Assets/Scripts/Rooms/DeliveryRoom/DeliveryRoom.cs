@@ -90,7 +90,7 @@ public class DeliveryRoom : MonoBehaviour, IRoomBehaviour
             // If there is the good employee in the room launch a cycle
             for (int i = 0; i < _roomMain.EmployeeAssign.Count; i++)
             {
-                if (_roomMain.EmployeeAssign[i].EmployeeJob[0].JobType == Job.FitterAssembler)
+                if (_roomMain.EmployeeAssign[i].EmployeeJob[0].JobType == DeliveryRoomData.JobNeeded.JobType)
                 {
                     if (!ProductionCycleHasStarted)
                     {

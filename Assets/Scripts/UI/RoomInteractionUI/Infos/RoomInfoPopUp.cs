@@ -64,6 +64,10 @@ public class RoomInfoPopUp : MonoBehaviour
     [SerializeField]
     private Image _productionImage;
 
+
+    [SerializeField]
+    private Sprite _rawMaterialPicto;
+
     /// <summary>
     /// The text of the current production.
     /// </summary>
@@ -219,17 +223,17 @@ public class RoomInfoPopUp : MonoBehaviour
         _nameLvl.text = _currentRoomSelected.RoomData.Name + " (Niveau " + _currentRoomSelected.CurrentLvl.ToString() + ")";
 
         _productionHeader.text = "Production en cours :";
-        _productionImage.sprite = deliveryRoom.DeliveryRoomData.RawMaterialPicto;
+        _productionImage.sprite = _rawMaterialPicto;
         _productionTxt.text = "Matière première";
         _production.SetActive(true);
 
         _productionRateHeader.text = "Production par minute :";
-        _productionRateImage.sprite = deliveryRoom.DeliveryRoomData.RawMaterialPicto;
+        _productionRateImage.sprite = _rawMaterialPicto;
         _productionRateTxt.text = ((deliveryRoom.CurrentProductionPerDelivery * 60f) / deliveryRoom.CurrentDeliveryTime).ToString();
         _productionRate.SetActive(true);
 
         _capacityHeader.text = "Capacité :";
-        _capacityImage.sprite = deliveryRoom.DeliveryRoomData.RawMaterialPicto;
+        _capacityImage.sprite = _rawMaterialPicto;
         _capacityTxt.text = deliveryRoom.CurrentAmountInInternalStorage.ToString() + "/" + deliveryRoom.CurrentInternalCapacity.ToString();
         _capacity.SetActive(true);
         _statsContainer.SetActive(true);

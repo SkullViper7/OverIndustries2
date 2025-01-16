@@ -82,6 +82,9 @@ public class UpgradeRoomPopUp : MonoBehaviour
     [SerializeField]
     private Image _capacityImage;
 
+    [SerializeField]
+    private Sprite _rawMaterialPicto;
+
     /// <summary>
     /// The text of the new capacity.
     /// </summary>
@@ -212,7 +215,7 @@ public class UpgradeRoomPopUp : MonoBehaviour
                 _capacityTxt.text = deliveryRoom.DeliveryRoomData.InternalStorageAtLvl3.ToString();
                 break;
         }
-        _capacityImage.sprite = deliveryRoom.DeliveryRoomData.RawMaterialPicto;
+        _capacityImage.sprite = _rawMaterialPicto;
 
         _newRawMaterialProductionRate.SetActive(true);
         _capacity.SetActive(true);

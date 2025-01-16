@@ -5,22 +5,25 @@ using UnityEngine.UI;
 public class AvailableSpotsUI : MonoBehaviour
 {
     /// <summary>
-    /// HUD.
+    /// Prefab of the button.
     /// </summary>
     [SerializeField]
+    private GameObject _spotButton;
+
+    /// <summary>
+    /// HUD.
+    /// </summary>
     private GameObject _HUD;
 
     /// <summary>
     /// UI displayed when player is constructing.
     /// </summary>
-    [SerializeField]
     private GameObject _constructionUI;
 
     /// <summary>
-    /// Prefab of the button.
+    /// the button to cancel construction.
     /// </summary>
-    [SerializeField]
-    private GameObject _spotButton;
+    private Button _cancelConstructionButton;
 
     /// <summary>
     /// Id of the pool where buttons are stocked.
@@ -39,6 +42,12 @@ public class AvailableSpotsUI : MonoBehaviour
 
     private void Start()
     {
+        _HUD = UIManager.Instance.HUD;
+        _constructionUI = UIManager.Instance.ConstructionUI;
+        _cancelConstructionButton = UIManager.Instance.CancelConstructionButton;
+
+        _cancelConstructionButton.onClick.AddListener(CloseUI);
+
         // Create the pool for buttons
         _buttonsPoolID = ObjectPoolManager.Instance.NewObjectPool(_spotButton);
 

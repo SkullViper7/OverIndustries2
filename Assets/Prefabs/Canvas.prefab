@@ -10573,6 +10573,7 @@ MonoBehaviour:
   _newProductionRateTxt: {fileID: 2876701067752014227}
   _capacity: {fileID: 635175177544295614}
   _capacityImage: {fileID: 4365567838308220133}
+  _rawMaterialPicto: {fileID: 21300000, guid: cc8f9b24db639c748a294a30e8c66f84, type: 3}
   _capacityTxt: {fileID: 7426541329661914534}
   _upgradedProductionTime: {fileID: 8926052379564944505}
   _upgradeCostTxt: {fileID: 1592142160142081178}
@@ -42728,6 +42729,7 @@ MonoBehaviour:
   <StoragePopUp>k__BackingField: {fileID: 0}
   <ConstructionPopUp>k__BackingField: {fileID: 6883391865155776030}
   <ConstructionUI>k__BackingField: {fileID: 2280498766262759046}
+  <CancelConstructionButton>k__BackingField: {fileID: 724196199824734292}
   <PauseUI>k__BackingField: {fileID: 7886967767934536046}
   <SkipTutoUI>k__BackingField: {fileID: 7811473086404617739}
   <ContinueAfterTutoUI>k__BackingField: {fileID: 3883236664075761467}
@@ -69079,6 +69081,7 @@ MonoBehaviour:
   _production: {fileID: 7754668492103793872}
   _productionHeader: {fileID: 8204882764980153273}
   _productionImage: {fileID: 6540296816951233256}
+  _rawMaterialPicto: {fileID: 21300000, guid: cc8f9b24db639c748a294a30e8c66f84, type: 3}
   _productionTxt: {fileID: 4792719367245582803}
   _productionRate: {fileID: 5825816510289152239}
   _productionRateHeader: {fileID: 6315491283449715123}
@@ -81040,7 +81043,7 @@ GameObject:
   - component: {fileID: 3889060967800986849}
   - component: {fileID: 924109351628119506}
   m_Layer: 5
-  m_Name: ConstructionButton
+  m_Name: StopConstructionButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

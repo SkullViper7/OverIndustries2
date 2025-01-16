@@ -4,10 +4,10 @@ using UnityEngine;
 public class DeliveryRoomData : ScriptableObject, IRoomBehaviourData
 {
     /// <summary>
-    /// Picto of the raw material.
+    /// The job needed to make this room work.
     /// </summary>
-    [Header("Picto"), SerializeField, Tooltip("Picto of the raw material.")]
-    private Sprite _rawMaterialPicto;
+    [SerializeField, Tooltip("The job needed to make this room work.")]
+    private JobData _jobNeeded;
 
     /// <summary>
     /// Internal storage at lvl 1.
@@ -64,9 +64,9 @@ public class DeliveryRoomData : ScriptableObject, IRoomBehaviourData
     private int _productionPerDeliveryAtLvl3;
 
     /// <summary>
-    /// Gets the picto of the raw material.
+    /// Gets the job needed to make this room work.
     /// </summary>
-    public Sprite RawMaterialPicto { get { return _rawMaterialPicto; } private set { } }
+    public JobData JobNeeded { get { return _jobNeeded; } private set { } }
 
     /// <summary>
     /// Gets the internal storage at lvl 1.

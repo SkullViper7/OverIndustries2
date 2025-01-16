@@ -52,7 +52,10 @@ public class Room : MonoBehaviour
     public delegate void UpgradeDelegate(int newLvl);
     public event UpgradeDelegate NewLvl;
 
-    public event Action OnInitialized, EmployeesHaveChanged, UpgradeStart, UpgradeEnd;
+    public delegate void EmployeeDelegate();
+    public event EmployeeDelegate EmployeesHaveChanged;
+
+    public event Action OnInitialized, UpgradeStart, UpgradeEnd;
 
     /// <summary>
     /// Called at the start to initialize the room.

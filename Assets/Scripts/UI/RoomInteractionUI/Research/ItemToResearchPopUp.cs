@@ -338,7 +338,7 @@ public class ItemToResearchPopUp : MonoBehaviour
         if (currentRoomSelected != null)
         {
             ResearchRoom researchRoom = (ResearchRoom)currentRoomSelected.RoomBehaviour;
-            researchRoom.StartNewComponentResearch(_currentComponentData);
+            researchRoom.TryStartComponentResearch(_currentComponentData);
             UIManager.Instance.UpgradeButton.SetActive(false);
             UIManager.Instance.ResearchButton.SetActive(false);
             UIManager.Instance.StopProductionButton.SetActive(true);
