@@ -4,10 +4,10 @@ using UnityEngine;
 public class ComponentData : ScriptableObject
 {
     /// <summary>
-    /// Pictogram which represents components.
+    /// The job needed to make this component.
     /// </summary>
-    [SerializeField, Tooltip("Pictogram which represents components.")]
-    private Sprite _genericComponentPicto;
+    [SerializeField, Tooltip("The job needed to make this component.")]
+    private JobData _jobNeeded;
 
     /// <summary>
     /// Pictogram of the component.
@@ -76,9 +76,9 @@ public class ComponentData : ScriptableObject
     private int _researchTime;
 
     /// <summary>
-    /// Gets the pictogram which represents components.
+    /// Gets the job needed to make this component.
     /// </summary>
-    public Sprite GenericComponentPicto { get { return _genericComponentPicto; } private set { } }
+    public JobData JobNeeded { get { return _jobNeeded; } private set { } }
 
     /// <summary>
     /// Gets the pictogram of the component.

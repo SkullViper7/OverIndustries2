@@ -5,10 +5,10 @@ using System.Collections.Generic;
 public class ObjectData : ScriptableObject
 {
     /// <summary>
-    /// Pictogram which represents objects.
+    /// The job needed to make this object.
     /// </summary>
-    [SerializeField, Tooltip("Pictogram which represents objects.")]
-    private Sprite _genericObjectPicto;
+    [SerializeField, Tooltip("The job needed to make this object.")]
+    private JobData _jobNeeded;
 
     /// <summary>
     /// Pictogram of the object.
@@ -71,9 +71,9 @@ public class ObjectData : ScriptableObject
     private int _researchTime;
 
     /// <summary>
-    /// Gets the pictogram which represents objects.
+    /// Gets the job needed to make this object.
     /// </summary>
-    public Sprite GenericObjectPicto { get { return _genericObjectPicto; } private set { } }
+    public JobData JobNeeded { get { return _jobNeeded; } private set { } }
 
     /// <summary>
     /// Gets the pictogram of the object.

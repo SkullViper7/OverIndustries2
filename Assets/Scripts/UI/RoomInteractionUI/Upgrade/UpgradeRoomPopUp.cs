@@ -85,6 +85,15 @@ public class UpgradeRoomPopUp : MonoBehaviour
     [SerializeField]
     private Sprite _rawMaterialPicto;
 
+    [SerializeField]
+    private Sprite _storagePicto;
+
+    [SerializeField]
+    private Sprite _componentsPicto;
+
+    [SerializeField]
+    private Sprite _objectsPicto;
+
     /// <summary>
     /// The text of the new capacity.
     /// </summary>
@@ -237,7 +246,7 @@ public class UpgradeRoomPopUp : MonoBehaviour
                 _capacityTxt.text = machiningRoom.MachiningRoomData.InternalStorageAtLvl3.ToString();
                 break;
         }
-        _capacityImage.sprite = machiningRoom.MachiningRoomData.StoragePicto;
+        _capacityImage.sprite = _componentsPicto;
 
         _capacity.SetActive(true);
         _upgradedProductionTime.SetActive(true);
@@ -259,7 +268,7 @@ public class UpgradeRoomPopUp : MonoBehaviour
                 _capacityTxt.text = assemblyRoom.AssemblyRoomData.InternalStorageAtLvl3.ToString();
                 break;
         }
-        _capacityImage.sprite = assemblyRoom.AssemblyRoomData.StoragePicto;
+        _capacityImage.sprite = _objectsPicto;
 
         _capacity.SetActive(true);
         _upgradedProductionTime.SetActive(true);
@@ -302,7 +311,7 @@ public class UpgradeRoomPopUp : MonoBehaviour
                 _capacityTxt.text = "+ " + storageRoom.StorageRoomData.CapacityBonusAtLvl3.ToString();
                 break;
         }
-        _capacityImage.sprite = storageRoom.StorageRoomData.ItemsPicto;
+        _capacityImage.sprite = _storagePicto;
 
         _capacity.SetActive(true);
     }

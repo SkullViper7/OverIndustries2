@@ -214,7 +214,10 @@ public class ResearchManager : MonoBehaviour
     /// <param name="newObjectBeingSearched"> The new object being searched. </param>
     private void AddObjectBeingSearched(ObjectData newObjectBeingSearched)
     {
-        _objectsBeingSearched.Add(newObjectBeingSearched);
+        if (!_objectsBeingSearched.Contains(newObjectBeingSearched))
+        {
+            _objectsBeingSearched.Add(newObjectBeingSearched);
+        }
     }
 
     /// <summary>

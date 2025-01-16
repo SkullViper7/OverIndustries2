@@ -4,12 +4,6 @@ using UnityEngine;
 public class StorageRoomData : ScriptableObject, IRoomBehaviourData
 {
     /// <summary>
-    /// Picto of items.
-    /// </summary>
-    [Header("Picto"), SerializeField, Tooltip("Picto of items.")]
-    private Sprite _itemsPicto;
-
-    /// <summary>
     /// Capacity to add to the storage at lvl 1.
     /// </summary>
     [Header("Capacity bonus"), SerializeField, Tooltip("Capacity to add to the storage at lvl 1. (not the total)")]
@@ -26,11 +20,6 @@ public class StorageRoomData : ScriptableObject, IRoomBehaviourData
     /// </summary> 
     [SerializeField, Tooltip("Capacity to add to the storage at lvl 3. (not the total)")]
     private int _capacityBonusAtLvl3;
-
-    /// <summary>
-    /// Gets the picto of the raw material.
-    /// </summary>
-    public Sprite ItemsPicto { get { return _itemsPicto; } private set { } }
 
     /// <summary>
     /// Gets the capacity to add to the storage at lvl 1.

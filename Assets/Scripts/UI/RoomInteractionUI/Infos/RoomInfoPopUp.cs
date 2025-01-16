@@ -68,6 +68,9 @@ public class RoomInfoPopUp : MonoBehaviour
     [SerializeField]
     private Sprite _rawMaterialPicto;
 
+    [SerializeField]
+    private Sprite _storagePicto;
+
     /// <summary>
     /// The text of the current production.
     /// </summary>
@@ -345,7 +348,7 @@ public class RoomInfoPopUp : MonoBehaviour
         _nameLvl.text = _currentRoomSelected.RoomData.Name + " (Niveau " + _currentRoomSelected.CurrentLvl.ToString() + ")";
 
         _capacityHeader.text = "Capacité :";
-        _capacityImage.sprite = storageRoom.StorageRoomData.ItemsPicto;
+        _capacityImage.sprite = _storagePicto;
         _capacityTxt.text = itemStorage.CurrentStorage.ToString() + "/" + itemStorage.StorageCapacity.ToString();
         _capacity.SetActive(true);
         _statsContainer.SetActive(true);

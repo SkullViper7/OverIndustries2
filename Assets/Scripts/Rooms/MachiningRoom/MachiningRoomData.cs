@@ -4,12 +4,6 @@ using UnityEngine;
 public class MachiningRoomData : ScriptableObject, IRoomBehaviourData
 {
     /// <summary>
-    /// The picto representing the storage.
-    /// </summary>
-    [SerializeField, Tooltip("The picto representing the storage.")]
-    private Sprite _storagePicto;
-
-    /// <summary>
     /// Internal storage at lvl 1.
     /// </summary>
     [Space, Header("Internal storage"), SerializeField, Tooltip("Internal storage at lvl 1.")]
@@ -26,11 +20,6 @@ public class MachiningRoomData : ScriptableObject, IRoomBehaviourData
     /// </summary> 
     [SerializeField, Tooltip("Internal storage at lvl 3.")]
     private int _internalStorageAtLvl3;
-
-    /// <summary>
-    /// Gets the picto representing the storage.
-    /// </summary>
-    public Sprite StoragePicto { get { return _storagePicto; } private set { } }
 
     /// <summary>
     /// Gets the internal storage at lvl 1.
