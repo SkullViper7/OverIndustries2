@@ -163,7 +163,7 @@ public class RoomNotifiction : MonoBehaviour
     /// <param name="ignore"> Ignore this parameter. (put 0 in if you have to.) </param>
     private void CheckRawMaterialStorage(int ignore)
     {
-        if (!_isBlockedCauseOfEmployee)
+        if (!_isBlockedCauseOfEmployee || _isBlockedCauseOfInternalStorage)
         {
             if (RawMaterialStorage.Instance.IsStorageFull())
             {
@@ -543,7 +543,7 @@ public class RoomNotifiction : MonoBehaviour
     /// <param name="ignore"> Ignore this parameter. (put 0 in if you have to.) </param>
     private void CheckItemStorage(int ignore)
     {
-        if (!_isBlockedCauseOfEmployee && !_isBlockedCauseOfRessources)
+        if ((!_isBlockedCauseOfEmployee && !_isBlockedCauseOfRessources) || _isBlockedCauseOfInternalStorage)
         {
             if (ItemStorage.Instance.IsStorageFull())
             {
@@ -567,17 +567,6 @@ public class RoomNotifiction : MonoBehaviour
                 }
                 _button.interactable = true;
             }
-        }
-        else if (_isBlockedCauseOfInternalStorage)
-        {
-            if (ColorUtility.TryParseHtmlString("#40C1AA", out Color newColor))
-            {
-                _notificationOutline.color = newColor;
-                newColor = new Color(newColor.r, newColor.g, newColor.b, 60f / 255f);
-                _notificationBG.raycastTarget = true;
-                _notificationBG.color = newColor;
-            }
-            _button.interactable = true;
         }
     }
 

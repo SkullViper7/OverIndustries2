@@ -216,7 +216,14 @@ public class ItemStorage : MonoBehaviour
     /// <returns></returns>
     public bool IsStorageFull()
     {
-        return _currentStorage == _storageCapacity;
+        if (_storageCapacity != 0)
+        {
+            return _currentStorage == _storageCapacity;
+        }
+        else
+        {
+            return true;
+        }
     }
 
     /// <summary>
@@ -229,7 +236,7 @@ public class ItemStorage : MonoBehaviour
     {
         if (ComponentStorage.ContainsKey(component))
         {
-            return amountToCheck >= ComponentStorage[component];
+            return amountToCheck <= ComponentStorage[component];
         }
         else
         {
@@ -248,18 +255,10 @@ public class ItemStorage : MonoBehaviour
 
         for (int i = 0; i < ingredients.Count; i++)
         {
-            if (!ComponentStorage.ContainsKey(ingredients[i].ComponentData))
+            if (!ThereIsEnoughComponentsInStorage(ingredients[i].ComponentData, ingredients[i].Quantity))
             {
                 recipeIsPossible = false;
                 break;
-            }
-            else
-            {
-                if (ComponentStorage[ingredients[i].ComponentData] < ingredients[i].Quantity)
-                {
-                    recipeIsPossible = false;
-                    break;
-                }
             }
         }
 
@@ -300,7 +299,7 @@ public class ItemStorage : MonoBehaviour
             return 0;
         }
     }
-    
+
     /// <summary>
     /// Called to know the number of this component type in the storage.
     /// </summary>

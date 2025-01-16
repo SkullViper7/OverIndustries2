@@ -213,8 +213,7 @@ public class ItemToResearchPopUp : MonoBehaviour
         _componentResearchCostCell.SetActive(true);
         _componentResearchCost.text = _currentComponentData.ResearchCost.ToString();
 
-        UpdateResearchCostForComponent(RawMaterialStorage.Instance.AmoutOfRawMaterial);
-        RawMaterialStorage.Instance.AmountHasChanged += UpdateResearchCostForComponent;
+        UpdateResearchCostForComponent();
 
         _popUp.SetActive(true);
     }
@@ -262,8 +261,6 @@ public class ItemToResearchPopUp : MonoBehaviour
         _objectResearchCostCell.SetActive(true);
 
         UpdateResearchCostForObject();
-        RawMaterialStorage.Instance.RawMaterialStorageHasChanged += UpdateResearchCostForObject;
-        ItemStorage.Instance.ItemStorageHasChanged += UpdateResearchCostForObject;
 
         _popUp.SetActive(true);
     }
@@ -271,12 +268,11 @@ public class ItemToResearchPopUp : MonoBehaviour
     /// <summary>
     /// Called to update the availability of the research cost for a component.
     /// </summary>
-    /// <param name="newAmount"> New amount in raw material storage. </param>
-    private void UpdateResearchCostForComponent(int newAmount)
+    private void UpdateResearchCostForComponent()
     {
         _validationButton.onClick.RemoveAllListeners();
 
-        if (newAmount >= _currentComponentData.ResearchCost)
+        if (RawMaterialStorage.Instance.AmoutOfRawMaterial >= _currentComponentData.ResearchCost)
         {
             _componentResearchCost.color = Color.white;
             _validationButton.onClick.AddListener(LaunchComponentResearch);
@@ -294,7 +290,7 @@ public class ItemToResearchPopUp : MonoBehaviour
     {
         _validationButton.onClick.RemoveAllListeners();
 
-        bool isCostAvailbale = true;
+        bool isCostAvailable = true;
 
         // Check for raw material
         if (RawMaterialStorage.Instance.AmoutOfRawMaterial >= _currentObjectData.ResearchCost.RawMaterialCost)
@@ -304,7 +300,7 @@ public class ItemToResearchPopUp : MonoBehaviour
         else
         {
             _objectResearchCostInRawMaterial.color = Color.red;
-            isCostAvailbale = false;
+            isCostAvailable = false;
         }
 
         // Check for components
@@ -318,11 +314,11 @@ public class ItemToResearchPopUp : MonoBehaviour
             else
             {
                 _objectResearchCostInComponents[i].GetComponentInChildren<TMP_Text>().color = Color.red;
-                isCostAvailbale = false;
+                isCostAvailable = false;
             }
         }
 
-        if (isCostAvailbale)
+        if (isCostAvailable)
         {
             _validationButton.onClick.AddListener(LaunchObjectResearch);
         }
@@ -374,10 +370,6 @@ public class ItemToResearchPopUp : MonoBehaviour
     public void ClosePopUp()
     {
         _popUp.SetActive(false);
-
-        RawMaterialStorage.Instance.AmountHasChanged -= UpdateResearchCostForComponent;
-        RawMaterialStorage.Instance.RawMaterialStorageHasChanged -= UpdateResearchCostForObject;
-        ItemStorage.Instance.ItemStorageHasChanged -= UpdateResearchCostForObject;
 
         _description.SetActive(false);
         _stats.SetActive(true);
