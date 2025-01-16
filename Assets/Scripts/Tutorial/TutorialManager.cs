@@ -24,8 +24,6 @@ public class TutorialManager : MonoBehaviour
 
     //Rooms
     private GameObject _roomResearch;
-    private GameObject _roomDirector;
-    private GameObject _roomAssembly;
     private GameObject _roomMachining;
 
     public event System.Action<int> OnTutorialImageStep;
@@ -36,9 +34,18 @@ public class TutorialManager : MonoBehaviour
     public event System.Action OnTutorialShowBackground;
     public event System.Action OnTutorialContinuePopUp;
 
+    private bool _research = false;
+
     void Start()
     {
         ShowTutorialStep();
+
+        if(_research)
+        {
+            _roomResearch.GetComponent<ResearchRoom>().ResearchStart += ConditionIsMet;
+            _roomResearch.GetComponent<ResearchRoom>().ResearchCompleted += ConditionIsMet;
+        }
+
     }
 
     /// <summary>
@@ -126,6 +133,8 @@ public class TutorialManager : MonoBehaviour
                     OnTutorialImageStep?.Invoke(17);
                     OnTutorialImageStep?.Invoke(19);
                     OnTutorialImageStep?.Invoke(20);
+
+                    _research = true;
                     break;
                 case 16:
                     OnTutorialShowBackground?.Invoke();
@@ -133,6 +142,8 @@ public class TutorialManager : MonoBehaviour
                     OnTutorialImageHide?.Invoke();
                     OnTutorialImageStep?.Invoke(21);
                     OnTutorialImageStep?.Invoke(22);
+
+                    _research = true;
                     break;
                 case 17:
                     OnTutorialShowBackground?.Invoke();
@@ -252,9 +263,8 @@ public class TutorialManager : MonoBehaviour
                     OnTutorialImageHide?.Invoke();
                     OnTutorialHideBackground?.Invoke();
 
-                    if (DirectorRoom.Instance.RoomMain.EmployeeAssign.Count >= 1)
+                    if (EmployeeManager.Instance.Employees.Count >= 1)
                     {
-                        _roomDirector = DirectorRoom.Instance.RoomMain.gameObject;
                         _canContinue = true;
                     }
                     break;
@@ -282,7 +292,8 @@ public class TutorialManager : MonoBehaviour
                     OnTutorialImageHide?.Invoke();
                     OnTutorialHideBackground?.Invoke();
 
-                    _roomResearch.GetComponent<ResearchRoom>().ResearchCompleted += ConditionIsMet;
+                    Debug.Log(_isConditionIsMet);
+
                     if (_isConditionIsMet)
                     {
                         _isConditionIsMet = false;
