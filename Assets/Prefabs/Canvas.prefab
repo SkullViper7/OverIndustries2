@@ -36678,7 +36678,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 5748597167036290315}
         m_TargetAssemblyTypeName: TutorialUI, Assembly-CSharp
         m_MethodName: ContinueGame
         m_Mode: 1
@@ -42580,6 +42580,7 @@ GameObject:
   - component: {fileID: 2239853701664003197}
   - component: {fileID: 1947084655117368188}
   - component: {fileID: 7970376779131073793}
+  - component: {fileID: 5748597167036290315}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Canvas
@@ -42875,6 +42876,56 @@ MonoBehaviour:
   _touchImpact: {fileID: 3103176614646510143, guid: 72e4fff07ec11e34eb41971ba32552ae,
     type: 3}
   _touchImpactContainer: {fileID: 4775907015402832468}
+--- !u!114 &5748597167036290315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4761016143343523893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd3e3a9bd64bae84ab7f9c938e537f65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _buttonActions:
+  - {fileID: 4637402598812319478}
+  - {fileID: 3947126304163353831}
+  - {fileID: 4880439564672831895}
+  - {fileID: 2912724850031174951}
+  _tutorialImages:
+  - {fileID: 7289933390485947206}
+  - {fileID: 6491695423043273369}
+  - {fileID: 2404577178870125851}
+  - {fileID: 5470810558113638349}
+  - {fileID: 235246086164920165}
+  - {fileID: 4707493862501299490}
+  - {fileID: 4436890115186774812}
+  - {fileID: 7029814574525256687}
+  - {fileID: 8268575959998553885}
+  - {fileID: 8086160974886197557}
+  - {fileID: 7222880624150404933}
+  - {fileID: 6610812069423247172}
+  - {fileID: 4191490341603319100}
+  - {fileID: 2094464306502113863}
+  - {fileID: 4394145374762372572}
+  - {fileID: 4943485091868190355}
+  - {fileID: 4810648485947625246}
+  - {fileID: 7944395532937858422}
+  - {fileID: 6042606166933276987}
+  - {fileID: 322208173484770002}
+  - {fileID: 4240201149586153727}
+  - {fileID: 8576770469116203787}
+  - {fileID: 4810981966303550288}
+  - {fileID: 3861651244996487982}
+  - {fileID: 5531874124992088405}
+  - {fileID: 2277654960540371997}
+  - {fileID: 1180808866370300599}
+  - {fileID: 7707139793697191936}
+  _tutorialManager: {fileID: 0}
+  _background: {fileID: 1744505954409426142}
+  _tutoralContinuePopUp: {fileID: 3883236664075761467}
+  _uiManager: {fileID: 7849188838309042080}
 --- !u!1 &4761223402506283501
 GameObject:
   m_ObjectHideFlags: 0
@@ -63563,6 +63614,18 @@ MonoBehaviour:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: TutorialManager, Assembly-CSharp
         m_MethodName: SkipTutorial
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5748597167036290315}
+        m_TargetAssemblyTypeName: TutorialUI, Assembly-CSharp
+        m_MethodName: ContinueGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
