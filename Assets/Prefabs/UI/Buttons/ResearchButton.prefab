@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7470803995749193835}
   - component: {fileID: 6087099470607109550}
   - component: {fileID: 3468724819363288311}
+  - component: {fileID: 5419814654262436477}
   m_Layer: 5
   m_Name: ResearchButton
   m_TagString: Untagged
@@ -98,7 +99,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 3
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -140,6 +141,27 @@ MonoBehaviour:
   _researchable: {fileID: -2070292138, guid: ebae3200e2bd48641b9334d3044425f1, type: 3}
   _unresearchable: {fileID: 2086433463, guid: c81ff3fe080cab24fb70c1f8c7d10e91, type: 3}
   _desactivate: {fileID: 1733555626, guid: 34d313c9b91924c4988661b80c4f91ad, type: 3}
+--- !u!95 &5419814654262436477
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1700815709585453762}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 3312fa457ddea3446b5148e70296f862, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5128081632034671545
 GameObject:
   m_ObjectHideFlags: 0

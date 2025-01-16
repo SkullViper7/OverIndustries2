@@ -127,8 +127,8 @@ public class RoomNotifiction : MonoBehaviour
         _currentRoom.UpgradeStart += () => _gaugeObject.SetActive(false);
         _currentRoom.UpgradeEnd += () => _gaugeObject.SetActive(true);
 
-        deliveryRoom.ProductionStart += EmployeInTheRoom;
-        deliveryRoom.ProductionCantStart += NoEmployeeInTheRoom;
+        deliveryRoom.ProductionStart += EmployeInTheDeliveryRoom;
+        deliveryRoom.ProductionCantStart += NoEmployeeInTheDeliveryRoom;
 
         rawMaterialStorage.CapacityHasChanged += CheckRawMaterialStorage;
 
@@ -138,7 +138,7 @@ public class RoomNotifiction : MonoBehaviour
         deliveryRoom.NewProductionCount += UpdateDeliveryCount;
     }
 
-    private void EmployeInTheRoom()
+    private void EmployeInTheDeliveryRoom()
     {
         _isBlockedCauseOfEmployee = false;
         _notificationPictoObj.SetActive(false);
@@ -150,7 +150,7 @@ public class RoomNotifiction : MonoBehaviour
         CheckRawMaterialStorage(0);
     }
 
-    private void NoEmployeeInTheRoom()
+    private void NoEmployeeInTheDeliveryRoom()
     {
         _isBlockedCauseOfEmployee = true;
         if (!_isBlockedCauseOfStorage)
@@ -331,23 +331,60 @@ public class RoomNotifiction : MonoBehaviour
     {
         ResearchRoom researchRoom = (ResearchRoom)_currentRoom.RoomBehaviour;
 
-
-        _gaugeObject.SetActive(true);
         if (researchRoom.CurrentComponentResearched != null)
         {
             _gaugePicto.sprite = researchRoom.CurrentComponentResearched.ComponentPicto;
-            _notificationPictoImg.sprite = researchRoom.CurrentComponentResearched.ComponentPicto;
         }
         else if (researchRoom.CurrentObjectResearched != null)
         {
             _gaugePicto.sprite = researchRoom.CurrentObjectResearched.ObjectPicto;
-            _notificationPictoImg.sprite = researchRoom.CurrentObjectResearched.ObjectPicto;
         }
+        _gaugeObject.SetActive(true);
 
-        _gaugeFillAmount.fillAmount = 0;
+        researchRoom.ResearchStart += EmployeInTheResearchRoom;
+        researchRoom.ResearchCantStart += NoEmployeeInTheResearchRoom;
 
         researchRoom.NewChrono += UpdateGaugeForResearch;
         researchRoom.ResearchCompleted += OnResearchCompleted;
+    }
+
+    private void EmployeInTheResearchRoom()
+    {
+        _isBlockedCauseOfEmployee = false;
+        _notificationPictoObj.SetActive(false);
+        _gaugeFillAmount.fillAmount = 0f;
+        _gaugeObject.SetActive(true);
+        _notificationOutline.enabled = false;
+        _notificationBG.enabled = false;
+    }
+
+    private void NoEmployeeInTheResearchRoom()
+    {
+        _isBlockedCauseOfEmployee = true;
+        if (!_isBlockedCauseOfStorage)
+        {
+            _gaugeObject.SetActive(false);
+            _gaugeFillAmount.fillAmount = 0f;
+
+            _notificationPictoImg.sprite = _noEmployeePicto;
+            _notificationPictoObj.SetActive(true);
+
+            if (ColorUtility.TryParseHtmlString("#F76A74", out Color newColor))
+            {
+                _notificationOutline.color = newColor;
+                _notificationOutline.enabled = true;
+                newColor = new Color(newColor.r, newColor.g, newColor.b, 60f / 255f);
+                _notificationBG.raycastTarget = false;
+                _notificationBG.color = newColor;
+                _notificationBG.enabled = true;
+            }
+
+            _button.interactable = false;
+        }
+        else
+        {
+            _gaugeFillAmount.fillAmount = 0f;
+        }
     }
 
     /// <summary>
@@ -364,6 +401,8 @@ public class RoomNotifiction : MonoBehaviour
     /// </summary>
     private void OnResearchCompleted()
     {
+        _isBlockedCauseOfStorage = true;
+
         if (ColorUtility.TryParseHtmlString("#40C1AA", out Color newColor))
         {
             _notificationOutline.color = newColor;
@@ -371,9 +410,22 @@ public class RoomNotifiction : MonoBehaviour
             _notificationBG.raycastTarget = true;
             _notificationBG.color = newColor;
         }
+
+        _notificationOutline.enabled = true;
         _notificationBG.enabled = true;
         _gaugeObject.SetActive(false);
+
+        ResearchRoom researchRoom = (ResearchRoom)_currentRoom.RoomBehaviour;
+        if (researchRoom.CurrentComponentResearched != null)
+        {
+            _notificationPictoImg.sprite = researchRoom.CurrentComponentResearched.ComponentPicto;
+        }
+        else if (researchRoom.CurrentObjectResearched != null)
+        {
+            _notificationPictoImg.sprite = researchRoom.CurrentObjectResearched.ObjectPicto;
+        }
         _notificationPictoObj.SetActive(true);
+
         _button.interactable = true;
 
         UIManager.Instance.StopProductionButton.SetActive(false);
@@ -447,14 +499,23 @@ public class RoomNotifiction : MonoBehaviour
         _gaugeObject.SetActive(false);
         _productionCountObj.SetActive(false);
         _button.interactable = false;
+        _isBlockedCauseOfStorage = false;
+        _isBlockedCauseOfEmployee = false;
 
         // Remove all listeners
         switch (_currentRoom.RoomData.RoomType)
         {
             case RoomType.Delivery:
+                DeliveryRoom deliveryRoom = (DeliveryRoom)_currentRoom.RoomBehaviour;
                 _button.onClick.RemoveAllListeners();
                 RawMaterialStorage.Instance.CapacityHasChanged -= CheckRawMaterialStorage;
                 RawMaterialStorage.Instance.AmountHasChanged -= CheckRawMaterialStorage;
+
+                deliveryRoom.ProductionStart -= EmployeInTheDeliveryRoom;
+                deliveryRoom.ProductionCantStart -= NoEmployeeInTheDeliveryRoom;
+
+                deliveryRoom.NewChrono -= UpdateGaugeForDelivery;
+                deliveryRoom.NewProductionCount -= UpdateDeliveryCount;
                 break;
 
             case RoomType.Machining:
@@ -474,9 +535,13 @@ public class RoomNotifiction : MonoBehaviour
                 break;
 
             case RoomType.Research:
+                ResearchRoom researchRoom = (ResearchRoom)_currentRoom.RoomBehaviour;
                 _button.onClick.RemoveAllListeners();
-                ((ResearchRoom)_currentRoom.RoomBehaviour).NewChrono -= UpdateGaugeForResearch;
-                ((ResearchRoom)_currentRoom.RoomBehaviour).ResearchCompleted -= OnResearchCompleted;
+                researchRoom.NewChrono -= UpdateGaugeForResearch;
+                researchRoom.ResearchCompleted -= OnResearchCompleted;
+
+                researchRoom.ResearchStart -= EmployeInTheResearchRoom;
+                researchRoom.ResearchCantStart -= NoEmployeeInTheResearchRoom;
                 break;
         }
 

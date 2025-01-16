@@ -67,10 +67,10 @@ public class ResearchRoom : MonoBehaviour, IRoomBehaviour
 
     public void TryStartComponentResearch(ComponentData componentToUnlock)
     {
-        ComponentResearchStarted?.Invoke(CurrentComponentResearched);
-
         // Set object researched
         CurrentComponentResearched = componentToUnlock;
+
+        ComponentResearchStarted?.Invoke(CurrentComponentResearched);
 
         // Set research time
         CurrentResearchTime = CurrentComponentResearched.ResearchTime;
@@ -228,6 +228,15 @@ public class ResearchRoom : MonoBehaviour, IRoomBehaviour
     public void StopResearch()
     {
         ChronoManager.Instance.NewSecondTick -= ResearchUpdateChrono;
+
+        ResearchHasStarted = false;
+
+        // Remove research on hold if there is one
+        if (_researchOnHold != null)
+        {
+            _roomMain.EmployeesHaveChanged -= _researchOnHold;
+            _researchOnHold = null;
+        }
 
         if (CurrentComponentResearched != null)
         {

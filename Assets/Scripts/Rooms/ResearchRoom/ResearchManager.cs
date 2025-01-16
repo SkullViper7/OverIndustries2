@@ -16,7 +16,6 @@ public class ResearchManager : MonoBehaviour
     /// <summary>
     /// All components that a machining room cans manufacture.
     /// </summary>
-    [field : SerializeField]
     public List<ComponentData> ManufacturableComponents { get; private set; } = new();
 
     /// <summary>
@@ -37,7 +36,6 @@ public class ResearchManager : MonoBehaviour
     /// <summary>
     /// Components currently being searched.
     /// </summary>
-    [SerializeField]
     private List<ComponentData> _componentsBeingSearched = new();
 
     /// <summary>
@@ -195,7 +193,10 @@ public class ResearchManager : MonoBehaviour
     /// <param name="newComponentBeingSearched"> The new component being searched. </param>
     private void AddComponentBeingSearched(ComponentData newComponentBeingSearched)
     {
-        _componentsBeingSearched.Add(newComponentBeingSearched);
+        if (!_componentsBeingSearched.Contains(newComponentBeingSearched))
+        {
+            _componentsBeingSearched.Add(newComponentBeingSearched);
+        }
     }
 
     /// <summary>
