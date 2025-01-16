@@ -25,7 +25,6 @@ public class TutorialManager : MonoBehaviour
     //Rooms
     private GameObject _roomResearch;
     private GameObject _roomDirector;
-    private GameObject _roomAssembly;
     private GameObject _roomMachining;
 
     public event System.Action<int> OnTutorialImageStep;
@@ -36,9 +35,16 @@ public class TutorialManager : MonoBehaviour
     public event System.Action OnTutorialShowBackground;
     public event System.Action OnTutorialContinuePopUp;
 
+    private bool _startResearch = false;
+
     void Start()
     {
         ShowTutorialStep();
+
+        if(_startResearch)
+        {
+            _roomResearch.GetComponent<ResearchRoom>().StartReasearch += ConditionIsMet;
+        }
     }
 
     /// <summary>
@@ -126,6 +132,8 @@ public class TutorialManager : MonoBehaviour
                     OnTutorialImageStep?.Invoke(17);
                     OnTutorialImageStep?.Invoke(19);
                     OnTutorialImageStep?.Invoke(20);
+
+                    _startResearch = true;
                     break;
                 case 16:
                     OnTutorialShowBackground?.Invoke();
@@ -270,8 +278,8 @@ public class TutorialManager : MonoBehaviour
                 case 15:
                     OnTutorialImageHide?.Invoke();
                     OnTutorialHideBackground?.Invoke();
-
                     _roomResearch.GetComponent<ResearchRoom>().StartReasearch += ConditionIsMet;
+
                     if (_isConditionIsMet)
                     {
                         _isConditionIsMet = false;
