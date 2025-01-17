@@ -72,6 +72,12 @@ public class ItemToResearchPopUp : MonoBehaviour
     private TMP_Text _itemType;
 
     /// <summary>
+    /// The picto of the room type.
+    /// </summary>
+    [SerializeField]
+    private Image _roomTypeImg;
+
+    /// <summary>
     /// The type of the room to product this item.
     /// </summary>
     [SerializeField]
@@ -200,12 +206,30 @@ public class ItemToResearchPopUp : MonoBehaviour
         _statsButton.Select();
         _descriptionButton.Unselect();
         _itemDescription.text = _currentComponentData.Description;
-        _researchTime.text = _currentComponentData.ResearchTime.ToString();
+        if (_currentComponentData.ResearchTime >= 60)
+        {
+            _researchTime.text = (_currentComponentData.ResearchTime / 60).ToString() + "min " + (_currentComponentData.ResearchTime % 60).ToString() + "sec";
+        }
+        else
+        {
+            _researchTime.text = _currentComponentData.ResearchTime.ToString() + "sec";
+        }
         _itemTypeImg.sprite = _componentPicto;
         _itemType.text = "Pièce détachée";
+        if (ColorUtility.TryParseHtmlString("#E67E22", out Color newColor))
+        {
+            _roomTypeImg.color = newColor;
+        }
         _roomType.text = "Salle d'usinage";
         _productionTime1Header.text = "Durée de fabrication au niveau 1 :";
-        _productionTime1.text = _currentComponentData.ProductionTimeAtLvl1.ToString();
+        if (_currentComponentData.ResearchTime >= 60)
+        {
+            _productionTime1.text = (_currentComponentData.ProductionTimeAtLvl1 / 60).ToString() + "min " + (_currentComponentData.ProductionTimeAtLvl1 % 60).ToString() + "sec";
+        }
+        else
+        {
+            _productionTime1.text = _currentComponentData.ProductionTimeAtLvl1.ToString() + "sec";
+        }
 
         // Display specific data
         _componentCostCell.SetActive(true);
@@ -233,12 +257,30 @@ public class ItemToResearchPopUp : MonoBehaviour
         _itemDescription.text = _currentObjectData.Description;
         _statsButton.Select();
         _descriptionButton.Unselect();
-        _researchTime.text = _currentObjectData.ResearchTime.ToString();
+        if (_currentObjectData.ResearchTime >= 60)
+        {
+            _researchTime.text = (_currentObjectData.ResearchTime / 60).ToString() + "min " + (_currentObjectData.ResearchTime % 60).ToString() + "sec";
+        }
+        else
+        {
+            _researchTime.text = _currentObjectData.ResearchTime.ToString() + "sec";
+        }
         _itemTypeImg.sprite = _objectPicto;
         _itemType.text = "Objet complet";
+        if (ColorUtility.TryParseHtmlString("#2E86C1", out Color newColor))
+        {
+            _roomTypeImg.color = newColor;
+        }
         _roomType.text = "Salle d'assemblage";
         _productionTime1Header.text = "Durée d'assemblage au niveau 1 :";
-        _productionTime1.text = _currentObjectData.ProductionTimeAtLvl1.ToString();
+        if (_currentObjectData.ResearchTime >= 60)
+        {
+            _productionTime1.text = (_currentObjectData.ProductionTimeAtLvl1 / 60).ToString() + "min " + (_currentObjectData.ProductionTimeAtLvl1 % 60).ToString() + "sec";
+        }
+        else
+        {
+            _productionTime1.text = _currentObjectData.ProductionTimeAtLvl1.ToString() + "sec";
+        }
 
         // Display specific data
         List<Ingredient> recipe = _currentObjectData.Ingredients;

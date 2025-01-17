@@ -72,6 +72,12 @@ public class ItemToProductPopUp : MonoBehaviour
     private TMP_Text _productionRatetxt;
 
     /// <summary>
+    /// The picto of the production.
+    /// </summary>
+    [SerializeField]
+    private Image _productionRatePicto;
+
+    /// <summary>
     /// The cell where component cost is displayed.
     /// </summary>
     [Space, Header("Component"), SerializeField]
@@ -176,6 +182,7 @@ public class ItemToProductPopUp : MonoBehaviour
                 }
                 break;
         }
+        _productionRatePicto.sprite = _currentComponentData.ComponentPicto;
 
         _componentCost.text = _currentComponentData.Cost.ToString();
         _componentCostCell.SetActive(true);
@@ -237,6 +244,7 @@ public class ItemToProductPopUp : MonoBehaviour
                 }
                 break;
         }
+        _productionRatePicto.sprite = _currentObjectData.ObjectPicto;
 
         List<Ingredient> recipe = _currentObjectData.Ingredients;
         for (int i = 0; i < recipe.Count; i++)

@@ -83,8 +83,11 @@ public class InteractionManager : MonoBehaviour
             {
                 if (CurrentEmployeeSelected != employee)
                 {
-                    CurrentRoomSelected = null;
-                    RoomUnselected?.Invoke();
+                    if (CurrentRoomSelected != null)
+                    {
+                        CurrentRoomSelected = null;
+                        RoomUnselected?.Invoke();
+                    }
 
                     CurrentEmployeeSelected = employee;
                     EmployeeSelected?.Invoke(employee);
@@ -94,8 +97,11 @@ public class InteractionManager : MonoBehaviour
             {
                 if (CurrentRoomSelected != room)
                 {
-                    CurrentEmployeeSelected = null;
-                    EmployeeUnselected?.Invoke();
+                    if (CurrentEmployeeSelected != null)
+                    {
+                        CurrentEmployeeSelected = null;
+                        EmployeeUnselected?.Invoke();
+                    }
 
                     CurrentRoomSelected = room;
                     RoomSelected?.Invoke(room);
@@ -103,20 +109,32 @@ public class InteractionManager : MonoBehaviour
             }
             else
             {
-                CurrentRoomSelected = null;
-                RoomUnselected?.Invoke();
+                if (CurrentRoomSelected != null)
+                {
+                    CurrentRoomSelected = null;
+                    RoomUnselected?.Invoke();
+                }
 
-                CurrentEmployeeSelected = null;
-                EmployeeUnselected?.Invoke();
+                if (CurrentEmployeeSelected != null)
+                {
+                    CurrentEmployeeSelected = null;
+                    EmployeeUnselected?.Invoke();
+                }
             }
         }
         else
         {
-            CurrentRoomSelected = null;
-            RoomUnselected?.Invoke();
+            if (CurrentRoomSelected != null)
+            {
+                CurrentRoomSelected = null;
+                RoomUnselected?.Invoke();
+            }
 
-            CurrentEmployeeSelected = null;
-            EmployeeUnselected?.Invoke();
+            if (CurrentEmployeeSelected != null)
+            {
+                CurrentEmployeeSelected = null;
+                EmployeeUnselected?.Invoke();
+            }
         }
     }
 
@@ -139,26 +157,41 @@ public class InteractionManager : MonoBehaviour
             // or if it's an object with a room component, trigger its event with datas of the room
             if (hit.collider.TryGetComponent<Employee>(out Employee employee))
             {
-                CurrentRoomSelected = null;
-                RoomUnselected?.Invoke();
+                if (CurrentRoomSelected != null)
+                {
+                    CurrentRoomSelected = null;
+                    RoomUnselected?.Invoke();
+                }
 
-                CurrentEmployeeSelected = employee;
-                EmployeeSelected?.Invoke(employee);
-                EmployeeStartDragAndDrop?.Invoke(employee);
+                if (CurrentEmployeeSelected == null)
+                {
+                    CurrentEmployeeSelected = employee;
+                    EmployeeSelected?.Invoke(employee);
+                    EmployeeStartDragAndDrop?.Invoke(employee);
+                }
             }
             else
             {
-                CurrentEmployeeSelected = null;
-                EmployeeUnselected?.Invoke();
+                if (CurrentEmployeeSelected != null)
+                {
+                    CurrentEmployeeSelected = null;
+                    EmployeeUnselected?.Invoke();
+                }
             }
         }
         else
         {
-            CurrentRoomSelected = null;
-            RoomUnselected?.Invoke();
+            if (CurrentRoomSelected != null)
+            {
+                CurrentRoomSelected = null;
+                RoomUnselected?.Invoke();
+            }
 
-            CurrentEmployeeSelected = null;
-            EmployeeUnselected?.Invoke();
+            if (CurrentEmployeeSelected != null)
+            {
+                CurrentEmployeeSelected = null;
+                EmployeeUnselected?.Invoke();
+            }
         }
     }
 
@@ -183,36 +216,57 @@ public class InteractionManager : MonoBehaviour
             {
                 if (CurrentEmployeeSelected == employee)
                 {
-                    CurrentRoomSelected = null;
-                    RoomUnselected?.Invoke();
+                    if (CurrentRoomSelected != null)
+                    {
+                        CurrentRoomSelected = null;
+                        RoomUnselected?.Invoke();
+                    }
 
                     EmployeeDragAndDrop?.Invoke(employee);
                 }
                 else
                 {
-                    CurrentRoomSelected = null;
-                    RoomUnselected?.Invoke();
+                    if (CurrentRoomSelected != null)
+                    {
+                        CurrentRoomSelected = null;
+                        RoomUnselected?.Invoke();
+                    }
 
-                    CurrentEmployeeSelected = null;
-                    EmployeeUnselected?.Invoke();
+                    if (CurrentEmployeeSelected != null)
+                    {
+                        CurrentEmployeeSelected = null;
+                        EmployeeUnselected?.Invoke();
+                    }
                 }
             }
             else
             {
-                CurrentRoomSelected = null;
-                RoomUnselected?.Invoke();
+                if (CurrentRoomSelected != null)
+                {
+                    CurrentRoomSelected = null;
+                    RoomUnselected?.Invoke();
+                }
 
-                CurrentEmployeeSelected = null;
-                EmployeeUnselected?.Invoke();
+                if (CurrentEmployeeSelected != null)
+                {
+                    CurrentEmployeeSelected = null;
+                    EmployeeUnselected?.Invoke();
+                }
             }
         }
         else
         {
-            CurrentRoomSelected = null;
-            RoomUnselected?.Invoke();
+            if (CurrentRoomSelected != null)
+            {
+                CurrentRoomSelected = null;
+                RoomUnselected?.Invoke();
+            }
 
-            CurrentEmployeeSelected = null;
-            EmployeeUnselected?.Invoke();
+            if (CurrentEmployeeSelected != null)
+            {
+                CurrentEmployeeSelected = null;
+                EmployeeUnselected?.Invoke();
+            }
         }
     }
 
@@ -239,15 +293,21 @@ public class InteractionManager : MonoBehaviour
             {
                 if (room == CurrentRoomSelected)
                 {
-                    CurrentEmployeeSelected = null;
-                    EmployeeUnselected?.Invoke();
+                    if (CurrentEmployeeSelected != null)
+                    {
+                        CurrentEmployeeSelected = null;
+                        EmployeeUnselected?.Invoke();
+                    }
 
                     RoomDoubleTap?.Invoke(room);
                 }
                 else
                 {
-                    CurrentEmployeeSelected = null;
-                    EmployeeUnselected?.Invoke();
+                    if (CurrentEmployeeSelected != null)
+                    {
+                        CurrentEmployeeSelected = null;
+                        EmployeeUnselected?.Invoke();
+                    }
 
                     CurrentRoomSelected = room;
                     RoomSelected?.Invoke(room);
@@ -255,20 +315,26 @@ public class InteractionManager : MonoBehaviour
             }
             else
             {
-                CurrentRoomSelected = null;
-                RoomUnselected?.Invoke();
-
-                CurrentEmployeeSelected = null;
-                EmployeeUnselected?.Invoke();
+                if (CurrentRoomSelected != null)
+                {
+                    CurrentRoomSelected = null;
+                    RoomUnselected?.Invoke();
+                }
             }
         }
         else
         {
-            CurrentRoomSelected = null;
-            RoomUnselected?.Invoke();
+            if (CurrentRoomSelected != null)
+            {
+                CurrentRoomSelected = null;
+                RoomUnselected?.Invoke();
+            }
 
-            CurrentEmployeeSelected = null;
-            EmployeeUnselected?.Invoke();
+            if (CurrentEmployeeSelected != null)
+            {
+                CurrentEmployeeSelected = null;
+                EmployeeUnselected?.Invoke();
+            }
         }
     }
 }
