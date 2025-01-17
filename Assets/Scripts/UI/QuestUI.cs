@@ -10,15 +10,16 @@ public class QuestUI : MonoBehaviour
     [field: SerializeField] private TextMeshProUGUI _questNameText;
     [field: SerializeField] private TextMeshProUGUI _questDescriptionText;
     [field: SerializeField] private TextMeshProUGUI _questObjectifText;
+    [field: SerializeField] private TextMeshProUGUI _questPSText;
 
     [Space, Header("Info current quest")]
     [field: SerializeField] private GameObject _currentQuestTextParent;
     private List<TextMeshProUGUI> _nameCurrentQuestTextList = new List<TextMeshProUGUI>();
     private List<TextMeshProUGUI> _objectifCurrentQuestTextList = new List<TextMeshProUGUI>();
+    private List<TextMeshProUGUI> _PSCurrentQuestTextList = new List<TextMeshProUGUI>();
 
     [Space, Header("Complited quest")]
-    [field: SerializeField] private GameObject _buttonQuestComplited;
-    private List<GameObject> _buttonQuestComplitedList = new List<GameObject>();
+    [field: SerializeField] private List<GameObject> _buttonQuestComplitedList = new List<GameObject>();
 
     [Space, Header("Complited quest")]
     [SerializeField] private GameObject _warningQuestPopUp;
@@ -30,10 +31,7 @@ public class QuestUI : MonoBehaviour
         {
             _nameCurrentQuestTextList.Add(_currentQuestTextParent.transform.GetChild(i).GetComponentInChildren<TextMeshProUGUI>());
             _objectifCurrentQuestTextList.Add(_currentQuestTextParent.transform.GetChild(i).GetChild(0).GetComponentInChildren<TextMeshProUGUI>());
-        }
-        for (int j = 0; j < _buttonQuestComplited.transform.childCount; j++)
-        {
-            _buttonQuestComplitedList.Add(_buttonQuestComplited.transform.GetChild(j).gameObject);
+            _PSCurrentQuestTextList.Add(_currentQuestTextParent.transform.GetChild(i).GetChild(1).GetComponentInChildren<TextMeshProUGUI>());
         }
 
         QuestManager.Instance.NewQuestGenerate += ShowQuestInfo;
@@ -55,6 +53,7 @@ public class QuestUI : MonoBehaviour
 
         _questNameText.text = _actualQuest.Name;
         _questDescriptionText.text = _actualQuest.Description;
+        _questPSText.text = _actualQuest.PSWin.ToString();
 
         if (_quest.NumberOfComponent.Count != 0)
         {
@@ -140,14 +139,19 @@ public class QuestUI : MonoBehaviour
     {
         for (int i = 0; i < QuestManager.Instance.CurrentQuestList.Count; i++)
         {
+            RectTransform rect = _objectifCurrentQuestTextList[i].GetComponent(typeof(RectTransform)) as RectTransform;
+
             QuestData _currentQuest = QuestManager.Instance.CurrentQuestList[i];
             _nameCurrentQuestTextList[i].text = _currentQuest.Name;
+            _PSCurrentQuestTextList[i].text= _currentQuest.PSWin.ToString();
 
             if (_currentQuest.NumberOfComponent.Count == 1)
             {
                 _objectifCurrentQuestTextList[i].text =
                     $"{ItemStorage.Instance.ReturnNumberOfThisComponent(_currentQuest.Component[0])} " +
                     $"/ {_currentQuest.NumberOfComponent[0]} {_currentQuest.Component[0].Name}";
+                rect.sizeDelta = new Vector2(rect.sizeDelta.x, 80);
+
             }
             if (_currentQuest.Component.Count == 2)
             {
@@ -200,11 +204,14 @@ public class QuestUI : MonoBehaviour
     /// Update the actual quest and there avancement with the actual storage of this object type
     /// </summary>
     public void UpdateCurrentAdvancementQuestObject()
-    {
+    { 
         for (int i = 0; i < QuestManager.Instance.CurrentQuestList.Count; i++)
         {
+            RectTransform rect = _objectifCurrentQuestTextList[i].GetComponent(typeof(RectTransform)) as RectTransform;
+
             QuestData _currentQuest = QuestManager.Instance.CurrentQuestList[i];
             _nameCurrentQuestTextList[i].text = _currentQuest.Name;
+            _PSCurrentQuestTextList[i].text = _currentQuest.PSWin.ToString();
 
             if (_currentQuest.NumberOfObject.Count == 1)
             {
