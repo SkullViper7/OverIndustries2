@@ -346,7 +346,7 @@ public class RoomNotifiction : MonoBehaviour
         _gaugeFillAmount.fillAmount = 0f;
         _gaugeObject.SetActive(true);
 
-        UpdateProductionCount(((MachiningRoom)_currentRoom.RoomBehaviour).CurrentAmountInInternalStorage);
+        UpdateProductionCount(((AssemblyRoom)_currentRoom.RoomBehaviour).CurrentAmountInInternalStorage);
 
         CheckItemStorage(0);
     }
