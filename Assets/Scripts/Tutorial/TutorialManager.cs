@@ -34,17 +34,9 @@ public class TutorialManager : MonoBehaviour
     public event System.Action OnTutorialShowBackground;
     public event System.Action OnTutorialContinuePopUp;
 
-    private bool _research = false;
-
     void Start()
     {
         ShowTutorialStep();
-
-        if(_research)
-        {
-            _roomResearch.GetComponent<ResearchRoom>().ResearchStart += ConditionIsMet;
-            _roomResearch.GetComponent<ResearchRoom>().ResearchValidate += ConditionIsMet;
-        }
     }
 
     /// <summary>
@@ -132,19 +124,13 @@ public class TutorialManager : MonoBehaviour
                     OnTutorialImageStep?.Invoke(17);
                     OnTutorialImageStep?.Invoke(19);
                     OnTutorialImageStep?.Invoke(20);
-
-                    _research = true;
                     break;
                 case 16:
-                    _research = true;
-
                     OnTutorialShowBackground?.Invoke();
 
                     OnTutorialImageHide?.Invoke();
                     OnTutorialImageStep?.Invoke(21);
                     OnTutorialImageStep?.Invoke(22);
-
-                    _research = true;
                     break;
                 case 17:
                     OnTutorialShowBackground?.Invoke();
@@ -293,11 +279,8 @@ public class TutorialManager : MonoBehaviour
                     OnTutorialImageHide?.Invoke();
                     OnTutorialHideBackground?.Invoke();
 
-                    //if (_isConditionIsMet)
-                    //{
-                        _isConditionIsMet = false;
-                        _canContinue = true;
-                    //}
+                    _roomResearch.GetComponent<ResearchRoom>().ResearchValidate += ConditionIsMet;
+                    if (_isConditionIsMet) { _isConditionIsMet = false; _canContinue = true; }
                     break;
                 case 17:
                     OnTutorialImageHide?.Invoke();
@@ -346,6 +329,13 @@ public class TutorialManager : MonoBehaviour
                     break;
             }
         }
+    }
+
+    private IEnumerator WaitForSeconds(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+
+        _canContinue = true;
     }
 
     void ConditionIsMet()
