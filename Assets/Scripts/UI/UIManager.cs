@@ -258,4 +258,14 @@ public class UIManager : MonoBehaviour
         GameManager.Instance.CloseUI();
         _depthOfField.aperture.value = 32;
     }
+
+    public void StartConstruction()
+    {
+        GameManager.Instance.StartConstruction();
+    }
+
+    public void StopConstruction()
+    {
+        GameManager.Instance.StopConstruction();
+    }
 }

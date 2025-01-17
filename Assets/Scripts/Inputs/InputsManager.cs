@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -63,23 +64,29 @@ public class InputsManager : MonoBehaviour
                 switch (context.action.name)
                 {
                     case "Tap":
-                        if (context.performed)
+                        if (!GameManager.Instance.IsInConstruction)
                         {
-                            if (!IsPointerOverUI(Touchscreen.current.primaryTouch.position.ReadValue()))
+                            if (context.performed)
                             {
-                                Tap?.Invoke();
-                                TapContext?.Invoke(context);
+                                if (!IsPointerOverUI(Touchscreen.current.primaryTouch.position.ReadValue()))
+                                {
+                                    Tap?.Invoke();
+                                    TapContext?.Invoke(context);
+                                }
                             }
                         }
                         break;
 
                     case "DoubleTap":
-                        if (context.performed)
+                        if (!GameManager.Instance.IsInConstruction)
                         {
-                            if (!IsPointerOverUI(Touchscreen.current.primaryTouch.position.ReadValue()))
+                            if (context.performed)
                             {
-                                DoubleTap?.Invoke();
-                                DoubleTapContext?.Invoke(context);
+                                if (!IsPointerOverUI(Touchscreen.current.primaryTouch.position.ReadValue()))
+                                {
+                                    DoubleTap?.Invoke();
+                                    DoubleTapContext?.Invoke(context);
+                                }
                             }
                         }
                         break;
@@ -133,20 +140,23 @@ public class InputsManager : MonoBehaviour
                         break;
 
                     case "DragAndDrop0":
-                        if (context.started)
+                        if (!GameManager.Instance.IsInConstruction)
                         {
-                            if (!IsPointerOverUI(Touchscreen.current.primaryTouch.position.ReadValue()))
+                            if (context.started)
                             {
-                                DragAndDropStarted?.Invoke();
+                                if (!IsPointerOverUI(Touchscreen.current.primaryTouch.position.ReadValue()))
+                                {
+                                    DragAndDropStarted?.Invoke();
+                                }
                             }
-                        }
-                        else if (context.performed)
-                        {
-                            DragAndDropPerformed?.Invoke();
-                        }
-                        else if (context.canceled)
-                        {
-                            DragAndDropCanceled?.Invoke();
+                            else if (context.performed)
+                            {
+                                DragAndDropPerformed?.Invoke();
+                            }
+                            else if (context.canceled)
+                            {
+                                DragAndDropCanceled?.Invoke();
+                            }
                         }
                         break;
                 }

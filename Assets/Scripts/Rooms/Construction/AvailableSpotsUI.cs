@@ -40,6 +40,8 @@ public class AvailableSpotsUI : MonoBehaviour
     /// </summary>
     private int _constructionCost;
 
+    [SerializeField]
+    private GameObject _selectedUI;
     private GameObject _notificationContainer;
 
     private void Start()
@@ -65,8 +67,10 @@ public class AvailableSpotsUI : MonoBehaviour
     /// <param name="availableSpots"> Position where the room is placable. </param>
     private void ShowAvailableSpots(RoomData roomData, IRoomBehaviourData roomBehaviourData, List<Vector2> availableSpots)
     {
+        UIManager.Instance.StartConstruction();
         _HUD.SetActive(false);
         _notificationContainer.SetActive(false);
+        _selectedUI.SetActive(false);
 
         _constructionCost = roomData.ConstructionCost;
 
@@ -110,5 +114,7 @@ public class AvailableSpotsUI : MonoBehaviour
         _constructionUI.SetActive(false);
         _HUD.SetActive(true);
         _notificationContainer.SetActive(true);
+        _selectedUI.SetActive(true);
+        UIManager.Instance.StopConstruction();
     }
 }
