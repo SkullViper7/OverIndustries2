@@ -43,9 +43,8 @@ public class TutorialManager : MonoBehaviour
         if(_research)
         {
             _roomResearch.GetComponent<ResearchRoom>().ResearchStart += ConditionIsMet;
-            _roomResearch.GetComponent<ResearchRoom>().ResearchCompleted += ConditionIsMet;
+            _roomResearch.GetComponent<ResearchRoom>().ResearchValidate += ConditionIsMet;
         }
-
     }
 
     /// <summary>
@@ -137,6 +136,8 @@ public class TutorialManager : MonoBehaviour
                     _research = true;
                     break;
                 case 16:
+                    _research = true;
+
                     OnTutorialShowBackground?.Invoke();
 
                     OnTutorialImageHide?.Invoke();
@@ -292,13 +293,11 @@ public class TutorialManager : MonoBehaviour
                     OnTutorialImageHide?.Invoke();
                     OnTutorialHideBackground?.Invoke();
 
-                    Debug.Log(_isConditionIsMet);
-
-                    if (_isConditionIsMet)
-                    {
+                    //if (_isConditionIsMet)
+                    //{
                         _isConditionIsMet = false;
                         _canContinue = true;
-                    }
+                    //}
                     break;
                 case 17:
                     OnTutorialImageHide?.Invoke();
@@ -342,13 +341,6 @@ public class TutorialManager : MonoBehaviour
 
                     }
                     break;
-                //case 26:
-                //    if (prod lancé)
-                //    {
-                //        _canContinue = true;
-                //    }
-                //    break;
-                // faire une production
                 default:
                     _canContinue = true;
                     break;
