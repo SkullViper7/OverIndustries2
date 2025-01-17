@@ -77,12 +77,26 @@ public class DirectorRoom : MonoBehaviour, IRoomBehaviour
     {
         if (RoomMain.EmployeeAssign.Count < RoomMain.RoomData.Capacity)
         {
+            _jobProfileGenerator.ResetForNewOtherProfile();
+            _jobProfileGenerator.ResetForNewProductProfile();
+
             for (int i = 0; RecrutementList.Count < 5; i++)
             {
-                _newEmployee = ObjectPoolManager.Instance.GetObjectInPool(PoolEmployeeID);
-                RecrutementList.Add(_newEmployee);
+                if(RecrutementList.Count < 3)
+                {
+                    _newEmployee = ObjectPoolManager.Instance.GetObjectInPool(PoolEmployeeID);
+                    RecrutementList.Add(_newEmployee);
 
-                _jobProfileGenerator.GenerateProfile(_newEmployee.GetComponent<Employee>());
+                    _jobProfileGenerator.GenerateOtherProfile(_newEmployee.GetComponent<Employee>());
+                }
+                else
+                {
+                    _newEmployee = ObjectPoolManager.Instance.GetObjectInPool(PoolEmployeeID);
+                    RecrutementList.Add(_newEmployee);
+
+                    _jobProfileGenerator.GenerateProductProfile(_newEmployee.GetComponent<Employee>());
+                }
+                
             }
         }
     }
@@ -94,7 +108,7 @@ public class DirectorRoom : MonoBehaviour, IRoomBehaviour
 
     private void UpdateDirectorRoom(int newLvl)
     {
-        switch(newLvl)
+        switch (newLvl)
         {
             case 1:
                 //PourcentageHasTwoJob = DirectorRoomData.PourcentageHasTwoJobAtLvl1;

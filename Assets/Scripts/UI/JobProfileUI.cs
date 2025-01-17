@@ -115,7 +115,7 @@ public class JobProfileUI : MonoBehaviour
     {
         if (_directorRoom.RoomMain.EmployeeAssign.Count < _directorRoom.RoomMain.RoomData.Capacity)
         {
-            ShowName();
+            ShowNameAndRoom();
             ShowJob();
             _jobProfileHired.SetActive(true);
 
@@ -177,7 +177,7 @@ public class JobProfileUI : MonoBehaviour
         }
     }
 
-    public void ShowName()
+    public void ShowNameAndRoom()
     {
         for (int i = 0; i < _directorRoom.RecrutementList.Count; i++)
         {

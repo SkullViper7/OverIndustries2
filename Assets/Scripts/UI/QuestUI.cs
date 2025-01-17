@@ -173,7 +173,7 @@ public class QuestUI : MonoBehaviour
                     $"\n{ItemStorage.Instance.ReturnNumberOfThisComponent(_currentQuest.Component[2])} " +
                     $"/ {_currentQuest.NumberOfComponent[2]} {_currentQuest.Component[2].Name}" +
                     $"\n{ItemStorage.Instance.ReturnNumberOfThisComponent(_currentQuest.Component[3])} " +
-                    $"/ {_currentQuest.Component[3]} {_currentQuest.Component[3].Name}";
+                    $"/ {_currentQuest.NumberOfComponent[3]} {_currentQuest.Component[3].Name}";
                 rect.sizeDelta = new Vector2(rect.sizeDelta.x, 160);
 
             }

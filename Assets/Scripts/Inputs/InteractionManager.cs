@@ -87,6 +87,7 @@ public class InteractionManager : MonoBehaviour
                     RoomUnselected?.Invoke();
 
                     CurrentEmployeeSelected = employee;
+                    employee.IsSelected = true;
                     EmployeeSelected?.Invoke(employee);
                 }
             }
