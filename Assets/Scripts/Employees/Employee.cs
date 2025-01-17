@@ -55,6 +55,8 @@ public class Employee : MonoBehaviour
     [SerializeField]
     private List<SpriteRenderer> _sprites;
 
+    public bool IsSelected;
+
     private void Start()
     {
         if (gameObject.transform.GetChild(0).gameObject.activeInHierarchy)
@@ -77,7 +79,7 @@ public class Employee : MonoBehaviour
     /// </summary>
     public void SetRoutineParameter()
     {
-        if (IsHired)
+        if (IsHired && !IsSelected)
         {
             gameObject.transform.Rotate(Vector3.zero);
 
@@ -134,7 +136,7 @@ public class Employee : MonoBehaviour
     /// </summary>
     public void RandomWayPoint()
     {
-        if (_navMeshAgent.enabled)
+        if (_navMeshAgent.enabled && !IsSelected)
         {
             if (!GameManager.Instance.InDragAndDrop && !_navMeshAgent.hasPath && IsHired)
             {
@@ -202,7 +204,7 @@ public class Employee : MonoBehaviour
 
     public void SetWalkAnimation()
     {
-        if (!GameManager.Instance.InDragAndDrop)
+        if (!GameManager.Instance.InDragAndDrop && !IsSelected)
         {
             _animator.SetTrigger("Walk");
         }
