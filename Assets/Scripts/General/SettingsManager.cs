@@ -44,7 +44,7 @@ public class SettingsManager : MonoBehaviour
         }
         else
         {
-            ActivateLowSetting(true);
+            ActivateLowSetting(false);
         }
 
         if (PlayerPrefs.HasKey("MusicVolume"))
