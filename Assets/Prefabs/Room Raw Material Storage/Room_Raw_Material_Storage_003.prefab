@@ -367,7 +367,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <_interactTriggerAnimation>k__BackingField:
-  - BaseInteract
+  - Idle
   - ShematicsCheck
 --- !u!1 &3689463110319344932
 GameObject:
@@ -464,7 +464,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <_interactTriggerAnimation>k__BackingField:
-  - BaseInteract
+  - Idle
   - ShematicsCheck
 --- !u!1 &5118975127220922701
 GameObject:
@@ -494,7 +494,7 @@ Transform:
   m_GameObject: {fileID: 5118975127220922701}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 10.92, y: 0.5, z: 6.22}
+  m_LocalPosition: {x: 10.92, y: 0.5, z: 0.98}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -561,8 +561,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <_interactTriggerAnimation>k__BackingField:
-  - BaseInteract
-  - ShematicsCheck
+  - Idle
 --- !u!1 &6808334769789872691
 GameObject:
   m_ObjectHideFlags: 0
