@@ -13,8 +13,8 @@ public class RoomNotificationManager : MonoBehaviour
     [SerializeField]
     private GameObject _notificationPrefab;
 
-    [SerializeField]
-    private Transform _notificationsContainer;
+    [field : SerializeField]
+    public Transform NotificationsContainer { get; private set; }
 
     /// <summary>
     /// Id of the pool where notifications are stocked.
@@ -55,7 +55,7 @@ public class RoomNotificationManager : MonoBehaviour
         // Get a notification
         GameObject notification = ObjectPoolManager.Instance.GetObjectInPool(_notificationsPoolID);
         _notifications.Add(notification);
-        notification.GetComponent<RectTransform>().SetParent(_notificationsContainer);
+        notification.GetComponent<RectTransform>().SetParent(NotificationsContainer);
         notification.SetActive(true);
         notification.GetComponent<RoomNotifiction>().InitNotification(room);
 
