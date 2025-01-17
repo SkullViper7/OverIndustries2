@@ -49,7 +49,7 @@ public class ResearchRoom : MonoBehaviour, IRoomBehaviour
     /// </summary>
     private Room.EmployeeDelegate _researchOnHold;
 
-    public event Action ResearchStart, ResearchCompleted, ResearchCantStart;
+    public event Action ResearchStart, ResearchCompleted, ResearchCantStart, ResearchValidate;
     public event Action<int> NewChrono;
     public event Action<ComponentData> ComponentResearchStarted, ComponentResearchStoped, ComponentResearchCompleted;
     public event Action<ObjectData> ObjectResearchStarted, ObjectResearchStoped, ObjectResearchCompleted;
@@ -238,11 +238,13 @@ public class ResearchRoom : MonoBehaviour, IRoomBehaviour
         if (CurrentComponentResearched != null)
         {
             ComponentResearchCompleted?.Invoke(CurrentComponentResearched);
+            ResearchValidate?.Invoke();
             StopResearch();
         }
         else if (CurrentObjectResearched != null)
         {
             ObjectResearchCompleted?.Invoke(CurrentObjectResearched);
+            ResearchValidate?.Invoke();
             StopResearch();
         }
     }
