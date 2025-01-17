@@ -13,10 +13,9 @@ public class QuestUI : MonoBehaviour
     [field: SerializeField] private TextMeshProUGUI _questPSText;
 
     [Space, Header("Info current quest")]
-    [field: SerializeField] private GameObject _currentQuestTextParent;
-    private List<TextMeshProUGUI> _nameCurrentQuestTextList = new List<TextMeshProUGUI>();
-    private List<TextMeshProUGUI> _objectifCurrentQuestTextList = new List<TextMeshProUGUI>();
-    private List<TextMeshProUGUI> _PSCurrentQuestTextList = new List<TextMeshProUGUI>();
+    [field: SerializeField] private List<TextMeshProUGUI> _nameCurrentQuestTextList;
+    [field: SerializeField] private List<TextMeshProUGUI> _objectifCurrentQuestTextList;
+    [field: SerializeField] private List<TextMeshProUGUI> _PSCurrentQuestTextList;
 
     [Space, Header("Complited quest")]
     [field: SerializeField] private List<GameObject> _buttonQuestComplitedList = new List<GameObject>();
@@ -27,13 +26,6 @@ public class QuestUI : MonoBehaviour
 
     void Start()
     {
-        for (int i = 0; i < _currentQuestTextParent.transform.childCount; i++)
-        {
-            _nameCurrentQuestTextList.Add(_currentQuestTextParent.transform.GetChild(i).GetComponentInChildren<TextMeshProUGUI>());
-            _objectifCurrentQuestTextList.Add(_currentQuestTextParent.transform.GetChild(i).GetChild(0).GetComponentInChildren<TextMeshProUGUI>());
-            _PSCurrentQuestTextList.Add(_currentQuestTextParent.transform.GetChild(i).GetChild(1).GetComponentInChildren<TextMeshProUGUI>());
-        }
-
         QuestManager.Instance.NewQuestGenerate += ShowQuestInfo;
         QuestManager.Instance.UpdateAdvancementQuest += UpdateCurrentAdvancementQuestComponent;
         QuestManager.Instance.UpdateAdvancementQuest += UpdateCurrentAdvancementQuestObject;
@@ -93,8 +85,6 @@ public class QuestUI : MonoBehaviour
         {
             if (_quest.NumberOfObject.Count == 1)
             {
-                Debug.Log("quest " + _quest.NumberOfObject.Count);
-
                 _questObjectifText.text = $"{_questObjectifText.text} {_quest.NumberOfObject[0]} {_quest.Objects[0].Name}";
             }
             if (_quest.NumberOfObject.Count == 2)
@@ -129,7 +119,6 @@ public class QuestUI : MonoBehaviour
     public void QuestRefuse()
     {
         _questObjectifText.text = "";
-        Debug.Log("Quest refuse");
     }
 
     /// <summary>
@@ -143,15 +132,14 @@ public class QuestUI : MonoBehaviour
 
             QuestData _currentQuest = QuestManager.Instance.CurrentQuestList[i];
             _nameCurrentQuestTextList[i].text = _currentQuest.Name;
-            _PSCurrentQuestTextList[i].text= _currentQuest.PSWin.ToString();
+            _PSCurrentQuestTextList[i].gameObject.transform.parent.gameObject.SetActive(true);
+            _PSCurrentQuestTextList[i].text = _currentQuest.PSWin.ToString();
 
             if (_currentQuest.NumberOfComponent.Count == 1)
             {
                 _objectifCurrentQuestTextList[i].text =
                     $"{ItemStorage.Instance.ReturnNumberOfThisComponent(_currentQuest.Component[0])} " +
                     $"/ {_currentQuest.NumberOfComponent[0]} {_currentQuest.Component[0].Name}";
-                rect.sizeDelta = new Vector2(rect.sizeDelta.x, 80);
-
             }
             if (_currentQuest.Component.Count == 2)
             {
@@ -160,6 +148,8 @@ public class QuestUI : MonoBehaviour
                     $"/ {_currentQuest.NumberOfComponent[0]} {_currentQuest.Component[0].Name} " +
                     $"\n{ItemStorage.Instance.ReturnNumberOfThisComponent(_currentQuest.Component[1])} " +
                     $"/ {_currentQuest.NumberOfComponent[1]} {_currentQuest.Component[1].Name}";
+                rect.sizeDelta = new Vector2(rect.sizeDelta.x, 80);
+
             }
             if (_currentQuest.NumberOfComponent.Count == 3)
             {
@@ -170,6 +160,8 @@ public class QuestUI : MonoBehaviour
                     $"/ {_currentQuest.NumberOfComponent[1]} {_currentQuest.Component[1].Name} " +
                     $"\n{ItemStorage.Instance.ReturnNumberOfThisComponent(_currentQuest.Component[2])} " +
                     $"/ {_currentQuest.NumberOfComponent[2]} {_currentQuest.Component[2].Name}";
+                rect.sizeDelta = new Vector2(rect.sizeDelta.x, 120);
+
             }
             if (_currentQuest.NumberOfComponent.Count == 4)
             {
@@ -182,6 +174,8 @@ public class QuestUI : MonoBehaviour
                     $"/ {_currentQuest.NumberOfComponent[2]} {_currentQuest.Component[2].Name}" +
                     $"\n{ItemStorage.Instance.ReturnNumberOfThisComponent(_currentQuest.Component[3])} " +
                     $"/ {_currentQuest.Component[3]} {_currentQuest.Component[3].Name}";
+                rect.sizeDelta = new Vector2(rect.sizeDelta.x, 160);
+
             }
             if (_currentQuest.NumberOfComponent.Count == 5)
             {
@@ -196,6 +190,8 @@ public class QuestUI : MonoBehaviour
                     $"/ {_currentQuest.NumberOfComponent[3]} {_currentQuest.Component[3].Name}" +
                     $"\n{ItemStorage.Instance.ReturnNumberOfThisComponent(_currentQuest.Component[4])} " +
                     $"/ {_currentQuest.NumberOfComponent[4]} {_currentQuest.Component[4].Name}";
+                rect.sizeDelta = new Vector2(rect.sizeDelta.x, 200);
+
             }
         }
     }
@@ -204,13 +200,14 @@ public class QuestUI : MonoBehaviour
     /// Update the actual quest and there avancement with the actual storage of this object type
     /// </summary>
     public void UpdateCurrentAdvancementQuestObject()
-    { 
+    {
         for (int i = 0; i < QuestManager.Instance.CurrentQuestList.Count; i++)
         {
             RectTransform rect = _objectifCurrentQuestTextList[i].GetComponent(typeof(RectTransform)) as RectTransform;
 
             QuestData _currentQuest = QuestManager.Instance.CurrentQuestList[i];
             _nameCurrentQuestTextList[i].text = _currentQuest.Name;
+            _PSCurrentQuestTextList[i].gameObject.transform.parent.gameObject.SetActive(true);
             _PSCurrentQuestTextList[i].text = _currentQuest.PSWin.ToString();
 
             if (_currentQuest.NumberOfObject.Count == 1)
@@ -218,6 +215,11 @@ public class QuestUI : MonoBehaviour
                 _objectifCurrentQuestTextList[i].text =
                     $"{_objectifCurrentQuestTextList[i].text} {ItemStorage.Instance.ReturnNumberOfThisObject(_currentQuest.Objects[0])} " +
                     $"/ {_currentQuest.NumberOfObject[0]} {_currentQuest.Objects[0].Name}";
+                
+                if (_objectifCurrentQuestTextList[i].text != "")
+                {
+                    rect.sizeDelta = new Vector2(rect.sizeDelta.x, rect.sizeDelta.x + 40);
+                }
             }
             if (_currentQuest.NumberOfObject.Count == 2)
             {
@@ -226,6 +228,8 @@ public class QuestUI : MonoBehaviour
                     $"/ {_currentQuest.NumberOfObject[0]} {_currentQuest.Objects[0].Name} " +
                     $"\n{ItemStorage.Instance.ReturnNumberOfThisObject(_currentQuest.Objects[1])} " +
                     $"/ {_currentQuest.NumberOfObject[1]} {_currentQuest.Objects[1].Name}";
+                rect.sizeDelta = new Vector2(rect.sizeDelta.x, rect.sizeDelta.x + 80);
+
             }
             if (_currentQuest.NumberOfObject.Count == 3)
             {
@@ -236,6 +240,8 @@ public class QuestUI : MonoBehaviour
                     $"/ {_currentQuest.NumberOfObject[1]} {_currentQuest.Objects[1].Name} " +
                     $"\n{ItemStorage.Instance.ReturnNumberOfThisObject(_currentQuest.Objects[2])} " +
                     $"/ {_currentQuest.NumberOfObject[2]} {_currentQuest.Objects[2].Name}";
+                rect.sizeDelta = new Vector2(rect.sizeDelta.x, rect.sizeDelta.x + 120);
+
             }
         }
     }
