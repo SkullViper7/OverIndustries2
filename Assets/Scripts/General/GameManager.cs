@@ -29,9 +29,14 @@ public class GameManager : MonoBehaviour
     public bool UIIsOpen { get; private set; }
 
     /// <summary>
-    /// True if the player drag and drop an employee
+    /// True if the player drag and drop an employee.
     /// </summary>
     public bool InDragAndDrop { get; private set; }
+
+    /// <summary>
+    /// True if the player is building a new room.
+    /// </summary>
+    public bool IsInConstruction { get; private set; }
 
     private void Awake()
     {
@@ -82,5 +87,17 @@ public class GameManager : MonoBehaviour
     public void StopDragAndDrop()
     {
         InDragAndDrop = false;
+    }
+
+    public void StartConstruction()
+    {
+        IsInConstruction = true;
+        PauseGame();
+    }
+
+    public void StopConstruction()
+    {
+        IsInConstruction = false;
+        ResumeGame();
     }
 }

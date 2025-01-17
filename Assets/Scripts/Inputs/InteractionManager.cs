@@ -148,9 +148,6 @@ public class InteractionManager : MonoBehaviour
             }
             else
             {
-                CurrentRoomSelected = null;
-                RoomUnselected?.Invoke();
-
                 CurrentEmployeeSelected = null;
                 EmployeeUnselected?.Invoke();
             }

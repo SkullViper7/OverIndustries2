@@ -40,11 +40,14 @@ public class AvailableSpotsUI : MonoBehaviour
     /// </summary>
     private int _constructionCost;
 
+    private GameObject _notificationContainer;
+
     private void Start()
     {
         _HUD = UIManager.Instance.HUD;
         _constructionUI = UIManager.Instance.ConstructionUI;
         _cancelConstructionButton = UIManager.Instance.CancelConstructionButton;
+        _notificationContainer = GetComponent<RoomNotificationManager>().NotificationsContainer.gameObject;
 
         _cancelConstructionButton.onClick.AddListener(CloseUI);
 
@@ -62,6 +65,9 @@ public class AvailableSpotsUI : MonoBehaviour
     /// <param name="availableSpots"> Position where the room is placable. </param>
     private void ShowAvailableSpots(RoomData roomData, IRoomBehaviourData roomBehaviourData, List<Vector2> availableSpots)
     {
+        _HUD.SetActive(false);
+        _notificationContainer.SetActive(false);
+
         _constructionCost = roomData.ConstructionCost;
 
         for (int i = 0; i < availableSpots.Count; i++)
@@ -103,5 +109,6 @@ public class AvailableSpotsUI : MonoBehaviour
 
         _constructionUI.SetActive(false);
         _HUD.SetActive(true);
+        _notificationContainer.SetActive(true);
     }
 }
