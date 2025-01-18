@@ -91,6 +91,8 @@ public class InteractionManager : MonoBehaviour
 
                     CurrentEmployeeSelected = employee;
                     employee.IsSelected = true;
+                    employee.StopRoutine();
+
                     EmployeeSelected?.Invoke(employee);
                 }
             }
@@ -101,6 +103,8 @@ public class InteractionManager : MonoBehaviour
                     if (CurrentEmployeeSelected != null)
                     {
                         CurrentEmployeeSelected = null;
+                        employee.IsSelected = false;
+                        employee.RandomWayPoint();
                         EmployeeUnselected?.Invoke();
                     }
 
@@ -167,6 +171,8 @@ public class InteractionManager : MonoBehaviour
                 if (CurrentEmployeeSelected == null)
                 {
                     CurrentEmployeeSelected = employee;
+                    employee.IsSelected = true;
+                    employee.StopRoutine();
                     EmployeeSelected?.Invoke(employee);
                     EmployeeStartDragAndDrop?.Invoke(employee);
                 }
@@ -175,6 +181,8 @@ public class InteractionManager : MonoBehaviour
             {
                 if (CurrentEmployeeSelected != null)
                 {
+                    employee.IsSelected = false;
+                    employee.RandomWayPoint();
                     CurrentEmployeeSelected = null;
                     EmployeeUnselected?.Invoke();
                 }
@@ -190,6 +198,8 @@ public class InteractionManager : MonoBehaviour
 
             if (CurrentEmployeeSelected != null)
             {
+                CurrentEmployeeSelected.IsSelected = false;
+                CurrentEmployeeSelected.RandomWayPoint();
                 CurrentEmployeeSelected = null;
                 EmployeeUnselected?.Invoke();
             }
