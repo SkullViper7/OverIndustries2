@@ -7,8 +7,10 @@ public class JobProfileGenerator : MonoBehaviour
     private static JobProfileGenerator _instance = null;
     public static JobProfileGenerator Instance => _instance;
 
-    [field: SerializeField, Tooltip("Tout les métier sauf technicien de maintenace")] public List<JobData> JobsListSave;
-    private List<JobData> _jobsList = new List<JobData>();
+    [field: SerializeField, Tooltip("Tout les métiers de production !")] public List<JobData> ProductionJobs;
+    [field: SerializeField, Tooltip("Tout les autres métiers")] public List<JobData> OtherJobs;
+    private List<JobData> _jobsProductionList = new List<JobData>();
+    private List<JobData> _jobsOtherList = new List<JobData>();
 
     [field: SerializeField] public List<string> RandomNameList { get; private set; }
 
@@ -43,18 +45,17 @@ public class JobProfileGenerator : MonoBehaviour
     /// <summary>
     /// Generate random name + random number of jobs
     /// </summary>
-    public void GenerateProfile(Employee employee)
+    public void GenerateProductProfile(Employee employee)
     {
         _employeeGenerate = employee;
-        ResetForNewProfile();
 
         //Random Name
-        int i = Random.Range(0, RandomNameList.Count);
-        _name = RandomNameList[i];
+        int n = Random.Range(0, RandomNameList.Count);
+        _name = RandomNameList[n];
         _employeeGenerate.EmployeeName = _name;
 
         //Calcule pourcentage d'avoir tant de jobs
-        int k = Random.Range(0, 100);
+        //int k = Random.Range(0, 100);
 
         //if (k < _directorRoom.PourcentageHasThreeJob)
         //{
@@ -68,37 +69,83 @@ public class JobProfileGenerator : MonoBehaviour
         //}
         //else
         //{
-            _numberOfJob = 1;
-            RandomJob(_numberOfJob);
+        _numberOfJob = 1;
+        RandomProductJob(_numberOfJob);
         //}
+    }
+
+    /// <summary>
+    /// Generate random name + random number of jobs
+    /// </summary>
+    public void GenerateOtherProfile(Employee employee)
+    {
+        _employeeGenerate = employee;
+
+        //Random Name
+        int n = Random.Range(0, RandomNameList.Count);
+        _name = RandomNameList[n];
+        _employeeGenerate.EmployeeName = _name;
+
+        _numberOfJob = 1;
+        RandomOtherJob(_numberOfJob);
+
     }
 
     /// <summary>
     /// Add random job to employee, with number of jobs
     /// </summary>
     /// <param name="_numberOfJobs"></param>
-    public void RandomJob(int _numberOfJobs)
+    public void RandomProductJob(int _numberOfJobs)
     {
         for (int i = 0; i < _numberOfJobs; i++)
         {
-            int _job = Random.Range(0, _jobsList.Count);
-            _employeeGenerate.EmployeeJob.Add(_jobsList[_job]);
+            int _job = Random.Range(0, _jobsProductionList.Count);
+            _employeeGenerate.EmployeeJob.Add(_jobsProductionList[_job]);
 
-            _jobsList.Remove(_jobsList[_job]);
+            _jobsProductionList.Remove(_jobsProductionList[_job]);
+        }
+    }
+
+    /// <summary>
+    /// Add random job to employee, with number of jobs
+    /// </summary>
+    /// <param name="_numberOfJobs"></param>
+    public void RandomOtherJob(int _numberOfJobs)
+    {
+        for (int i = 0; i < _numberOfJobs; i++)
+        {
+            int _job = Random.Range(0, _jobsOtherList.Count);
+            _employeeGenerate.EmployeeJob.Add(_jobsOtherList[_job]);
+
+            _jobsOtherList.Remove(_jobsOtherList[_job]);
         }
     }
 
     /// <summary>
     /// Reset parameter for create a new profile
     /// </summary>
-    public void ResetForNewProfile()
+    public void ResetForNewProductProfile()
     {
         _numberOfJob = 0;
-        _jobsList.Clear();
+        _jobsProductionList.Clear();
 
-        for (int i = 0; i < JobsListSave.Count; i++)
+        for (int i = 0; i < ProductionJobs.Count; i++)
         {
-            _jobsList.Add(JobsListSave[i]);
+            _jobsProductionList.Add(ProductionJobs[i]);
+        }
+    }
+
+    /// <summary>
+    /// Reset parameter for create a new profile
+    /// </summary>
+    public void ResetForNewOtherProfile()
+    {
+        _numberOfJob = 0;
+        _jobsOtherList.Clear();
+
+        for (int i = 0; i < OtherJobs.Count; i++)
+        {
+            _jobsOtherList.Add(OtherJobs[i]);
         }
     }
 }

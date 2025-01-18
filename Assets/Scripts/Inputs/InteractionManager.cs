@@ -90,6 +90,7 @@ public class InteractionManager : MonoBehaviour
                     }
 
                     CurrentEmployeeSelected = employee;
+                    employee.IsSelected = true;
                     EmployeeSelected?.Invoke(employee);
                 }
             }
