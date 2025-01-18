@@ -57,6 +57,7 @@ public class HireEmployee : MonoBehaviour
         if (DirectorRoom.Instance.RoomMain.EmployeeAssign.Count < DirectorRoom.Instance.RoomMain.RoomData.Capacity)
         {
             employeeToHire.IsHired = true;
+            employeeToHire.gameObject.SetActive(true);
             employeeToHire.transform.GetChild(0).gameObject.SetActive(true);
             EmployeeList.Instance.AddEmployee(employeeToHire.gameObject);
             DirectorRoom.Instance.RecrutementList.Remove(employeeToHire.gameObject);

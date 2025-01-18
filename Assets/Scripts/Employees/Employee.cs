@@ -44,8 +44,8 @@ public class Employee : MonoBehaviour
     /// <summary>
     /// reference
     /// </summary>
-    private NavMeshAgent _navMeshAgent;
-    private Animator _animator;
+    public NavMeshAgent _navMeshAgent;
+    public Animator _animator;
 
     private GameObject _actualWayPoint;
 
@@ -66,6 +66,7 @@ public class Employee : MonoBehaviour
             SetHatColor();
         }
     }
+
     public void SetEmployee()
     {
         _navMeshAgent = GetComponent<NavMeshAgent>();
@@ -99,6 +100,7 @@ public class Employee : MonoBehaviour
 
                 for (int a = 0; a < AssignRoom.transform.childCount; a++)
                 {
+                    //check si la room est bien activer&
                     if (AssignRoom.transform.GetChild(a).tag == "Room" && AssignRoom.transform.GetChild(a).gameObject.activeInHierarchy)
                     {
                         for (int i = 0; i < AssignRoom.transform.GetChild(a).gameObject.transform.childCount; i++)
@@ -144,15 +146,22 @@ public class Employee : MonoBehaviour
 
                 if (_wayPointList[i] != _actualWayPoint || _wayPointList.Count == 0)
                 {
-                    _actualWayPoint = _wayPointList[i];
-                    SetWalkAnimation();
+                    if (!_animator.GetCurrentAnimatorStateInfo(0).IsName("BaseInteract") || !_animator.GetCurrentAnimatorStateInfo(0).IsName("ShematicsCheck"))
+                    {
+                        _actualWayPoint = _wayPointList[i];
+                        SetWalkAnimation();
 
-                    _navMeshAgent.destination = _actualWayPoint.transform.position;
+                        _navMeshAgent.destination = _actualWayPoint.transform.position;
 
-                    //Bloque la rotation pendant le déplacement
-                    _navMeshAgent.updateRotation = false;
-                    SetRotation();
-                    StartCoroutine(WaitNewDestination());
+                        //Bloque la rotation pendant le déplacement
+                        _navMeshAgent.updateRotation = false;
+                        SetRotation();
+                        StartCoroutine(WaitNewDestination());
+                    }
+                    else
+                    {
+                        RandomWayPoint();
+                    }
                 }
                 else
                 {
@@ -189,7 +198,7 @@ public class Employee : MonoBehaviour
     /// <param name="_interactPoint"></param>
     public void SetIntercatAnimation(InteractAnimation _interactPoint)
     {
-        if (!GameManager.Instance.InDragAndDrop)
+        if (!GameManager.Instance.InDragAndDrop && !IsSelected)
         {
             gameObject.transform.rotation = _interactPoint.transform.rotation;
             _navMeshAgent.ResetPath();
@@ -220,7 +229,11 @@ public class Employee : MonoBehaviour
     public void StopRoutine()
     {
         StopCoroutine(WaitNewDestination());
-        _navMeshAgent.ResetPath();
+
+        if (_navMeshAgent != null)
+        {
+            _navMeshAgent.ResetPath();
+        }
 
         SetIdleAnimation();
     }
@@ -263,7 +276,7 @@ public class Employee : MonoBehaviour
 
     public void EmployeeOverlapUI()
     {
-        for (int i = 0;  i < _sprites.Count; i++)
+        for (int i = 0; i < _sprites.Count; i++)
         {
             _sprites[i].sortingOrder += 20;
         }
