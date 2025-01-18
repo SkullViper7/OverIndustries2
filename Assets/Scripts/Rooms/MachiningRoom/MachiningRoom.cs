@@ -156,7 +156,7 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
                         ThereIsAnEmployee?.Invoke();
 
                         // If there is enough raw material in storage, launch production, else, checks if there is a change
-                        if (_rawMaterialStorage.ThereIsEnoughRawMaterialInStorage(CurrentComponentManufactured.Cost))
+                        if (_rawMaterialStorage.ThereIsEnoughRawMaterialInStorage(CurrentComponentManufactured.Cost) && CurrentAmountInInternalStorage < CurrentInternalCapacity)
                         {
                             ThereIsRawMaterial?.Invoke();
 

@@ -131,8 +131,7 @@ public class RoomNotifiction : MonoBehaviour
 
         RawMaterialStorage rawMaterialStorage = RawMaterialStorage.Instance;
 
-        _currentRoom.UpgradeStart += () => _gaugeObject.SetActive(false);
-        _currentRoom.UpgradeEnd += () => _gaugeObject.SetActive(true);
+        _currentRoom.UpgradeStart += () => { _gaugeObject.SetActive(false); _notificationPictoObj.SetActive(false); };
 
         deliveryRoom.ProductionStart += EmployeInTheDeliveryRoom;
         deliveryRoom.ProductionCantStart += NoEmployeeInTheRoom;
@@ -582,6 +581,8 @@ public class RoomNotifiction : MonoBehaviour
         _notificationPictoObj.SetActive(false);
         _gaugeObject.SetActive(false);
         _productionCountObj.SetActive(false);
+        _gaugeFillAmount.fillAmount = 0f;
+        _productionCountTxt.text = "";
         _button.interactable = false;
         _isBlockedCauseOfInternalStorage = false;
         _isBlockedCauseOfEmployee = false;

@@ -126,6 +126,33 @@ public class RoomInfoPopUp : MonoBehaviour
     private TMP_Text _capacityTxt;
 
     /// <summary>
+    /// The container of the employee needed.
+    /// </summary>
+    [SerializeField]
+    private GameObject _employee;
+
+    /// <summary>
+    /// The picto of the employee needed.
+    /// </summary>
+    [SerializeField]
+    private Image _employeeImage;
+
+    [SerializeField]
+    private Sprite _deliveryEmployee;
+    [SerializeField]
+    private Sprite _machiningEmployee;
+    [SerializeField]
+    private Sprite _assemblyEmployee;
+    [SerializeField]
+    private Sprite _researchEmployee;
+
+    /// <summary>
+    /// The text of the employee needed.
+    /// </summary>
+    [SerializeField]
+    private TMP_Text _employeeTxt;
+
+    /// <summary>
     /// Buttons to switch between stats and description.
     /// </summary>
     [Space, Header("Buttons"), SerializeField]
@@ -239,6 +266,11 @@ public class RoomInfoPopUp : MonoBehaviour
         _capacityImage.sprite = _rawMaterialPicto;
         _capacityTxt.text = deliveryRoom.CurrentAmountInInternalStorage.ToString() + "/" + deliveryRoom.CurrentInternalCapacity.ToString();
         _capacity.SetActive(true);
+
+        _employeeTxt.text = deliveryRoom.DeliveryRoomData.JobNeeded.JobName;
+        _employeeImage.sprite = _deliveryEmployee;
+        _employee.SetActive(true);
+
         _statsContainer.SetActive(true);
         _switchButtons.SetActive(true);
         _statsButton.Select();
@@ -270,6 +302,11 @@ public class RoomInfoPopUp : MonoBehaviour
             _capacityImage.sprite = machiningRoom.CurrentComponentManufactured.ComponentPicto; ;
             _capacityTxt.text = machiningRoom.CurrentAmountInInternalStorage.ToString() + "/" + machiningRoom.CurrentInternalCapacity.ToString();
             _capacity.SetActive(true);
+
+            _employeeTxt.text = machiningRoom.CurrentComponentManufactured.JobNeeded.JobName;
+            _employeeImage.sprite = _machiningEmployee;
+            _employee.SetActive(true);
+
             _statsContainer.SetActive(true);
             _switchButtons.SetActive(true);
             _statsButton.Select();
@@ -306,6 +343,11 @@ public class RoomInfoPopUp : MonoBehaviour
             _capacityImage.sprite = assemblyRoom.CurrentObjectManufactured.ObjectPicto; ;
             _capacityTxt.text = assemblyRoom.CurrentAmountInInternalStorage.ToString() + "/" + assemblyRoom.CurrentInternalCapacity.ToString();
             _capacity.SetActive(true);
+
+            _employeeTxt.text = assemblyRoom.CurrentObjectManufactured.JobNeeded.JobName;
+            _employeeImage.sprite = _assemblyEmployee;
+            _employee.SetActive(true);
+
             _statsContainer.SetActive(true);
             _switchButtons.SetActive(true);
             _statsButton.Select();
@@ -366,16 +408,16 @@ public class RoomInfoPopUp : MonoBehaviour
 
         _nameLvl.text = _currentRoomSelected.RoomData.Name + " (Niveau " + _currentRoomSelected.CurrentLvl.ToString() + ")";
 
+        _employeeTxt.text = researchRoom.ResearchRoomData.JobNeeded.JobName;
+        _employeeImage.sprite = _researchEmployee;
+        _employee.SetActive(true);
+
         if (researchRoom.CurrentComponentResearched != null)
         {
             _productionHeader.text = "Recherche en cours :";
             _productionImage.sprite = researchRoom.CurrentComponentResearched.ComponentPicto;
             _productionTxt.text = researchRoom.CurrentComponentResearched.Name;
             _production.SetActive(true);
-            _statsContainer.SetActive(true);
-            _switchButtons.SetActive(true);
-            _statsButton.Select();
-            _descriptionButton.Unselect();
         }
         else if (researchRoom.CurrentObjectResearched != null)
         {
@@ -383,15 +425,12 @@ public class RoomInfoPopUp : MonoBehaviour
             _productionImage.sprite = researchRoom.CurrentObjectResearched.ObjectPicto;
             _productionTxt.text = researchRoom.CurrentObjectResearched.Name;
             _production.SetActive(true);
-            _statsContainer.SetActive(true);
-            _switchButtons.SetActive(true);
-            _statsButton.Select();
-            _descriptionButton.Unselect();
         }
-        else
-        {
-            _descriptionContainer.SetActive(true);
-        }
+
+        _statsContainer.SetActive(true);
+        _switchButtons.SetActive(true);
+        _statsButton.Select();
+        _descriptionButton.Unselect();
     }
 
     /// <summary>

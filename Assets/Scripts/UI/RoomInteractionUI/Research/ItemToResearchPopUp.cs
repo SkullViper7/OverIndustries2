@@ -150,6 +150,29 @@ public class ItemToResearchPopUp : MonoBehaviour
     private TMP_Text _objectResearchCostInRawMaterial;
 
     /// <summary>
+    /// The container of the employee needed.
+    /// </summary>
+    [SerializeField]
+    private GameObject _employee;
+
+    /// <summary>
+    /// The picto of the employee needed.
+    /// </summary>
+    [SerializeField]
+    private Image _employeeImage;
+
+    [SerializeField]
+    private Sprite _machiningEmployee;
+    [SerializeField]
+    private Sprite _assemblyEmployee;
+
+    /// <summary>
+    /// The text of the employee needed.
+    /// </summary>
+    [SerializeField]
+    private TMP_Text _employeeTxt;
+
+    /// <summary>
     /// Current component data displayed on screen.
     /// </summary>
     private ComponentData _currentComponentData;
@@ -231,6 +254,10 @@ public class ItemToResearchPopUp : MonoBehaviour
             _productionTime1.text = _currentComponentData.ProductionTimeAtLvl1.ToString() + "sec";
         }
 
+        _employeeTxt.text = _currentComponentData.JobNeeded.JobName;
+        _employeeImage.sprite = _machiningEmployee;
+        _employee.SetActive(true);
+
         // Display specific data
         _componentCostCell.SetActive(true);
         _componentCost.text = _currentComponentData.Cost.ToString();
@@ -281,6 +308,10 @@ public class ItemToResearchPopUp : MonoBehaviour
         {
             _productionTime1.text = _currentObjectData.ProductionTimeAtLvl1.ToString() + "sec";
         }
+
+        _employeeTxt.text = _currentObjectData.JobNeeded.JobName;
+        _employeeImage.sprite = _assemblyEmployee;
+        _employee.SetActive(true);
 
         // Display specific data
         List<Ingredient> recipe = _currentObjectData.Ingredients;

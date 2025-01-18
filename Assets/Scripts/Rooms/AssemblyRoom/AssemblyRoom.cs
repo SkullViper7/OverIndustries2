@@ -149,7 +149,7 @@ public class AssemblyRoom : MonoBehaviour, IRoomBehaviour
                         ThereIsAnEmployee?.Invoke();
 
                         // If there is enough components in storage, launch production, else, checks if there is a change
-                        if (_itemStorage.ThereIsEnoughIngredientsInStorage(CurrentObjectManufactured.Ingredients))
+                        if (_itemStorage.ThereIsEnoughIngredientsInStorage(CurrentObjectManufactured.Ingredients) && CurrentAmountInInternalStorage < CurrentInternalCapacity)
                         {
                             ThereIsComponents?.Invoke();
 
