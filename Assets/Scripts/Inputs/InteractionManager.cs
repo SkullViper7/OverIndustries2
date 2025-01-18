@@ -102,9 +102,9 @@ public class InteractionManager : MonoBehaviour
                 {
                     if (CurrentEmployeeSelected != null)
                     {
-                        CurrentEmployeeSelected = null;
                         employee.IsSelected = false;
                         employee.RandomWayPoint();
+                        CurrentEmployeeSelected = null;
                         EmployeeUnselected?.Invoke();
                     }
 

@@ -254,6 +254,7 @@ public class QuestUI : MonoBehaviour
         for (int i = 0; i < _objectifCurrentQuestTextList.Count; i++)
         {
             _buttonQuestComplitedList[i].SetActive(false);
+            _PSCurrentQuestTextList[i].transform.parent.gameObject.SetActive(false);
             _nameCurrentQuestTextList[i].text = "";
             _objectifCurrentQuestTextList[i].text = "";
         }

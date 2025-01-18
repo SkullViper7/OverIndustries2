@@ -122,10 +122,24 @@ public class QuestManager : MonoBehaviour
         }
     }
 
-    public void NewCurrentQuest(QuestData _quest)
+    public void NewCurrentQuest(QuestData quest)
     {
-        CurrentQuestList.Add(_quest);
-        QuestList.Remove(_quest);
+        CurrentQuestList.Add(quest);
+        QuestList.Remove(quest);
+        CheckItemStorage(quest);
+    }
+
+    public void CheckItemStorage(QuestData quest)
+    {
+        for(int i =0; i< quest.NumberOfComponent.Count; i++)
+        {
+            QuestComponentAdvancement(quest.Component[i].ComponentType, 0);
+        }
+
+        for(int i =0; i< quest.NumberOfObject.Count; i++)
+        {
+            QuestObjectAdvancement(quest.Objects[i].ObjectType, 0);
+        }
     }
 
     /// <summary>
