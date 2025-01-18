@@ -177,6 +177,10 @@ public class ItemToProductPopUp : MonoBehaviour
                 {
                     _productionTime.text = (_currentComponentData.ProductionTimeAtLvl1 / 60).ToString() + "min " + (_currentComponentData.ProductionTimeAtLvl1 % 60).ToString() + "sec";
                 }
+                else if (_currentComponentData.ProductionTimeAtLvl1 == 60)
+                {
+                    _productionTime.text = (_currentComponentData.ProductionTimeAtLvl1 / 60).ToString() + "min ";
+                }
                 else
                 {
                     _productionTime.text = _currentComponentData.ProductionTimeAtLvl1.ToString() + "sec";
@@ -188,6 +192,10 @@ public class ItemToProductPopUp : MonoBehaviour
                 {
                     _productionTime.text = (_currentComponentData.ProductionTimeAtLvl2 / 60).ToString() + "min " + (_currentComponentData.ProductionTimeAtLvl2 % 60).ToString() + "sec";
                 }
+                else if (_currentComponentData.ProductionTimeAtLvl2 == 60)
+                {
+                    _productionTime.text = (_currentComponentData.ProductionTimeAtLvl2 / 60).ToString() + "min ";
+                }
                 else
                 {
                     _productionTime.text = _currentComponentData.ProductionTimeAtLvl2.ToString() + "sec";
@@ -198,6 +206,10 @@ public class ItemToProductPopUp : MonoBehaviour
                 if (_currentComponentData.ProductionTimeAtLvl3 >= 60)
                 {
                     _productionTime.text = (_currentComponentData.ProductionTimeAtLvl3 / 60).ToString() + "min " + (_currentComponentData.ProductionTimeAtLvl3 % 60).ToString() + "sec";
+                }
+                else if (_currentComponentData.ProductionTimeAtLvl3 == 60)
+                {
+                    _productionTime.text = (_currentComponentData.ProductionTimeAtLvl3 / 60).ToString() + "min ";
                 }
                 else
                 {
@@ -243,6 +255,10 @@ public class ItemToProductPopUp : MonoBehaviour
                 {
                     _productionTime.text = (_currentObjectData.ProductionTimeAtLvl1 / 60).ToString() + "min " + (_currentObjectData.ProductionTimeAtLvl1 % 60).ToString() + "sec";
                 }
+                else if (_currentObjectData.ProductionTimeAtLvl1 == 60)
+                {
+                    _productionTime.text = (_currentObjectData.ProductionTimeAtLvl1 / 60).ToString() + "min ";
+                }
                 else
                 {
                     _productionTime.text = _currentObjectData.ProductionTimeAtLvl1.ToString() + "sec";
@@ -254,6 +270,10 @@ public class ItemToProductPopUp : MonoBehaviour
                 {
                     _productionTime.text = (_currentObjectData.ProductionTimeAtLvl2 / 60).ToString() + "min " + (_currentObjectData.ProductionTimeAtLvl2 % 60).ToString() + "sec";
                 }
+                else if (_currentObjectData.ProductionTimeAtLvl2 == 60)
+                {
+                    _productionTime.text = (_currentObjectData.ProductionTimeAtLvl2 / 60).ToString() + "min ";
+                }
                 else
                 {
                     _productionTime.text = _currentObjectData.ProductionTimeAtLvl2.ToString() + "sec";
@@ -264,6 +284,10 @@ public class ItemToProductPopUp : MonoBehaviour
                 if (_currentObjectData.ProductionTimeAtLvl3 >= 60)
                 {
                     _productionTime.text = (_currentObjectData.ProductionTimeAtLvl3 / 60).ToString() + "min " + (_currentObjectData.ProductionTimeAtLvl3 % 60).ToString() + "sec";
+                }
+                else if (_currentObjectData.ProductionTimeAtLvl3 == 60)
+                {
+                    _productionTime.text = (_currentObjectData.ProductionTimeAtLvl3 / 60).ToString() + "min ";
                 }
                 else
                 {

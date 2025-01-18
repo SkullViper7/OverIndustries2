@@ -233,6 +233,10 @@ public class ItemToResearchPopUp : MonoBehaviour
         {
             _researchTime.text = (_currentComponentData.ResearchTime / 60).ToString() + "min " + (_currentComponentData.ResearchTime % 60).ToString() + "sec";
         }
+        else if (_currentComponentData.ResearchTime == 60)
+        {
+            _researchTime.text = (_currentComponentData.ResearchTime / 60).ToString() + "min ";
+        }
         else
         {
             _researchTime.text = _currentComponentData.ResearchTime.ToString() + "sec";
@@ -245,9 +249,13 @@ public class ItemToResearchPopUp : MonoBehaviour
         }
         _roomType.text = "Salle d'usinage";
         _productionTime1Header.text = "Durée de fabrication au niveau 1 :";
-        if (_currentComponentData.ResearchTime >= 60)
+        if (_currentComponentData.ProductionTimeAtLvl1 >= 60)
         {
             _productionTime1.text = (_currentComponentData.ProductionTimeAtLvl1 / 60).ToString() + "min " + (_currentComponentData.ProductionTimeAtLvl1 % 60).ToString() + "sec";
+        }
+        else if (_currentComponentData.ProductionTimeAtLvl1 == 60)
+        {
+            _productionTime1.text = (_currentComponentData.ProductionTimeAtLvl1 / 60).ToString() + "min ";
         }
         else
         {
@@ -284,9 +292,13 @@ public class ItemToResearchPopUp : MonoBehaviour
         _itemDescription.text = _currentObjectData.Description;
         _statsButton.Select();
         _descriptionButton.Unselect();
-        if (_currentObjectData.ResearchTime >= 60)
+        if (_currentObjectData.ResearchTime > 60)
         {
             _researchTime.text = (_currentObjectData.ResearchTime / 60).ToString() + "min " + (_currentObjectData.ResearchTime % 60).ToString() + "sec";
+        }
+        else if (_currentObjectData.ResearchTime == 60)
+        {
+            _researchTime.text = (_currentObjectData.ResearchTime / 60).ToString() + "min ";
         }
         else
         {
@@ -300,9 +312,13 @@ public class ItemToResearchPopUp : MonoBehaviour
         }
         _roomType.text = "Salle d'assemblage";
         _productionTime1Header.text = "Durée d'assemblage au niveau 1 :";
-        if (_currentObjectData.ResearchTime >= 60)
+        if (_currentObjectData.ProductionTimeAtLvl1 >= 60)
         {
             _productionTime1.text = (_currentObjectData.ProductionTimeAtLvl1 / 60).ToString() + "min " + (_currentObjectData.ProductionTimeAtLvl1 % 60).ToString() + "sec";
+        }
+        else if (_currentObjectData.ProductionTimeAtLvl1 == 60)
+        {
+            _productionTime1.text = (_currentObjectData.ProductionTimeAtLvl1 / 60).ToString() + "min ";
         }
         else
         {
