@@ -147,13 +147,19 @@ public class UIManager : MonoBehaviour
     /// <summary>
     /// The UI on screen whene player pause the game.
     /// </summary>
-    [field: SerializeField, Tooltip("The UI on screen whene player pause the game.")]
+    [field: SerializeField, Space, Header("Pause"), Tooltip("The UI on screen whene player pause the game.")]
     public GameObject PauseUI { get; private set; }
+
+    /// <summary>
+    /// The pop up to indicate to a player who wants to go back to the menu that he will lose his game.
+    /// </summary>
+    [field: SerializeField, Tooltip("The pop up to indicate to a player who wants to go back to the menu that he will lose his game.")]
+    public GameObject BackToMenuWarning { get; private set; }
 
     /// <summary>
     /// The UI on screen whene player want to skip the tutorial.
     /// </summary>
-    [field: SerializeField, Tooltip("The UI on screen whene player want to skip the tutorial")]
+    [field: SerializeField,Space, Header("Tutorial"), Tooltip("The UI on screen whene player want to skip the tutorial")]
     public GameObject SkipTutoUI { get; private set; }
 
     /// <summary>

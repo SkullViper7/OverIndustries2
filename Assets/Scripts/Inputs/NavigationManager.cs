@@ -27,14 +27,12 @@ public class NavigationManager : MonoBehaviour
 
     private Vector2 _hold0Delta;
 
-    [SerializeField]
     private bool _hold0Performed;
 
     private Vector2 _hold1Position;
 
     private Vector2 _hold1Delta;
 
-    [SerializeField]
     private bool _hold1Performed;
 
 
