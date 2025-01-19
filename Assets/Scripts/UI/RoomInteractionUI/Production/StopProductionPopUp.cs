@@ -23,7 +23,7 @@ public class StopProductionPopUp : MonoBehaviour
         switch (currentRoomSelected.RoomData.RoomType)
         {
             case RoomType.Machining:
-                _warningText.text = "Attention ! Toutes les pièces détachées non-récupérées seront perdues. Êtes-vous sûrs de vouloir continuer ?";
+                _warningText.text = "Attention ! Toutes les pièces détachées non-récupérées seront perdues. Êtes-vous sûr de vouloir continuer ?";
 
                 MachiningRoom machiningRoom = (MachiningRoom)currentRoomSelected.RoomBehaviour;
                 _validateButton.onClick.AddListener(() =>
@@ -37,7 +37,7 @@ public class StopProductionPopUp : MonoBehaviour
                 break;
 
             case RoomType.Assembly:
-                _warningText.text = "Attention ! Tous les objets non-récupérés seront perdus. Êtes-vous sûrs de vouloir continuer ?";
+                _warningText.text = "Attention ! Tous les objets non-récupérés seront perdus. Êtes-vous sûr de vouloir continuer ?";
 
                 AssemblyRoom assemblyRoom = (AssemblyRoom)currentRoomSelected.RoomBehaviour;
                 _validateButton.onClick.AddListener(() =>
@@ -51,7 +51,7 @@ public class StopProductionPopUp : MonoBehaviour
                 break;
 
             case RoomType.Research:
-                _warningText.text = "Attention ! Toutes les ressources engagées pour la recherche seront perdues. Êtes-vous sûrs de vouloir continuer ?";
+                _warningText.text = "Attention ! Toutes les ressources engagées pour la recherche seront perdues. Êtes-vous sûr de vouloir continuer ?";
 
                 ResearchRoom researchRoom = (ResearchRoom)currentRoomSelected.RoomBehaviour;
                 _validateButton.onClick.AddListener(() =>

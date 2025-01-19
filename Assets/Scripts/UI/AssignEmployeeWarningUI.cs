@@ -3,34 +3,46 @@ using UnityEngine;
 
 public class AssignEmployeeWarningUI : MonoBehaviour
 {
-    [SerializeField] private GameObject _assignWarningUI;
-    [SerializeField] private TextMeshProUGUI _warningText;
+    [SerializeField] 
+    private GameObject _popUp;
 
-    [SerializeField] private string _maxEmployeeNotAssign;
-    [SerializeField] private string _assignRoomIsFull;
+    [SerializeField] 
+    private TextMeshProUGUI _warningText;
 
-    public void Start()
+    [SerializeField, TextArea] 
+    private string _maxEmployeeNotAssign;
+
+    [SerializeField, TextArea] 
+    private string _assignRoomIsFull;
+
+    [SerializeField, TextArea]
+    private string _elevatorTxt;
+
+    private void Awake()
     {
-        DragAndDrop.Instance.RoomAssignIsFull += ShowWarningMessage;
-        GridManager.Instance.GridInitializedEvent += Init;
-    }
-
-    private void Init()
-    {
-        DirectorRoom.Instance.MaxAssignEmployee += ShowWarningMessage;
+        _popUp.SetActive(false);
     }
 
     public void ShowWarningMessage(Room room)
     {
-        _assignWarningUI.SetActive(true);
-
         if(room.RoomData.RoomType == RoomType.Director) 
         {
             _warningText.text = _maxEmployeeNotAssign;
+        }
+        else if (room.RoomData.RoomType == RoomType.Elevator)
+        {
+            _warningText.text = _elevatorTxt;
         }
         else
         {
             _warningText.text = _assignRoomIsFull;
         }
+
+        _popUp.SetActive(true);
+    }
+
+    private void OnDisable()
+    {
+        _popUp.SetActive(false);
     }
 }

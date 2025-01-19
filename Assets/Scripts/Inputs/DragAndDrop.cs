@@ -12,8 +12,6 @@ public class DragAndDrop : MonoBehaviour
     private Vector3 _startPosition;
     public bool EmployeeSelect { get; private set; } = false;
 
-    public event System.Action<Room> RoomAssignIsFull;
-
     private bool _isDraging;
 
     private Vector3 _screenPos;
@@ -161,11 +159,11 @@ public class DragAndDrop : MonoBehaviour
             //Check if hit room
             if (hit.collider.transform.parent.TryGetComponent<Room>(out Room room))
             {
-                //Check if this room can have a employee
-                if (room.EmployeeAssign.Count != room.RoomData.Capacity)
+                //Check if this room is not the same room assign to the employee
+                if (room.gameObject != EmployeeToMove.AssignRoom)
                 {
-                    //Check if this room is not the same room assign to the employee
-                    if (room.gameObject != EmployeeToMove.AssignRoom)
+                    //Check if this room can have a employee
+                    if (room.EmployeeAssign.Count < room.RoomData.Capacity)
                     {
                         //Check if this employee has already a room assign
                         if (EmployeeToMove.AssignRoom != null)
@@ -175,13 +173,15 @@ public class DragAndDrop : MonoBehaviour
                         SetParameter(room);
                     }
                     else
-                    { ResetParameter(); }
+                    {
+                        ResetParameter();
+                        UIManager.Instance.OpenUI();
+                        UIManager.Instance.AssignEmployeeWarningUI.gameObject.SetActive(true);
+                        UIManager.Instance.AssignEmployeeWarningUI.ShowWarningMessage(room);
+                    }
                 }
                 else
-                {
-                    ResetParameter();
-                    RoomAssignIsFull.Invoke(room);
-                }
+                { ResetParameter(); }
             }
             else
             { ResetParameter(); }

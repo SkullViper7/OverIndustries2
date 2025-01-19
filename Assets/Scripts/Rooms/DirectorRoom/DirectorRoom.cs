@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Recorder.OutputPath;
 
 public class DirectorRoom : MonoBehaviour, IRoomBehaviour
 {
@@ -22,9 +24,9 @@ public class DirectorRoom : MonoBehaviour, IRoomBehaviour
 
     //Wait create new employee
     private int secondSinceCreateEmployee;
-    [field: SerializeField] public List<GameObject> RecrutementList { get; private set; } = new List<GameObject>();
 
-    public event System.Action<Room> MaxAssignEmployee;
+    [field: SerializeField]
+    public List<GameObject> RecrutementList { get; private set; } = new List<GameObject>();
 
     private void Awake()
     {
@@ -102,7 +104,9 @@ public class DirectorRoom : MonoBehaviour, IRoomBehaviour
 
     public void MaxEmployeeAssign()
     {
-        MaxAssignEmployee.Invoke(RoomMain);
+        UIManager.Instance.OpenUI();
+        UIManager.Instance.AssignEmployeeWarningUI.gameObject.SetActive(true);
+        UIManager.Instance.AssignEmployeeWarningUI.ShowWarningMessage(RoomMain);
     }
 
     private void UpdateDirectorRoom(int newLvl)
