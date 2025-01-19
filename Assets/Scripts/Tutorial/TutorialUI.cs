@@ -101,4 +101,14 @@ public class TutorialUI : MonoBehaviour
         ChronoManager.Instance.StopTutorialChrono();
         ChronoManager.Instance.StartMainChrono(GameManager.Instance.GameTime);
     }
+
+    public void SkipTutorial()
+    {
+        TutorialManager.Instance.SkipTutorial();
+    }
+
+    public void NextStep()
+    {
+        TutorialManager.Instance.NextStep();
+    }
 }

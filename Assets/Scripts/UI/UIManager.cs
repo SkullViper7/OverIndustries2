@@ -285,14 +285,4 @@ public class UIManager : MonoBehaviour
     {
         GameManager.Instance.StopConstruction();
     }
-
-    public void SkipTutorial()
-    {
-        TutorialManager.Instance.SkipTutorial();
-    }
-
-    public void ContinueGame()
-    {
-        TutorialManager.Instance.SkipTutorial();
-    }
 }

@@ -19806,6 +19806,7 @@ GameObject:
   - component: {fileID: 7865161184832608343}
   - component: {fileID: 8394754223852273111}
   - component: {fileID: 1855767088101134554}
+  - component: {fileID: 9146585989896280879}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -19890,7 +19891,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 3
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -19915,8 +19916,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: TutorialManager, Assembly-CSharp
+      - m_Target: {fileID: 3644146666792890167}
+        m_TargetAssemblyTypeName: TutorialUI, Assembly-CSharp
         m_MethodName: NextStep
         m_Mode: 1
         m_Arguments:
@@ -19927,6 +19928,27 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!95 &9146585989896280879
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2154449433437604994}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 3312fa457ddea3446b5148e70296f862, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &2156665812512370088
 GameObject:
   m_ObjectHideFlags: 0
@@ -55292,8 +55314,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7849188838309042080}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+      - m_Target: {fileID: 3644146666792890167}
+        m_TargetAssemblyTypeName: TutorialUI, Assembly-CSharp
         m_MethodName: SkipTutorial
         m_Mode: 1
         m_Arguments:
@@ -80660,6 +80682,7 @@ GameObject:
   - component: {fileID: 3302168368000627575}
   - component: {fileID: 5915612721443188902}
   - component: {fileID: 4233682650358316308}
+  - component: {fileID: 7004036486409710803}
   m_Layer: 5
   m_Name: SkipTutorialButton
   m_TagString: Untagged
@@ -80743,7 +80766,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 3
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -80804,6 +80827,27 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+--- !u!95 &7004036486409710803
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8343004451181420153}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 3312fa457ddea3446b5148e70296f862, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &8351774510629533954
 GameObject:
   m_ObjectHideFlags: 0
