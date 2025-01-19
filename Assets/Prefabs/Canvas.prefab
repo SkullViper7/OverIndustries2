@@ -21316,7 +21316,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 3644146666792890167}
         m_TargetAssemblyTypeName: TutorialUI, Assembly-CSharp
         m_MethodName: ContinueGame
         m_Mode: 1
@@ -45220,7 +45220,6 @@ GameObject:
   - component: {fileID: 2239853701664003197}
   - component: {fileID: 1947084655117368188}
   - component: {fileID: 7970376779131073793}
-  - component: {fileID: 5748597167036290315}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Canvas
@@ -45516,56 +45515,6 @@ MonoBehaviour:
   _touchImpact: {fileID: 3103176614646510143, guid: 72e4fff07ec11e34eb41971ba32552ae,
     type: 3}
   _touchImpactContainer: {fileID: 4775907015402832468}
---- !u!114 &5748597167036290315
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4761016143343523893}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd3e3a9bd64bae84ab7f9c938e537f65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _buttonActions:
-  - {fileID: 4637402598812319478}
-  - {fileID: 3947126304163353831}
-  - {fileID: 4880439564672831895}
-  - {fileID: 2912724850031174951}
-  _tutorialImages:
-  - {fileID: 7289933390485947206}
-  - {fileID: 6491695423043273369}
-  - {fileID: 2404577178870125851}
-  - {fileID: 5470810558113638349}
-  - {fileID: 235246086164920165}
-  - {fileID: 4707493862501299490}
-  - {fileID: 4436890115186774812}
-  - {fileID: 7029814574525256687}
-  - {fileID: 8268575959998553885}
-  - {fileID: 8086160974886197557}
-  - {fileID: 7222880624150404933}
-  - {fileID: 6610812069423247172}
-  - {fileID: 4191490341603319100}
-  - {fileID: 2094464306502113863}
-  - {fileID: 4394145374762372572}
-  - {fileID: 4943485091868190355}
-  - {fileID: 4810648485947625246}
-  - {fileID: 7944395532937858422}
-  - {fileID: 6042606166933276987}
-  - {fileID: 322208173484770002}
-  - {fileID: 4240201149586153727}
-  - {fileID: 8576770469116203787}
-  - {fileID: 4810981966303550288}
-  - {fileID: 3861651244996487982}
-  - {fileID: 5531874124992088405}
-  - {fileID: 2277654960540371997}
-  - {fileID: 1180808866370300599}
-  - {fileID: 7707139793697191936}
-  _tutorialManager: {fileID: 0}
-  _background: {fileID: 1744505954409426142}
-  _tutoralContinuePopUp: {fileID: 3883236664075761467}
-  _uiManager: {fileID: 7849188838309042080}
 --- !u!1 &4761223402506283501
 GameObject:
   m_ObjectHideFlags: 0
@@ -55339,12 +55288,12 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 384387311104500526}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: TutorialManager, Assembly-CSharp
+      - m_Target: {fileID: 7849188838309042080}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: SkipTutorial
         m_Mode: 1
         m_Arguments:
@@ -55355,7 +55304,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 5748597167036290315}
+      - m_Target: {fileID: 3644146666792890167}
         m_TargetAssemblyTypeName: TutorialUI, Assembly-CSharp
         m_MethodName: ContinueGame
         m_Mode: 1
@@ -63988,7 +63937,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 850}
+  m_SizeDelta: {x: 1275, y: 850}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1397226736821220365
 CanvasRenderer:
@@ -71754,6 +71703,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6092405981431784612}
+  - component: {fileID: 3644146666792890167}
   m_Layer: 5
   m_Name: Tutorial
   m_TagString: Untagged
@@ -71783,6 +71733,54 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &3644146666792890167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7599473831531101129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd3e3a9bd64bae84ab7f9c938e537f65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _buttonActions:
+  - {fileID: 4637402598812319478}
+  - {fileID: 3947126304163353831}
+  - {fileID: 4880439564672831895}
+  - {fileID: 2912724850031174951}
+  _tutorialImages:
+  - {fileID: 7289933390485947206}
+  - {fileID: 6491695423043273369}
+  - {fileID: 2404577178870125851}
+  - {fileID: 5470810558113638349}
+  - {fileID: 235246086164920165}
+  - {fileID: 4707493862501299490}
+  - {fileID: 4436890115186774812}
+  - {fileID: 7029814574525256687}
+  - {fileID: 8268575959998553885}
+  - {fileID: 8086160974886197557}
+  - {fileID: 7222880624150404933}
+  - {fileID: 6610812069423247172}
+  - {fileID: 4191490341603319100}
+  - {fileID: 2094464306502113863}
+  - {fileID: 4394145374762372572}
+  - {fileID: 4943485091868190355}
+  - {fileID: 4810648485947625246}
+  - {fileID: 7944395532937858422}
+  - {fileID: 6042606166933276987}
+  - {fileID: 322208173484770002}
+  - {fileID: 4240201149586153727}
+  - {fileID: 8576770469116203787}
+  - {fileID: 4810981966303550288}
+  - {fileID: 3861651244996487982}
+  - {fileID: 5531874124992088405}
+  - {fileID: 2277654960540371997}
+  - {fileID: 1180808866370300599}
+  - {fileID: 7707139793697191936}
+  _background: {fileID: 1744505954409426142}
+  _tutoralContinuePopUp: {fileID: 3883236664075761467}
 --- !u!1 &7621471492006142112
 GameObject:
   m_ObjectHideFlags: 0
@@ -74446,6 +74444,7 @@ GameObject:
   - component: {fileID: 4866271712069536505}
   - component: {fileID: 5464185044771279163}
   - component: {fileID: 311473184664631623}
+  - component: {fileID: 5599494742085155530}
   - component: {fileID: 9096834082883216723}
   m_Layer: 5
   m_Name: MenuButton
@@ -74592,8 +74591,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: BackMenu, Assembly-CSharp
+      - m_Target: {fileID: 5599494742085155530}
+        m_TargetAssemblyTypeName: SceneLoader, Assembly-CSharp
         m_MethodName: LoadLevel
         m_Mode: 5
         m_Arguments:
@@ -74604,6 +74603,20 @@ MonoBehaviour:
           m_StringArgument: Menu
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &5599494742085155530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7840450057633248442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 513379de6d4bcda49a263149ec418096, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _blackScreen: {fileID: 6139847249808604909}
+  _audio: {fileID: 0}
 --- !u!95 &9096834082883216723
 Animator:
   serializedVersion: 5
