@@ -116,6 +116,9 @@ public class RoomNotifiction : MonoBehaviour
             case RoomType.Research:
                 InitForResearchRoom();
                 break;
+            case RoomType.Recycling:
+                InitForRecyclingRoom();
+                break;
         }
     }
 
@@ -154,41 +157,6 @@ public class RoomNotifiction : MonoBehaviour
         UpdateDeliveryCount(((DeliveryRoom)_currentRoom.RoomBehaviour).CurrentAmountInInternalStorage);
 
         CheckRawMaterialStorage(0);
-    }
-
-    /// <summary>
-    /// Called to change the color if the raw material storage is full or not.
-    /// </summary>
-    /// <param name="ignore"> Ignore this parameter. (put 0 in if you have to.) </param>
-    private void CheckRawMaterialStorage(int ignore)
-    {
-        if (!_isBlockedCauseOfEmployee || _isBlockedCauseOfInternalStorage)
-        {
-            if (RawMaterialStorage.Instance.IsStorageFull())
-            {
-                if (ColorUtility.TryParseHtmlString("#F76A74", out Color newColor))
-                {
-                    _notificationOutline.color = newColor;
-                    newColor = new Color(newColor.r, newColor.g, newColor.b, 60f / 255f);
-                    _notificationBG.raycastTarget = false;
-                    _notificationBG.color = newColor;
-                }
-
-                _button.interactable = false;
-            }
-            else
-            {
-                if (ColorUtility.TryParseHtmlString("#40C1AA", out Color newColor))
-                {
-                    _notificationOutline.color = newColor;
-                    newColor = new Color(newColor.r, newColor.g, newColor.b, 60f / 255f);
-                    _notificationBG.raycastTarget = true;
-                    _notificationBG.color = newColor;
-                }
-
-                _button.interactable = true;
-            }
-        }
     }
 
     /// <summary>
@@ -481,6 +449,53 @@ public class RoomNotifiction : MonoBehaviour
     }
     #endregion
 
+    #region Recycling Room
+    /// <summary>
+    /// Called to initialize the notification especially for a recycling room.
+    /// </summary>
+    private void InitForRecyclingRoom()
+    {
+        RecyclingRoom recyclingRoom = (RecyclingRoom)_currentRoom.RoomBehaviour;
+
+        _notificationPictoImg.sprite = _rawMaterialPicto;
+
+        RawMaterialStorage rawMaterialStorage = RawMaterialStorage.Instance;
+
+        rawMaterialStorage.CapacityHasChanged += CheckRawMaterialStorage;
+        rawMaterialStorage.AmountHasChanged += CheckRawMaterialStorage;
+
+        recyclingRoom.NewProductionCount += UpdateRecyclingCount;
+    }
+
+    /// <summary>
+    /// Called to update the recycling count.
+    /// </summary>
+    /// <param name="newCount"> New count of the recycling. </param>
+    private void UpdateRecyclingCount(int newCount)
+    {
+        if (newCount > 0)
+        {
+            _isBlockedCauseOfInternalStorage = true;
+            _productionCountObj.SetActive(true);
+            _notificationOutline.enabled = true;
+            _notificationBG.enabled = true;
+            _notificationPictoObj.SetActive(true);
+            CheckRawMaterialStorage(0);
+        }
+        else
+        {
+            _isBlockedCauseOfInternalStorage = false;
+            _productionCountObj.SetActive(false);
+            _notificationOutline.enabled = false;
+            _notificationBG.enabled = false;
+            _notificationPictoObj.SetActive(false);
+            _button.interactable = false;
+        }
+
+        _productionCountTxt.text = newCount.ToString();
+    }
+    #endregion
+
     private void NoEmployeeInTheRoom()
     {
         _isBlockedCauseOfEmployee = true;
@@ -537,6 +552,45 @@ public class RoomNotifiction : MonoBehaviour
     }
 
     /// <summary>
+    /// Called to change the color if the raw material storage is full or not.
+    /// </summary>
+    /// <param name="ignore"> Ignore this parameter. (put 0 in if you have to.) </param>
+    private void CheckRawMaterialStorage(int ignore)
+    {
+        if (!_isBlockedCauseOfEmployee || _isBlockedCauseOfInternalStorage)
+        {
+            if (RawMaterialStorage.Instance.IsStorageFull())
+            {
+                if (ColorUtility.TryParseHtmlString("#F76A74", out Color newColor))
+                {
+                    _notificationOutline.color = newColor;
+                    _productionCountObj.GetComponent<Image>().color = newColor;
+                    _gaugeFillAmount.color = newColor;
+                    newColor = new Color(newColor.r, newColor.g, newColor.b, 60f / 255f);
+                    _notificationBG.raycastTarget = false;
+                    _notificationBG.color = newColor;
+                }
+
+                _button.interactable = false;
+            }
+            else
+            {
+                if (ColorUtility.TryParseHtmlString("#40C1AA", out Color newColor))
+                {
+                    _notificationOutline.color = newColor;
+                    _productionCountObj.GetComponent<Image>().color = newColor;
+                    _gaugeFillAmount.color = newColor;
+                    newColor = new Color(newColor.r, newColor.g, newColor.b, 60f / 255f);
+                    _notificationBG.raycastTarget = true;
+                    _notificationBG.color = newColor;
+                }
+
+                _button.interactable = true;
+            }
+        }
+    }
+
+    /// <summary>
     /// Called to change the color if the item storage is full or not.
     /// </summary>
     /// <param name="ignore"> Ignore this parameter. (put 0 in if you have to.) </param>
@@ -549,6 +603,8 @@ public class RoomNotifiction : MonoBehaviour
                 if (ColorUtility.TryParseHtmlString("#F76A74", out Color newColor))
                 {
                     _notificationOutline.color = newColor;
+                    _productionCountObj.GetComponent<Image>().color = newColor;
+                    _gaugeFillAmount.color = newColor;
                     newColor = new Color(newColor.r, newColor.g, newColor.b, 60f / 255f);
                     _notificationBG.raycastTarget = false;
                     _notificationBG.color = newColor;
@@ -560,6 +616,8 @@ public class RoomNotifiction : MonoBehaviour
                 if (ColorUtility.TryParseHtmlString("#40C1AA", out Color newColor))
                 {
                     _notificationOutline.color = newColor;
+                    _productionCountObj.GetComponent<Image>().color = newColor;
+                    _gaugeFillAmount.color = newColor;
                     newColor = new Color(newColor.r, newColor.g, newColor.b, 60f / 255f);
                     _notificationBG.raycastTarget = true;
                     _notificationBG.color = newColor;

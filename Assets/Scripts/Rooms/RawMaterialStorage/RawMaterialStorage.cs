@@ -28,9 +28,9 @@ public class RawMaterialStorage : MonoBehaviour
     public int AmoutOfRawMaterial { get { return _amoutOfRawMaterial; } private set { } }
 
     /// <summary>
-    /// Get the amount of raw material recycling
+    /// Get the amount of raw material recycled.
     /// </summary>
-    public int TotalRecyclingRawMaterial;
+    public int TotalRecyclingRawMaterial { get; private set; }
 
     /// <summary>
     /// Events to indicate changes about the raw material storage.
@@ -131,11 +131,21 @@ public class RawMaterialStorage : MonoBehaviour
     }
 
     /// <summary>
-    /// Call th recycling room to recycle trash
+    /// Called to try to refund the player a little part of the raw material used in a production. Works only if the recycling room is build.
     /// </summary>
-    /// <param name="rawMaterialTrash"></param>
-    public void TrashMaterial(int rawMaterialTrash)
+    /// <param name="rawMaterialRecycled"></param>
+    public void TryToRecycleRawMaterial(int rawMaterialRecycled)
     {
-        RawMaterialToRecycle?.Invoke(rawMaterialTrash);
+        RawMaterialToRecycle?.Invoke(rawMaterialRecycled);
+    }
+
+    /// <summary>
+    /// Called to get the raw material recycled.
+    /// </summary>
+    /// <param name="rawMaterialRecycled"></param>
+    public void RecycleRawMaterial(int rawMaterialRecycled)
+    {
+        AddRawMaterials(rawMaterialRecycled);
+        TotalRecyclingRawMaterial += rawMaterialRecycled;
     }
 }

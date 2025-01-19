@@ -127,11 +127,16 @@ public class UIManager : MonoBehaviour
     public GameObject ConstructionPopUp { get; private set; }
 
     /// <summary>
+    /// The filter to cannot construct the recycling room.
+    /// </summary>
+    [field: SerializeField, Tooltip("The filter to cannot construct the recycling room.")]
+    public GameObject RecyclingButtonFilter { get; private set; }
+
+    /// <summary>
     /// The UI on screen whene player is constructing a room.
     /// </summary>
     [field: SerializeField, Tooltip("The UI on screen whene player is constructing a room.")]
     public GameObject ConstructionUI { get; private set; }
-
 
     /// <summary>
     /// The button to cancel construction.

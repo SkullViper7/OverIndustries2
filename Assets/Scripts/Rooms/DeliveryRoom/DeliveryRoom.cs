@@ -83,43 +83,43 @@ public class DeliveryRoom : MonoBehaviour, IRoomBehaviour
 
     private void TryStartProductionCycle()
     {
-        if (_roomMain.EmployeeAssign.Count > 0)
+        if (!ProductionCycleHasStarted)
         {
-            // If there is the good employee in the room launch a cycle
-            for (int i = 0; i < _roomMain.EmployeeAssign.Count; i++)
+            if (_roomMain.EmployeeAssign.Count > 0)
             {
-                if (_roomMain.EmployeeAssign[i].EmployeeJob[0].JobType == DeliveryRoomData.JobNeeded.JobType)
+                // If there is the good employee in the room launch a cycle
+                for (int i = 0; i < _roomMain.EmployeeAssign.Count; i++)
                 {
-                    if (!ProductionCycleHasStarted)
+                    if (_roomMain.EmployeeAssign[i].EmployeeJob[0].JobType == DeliveryRoomData.JobNeeded.JobType)
                     {
-                        ProductionStart?.Invoke();
-
                         ProductionCycleHasStarted = true;
 
                         ChronoManager.Instance.NewSecondTick += DeliveryUpdateChrono;
+
+                        ProductionStart?.Invoke();
+
+                        break;
                     }
+                    else
+                    {
+                        ProductionCycleHasStarted = false;
 
-                    break;
-                }
-                else
-                {
-                    ChronoManager.Instance.NewSecondTick -= DeliveryUpdateChrono;
-                    _currentChrono = 0;
+                        ChronoManager.Instance.NewSecondTick -= DeliveryUpdateChrono;
+                        _currentChrono = 0;
 
-                    ProductionCantStart?.Invoke();
-
-                    ProductionCycleHasStarted = false;
+                        ProductionCantStart?.Invoke();
+                    }
                 }
             }
-        }
-        else
-        {
-            ChronoManager.Instance.NewSecondTick -= DeliveryUpdateChrono;
-            _currentChrono = 0;
+            else
+            {
+                ProductionCycleHasStarted = false;
 
-            ProductionCantStart?.Invoke();
+                ChronoManager.Instance.NewSecondTick -= DeliveryUpdateChrono;
+                _currentChrono = 0;
 
-            ProductionCycleHasStarted = false;
+                ProductionCantStart?.Invoke();
+            }
         }
     }
 

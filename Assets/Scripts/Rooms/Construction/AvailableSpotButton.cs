@@ -76,5 +76,10 @@ public class AvailableSpotButton : MonoBehaviour
                 }
             }
         }
+        // Special case with recycling room
+        else if (roomData.RoomType == RoomType.Recycling)
+        {
+            UIManager.Instance.RecyclingButtonFilter.SetActive(true);
+        }
     }
 }

@@ -164,6 +164,12 @@ public class RoomInfoPopUp : MonoBehaviour
     [SerializeField]
     private TMP_Text _employeesInFactoryTxt;
 
+    [SerializeField]
+    private GameObject _rawMaterialRecycledObj;
+
+    [SerializeField]
+    private TMP_Text _rawMaterialRecycledTxt;
+
     /// <summary>
     /// Buttons to switch between stats and description.
     /// </summary>
@@ -253,6 +259,7 @@ public class RoomInfoPopUp : MonoBehaviour
                     DisplayElevatorRoomData();
                     break;
                 case RoomType.Recycling:
+                    DisplayRecyclingRoomData();
                     break;
             }
         }
@@ -492,8 +499,6 @@ public class RoomInfoPopUp : MonoBehaviour
     /// </summary>
     private void DisplayDirectorRoomData()
     {
-        DirectorRoom directorRoom = (DirectorRoom)_currentRoomBehaviour;
-
         _nameLvl.text = _currentRoomSelected.RoomData.Name + " (Niveau " + _currentRoomSelected.CurrentLvl.ToString() + ")";
 
         _employeesInRoomTxt.text = _currentRoomSelected.EmployeeAssign.Count.ToString() + "/" + _currentRoomSelected.RoomData.Capacity.ToString();
@@ -518,6 +523,29 @@ public class RoomInfoPopUp : MonoBehaviour
         _nameLvl.text = _currentRoomSelected.RoomData.Name;
 
         _descriptionContainer.SetActive(true);
+    }
+
+    /// <summary>
+    /// Called to display infos when it's a recycling room.
+    /// </summary>
+    private void DisplayRecyclingRoomData()
+    {
+        RecyclingRoom recyclingRoom = (RecyclingRoom)_currentRoomBehaviour;
+
+        _nameLvl.text = _currentRoomSelected.RoomData.Name;
+
+        _capacityHeader.text = "Pouvant être récupérée :";
+        _capacityImage.sprite = _rawMaterialPicto;
+        _capacityTxt.text = recyclingRoom.CurrentAmountInInternalStorage.ToString();
+        _capacity.SetActive(true);
+
+        _rawMaterialRecycledTxt.text = RawMaterialStorage.Instance.TotalRecyclingRawMaterial.ToString();
+        _rawMaterialRecycledObj.SetActive(true);
+
+        _statsContainer.SetActive(true);
+        _switchButtons.SetActive(true);
+        _statsButton.Select();
+        _descriptionButton.Unselect();
     }
 
     /// <summary>

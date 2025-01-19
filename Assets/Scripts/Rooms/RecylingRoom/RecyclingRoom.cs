@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RecyclingRoom : MonoBehaviour, IRoomBehaviour
 {
@@ -8,36 +10,80 @@ public class RecyclingRoom : MonoBehaviour, IRoomBehaviour
     [field: SerializeField] public RecyclingRoomData RecyclingRoomData { get; private set; }
 
     /// <summary>
+    /// Current amount of raw material in internal storage of the room.
+    /// </summary>
+    public int CurrentAmountInInternalStorage { get; private set; }
+
+    /// <summary>
     /// A reference to the item storage.
     /// </summary>
     private RawMaterialStorage _rawMaterialStorage;
 
     /// <summary>
-    /// Reference to the main component of the room.
+    /// Notification of the room when raw material is recoverable.
     /// </summary>
-    private Room _roomMain;
+    private RoomNotifiction _roomNotification;
+
+    public event Action<int> NewProductionCount;
 
     public void InitRoomBehaviour(IRoomBehaviourData behaviourData, Room roomMain)
     {
         RecyclingRoomData = (RecyclingRoomData)behaviourData;
         _rawMaterialStorage = RawMaterialStorage.Instance;
-        _roomMain = roomMain;
 
-        _rawMaterialStorage.RawMaterialToRecycle += Recycle;
+        // If there is already not a notification on the room add a notification and add a listener for when player will clicks on.
+        if (_roomNotification == null)
+        {
+            _roomNotification = RoomNotificationManager.Instance.NewNotification(roomMain);
+            _roomNotification.GetComponent<Button>().onClick.AddListener(GetRawMaterialRecycled);
+        }
+
+        _rawMaterialStorage.RawMaterialToRecycle += AddRawMaterialInInternalStorage;
     }
 
-    public void Recycle(int _rawMaterialToRecycle)
+    /// <summary>
+    /// Called when an amount of raw material is recycled to add it to the internal storage.
+    /// </summary>
+    /// <param name="amount"> Amount to add in the internal storage. </param>
+    private void AddRawMaterialInInternalStorage(int amount)
     {
-        //Reclycling event
-        if (EventManager.Instance.CurrentEvent && EventManager.Instance.ActualEvent.RoomTypeNeed == RoomType.Recycling)
+        CurrentAmountInInternalStorage += amount;
+        CurrentAmountInInternalStorage = Mathf.Clamp(CurrentAmountInInternalStorage, 0, int.MaxValue);
+
+        NewProductionCount?.Invoke(CurrentAmountInInternalStorage);
+    }
+
+    /// <summary>
+    /// Called when raw material is added to the storage to substracte it from the internal storage.
+    /// </summary>
+    /// <param name="amount"> Amount to substract from the internal storage. </param>
+    private void RemoveRawMaterialFromInternalStorage(int amount)
+    {
+        CurrentAmountInInternalStorage -= amount;
+        CurrentAmountInInternalStorage = Mathf.Clamp(CurrentAmountInInternalStorage, 0, int.MaxValue);
+
+        NewProductionCount?.Invoke(CurrentAmountInInternalStorage);
+    }
+
+    /// <summary>
+    /// Called when the player clicks on the notification to get the maximum amount of raw material.
+    /// </summary>
+    public void GetRawMaterialRecycled()
+    {
+        if (!_rawMaterialStorage.IsStorageFull())
         {
-            _rawMaterialStorage.AddRawMaterials(_rawMaterialToRecycle * 2);
-            _rawMaterialStorage.TotalRecyclingRawMaterial += _rawMaterialToRecycle * 2;
-        }
-        else
-        {
-            _rawMaterialStorage.AddRawMaterials(_rawMaterialToRecycle);
-            _rawMaterialStorage.TotalRecyclingRawMaterial += _rawMaterialToRecycle;
+            int remainingStorage = _rawMaterialStorage.GetRemainingStorage();
+
+            if (remainingStorage >= CurrentAmountInInternalStorage)
+            {
+                _rawMaterialStorage.RecycleRawMaterial(CurrentAmountInInternalStorage);
+                RemoveRawMaterialFromInternalStorage(CurrentAmountInInternalStorage);
+            }
+            else
+            {
+                _rawMaterialStorage.RecycleRawMaterial(remainingStorage);
+                RemoveRawMaterialFromInternalStorage(remainingStorage);
+            }
         }
     }
 }

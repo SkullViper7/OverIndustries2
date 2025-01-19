@@ -66,73 +66,73 @@ public class ResearchRoom : MonoBehaviour, IRoomBehaviour
 
     public void TryStartComponentResearch(ComponentData componentToUnlock)
     {
-        // Set component researched
-        CurrentComponentResearched = componentToUnlock;
-
-        ComponentResearchStarted?.Invoke(CurrentComponentResearched);
-
-        // Remove research on hold if there is one
-        if (_researchOnHold != null)
+        if (!ResearchHasStarted)
         {
-            _roomMain.EmployeesHaveChanged -= _researchOnHold;
-            _researchOnHold = null;
-        }
+            // Set component researched
+            CurrentComponentResearched = componentToUnlock;
 
-        // Set listener
-        _researchOnHold = () => TryStartComponentResearch(CurrentComponentResearched);
-        _roomMain.EmployeesHaveChanged += _researchOnHold;
+            ComponentResearchStarted?.Invoke(CurrentComponentResearched);
 
-        // Set research time
-        CurrentResearchTime = CurrentComponentResearched.ResearchTime;
-
-        // Consume ressources
-        RawMaterialStorage.Instance.SubstractRawMaterials(CurrentComponentResearched.ResearchCost);
-
-        // If there is already not a notification on the room add a notification and add a listener for when player will clicks on.
-        if (_roomNotification == null)
-        {
-            _roomNotification = RoomNotificationManager.Instance.NewNotification(_roomMain);
-            _roomNotification.GetComponent<Button>().onClick.AddListener(ValidateResearch);
-        }
-
-        if (_roomMain.EmployeeAssign.Count > 0)
-        {
-            // If there is the good employee in the room launch the research
-            for (int i = 0; i < _roomMain.EmployeeAssign.Count; i++)
+            // Remove research on hold if there is one
+            if (_researchOnHold != null)
             {
-                if (_roomMain.EmployeeAssign[i].EmployeeJob[0].JobType == ResearchRoomData.JobNeeded.JobType)
+                _roomMain.EmployeesHaveChanged -= _researchOnHold;
+                _researchOnHold = null;
+            }
+
+            // Set listener
+            _researchOnHold = () => TryStartComponentResearch(CurrentComponentResearched);
+            _roomMain.EmployeesHaveChanged += _researchOnHold;
+
+            // Set research time
+            CurrentResearchTime = CurrentComponentResearched.ResearchTime;
+
+            // Consume ressources
+            RawMaterialStorage.Instance.SubstractRawMaterials(CurrentComponentResearched.ResearchCost);
+
+            // If there is already not a notification on the room add a notification and add a listener for when player will clicks on.
+            if (_roomNotification == null)
+            {
+                _roomNotification = RoomNotificationManager.Instance.NewNotification(_roomMain);
+                _roomNotification.GetComponent<Button>().onClick.AddListener(ValidateResearch);
+            }
+
+            if (_roomMain.EmployeeAssign.Count > 0)
+            {
+                // If there is the good employee in the room launch the research
+                for (int i = 0; i < _roomMain.EmployeeAssign.Count; i++)
                 {
-                    if (!ResearchHasStarted)
+                    if (_roomMain.EmployeeAssign[i].EmployeeJob[0].JobType == ResearchRoomData.JobNeeded.JobType)
                     {
                         ResearchHasStarted = true;
 
-                        ResearchStart?.Invoke();
-
                         // Launch research
                         ChronoManager.Instance.NewSecondTick += ResearchUpdateChrono;
+
+                        ResearchStart?.Invoke();
+
+                        break;
                     }
+                    else
+                    {
+                        ResearchHasStarted = false;
 
-                    break;
-                }
-                else
-                {
-                    ChronoManager.Instance.NewSecondTick -= ResearchUpdateChrono;
-                    _currentChrono = 0;
+                        ChronoManager.Instance.NewSecondTick -= ResearchUpdateChrono;
+                        _currentChrono = 0;
 
-                    ResearchCantStart?.Invoke();
-
-                    ResearchHasStarted = false;
+                        ResearchCantStart?.Invoke();
+                    }
                 }
             }
-        }
-        else
-        {
-            ChronoManager.Instance.NewSecondTick -= ResearchUpdateChrono;
-            _currentChrono = 0;
+            else
+            {
+                ResearchHasStarted = false;
 
-            ResearchCantStart?.Invoke();
+                ChronoManager.Instance.NewSecondTick -= ResearchUpdateChrono;
+                _currentChrono = 0;
 
-            ResearchHasStarted = false;
+                ResearchCantStart?.Invoke();
+            }
         }
     }
 
