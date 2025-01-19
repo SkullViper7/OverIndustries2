@@ -1,9 +1,19 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class StorageButton : MonoBehaviour
 {
+    [SerializeField]
+    private Sprite _noItem;
+
+    [SerializeField]
+    private Sprite _itemUnselected;
+
+    [SerializeField]
+    private Sprite _itemSelected;
+
     /// <summary>
     /// Picto of the component or object.
     /// </summary>
@@ -37,9 +47,11 @@ public class StorageButton : MonoBehaviour
     private ObjectData _objectData;
 
     /// <summary>
-    /// Datas of the component attached to this button.
+    /// Amount of items attached to this button.
     /// </summary>
     private int _amount;
+
+    public event Action<StorageButton> ButtonClicked;
 
     private void Awake()
     {
@@ -54,7 +66,9 @@ public class StorageButton : MonoBehaviour
         _amount = 0;
         _amountTxt.text = "";
         _amountTxt.enabled = false;
-        _image.color = Color.red;
+        _image.sprite = _noItem;
+
+        _button.onClick.AddListener(SelectButton);
     }
 
     /// <summary>
@@ -64,14 +78,17 @@ public class StorageButton : MonoBehaviour
     /// <param name="amount"> Amount of the component. </param>
     public void InitButtonForComponent(ComponentData componentData, int amount)
     {
-        _button.interactable = true;
+        _button = GetComponent<Button>();
+        _image = GetComponent<Image>();
+
         _componentData = componentData;
         _picto.sprite = _componentData.ComponentPicto;
         _picto.enabled = true;
         _amount = amount;
-        _amountTxt.text = amount.ToString();
+        _amountTxt.text = "x" + amount.ToString();
         _amountTxt.enabled = true;
-        _image.color = Color.green;
+        _image.sprite = _itemUnselected;
+        _button.interactable = true;
     }
 
     /// <summary>
@@ -81,14 +98,17 @@ public class StorageButton : MonoBehaviour
     /// <param name="amount"> Amount of the object. </param>
     public void InitButtonForObject(ObjectData objectData, int amount)
     {
-        _button.interactable = true;
+        _button = GetComponent<Button>();
+        _image = GetComponent<Image>();
+
         _objectData = objectData;
-        _picto.sprite = _componentData.ComponentPicto;
+        _picto.sprite = _objectData.ObjectPicto;
         _picto.enabled = true;
         _amount = amount;
-        _amountTxt.text = amount.ToString();
+        _amountTxt.text = "x" + amount.ToString();
         _amountTxt.enabled = true;
-        _image.color = Color.green;
+        _image.sprite = _itemUnselected;
+        _button.interactable = true;
     }
 
     /// <summary>
@@ -104,6 +124,20 @@ public class StorageButton : MonoBehaviour
         _amount = 0;
         _amountTxt.text = "";
         _amountTxt.enabled = false;
-        _image.color = Color.red;
+        _image.sprite = _noItem;
+    }
+
+    private void SelectButton()
+    {
+        _button.interactable = false;
+        _image.sprite = _itemSelected;
+
+        ButtonClicked?.Invoke(this);
+    }
+
+    public void UnselectButton()
+    {
+        _button.interactable = true;
+        _image.sprite = _itemUnselected;
     }
 }

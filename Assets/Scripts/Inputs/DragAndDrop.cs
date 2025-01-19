@@ -59,6 +59,7 @@ public class DragAndDrop : MonoBehaviour
     public void PerformedDragAndDrop(Employee employee)
     {
         GameManager.Instance.StartDragAndDrop();
+        UIManager.Instance.HideButtonsForDragAndDrop();
         employee.ShowOutline();
         employee.EmployeeOverlapUI();
 
@@ -193,10 +194,10 @@ public class DragAndDrop : MonoBehaviour
     public void ResetParameter()
     {
         GameManager.Instance.StopDragAndDrop();
+        UIManager.Instance.ShowButtonsAfterDragAndDrop();
 
         EmployeeToMove.transform.position = _startPosition;
         EmployeeToMove.transform.localScale = _employeeOriginalScale;
-        EmployeeToMove.HideOutline();
         EmployeeToMove.EmployeeDoesntOverlapUI();
 
         EmployeeToMove.GetComponent<NavMeshAgent>().enabled = true;
@@ -206,10 +207,10 @@ public class DragAndDrop : MonoBehaviour
     public void SetParameter(Room room)
     {
         GameManager.Instance.StopDragAndDrop();
+        UIManager.Instance.ShowButtonsAfterDragAndDrop();
 
         EmployeeToMove.transform.position = room.gameObject.transform.GetComponentInChildren<InteractAnimation>().gameObject.transform.position;
         EmployeeToMove.transform.localScale = _employeeOriginalScale;
-        EmployeeToMove.HideOutline();
         EmployeeToMove.EmployeeDoesntOverlapUI();
 
         room.AssignEmployeeInThisRoom(EmployeeToMove);

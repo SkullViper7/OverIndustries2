@@ -12,8 +12,38 @@ public class UIManager : MonoBehaviour
     /// <summary>
     /// Main UI of the game.
     /// </summary>
-    [field: SerializeField, Header("Main"), Tooltip("Main UI of the game.")]
+    [field: SerializeField, Header("HUD"), Tooltip("Main UI of the game.")]
     public GameObject HUD { get; private set; }
+
+    /// <summary>
+    /// Pause Button.
+    /// </summary>
+    [field: SerializeField, Tooltip("Pause Button.")]
+    public GameObject PauseButton { get; private set; }
+
+    /// <summary>
+    /// Order Button.
+    /// </summary>
+    [field: SerializeField, Tooltip("Order Button.")]
+    public GameObject OrderButton { get; private set; }
+
+    /// <summary>
+    /// Storage Button.
+    /// </summary>
+    [field: SerializeField, Tooltip("Storage Button.")]
+    public GameObject StorageButton { get; private set; }
+
+    /// <summary>
+    /// Employee Button.
+    /// </summary>
+    [field: SerializeField, Tooltip("Employee Button.")]
+    public GameObject EmployeeButton { get; private set; }
+
+    /// <summary>
+    /// Construction Button.
+    /// </summary>
+    [field: SerializeField, Tooltip("Construction Button.")]
+    public GameObject ConstructionButton { get; private set; }
 
     /// <summary>
     /// Button group for interactions.
@@ -236,6 +266,26 @@ public class UIManager : MonoBehaviour
         ResearchButton.SetActive(false);
         EmbaucheEmployeeButton.SetActive(false);
         InfoEmployeeButton.SetActive(false);
+    }
+
+    public void HideButtonsForDragAndDrop()
+    {
+        InteractionButtonGroup.gameObject.SetActive(false);
+        PauseButton.SetActive(false);
+        OrderButton.SetActive(false);
+        StorageButton.SetActive(false);
+        EmployeeButton.SetActive(false);
+        ConstructionButton.SetActive(false);
+    }
+
+    public void ShowButtonsAfterDragAndDrop()
+    {
+        InteractionButtonGroup.gameObject.SetActive(true);
+        PauseButton.SetActive(true);
+        OrderButton.SetActive(true);
+        StorageButton.SetActive(true);
+        EmployeeButton.SetActive(true);
+        ConstructionButton.SetActive(true);
     }
 
     public void ClickSFX()

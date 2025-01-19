@@ -164,10 +164,10 @@ public class InputsManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Called to checks if the start of the input is not over a UI element.
+    /// Checks if the start of the input is not over a UI element, excluding World Space UI.
     /// </summary>
-    /// <param name="screenPosition"> Position of the start of the input. </param>
-    /// <returns></returns>
+    /// <param name="screenPosition">Position of the start of the input.</param>
+    /// <returns>True if the input is over a UI element (excluding World Space UI); otherwise, false.</returns>
     private bool IsPointerOverUI(Vector2 screenPosition)
     {
         PointerEventData pointerData = new(EventSystem.current)
@@ -178,6 +178,18 @@ public class InputsManager : MonoBehaviour
         var raycastResults = new System.Collections.Generic.List<RaycastResult>();
         EventSystem.current.RaycastAll(pointerData, raycastResults);
 
-        return raycastResults.Count > 0;
+        // Filter out UI elements that belong to World Space canvases
+        foreach (var result in raycastResults)
+        {
+            var canvas = result.gameObject.GetComponentInParent<Canvas>();
+            if (canvas != null && canvas.renderMode == RenderMode.WorldSpace)
+            {
+                continue; // Ignore World Space UI elements
+            }
+
+            return true; // Found a valid UI element that's not in World Space
+        }
+
+        return false; // No valid UI element detected
     }
 }
