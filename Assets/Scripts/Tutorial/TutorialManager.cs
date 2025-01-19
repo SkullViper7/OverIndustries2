@@ -4,8 +4,9 @@ using System.Collections;
 
 public class TutorialManager : MonoBehaviour
 {
-    [SerializeField]
-    private NavigationManager _navigationManager;
+    // Singleton
+    private static TutorialManager _instance = null;
+    public static TutorialManager Instance => _instance;
 
     [Header("Tutorial Panel")]
     [SerializeField]
@@ -33,6 +34,20 @@ public class TutorialManager : MonoBehaviour
     public event System.Action OnTutorialHideBackground;
     public event System.Action OnTutorialShowBackground;
     public event System.Action OnTutorialContinuePopUp;
+
+    private void Awake()
+    {
+        // Singleton
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+        else
+        {
+            _instance = this;
+        }
+    }
 
     void Start()
     {

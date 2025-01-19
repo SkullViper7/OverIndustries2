@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class ChronoManager : MonoBehaviour
@@ -6,11 +5,6 @@ public class ChronoManager : MonoBehaviour
     // Singleton
     private static ChronoManager _instance = null;
     public static ChronoManager Instance => _instance;
-
-    /// <summary>
-    /// Started time of the game (in minutes).
-    /// </summary>
-    private int _startedTime;
 
     /// <summary>
     /// Events to indicate that there is a new time.
@@ -26,24 +20,25 @@ public class ChronoManager : MonoBehaviour
     public event TickDelegate NewCentisecondTick, NewSecondTick, NewMinuteTick, ChronoEnded;
 
     // Time variables
-    private float elapsedTime = 0f;
-    private int lastCentisecond = 0;
-    private int lastSecond = 0;
-    private int lastMinute = 0;
+    private float _elapsedTime = 0f;
+    private int _lastCentisecond = 0;
+    private int _lastSecond = 0;
+    private int _lastMinute = 0;
 
     /// <summary>
-    /// Value to control the chrono.
+    /// Value to control the main chrono.
     /// </summary>
-    private bool isRunning = false;
+    private bool _mainChronoIsRunning = false;
+
+    /// <summary>
+    /// Value to control the tutorial chrono.
+    /// </summary>
+    private bool _tutorialChronoIsRunning = false;
 
     /// <summary>
     /// Variable to check if the chrono is paused.
     /// </summary>
-    private bool isPaused = false;
-
-    // Get if the chrono is running and the current time
-    public bool IsRunning => isRunning && !isPaused;
-    public TimeSpan CurrentTime => TimeSpan.FromSeconds(elapsedTime);
+    private bool _isPaused = false;
 
     private void Awake()
     {
@@ -61,91 +56,125 @@ public class ChronoManager : MonoBehaviour
 
     private void Update()
     {
-        if (!isRunning || isPaused) return;
-
-        // Decrement the elapsed time
-        elapsedTime -= Time.deltaTime;
-
-        // Check if the timer has reached 0
-        if (elapsedTime <= 0f)
+        if (_mainChronoIsRunning && !_isPaused)
         {
-            elapsedTime = 0f;
-            isRunning = false;
+            // Decrement the elapsed time
+            _elapsedTime -= Time.deltaTime;
 
-            ChronoEnded?.Invoke();
+            // Check if the timer has reached 0
+            if (_elapsedTime <= 0f)
+            {
+                _elapsedTime = 0f;
+                _mainChronoIsRunning = false;
 
-            NewSecondTick?.Invoke();
-            NewSecond?.Invoke(0);
-            NewMinuteTick?.Invoke();
-            NewMinute?.Invoke(0);
+                ChronoEnded?.Invoke();
+
+                NewSecondTick?.Invoke();
+                NewSecond?.Invoke(0);
+                NewMinuteTick?.Invoke();
+                NewMinute?.Invoke(0);
+                return;
+            }
+
+            // Check centiseconds
+            int currentCentisecond = (int)(_elapsedTime * 100) % 100;
+            if (currentCentisecond != _lastCentisecond)
+            {
+                _lastCentisecond = currentCentisecond;
+                NewCentisecondTick?.Invoke();
+                NewCentisecond?.Invoke(currentCentisecond);
+            }
+
+            // Check seconds
+            int currentSecond = (int)_elapsedTime % 60;
+            if (currentSecond != _lastSecond)
+            {
+                _lastSecond = currentSecond;
+                NewSecondTick?.Invoke();
+                NewSecond?.Invoke(currentSecond);
+            }
+
+            // Check minutes
+            int currentMinute = (int)(_elapsedTime / 60);
+            if (currentMinute != _lastMinute)
+            {
+                _lastMinute = currentMinute;
+                NewMinuteTick?.Invoke();
+                NewMinute?.Invoke(currentMinute);
+            }
+        }
+        else if (_tutorialChronoIsRunning && !_isPaused)
+        {
+            // Increment the elapsed time
+            _elapsedTime += Time.deltaTime;
+
+            // Check seconds
+            int currentSecond = (int)_elapsedTime;
+            if (currentSecond != _lastSecond)
+            {
+                _lastSecond = currentSecond;
+                NewSecondTick?.Invoke();
+            }
+        }
+        else
+        {
             return;
         }
-
-        // Check centiseconds
-        int currentCentisecond = (int)(elapsedTime * 100) % 100;
-        if (currentCentisecond != lastCentisecond)
-        {
-            lastCentisecond = currentCentisecond;
-            NewCentisecondTick?.Invoke();
-            NewCentisecond?.Invoke(currentCentisecond);
-        }
-
-        // Check seconds
-        int currentSecond = (int)elapsedTime % 60;
-        if (currentSecond != lastSecond)
-        {
-            lastSecond = currentSecond;
-            NewSecondTick?.Invoke();
-            NewSecond?.Invoke(currentSecond);
-        }
-
-        // Check minutes
-        int currentMinute = (int)(elapsedTime / 60);
-        if (currentMinute != lastMinute)
-        {
-            lastMinute = currentMinute;
-            NewMinuteTick?.Invoke();
-            NewMinute?.Invoke(currentMinute);
-        }
     }
 
     /// <summary>
-    /// Called to start the chrono.
+    /// Called to start the tutorial chrono.
+    /// </summary>
+    public void StartTutorialChrono()
+    {
+        ResetChronos();
+
+        _elapsedTime = 0f;
+
+        _tutorialChronoIsRunning = true;
+    }
+
+    /// <summary>
+    /// Called to stop the tutorial chrono.
+    /// </summary>
+    public void StopTutorialChrono()
+    {
+        _mainChronoIsRunning = false;
+    }
+
+    /// <summary>
+    /// Called to start the main chrono.
     /// </summary>
     /// <param name="startTime"> Started time of the chrono (in minutes). </param>
-    public void StartChronometer(int startTime)
+    public void StartMainChrono(int startTime)
     {
-        _startedTime = startTime;
-        lastCentisecond = 0;
-        lastSecond = 0;
-        lastMinute = 0;
-        elapsedTime = _startedTime * 60f;
+        ResetChronos();
 
-        isRunning = true;
-        isPaused = false;
+        _elapsedTime = startTime * 60f;
+
+        _mainChronoIsRunning = true;
     }
 
     /// <summary>
-    /// Called to stop the chrono.
+    /// Called to stop the main chrono.
     /// </summary>
-    public void StopChronometer()
+    public void StopMainChrono()
     {
-        isRunning = false;
-        isPaused = false;
+        _mainChronoIsRunning = false;
     }
 
     /// <summary>
-    /// Called to reset the chrono.
+    /// Called to reset chronos.
     /// </summary>
-    public void ResetChronometer()
+    public void ResetChronos()
     {
-        isRunning = false;
-        isPaused = false;
-        _startedTime = 0;
-        elapsedTime = 0f;
-        lastCentisecond = 0;
-        lastSecond = 0;
-        lastMinute = 0;
+        _mainChronoIsRunning = false;
+        _tutorialChronoIsRunning = false;
+        _isPaused = false;
+        _elapsedTime = 0f;
+        _lastCentisecond = 0;
+        _lastSecond = 0;
+        _lastMinute = 0;
     }
 
     /// <summary>
@@ -153,8 +182,7 @@ public class ChronoManager : MonoBehaviour
     /// </summary>
     public void PauseChrono()
     {
-        if (!isRunning) return;
-        isPaused = true;
+        _isPaused = true;
     }
 
     /// <summary>
@@ -162,7 +190,6 @@ public class ChronoManager : MonoBehaviour
     /// </summary>
     public void ResumeChrono()
     {
-        if (!isRunning) return;
-        isPaused = false;
+        _isPaused = false;
     }
 }

@@ -13,19 +13,20 @@ public class TutorialUI : MonoBehaviour
     private List<Image> _tutorialImages;
 
     [SerializeField]
-    private TutorialManager _tutorialManager;
-
-    [SerializeField]
     private GameObject _background;
 
     [SerializeField]
     private GameObject _tutoralContinuePopUp;
 
-    [SerializeField]
     private UIManager _uiManager;
+
+    private TutorialManager _tutorialManager;
 
     private void Start()
     {
+        _uiManager = UIManager.Instance;
+        _tutorialManager = TutorialManager.Instance;
+
         for (int i = 0; i < _buttonActions.Count; i++)
         {
             _buttonActions[i].SetActive(false);
@@ -91,12 +92,13 @@ public class TutorialUI : MonoBehaviour
     {
         _uiManager.OpenSFX();
         _uiManager.OpenUI();
-        ChronoManager.Instance.StopChronometer();
+        ChronoManager.Instance.StopMainChrono();
         _tutoralContinuePopUp.SetActive(true);
     }
 
     public void ContinueGame()
     {
-        ChronoManager.Instance.StartChronometer(GameManager.Instance.GameTime);
+        ChronoManager.Instance.StopTutorialChrono();
+        ChronoManager.Instance.StartMainChrono(GameManager.Instance.GameTime);
     }
 }
