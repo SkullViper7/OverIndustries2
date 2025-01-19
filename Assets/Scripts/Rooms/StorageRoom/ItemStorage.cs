@@ -103,7 +103,7 @@ public class ItemStorage : MonoBehaviour
     {
         if (ComponentStorage.ContainsKey(component))
         {
-            if (ComponentStorage[component] - amountToSubstract >= 0)
+            if (ComponentStorage[component] - amountToSubstract > 0)
             {
                 ComponentStorage[component] -= amountToSubstract;
 
@@ -113,6 +113,13 @@ public class ItemStorage : MonoBehaviour
                 ItemStorageHasChanged?.Invoke();
                 AmountHasChanged?.Invoke(_currentStorage);
                 StorageComponentChanged?.Invoke(component.ComponentType, _currentStorage);
+            }
+            else
+            {
+                ComponentStorage.Remove(component);
+
+                _currentStorage -= amountToSubstract;
+                AmountHasChanged?.Invoke(_currentStorage);
             }
         }
     }
@@ -177,7 +184,7 @@ public class ItemStorage : MonoBehaviour
     {
         if (ObjectStorage.ContainsKey(objectType))
         {
-            if (ObjectStorage[objectType] - amountToSubstract >= 0)
+            if (ObjectStorage[objectType] - amountToSubstract > 0)
             {
                 ObjectStorage[objectType] -= amountToSubstract;
 
@@ -187,6 +194,13 @@ public class ItemStorage : MonoBehaviour
                 ItemStorageHasChanged?.Invoke();
                 AmountHasChanged?.Invoke(_currentStorage);
                 StorageObjectChanged?.Invoke(objectType.ObjectType, _currentStorage);
+            }
+            else
+            {
+                ObjectStorage.Remove(objectType);
+
+                _currentStorage -= amountToSubstract;
+                AmountHasChanged?.Invoke(_currentStorage);
             }
         }
     }

@@ -39,12 +39,12 @@ public class StorageButton : MonoBehaviour
     /// <summary>
     /// Datas of the component attached to this button.
     /// </summary>
-    private ComponentData _componentData;
+    public ComponentData ComponentData { get; private set; }
 
     /// <summary>
     /// Datas of the object attached to this button.
     /// </summary>
-    private ObjectData _objectData;
+    public ObjectData ObjectData { get; private set; }
 
     /// <summary>
     /// Amount of items attached to this button.
@@ -59,8 +59,8 @@ public class StorageButton : MonoBehaviour
         _image = GetComponent<Image>();
 
         _button.interactable = false;
-        _componentData = null;
-        _objectData = null;
+        ComponentData = null;
+        ObjectData = null;
         _picto.enabled = false;
         _picto.sprite = null;
         _amount = 0;
@@ -75,17 +75,15 @@ public class StorageButton : MonoBehaviour
     /// Called to initialize the button with datas of a component.
     /// </summary>
     /// <param name="componentData"> Datas of the component. </param>
-    /// <param name="amount"> Amount of the component. </param>
-    public void InitButtonForComponent(ComponentData componentData, int amount)
+    public void InitButtonForComponent(ComponentData componentData)
     {
         _button = GetComponent<Button>();
         _image = GetComponent<Image>();
 
-        _componentData = componentData;
-        _picto.sprite = _componentData.ComponentPicto;
+        ComponentData = componentData;
+        _picto.sprite = ComponentData.ComponentPicto;
         _picto.enabled = true;
-        _amount = amount;
-        _amountTxt.text = "x" + amount.ToString();
+        _amountTxt.text = "x" + ItemStorage.Instance.ReturnNumberOfThisComponent(ComponentData).ToString();
         _amountTxt.enabled = true;
         _image.sprite = _itemUnselected;
         _button.interactable = true;
@@ -95,20 +93,30 @@ public class StorageButton : MonoBehaviour
     /// Called to initialize the button with datas of an object.
     /// </summary>
     /// <param name="objectData"> Datas of the object. </param>
-    /// <param name="amount"> Amount of the object. </param>
-    public void InitButtonForObject(ObjectData objectData, int amount)
+    public void InitButtonForObject(ObjectData objectData)
     {
         _button = GetComponent<Button>();
         _image = GetComponent<Image>();
 
-        _objectData = objectData;
-        _picto.sprite = _objectData.ObjectPicto;
+        ObjectData = objectData;
+        _picto.sprite = ObjectData.ObjectPicto;
         _picto.enabled = true;
-        _amount = amount;
-        _amountTxt.text = "x" + amount.ToString();
+        _amountTxt.text = "x" + ItemStorage.Instance.ReturnNumberOfThisObject(ObjectData).ToString();
         _amountTxt.enabled = true;
         _image.sprite = _itemUnselected;
         _button.interactable = true;
+    }
+
+    public void ReloadItemValue()
+    {
+        if (ComponentData != null)
+        {
+            _amountTxt.text = "x" + ItemStorage.Instance.ReturnNumberOfThisComponent(ComponentData).ToString();
+        }
+        else if (ObjectData != null)
+        {
+            _amountTxt.text = "x" + ItemStorage.Instance.ReturnNumberOfThisObject(ObjectData).ToString();
+        }
     }
 
     /// <summary>
@@ -117,8 +125,8 @@ public class StorageButton : MonoBehaviour
     public void ResetButton()
     {
         _button.interactable = false;
-        _componentData = null;
-        _objectData = null;
+        ComponentData = null;
+        ObjectData = null;
         _picto.enabled = false;
         _picto.sprite = null;
         _amount = 0;
@@ -127,7 +135,7 @@ public class StorageButton : MonoBehaviour
         _image.sprite = _noItem;
     }
 
-    private void SelectButton()
+    public void SelectButton()
     {
         _button.interactable = false;
         _image.sprite = _itemSelected;

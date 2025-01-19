@@ -67,7 +67,7 @@ public class InputsManager : MonoBehaviour
                         {
                             if (context.performed)
                             {
-                                if (!IsPointerOverUI(Touchscreen.current.primaryTouch.position.ReadValue()))
+                                if (!IsPointerOverAnyUI(Touchscreen.current.primaryTouch.position.ReadValue()))
                                 {
                                     Tap?.Invoke();
                                     TapContext?.Invoke(context);
@@ -81,7 +81,7 @@ public class InputsManager : MonoBehaviour
                         {
                             if (context.performed)
                             {
-                                if (!IsPointerOverUI(Touchscreen.current.primaryTouch.position.ReadValue()))
+                                if (!IsPointerOverAnyUI(Touchscreen.current.primaryTouch.position.ReadValue()))
                                 {
                                     DoubleTap?.Invoke();
                                     DoubleTapContext?.Invoke(context);
@@ -93,7 +93,7 @@ public class InputsManager : MonoBehaviour
                     case "TouchContact0":
                         if (context.started)
                         {
-                            if (!IsPointerOverUI(Touchscreen.current.primaryTouch.position.ReadValue()))
+                            if (!IsPointerOverScreenUI(Touchscreen.current.primaryTouch.position.ReadValue()))
                             {
                                 Touch0ContactStarted?.Invoke();
                                 Touch0ContactStartedContext?.Invoke(context);
@@ -109,7 +109,7 @@ public class InputsManager : MonoBehaviour
                     case "TouchContact1":
                         if (context.started)
                         {
-                            if (!IsPointerOverUI(Touchscreen.current.primaryTouch.position.ReadValue()))
+                            if (!IsPointerOverScreenUI(Touchscreen.current.primaryTouch.position.ReadValue()))
                             {
                                 Touch1ContactStarted?.Invoke();
                                 Touch1ContactStartedContext?.Invoke(context);
@@ -143,7 +143,7 @@ public class InputsManager : MonoBehaviour
                         {
                             if (context.started)
                             {
-                                if (!IsPointerOverUI(Touchscreen.current.primaryTouch.position.ReadValue()))
+                                if (!IsPointerOverAnyUI(Touchscreen.current.primaryTouch.position.ReadValue()))
                                 {
                                     DragAndDropStarted?.Invoke();
                                 }
@@ -164,11 +164,29 @@ public class InputsManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Called to checks if the start of the input is not over a UI element.
+    /// </summary>
+    /// <param name="screenPosition"> Position of the start of the input. </param>
+    /// <returns></returns>
+    private bool IsPointerOverAnyUI(Vector2 screenPosition)
+    {
+        PointerEventData pointerData = new(EventSystem.current)
+        {
+            position = screenPosition
+        };
+
+        var raycastResults = new System.Collections.Generic.List<RaycastResult>();
+        EventSystem.current.RaycastAll(pointerData, raycastResults);
+
+        return raycastResults.Count > 0;
+    }
+
+    /// <summary>
     /// Checks if the start of the input is not over a UI element, excluding World Space UI.
     /// </summary>
     /// <param name="screenPosition">Position of the start of the input.</param>
     /// <returns>True if the input is over a UI element (excluding World Space UI); otherwise, false.</returns>
-    private bool IsPointerOverUI(Vector2 screenPosition)
+    private bool IsPointerOverScreenUI(Vector2 screenPosition)
     {
         PointerEventData pointerData = new(EventSystem.current)
         {
