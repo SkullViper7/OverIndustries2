@@ -80,7 +80,6 @@ public class AssemblyRoom : MonoBehaviour, IRoomBehaviour
         _itemStorage = ItemStorage.Instance;
         _roomMain = roomMain;
 
-        UpgradeRoom(1);
         _roomMain.NewLvl += UpgradeRoom;
     }
 

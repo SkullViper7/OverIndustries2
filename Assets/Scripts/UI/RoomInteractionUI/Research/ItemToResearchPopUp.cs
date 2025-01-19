@@ -212,6 +212,7 @@ public class ItemToResearchPopUp : MonoBehaviour
         {
             _objectResearchCostInComponents[i].SetActive(false);
         }
+        _employee.SetActive(false);
     }
 
     /// <summary>
@@ -480,6 +481,8 @@ public class ItemToResearchPopUp : MonoBehaviour
         {
             _objectResearchCostInComponents[i].SetActive(false);
         }
+
+        _employee.SetActive(false);
 
         gameObject.SetActive(false);
     }

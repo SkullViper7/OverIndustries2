@@ -71,7 +71,7 @@ public class InteractionManager : MonoBehaviour
                                         Camera.main.ScreenToWorldPoint(touchPosition).y - Camera.main.transform.position.y,
                                         Camera.main.ScreenToWorldPoint(touchPosition).z - Camera.main.transform.position.z).normalized;
 
-        Debug.DrawRay(Camera.main.transform.position, direction * 100f, Color.green, 1000f);
+        //Debug.DrawRay(Camera.main.transform.position, direction * 100f, Color.green, 1000f);
 
         RaycastHit hit;
         // Cast a ray from the camera in the calculated direction and check for hits
@@ -89,11 +89,18 @@ public class InteractionManager : MonoBehaviour
                         RoomUnselected?.Invoke();
                     }
 
-                    CurrentEmployeeSelected = employee;
-                    employee.IsSelected = true;
-                    employee.StopRoutine();
+                    if (CurrentEmployeeSelected != null)
+                    {
+                        CurrentEmployeeSelected.IsSelected = false;
+                        CurrentEmployeeSelected.SetRoutineParameter();
+                        CurrentEmployeeSelected = null;
+                        EmployeeUnselected?.Invoke();
+                    }
 
-                    EmployeeSelected?.Invoke(employee);
+                    CurrentEmployeeSelected = employee;
+                    CurrentEmployeeSelected.IsSelected = true;
+                    CurrentEmployeeSelected.StopRoutine();
+                    EmployeeSelected?.Invoke(CurrentEmployeeSelected);
                 }
             }
             else if (hit.collider.transform.parent.TryGetComponent<Room>(out Room room))
@@ -102,9 +109,9 @@ public class InteractionManager : MonoBehaviour
                 {
                     if (CurrentEmployeeSelected != null)
                     {
+                        CurrentEmployeeSelected.IsSelected = false;
+                        CurrentEmployeeSelected.SetRoutineParameter();
                         CurrentEmployeeSelected = null;
-                        employee.IsSelected = false;
-                        employee.RandomWayPoint();
                         EmployeeUnselected?.Invoke();
                     }
 
@@ -122,6 +129,8 @@ public class InteractionManager : MonoBehaviour
 
                 if (CurrentEmployeeSelected != null)
                 {
+                    CurrentEmployeeSelected.IsSelected = false;
+                    CurrentEmployeeSelected.SetRoutineParameter();
                     CurrentEmployeeSelected = null;
                     EmployeeUnselected?.Invoke();
                 }
@@ -137,6 +146,8 @@ public class InteractionManager : MonoBehaviour
 
             if (CurrentEmployeeSelected != null)
             {
+                CurrentEmployeeSelected.IsSelected = false;
+                CurrentEmployeeSelected.SetRoutineParameter();
                 CurrentEmployeeSelected = null;
                 EmployeeUnselected?.Invoke();
             }
@@ -181,8 +192,8 @@ public class InteractionManager : MonoBehaviour
             {
                 if (CurrentEmployeeSelected != null)
                 {
-                    employee.IsSelected = false;
-                    employee.RandomWayPoint();
+                    CurrentEmployeeSelected.IsSelected = false;
+                    CurrentEmployeeSelected.SetRoutineParameter();
                     CurrentEmployeeSelected = null;
                     EmployeeUnselected?.Invoke();
                 }
@@ -199,7 +210,7 @@ public class InteractionManager : MonoBehaviour
             if (CurrentEmployeeSelected != null)
             {
                 CurrentEmployeeSelected.IsSelected = false;
-                CurrentEmployeeSelected.RandomWayPoint();
+                CurrentEmployeeSelected.SetRoutineParameter();
                 CurrentEmployeeSelected = null;
                 EmployeeUnselected?.Invoke();
             }
@@ -245,6 +256,8 @@ public class InteractionManager : MonoBehaviour
 
                     if (CurrentEmployeeSelected != null)
                     {
+                        CurrentEmployeeSelected.IsSelected = false;
+                        CurrentEmployeeSelected.SetRoutineParameter();
                         CurrentEmployeeSelected = null;
                         EmployeeUnselected?.Invoke();
                     }
@@ -260,6 +273,8 @@ public class InteractionManager : MonoBehaviour
 
                 if (CurrentEmployeeSelected != null)
                 {
+                    CurrentEmployeeSelected.IsSelected = false;
+                    CurrentEmployeeSelected.SetRoutineParameter();
                     CurrentEmployeeSelected = null;
                     EmployeeUnselected?.Invoke();
                 }
@@ -275,6 +290,8 @@ public class InteractionManager : MonoBehaviour
 
             if (CurrentEmployeeSelected != null)
             {
+                CurrentEmployeeSelected.IsSelected = false;
+                CurrentEmployeeSelected.SetRoutineParameter();
                 CurrentEmployeeSelected = null;
                 EmployeeUnselected?.Invoke();
             }
@@ -306,6 +323,8 @@ public class InteractionManager : MonoBehaviour
                 {
                     if (CurrentEmployeeSelected != null)
                     {
+                        CurrentEmployeeSelected.IsSelected = false;
+                        CurrentEmployeeSelected.SetRoutineParameter();
                         CurrentEmployeeSelected = null;
                         EmployeeUnselected?.Invoke();
                     }
@@ -316,6 +335,8 @@ public class InteractionManager : MonoBehaviour
                 {
                     if (CurrentEmployeeSelected != null)
                     {
+                        CurrentEmployeeSelected.IsSelected = false;
+                        CurrentEmployeeSelected.SetRoutineParameter();
                         CurrentEmployeeSelected = null;
                         EmployeeUnselected?.Invoke();
                     }
@@ -343,6 +364,8 @@ public class InteractionManager : MonoBehaviour
 
             if (CurrentEmployeeSelected != null)
             {
+                CurrentEmployeeSelected.IsSelected = false;
+                CurrentEmployeeSelected.SetRoutineParameter();
                 CurrentEmployeeSelected = null;
                 EmployeeUnselected?.Invoke();
             }

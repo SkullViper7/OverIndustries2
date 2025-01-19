@@ -100,11 +100,20 @@ public class UpgradeRoomPopUp : MonoBehaviour
     [SerializeField]
     private TMP_Text _capacityTxt;
 
+    [SerializeField]
+    private GameObject _employeesBonusObj;
+
+    [SerializeField]
+    private TMP_Text _employeesBonusTxt;
+
     /// <summary>
     /// The container of the upgraded production time.
     /// </summary>
     [SerializeField]
     private GameObject _upgradedProductionTime;
+
+    [SerializeField]
+    private GameObject _upgradedSatisfaction;
 
     /// <summary>
     /// The text of the upgrade cost.
@@ -145,6 +154,8 @@ public class UpgradeRoomPopUp : MonoBehaviour
         _capacity.SetActive(false);
         _newRawMaterialProductionRate.SetActive(false);
         _upgradedProductionTime.SetActive(false);
+        _employeesBonusObj.SetActive(false);
+        _upgradedSatisfaction.SetActive(false);
         _scrollRect.enabled = false;
     }
 
@@ -195,10 +206,10 @@ public class UpgradeRoomPopUp : MonoBehaviour
                     DisplayResearchRoomData();
                     break;
                 case RoomType.Rest:
-
+                    DisplayRestRoomData();
                     break;
                 case RoomType.Director:
-
+                    DisplayDirectorRoomData();
                     break;
             }
         }
@@ -379,6 +390,34 @@ public class UpgradeRoomPopUp : MonoBehaviour
     }
 
     /// <summary>
+    /// Called to display infos when it's a rest room.
+    /// </summary>
+    private void DisplayRestRoomData()
+    {
+        RestRoom restRoom = (RestRoom)_currentRoomBehaviour;
+
+        switch (_currentRoomSelected.CurrentLvl)
+        {
+            case 1:
+                _employeesBonusTxt.text = "+ " + restRoom.RestRoomData.CapacityBonusAtLvl2.ToString();
+                break;
+            case 2:
+                _employeesBonusTxt.text = "+ " + restRoom.RestRoomData.CapacityBonusAtLvl3.ToString();
+                break;
+        }
+
+        _employeesBonusObj.SetActive(true);
+    }
+
+    /// <summary>
+    /// Called to display infos when it's a director room.
+    /// </summary>
+    private void DisplayDirectorRoomData()
+    {
+        _upgradedSatisfaction.SetActive(true);
+    }
+
+    /// <summary>
     /// Called to set the availability of the upgrade cost.
     /// </summary>
     private void SetUpgradeCost()
@@ -456,6 +495,8 @@ public class UpgradeRoomPopUp : MonoBehaviour
         _descriptionContainer.SetActive(false);
         _statsContainer.SetActive(true);
         _capacity.SetActive(false);
+        _employeesBonusObj.SetActive(false);
+        _upgradedSatisfaction.SetActive(false);
         _newRawMaterialProductionRate.SetActive(false);
         _upgradedProductionTime.SetActive(false);
 

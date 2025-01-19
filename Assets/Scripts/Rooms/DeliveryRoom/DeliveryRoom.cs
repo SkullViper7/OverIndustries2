@@ -67,7 +67,6 @@ public class DeliveryRoom : MonoBehaviour, IRoomBehaviour
         _storage = RawMaterialStorage.Instance;
         _roomMain = roomMain;
 
-        UpgradeRoom(1);
         _roomMain.NewLvl += UpgradeRoom;
 
         // If there is already not a notification on the room add a notification and add a listener for when player will clicks on.

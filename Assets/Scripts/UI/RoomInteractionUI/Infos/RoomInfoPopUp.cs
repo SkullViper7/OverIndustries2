@@ -152,6 +152,18 @@ public class RoomInfoPopUp : MonoBehaviour
     [SerializeField]
     private TMP_Text _employeeTxt;
 
+    [SerializeField]
+    private GameObject _employeesInRoom;
+
+    [SerializeField]
+    private TMP_Text _employeesInRoomTxt;
+
+    [SerializeField]
+    private GameObject _employeesInFactory;
+
+    [SerializeField]
+    private TMP_Text _employeesInFactoryTxt;
+
     /// <summary>
     /// Buttons to switch between stats and description.
     /// </summary>
@@ -183,6 +195,9 @@ public class RoomInfoPopUp : MonoBehaviour
         _capacity.SetActive(false);
         _productionRate.SetActive(false);
         _production.SetActive(false);
+        _employee.SetActive(false);
+        _employeesInRoom.SetActive(false);
+        _employeesInFactory.SetActive(false);
     }
 
     private void OnEnable()
@@ -229,8 +244,10 @@ public class RoomInfoPopUp : MonoBehaviour
                     DisplayResearchRoomData();
                     break;
                 case RoomType.Rest:
+                    DisplayRestRoomData();
                     break;
                 case RoomType.Director:
+                    DisplayDirectorRoomData();
                     break;
                 case RoomType.Elevator:
                     DisplayElevatorRoomData();
@@ -271,6 +288,9 @@ public class RoomInfoPopUp : MonoBehaviour
         _employeeImage.sprite = _deliveryEmployee;
         _employee.SetActive(true);
 
+        _employeesInRoomTxt.text = _currentRoomSelected.EmployeeAssign.Count.ToString() + "/" + _currentRoomSelected.RoomData.Capacity.ToString();
+        _employeesInRoom.SetActive(true);
+
         _statsContainer.SetActive(true);
         _switchButtons.SetActive(true);
         _statsButton.Select();
@@ -307,15 +327,19 @@ public class RoomInfoPopUp : MonoBehaviour
             _employeeImage.sprite = _machiningEmployee;
             _employee.SetActive(true);
 
-            _statsContainer.SetActive(true);
-            _switchButtons.SetActive(true);
-            _statsButton.Select();
-            _descriptionButton.Unselect();
+            _employeesInRoomTxt.text = _currentRoomSelected.EmployeeAssign.Count.ToString() + "/" + _currentRoomSelected.RoomData.Capacity.ToString();
+            _employeesInRoom.SetActive(true);
         }
         else
         {
-            _descriptionContainer.SetActive(true);
+            _employeesInRoomTxt.text = _currentRoomSelected.EmployeeAssign.Count.ToString() + "/" + _currentRoomSelected.RoomData.Capacity.ToString();
+            _employeesInRoom.SetActive(true);
         }
+
+        _statsContainer.SetActive(true);
+        _switchButtons.SetActive(true);
+        _statsButton.Select();
+        _descriptionButton.Unselect();
     }
 
     /// <summary>
@@ -347,16 +371,17 @@ public class RoomInfoPopUp : MonoBehaviour
             _employeeTxt.text = assemblyRoom.CurrentObjectManufactured.JobNeeded.JobName;
             _employeeImage.sprite = _assemblyEmployee;
             _employee.SetActive(true);
-
-            _statsContainer.SetActive(true);
-            _switchButtons.SetActive(true);
-            _statsButton.Select();
-            _descriptionButton.Unselect();
         }
         else
         {
-            _descriptionContainer.SetActive(true);
+            _employeesInRoomTxt.text = _currentRoomSelected.EmployeeAssign.Count.ToString() + "/" + _currentRoomSelected.RoomData.Capacity.ToString();
+            _employeesInRoom.SetActive(true);
         }
+
+        _statsContainer.SetActive(true);
+        _switchButtons.SetActive(true);
+        _statsButton.Select();
+        _descriptionButton.Unselect();
     }
 
     /// <summary>
@@ -373,6 +398,9 @@ public class RoomInfoPopUp : MonoBehaviour
         _capacityImage.sprite = rawMaterialStorageRoom.RawMaterialStorageRoomData.RawMaterialPicto;
         _capacityTxt.text = rawMaterialStorage.AmoutOfRawMaterial.ToString() + "/" + rawMaterialStorage.StorageCapacity.ToString();
         _capacity.SetActive(true);
+        _employeesInRoomTxt.text = _currentRoomSelected.EmployeeAssign.Count.ToString() + "/" + _currentRoomSelected.RoomData.Capacity.ToString();
+        _employeesInRoom.SetActive(true);
+
         _statsContainer.SetActive(true);
         _switchButtons.SetActive(true);
         _statsButton.Select();
@@ -393,6 +421,9 @@ public class RoomInfoPopUp : MonoBehaviour
         _capacityImage.sprite = _storagePicto;
         _capacityTxt.text = itemStorage.CurrentStorage.ToString() + "/" + itemStorage.StorageCapacity.ToString();
         _capacity.SetActive(true);
+        _employeesInRoomTxt.text = _currentRoomSelected.EmployeeAssign.Count.ToString() + "/" + _currentRoomSelected.RoomData.Capacity.ToString();
+        _employeesInRoom.SetActive(true);
+
         _statsContainer.SetActive(true);
         _switchButtons.SetActive(true);
         _statsButton.Select();
@@ -411,6 +442,8 @@ public class RoomInfoPopUp : MonoBehaviour
         _employeeTxt.text = researchRoom.ResearchRoomData.JobNeeded.JobName;
         _employeeImage.sprite = _researchEmployee;
         _employee.SetActive(true);
+        _employeesInRoomTxt.text = _currentRoomSelected.EmployeeAssign.Count.ToString() + "/" + _currentRoomSelected.RoomData.Capacity.ToString();
+        _employeesInRoom.SetActive(true);
 
         if (researchRoom.CurrentComponentResearched != null)
         {
@@ -426,6 +459,48 @@ public class RoomInfoPopUp : MonoBehaviour
             _productionTxt.text = researchRoom.CurrentObjectResearched.Name;
             _production.SetActive(true);
         }
+
+        _statsContainer.SetActive(true);
+        _switchButtons.SetActive(true);
+        _statsButton.Select();
+        _descriptionButton.Unselect();
+    }
+
+    /// <summary>
+    /// Called to display infos when it's a rest room.
+    /// </summary>
+    private void DisplayRestRoomData()
+    {
+        RestRoom restRoom = (RestRoom)_currentRoomBehaviour;
+
+        _nameLvl.text = _currentRoomSelected.RoomData.Name + " (Niveau " + _currentRoomSelected.CurrentLvl.ToString() + ")";
+
+        _employeesInRoomTxt.text = _currentRoomSelected.EmployeeAssign.Count.ToString() + "/" + _currentRoomSelected.RoomData.Capacity.ToString();
+        _employeesInRoom.SetActive(true);
+
+        _employeesInFactoryTxt.text = EmployeeManager.Instance.GetNumberOfEmployees().ToString() + "/" + EmployeeManager.Instance.Capacity.ToString();
+        _employeesInFactory.SetActive(true);
+
+        _statsContainer.SetActive(true);
+        _switchButtons.SetActive(true);
+        _statsButton.Select();
+        _descriptionButton.Unselect();
+    }
+
+    /// <summary>
+    /// Called to display infos when it's a director room.
+    /// </summary>
+    private void DisplayDirectorRoomData()
+    {
+        DirectorRoom directorRoom = (DirectorRoom)_currentRoomBehaviour;
+
+        _nameLvl.text = _currentRoomSelected.RoomData.Name + " (Niveau " + _currentRoomSelected.CurrentLvl.ToString() + ")";
+
+        _employeesInRoomTxt.text = _currentRoomSelected.EmployeeAssign.Count.ToString() + "/" + _currentRoomSelected.RoomData.Capacity.ToString();
+        _employeesInRoom.SetActive(true);
+
+        _employeesInFactoryTxt.text = EmployeeManager.Instance.GetNumberOfEmployees().ToString() + "/" + EmployeeManager.Instance.Capacity.ToString();
+        _employeesInFactory.SetActive(true);
 
         _statsContainer.SetActive(true);
         _switchButtons.SetActive(true);
@@ -457,6 +532,9 @@ public class RoomInfoPopUp : MonoBehaviour
         _capacity.SetActive(false);
         _productionRate.SetActive(false);
         _production.SetActive(false);
+        _employee.SetActive(false);
+        _employeesInRoom.SetActive(false);
+        _employeesInFactory.SetActive(false);
 
         UIManager.Instance.CloseUI();
         gameObject.SetActive(false);

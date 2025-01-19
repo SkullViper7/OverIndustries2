@@ -61,7 +61,6 @@ public class ResearchRoom : MonoBehaviour, IRoomBehaviour
 
         ResearchManager.Instance.InitNewResearchRoomListeners(this);
 
-        UpgradeRoom(1);
         _roomMain.NewLvl += UpgradeRoom;
     }
 

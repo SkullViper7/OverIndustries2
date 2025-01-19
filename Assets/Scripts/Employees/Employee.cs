@@ -57,6 +57,8 @@ public class Employee : MonoBehaviour
 
     public bool IsSelected;
 
+    private Coroutine _behaviourCoroutine;
+
     private void Start()
     {
         if (gameObject.transform.GetChild(0).gameObject.activeInHierarchy)
@@ -72,7 +74,8 @@ public class Employee : MonoBehaviour
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _animator = GetComponentInChildren<Animator>();
 
-        StartCoroutine(WaitNewDestination());
+        CancelCoroutine();
+        _behaviourCoroutine = StartCoroutine(WaitNewDestination());
     }
 
     /// <summary>
@@ -92,7 +95,7 @@ public class Employee : MonoBehaviour
                 _navMeshAgent.ResetPath();
             }
 
-            StopCoroutine(WaitNewDestination());
+            CancelCoroutine();
 
             if (AssignRoom != null)
             {
@@ -156,7 +159,8 @@ public class Employee : MonoBehaviour
                         //Bloque la rotation pendant le déplacement
                         _navMeshAgent.updateRotation = false;
                         SetRotation();
-                        StartCoroutine(WaitNewDestination());
+                        CancelCoroutine();
+                        _behaviourCoroutine = StartCoroutine(WaitNewDestination());
                     }
                     else
                     {
@@ -228,7 +232,7 @@ public class Employee : MonoBehaviour
 
     public void StopRoutine()
     {
-        StopCoroutine(WaitNewDestination());
+        CancelCoroutine();
 
         if (_navMeshAgent != null)
         {
@@ -262,6 +266,15 @@ public class Employee : MonoBehaviour
         yield return new WaitForSeconds(i);
 
         RandomWayPoint();
+    }
+
+    private void CancelCoroutine()
+    {
+        if (_behaviourCoroutine != null)
+        {
+            StopCoroutine(_behaviourCoroutine);
+            _behaviourCoroutine = null;
+        }
     }
 
     public void ShowOutline()

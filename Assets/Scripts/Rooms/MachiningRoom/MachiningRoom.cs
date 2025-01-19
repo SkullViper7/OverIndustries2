@@ -87,7 +87,6 @@ public class MachiningRoom : MonoBehaviour, IRoomBehaviour
         _rawMaterialStorage = RawMaterialStorage.Instance;
         _roomMain = roomMain;
 
-        UpgradeRoom(1);
         _roomMain.NewLvl += UpgradeRoom;
     }
 

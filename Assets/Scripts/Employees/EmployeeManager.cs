@@ -15,6 +15,7 @@ public class EmployeeManager : MonoBehaviour
     /// <summary>
     /// List which contains employees.
     /// </summary>
+    [field : SerializeField]
     public List<Employee> Employees { get; private set; } = new();
 
     private void Awake()

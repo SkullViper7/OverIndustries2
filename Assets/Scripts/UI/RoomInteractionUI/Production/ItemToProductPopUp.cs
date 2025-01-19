@@ -151,6 +151,7 @@ public class ItemToProductPopUp : MonoBehaviour
         {
             _objectRecipe[i].SetActive(false);
         }
+        _employee.SetActive(false);
     }
 
     /// <summary>
@@ -372,6 +373,7 @@ public class ItemToProductPopUp : MonoBehaviour
         {
             _objectRecipe[i].SetActive(false);
         }
+        _employee.SetActive(false);
 
         gameObject.SetActive(false);
     }

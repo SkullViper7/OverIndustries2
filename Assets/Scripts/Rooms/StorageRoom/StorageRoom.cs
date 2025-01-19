@@ -27,8 +27,6 @@ public class StorageRoom : MonoBehaviour, IRoomBehaviour
         _storage = ItemStorage.Instance;
         _roomMain = roomMain;
 
-        IncreaseStorageCapacity(1);
-
         _roomMain.NewLvl += IncreaseStorageCapacity;
     }
 

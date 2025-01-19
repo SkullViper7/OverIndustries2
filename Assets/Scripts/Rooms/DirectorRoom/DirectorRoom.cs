@@ -44,7 +44,6 @@ public class DirectorRoom : MonoBehaviour, IRoomBehaviour
         DirectorRoomData = (DirectorRoomData)roomBehaviourData;
         RoomMain = roomMain;
 
-        UpdateDirectorRoom(1);
         RoomMain.NewLvl += UpdateDirectorRoom;
     }
 
