@@ -26,7 +26,12 @@ public class DragAndDrop : MonoBehaviour
     private float _speed;
 
     [SerializeField]
-    private float _yOffset;
+    private float _fixedZ = -0.5f;
+
+    [SerializeField]
+    private float _referenceDistance = -6f;
+
+    private Vector3 _employeeOriginalScale;
 
     private void Awake()
     {
@@ -61,6 +66,7 @@ public class DragAndDrop : MonoBehaviour
 
         EmployeeToMove = employee;
         _startPosition = employee.gameObject.transform.position;
+        _employeeOriginalScale = employee.transform.localScale;
 
         EmployeeToMove.GetComponent<NavMeshAgent>().enabled = false;
         EmployeeToMove.SetIdleAnimation();
@@ -85,44 +91,43 @@ public class DragAndDrop : MonoBehaviour
         // Get the touch position on the screen (2D vector)
         Vector3 touchPosition = holdPosition;
 
-        // Set the Z-coordinate to a fixed value (e.g., -2)
-        float fixedZ = -3f;
-
         // Convert touch position to world space, but we adjust Z manually to keep it constant
-        touchPosition.z = Mathf.Abs(Camera.main.transform.position.z) + fixedZ;  // Adjust the Z to avoid perspective distortions
+        touchPosition.z = Mathf.Abs(Camera.main.transform.position.z) + _fixedZ;  // Adjust the Z to avoid perspective distortions
 
         // Convert screen position to world position with a fixed Z value
         Vector3 worldTouchPosition = Camera.main.ScreenToWorldPoint(touchPosition);
 
-        worldTouchPosition.y += _yOffset;
+        // Fix the Z-coordinate to the desired constant value
+        worldTouchPosition.z = _fixedZ;
 
-        // Fix the Z-coordinate to the desired constant value (e.g., -2)
-        worldTouchPosition.z = fixedZ;
-
-        // Move the object to the calculated position using Lerp for smooth movement
+        // Move the object to the calculated position
         EmployeeToMove.transform.position = worldTouchPosition;
 
-        //déplace la caméra suivant la position en Y de l'employer
+        // Calculer la distance entre la caméra et l'objet sur l'axe Z
+        float distance = Mathf.Abs(Camera.main.transform.position.z - EmployeeToMove.transform.position.z);
+
+        // Calculer le facteur d'échelle : plus la distance est grande, plus le scale augmente
+        float scaleFactor = Mathf.Abs(distance / _referenceDistance);
+
+        // Appliquer la nouvelle échelle à l'objet
+        EmployeeToMove.transform.localScale = _employeeOriginalScale * scaleFactor;
+
+        //déplace la caméra suivant la position en Y de l'employé
         if (touchPosition.y >= (Camera.main.scaledPixelHeight / 5 * 4) ||
             touchPosition.y <= (Camera.main.scaledPixelHeight / 5))
         {
             _isMovingVertically = true;
-            //Camera.main.transform.Translate(Vector3.down * 0.2f, Space.World);
-            Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position,
-                new Vector3(Camera.main.transform.position.x, EmployeeToMove.gameObject.transform.position.y, Camera.main.transform.position.z), 0.08f);
         }
         else
         {
             _isMovingVertically = false;
         }
 
-        //déplace la caméra suivant la position en X de l'employer
+        //déplace la caméra suivant la position en X de l'employé
         if (touchPosition.x >= (Camera.main.scaledPixelWidth / 10 * 9) ||
             touchPosition.x <= (Camera.main.scaledPixelWidth / 10))
         {
             _isMovingHorizontally = true;
-            Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position,
-                new Vector3(EmployeeToMove.gameObject.transform.position.x, Camera.main.transform.position.y, Camera.main.transform.position.z), 0.05f);
         }
         else
         {
@@ -187,8 +192,10 @@ public class DragAndDrop : MonoBehaviour
 
     public void ResetParameter()
     {
-        EmployeeToMove.transform.position = _startPosition;
         GameManager.Instance.StopDragAndDrop();
+
+        EmployeeToMove.transform.position = _startPosition;
+        EmployeeToMove.transform.localScale = _employeeOriginalScale;
         EmployeeToMove.HideOutline();
         EmployeeToMove.EmployeeDoesntOverlapUI();
 
@@ -200,19 +207,24 @@ public class DragAndDrop : MonoBehaviour
     {
         GameManager.Instance.StopDragAndDrop();
 
-        room.AssignEmployeeInThisRoom(EmployeeToMove);
-        EmployeeToMove.AssignRoom = room.gameObject;
+        EmployeeToMove.transform.position = room.gameObject.transform.GetComponentInChildren<InteractAnimation>().gameObject.transform.position;
+        EmployeeToMove.transform.localScale = _employeeOriginalScale;
         EmployeeToMove.HideOutline();
         EmployeeToMove.EmployeeDoesntOverlapUI();
 
-        EmployeeToMove.transform.position = room.gameObject.transform.GetComponentInChildren<InteractAnimation>().gameObject.transform.position;
-        EmployeeToMove.GetComponent<NavMeshAgent>().enabled = true;
+        room.AssignEmployeeInThisRoom(EmployeeToMove);
+        EmployeeToMove.AssignRoom = room.gameObject;
 
+        EmployeeToMove.GetComponent<NavMeshAgent>().enabled = true;
         EmployeeToMove.SetRoutineParameter();
     }
 
     private void Update()
     {
+        // Calculer un facteur de vitesse basé sur la position Z de la caméra
+        float zoomFactor = Mathf.Log10(Mathf.Abs(Camera.main.transform.position.z) + 1);
+        float adjustedSpeed = _speed * zoomFactor;
+
         // Déplacement continu horizontal
         if (_isMovingHorizontally)
         {
@@ -221,7 +233,7 @@ public class DragAndDrop : MonoBehaviour
 
             // Appliquer le mouvement
             Camera.main.transform.position = new Vector3(
-                Camera.main.transform.position.x + moveDirection * _speed * Time.deltaTime,
+                Camera.main.transform.position.x + moveDirection * adjustedSpeed * Time.deltaTime,
                 Camera.main.transform.position.y,
                 Camera.main.transform.position.z
             );
@@ -236,7 +248,7 @@ public class DragAndDrop : MonoBehaviour
             // Appliquer le mouvement
             Camera.main.transform.position = new Vector3(
                 Camera.main.transform.position.x,
-                Camera.main.transform.position.y + moveDirection * _speed * Time.deltaTime,
+                Camera.main.transform.position.y + moveDirection * adjustedSpeed * Time.deltaTime,
                 Camera.main.transform.position.z
             );
         }
