@@ -70,6 +70,11 @@ public class HireEmployee : MonoBehaviour
                 employeeToHire.SetEmployee();
                 employeeToHire.SetHatColor();
 
+                //if (employeeToHire.EmployeeJob[0].JobType == Job.MaintenanceTechnician)
+                //{
+                //    DirectorRoom.Instance.HasMaintenanceTechnician = true;
+                //}
+
                 SetButton();
                 ScoreManager.Instance.AddEmployee();
                 EmployeeManager.Instance.AddNewEmployee(employeeToHire);

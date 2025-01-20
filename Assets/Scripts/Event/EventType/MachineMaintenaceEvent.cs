@@ -12,11 +12,11 @@ public class MachineMaintenaceEvent : MonoBehaviour
     /// </summary>
 
     [SerializeField] private EventData _eventData;
-    [SerializeField] private Employee _maintenaceTechnicien;
-    [SerializeField] private JobData _maintenaceTechnicienData;
+    //[SerializeField] private Employee _maintenanceTechnician;
     [SerializeField] private int _timeToMaintenanceTechnicienToRepaireMachine;
 
     private List<MachiningRoom> _machiningRooms = new List<MachiningRoom>();
+    private int _machiningMaintenance;
 
     void Start()
     {
@@ -36,42 +36,42 @@ public class MachineMaintenaceEvent : MonoBehaviour
             }
         }
 
-        int _machiningMaintenance = Random.Range(0, _machiningRooms.Count);
+        _machiningMaintenance = Random.Range(0, _machiningRooms.Count);
+        //Debug.Log("*pop up /!|* This machining room need a maintenace, call a Maintenance Technician");
 
-        Debug.Log("*pop up /!|* This machining room need a maintenace, call a Maintenance Technician");
+        _machiningRooms[_machiningMaintenance].StopProduction();
+        Debug.Log("*pop up /!|* This machining room stop here production, call a Maintenance Technician immediately !");
 
-        GenerateMaintenaceTechnician();
-
-        StartCoroutine(WaitMaintenanceTechnician(_machiningMaintenance));
-    }
-
-    public void GenerateMaintenaceTechnician()
-    {
-        //Random Name
-        int i = Random.Range(0, JobProfileGenerator.Instance.RandomNameList.Count);
-        _maintenaceTechnicien.EmployeeName = JobProfileGenerator.Instance.RandomNameList[i];
-
-        //Set Job
-        _maintenaceTechnicien.EmployeeJob[0] = _maintenaceTechnicienData;
-    }
-
-    public void SpawnMaintenaceTechnician()
-    {
-        _maintenaceTechnicien.gameObject.SetActive(true);
+        //GenerateMaintenaceTechnician();
+        //StartCoroutine(WaitMaintenanceTechnician(_machiningMaintenance));
         StartCoroutine(WaitMachineMaintenace());
     }
 
-    IEnumerator WaitMaintenanceTechnician(int _machiningMaintenance)
-    {
-        yield return new WaitForSeconds(_eventData.Duration / 2);
-        _machiningRooms[_machiningMaintenance].StopProduction();
-        Debug.Log("*pop up /!|* This machining room stop here production, call a Maintenance Technician immediately !");
-    }
+    //public void GenerateMaintenaceTechnician()
+    //{
+    //    //Random Name
+    //    int i = Random.Range(0, JobProfileGenerator.Instance.RandomNameList.Count);
+    //    _maintenanceTechnician.EmployeeName = JobProfileGenerator.Instance.RandomNameList[i];
+    //}
+
+    //public void SpawnMaintenaceTechnician()
+    //{
+    //    _maintenanceTechnician.gameObject.transform.position = _machiningRooms[_machiningMaintenance].transform.position;
+    //    _maintenanceTechnician.gameObject.SetActive(true);
+    //    StartCoroutine(WaitMachineMaintenace());
+    //}
+
+    //IEnumerator WaitMaintenanceTechnician(int _machiningMaintenance)
+    //{
+    //    yield return new WaitForSeconds(_eventData.Duration / 2);
+    //    _machiningRooms[_machiningMaintenance].StopProduction();
+    //    Debug.Log("*pop up /!|* This machining room stop here production, call a Maintenance Technician immediately !");
+    //}
 
     IEnumerator WaitMachineMaintenace()
     {
         yield return new WaitForSeconds(_timeToMaintenanceTechnicienToRepaireMachine);
-        Debug.Log("*pop up /!|* This machining room maintenance is finish, the maintenace technicien leaves OverIndustries");
+        Debug.Log("*pop up /!|* This machining room maintenance is finish");
         EventManager.Instance.CloseCurrentEvent();
     }
 }

@@ -196,6 +196,7 @@ public class JobProfileUI : MonoBehaviour
         {
             _jobTextParent.transform.GetChild(i).GetChild(0).GetComponentInChildren<TextMeshProUGUI>().text = employee.EmployeeJob[i].JobName;
             _jobTextParent.transform.GetChild(i).gameObject.SetActive(true);
+            Debug.Log("show profile");
             _jobRoomText.text = employee.EmployeeJob[0].Room;
         }
     }
@@ -282,7 +283,6 @@ public class JobProfileUI : MonoBehaviour
         {
             for (int i = 0; i < _directorRoom.RecrutementList[j].GetComponent<Employee>().EmployeeJob.Count; i++)
             {
-                JobProfileList[i].SetActive(false);
                 _employee1JobTextList[i].transform.parent.gameObject.SetActive(false);
                 _employee2JobTextList[i].transform.parent.gameObject.SetActive(false);
                 _employee3JobTextList[i].transform.parent.gameObject.SetActive(false);
@@ -293,9 +293,9 @@ public class JobProfileUI : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < _jobTextParent.transform.childCount; i++)
+        for (int i = 0; i < JobProfileList.Count; i++)
         {
-            _jobTextParent.transform.GetChild(i).gameObject.SetActive(false);
+            JobProfileList[i].SetActive(false);
         }
     }
 }
