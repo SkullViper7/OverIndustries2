@@ -54,27 +54,34 @@ public class HireEmployee : MonoBehaviour
     /// <param name="employeeToHire"></param>
     void HiredEmployee(Employee employeeToHire)
     {
-        if (DirectorRoom.Instance.RoomMain.EmployeeAssign.Count < DirectorRoom.Instance.RoomMain.RoomData.Capacity)
+        if (EmployeeManager.Instance.Employees.Count != EmployeeManager.Instance.Capacity)
         {
-            employeeToHire.IsHired = true;
-            employeeToHire.gameObject.SetActive(true);
-            employeeToHire.transform.GetChild(0).gameObject.SetActive(true);
-            EmployeeList.Instance.AddEmployee(employeeToHire.gameObject);
-            DirectorRoom.Instance.RecrutementList.Remove(employeeToHire.gameObject);
+            if (DirectorRoom.Instance.RoomMain.EmployeeAssign.Count < DirectorRoom.Instance.RoomMain.RoomData.Capacity)
+            {
+                employeeToHire.IsHired = true;
+                employeeToHire.gameObject.SetActive(true);
+                employeeToHire.transform.GetChild(0).gameObject.SetActive(true);
+                EmployeeList.Instance.AddEmployee(employeeToHire.gameObject);
+                DirectorRoom.Instance.RecrutementList.Remove(employeeToHire.gameObject);
 
-            employeeToHire.AssignRoom = DirectorRoom.Instance.gameObject;
-            DirectorRoom.Instance.RoomMain.EmployeeAssign.Add(employeeToHire);
+                employeeToHire.AssignRoom = DirectorRoom.Instance.gameObject;
+                DirectorRoom.Instance.RoomMain.EmployeeAssign.Add(employeeToHire);
 
-            employeeToHire.SetEmployee();
-            employeeToHire.SetHatColor();
+                employeeToHire.SetEmployee();
+                employeeToHire.SetHatColor();
 
-            SetButton();
-            ScoreManager.Instance.AddEmployee();
-            EmployeeManager.Instance.AddNewEmployee(employeeToHire);
+                SetButton();
+                ScoreManager.Instance.AddEmployee();
+                EmployeeManager.Instance.AddNewEmployee(employeeToHire);
+            }
+            else
+            {
+                DirectorRoom.Instance.MaxEmployeeAssign();
+            }
         }
         else
         {
-            DirectorRoom.Instance.MaxEmployeeAssign();
+            DirectorRoom.Instance.EmployeeCapacity();
         }
     }
 

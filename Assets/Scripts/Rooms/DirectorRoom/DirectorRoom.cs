@@ -76,28 +76,31 @@ public class DirectorRoom : MonoBehaviour, IRoomBehaviour
     /// </summary>
     public void CreateEmployee()
     {
-        if (RoomMain.EmployeeAssign.Count < RoomMain.RoomData.Capacity)
+        if(EmployeeManager.Instance.Employees.Count != EmployeeManager.Instance.Capacity)
         {
-            _jobProfileGenerator.ResetForNewOtherProfile();
-            _jobProfileGenerator.ResetForNewProductProfile();
-
-            for (int i = 0; RecrutementList.Count < 5; i++)
+            if (RoomMain.EmployeeAssign.Count < RoomMain.RoomData.Capacity)
             {
-                if(RecrutementList.Count < 3)
-                {
-                    _newEmployee = ObjectPoolManager.Instance.GetObjectInPool(PoolEmployeeID);
-                    RecrutementList.Add(_newEmployee);
+                _jobProfileGenerator.ResetForNewOtherProfile();
+                _jobProfileGenerator.ResetForNewProductProfile();
 
-                    _jobProfileGenerator.GenerateOtherProfile(_newEmployee.GetComponent<Employee>());
-                }
-                else
+                for (int i = 0; RecrutementList.Count < 5; i++)
                 {
-                    _newEmployee = ObjectPoolManager.Instance.GetObjectInPool(PoolEmployeeID);
-                    RecrutementList.Add(_newEmployee);
+                    if (RecrutementList.Count < 3)
+                    {
+                        _newEmployee = ObjectPoolManager.Instance.GetObjectInPool(PoolEmployeeID);
+                        RecrutementList.Add(_newEmployee);
 
-                    _jobProfileGenerator.GenerateProductProfile(_newEmployee.GetComponent<Employee>());
+                        _jobProfileGenerator.GenerateOtherProfile(_newEmployee.GetComponent<Employee>());
+                    }
+                    else
+                    {
+                        _newEmployee = ObjectPoolManager.Instance.GetObjectInPool(PoolEmployeeID);
+                        RecrutementList.Add(_newEmployee);
+
+                        _jobProfileGenerator.GenerateProductProfile(_newEmployee.GetComponent<Employee>());
+                    }
+
                 }
-                
             }
         }
     }
@@ -107,6 +110,13 @@ public class DirectorRoom : MonoBehaviour, IRoomBehaviour
         UIManager.Instance.OpenUI();
         UIManager.Instance.AssignEmployeeWarningUI.gameObject.SetActive(true);
         UIManager.Instance.AssignEmployeeWarningUI.ShowWarningMessage(RoomMain);
+    }
+    
+    public void EmployeeCapacity()
+    {
+        UIManager.Instance.OpenUI();
+        UIManager.Instance.AssignEmployeeWarningUI.gameObject.SetActive(true);
+        UIManager.Instance.AssignEmployeeWarningUI.WarningMessage();
     }
 
     private void UpdateDirectorRoom(int newLvl)
