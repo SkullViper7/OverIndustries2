@@ -17,6 +17,9 @@ public class AssignEmployeeWarningUI : MonoBehaviour
 
     [SerializeField, TextArea]
     private string _elevatorTxt;
+    
+    [SerializeField, TextArea]
+    private string _maxCapacity;
 
     private void Awake()
     {
@@ -38,6 +41,12 @@ public class AssignEmployeeWarningUI : MonoBehaviour
             _warningText.text = _assignRoomIsFull;
         }
 
+        _popUp.SetActive(true);
+    }
+
+    public void WarningMessage()
+    {
+        _warningText.text = _maxCapacity;
         _popUp.SetActive(true);
     }
 
