@@ -11,6 +11,12 @@ public class JobData : ScriptableObject
     private Job _jobType;
 
     /// <summary>
+    /// Pictogram of the job.
+    /// </summary>
+    [SerializeField, Tooltip("Pictogram of the job")]
+    private Sprite _jobPicto;
+
+    /// <summary>
     /// Name of the job.
     /// </summary>
     [SerializeField]
@@ -56,6 +62,11 @@ public class JobData : ScriptableObject
     /// Gets the type of the job.
     /// </summary>
     public Job JobType { get { return _jobType; } private set { } }
+
+    /// <summary>
+    /// Gets the pictogram of the job.
+    /// </summary>
+    public Sprite JobPicto { get { return _jobPicto; } private set { } }
 
     /// <summary>
     /// Gets the name of the job.

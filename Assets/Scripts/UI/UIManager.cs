@@ -145,10 +145,16 @@ public class UIManager : MonoBehaviour
     public GameObject ItemToResearchPopUp { get; private set; }
 
     /// <summary>
-    /// The UI on screen when player cans see the storage.
+    /// The UI on screen where player cans see the storage.
     /// </summary>
-    [field: SerializeField, Tooltip("The UI on screen whene player can see the storage.")]
+    [field: SerializeField, Tooltip("The UI on screen where player cans see the storage.")]
     public GameObject StoragePopUp { get; private set; }
+
+    /// <summary>
+    /// The UI on screen where player cans see the employees storage.
+    /// </summary>
+    [field: SerializeField, Tooltip("The UI on screen whene player can see the employees storage.")]
+    public GameObject EmployeesStoragePopUp { get; private set; }
 
     /// <summary>
     /// The UI on screen when player tries to drop an employee on a wrong room.
