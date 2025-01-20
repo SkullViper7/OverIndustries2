@@ -20,8 +20,14 @@ public class ScoreManager : MonoBehaviour
     [Space, Header("Point de satisfaction")]
     [SerializeField] private TextMeshProUGUI _PSText;
 
+    [Space, Header("Minimum number for have star")]
+    [SerializeField] private float _oneStar;
+    [SerializeField] private float _twoStars;
+    [SerializeField] private float _threeStars;
+
     public event System.Action<float> ShowScore;
     public event System.Action<int> ShowPS;
+    public event System.Action<int> ShowStars;
 
     private void Awake()
     {
@@ -64,7 +70,28 @@ public class ScoreManager : MonoBehaviour
     public void CalculateScore()
     {
         FinalScore = Mathf.Round((TotalPS * _psImportance) + (_totalEmployee * _employeeImportance) + (_totalRoomLevelMax * _roomLevelMaxImportance));
-        Debug.Log("Score : " + FinalScore);
+        
         ShowScore?.Invoke(FinalScore);
+        CheckStars();
+    }
+
+    public void CheckStars()
+    {
+        int numberOfStars = 0;
+
+        if (FinalScore > _oneStar)
+        {
+            numberOfStars = 1;
+        }
+        if (FinalScore > _twoStars)
+        {
+            numberOfStars = 2;
+        }
+        if (FinalScore > _threeStars)
+        {
+            numberOfStars = 3;
+        }
+        
+        ShowStars?.Invoke(numberOfStars);
     }
 }
