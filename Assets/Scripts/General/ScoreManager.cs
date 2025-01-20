@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ScoreManager : MonoBehaviour
 {
@@ -17,15 +18,13 @@ public class ScoreManager : MonoBehaviour
     public int TotalPS { get; private set; }
     public float FinalScore { get; private set; }
 
-    [Space, Header("Point de satisfaction")]
-    [SerializeField] private TextMeshProUGUI _PSText;
-
-    [Space, Header("Minimum number for have star")]
+    [Space, Header("Minimum number score for have a star")]
     [SerializeField] private float _oneStar;
     [SerializeField] private float _twoStars;
     [SerializeField] private float _threeStars;
 
     public event System.Action<float> ShowScore;
+    public event System.Action<float> ShowBestScore;
     public event System.Action<int> ShowPS;
     public event System.Action<int> ShowStars;
 
@@ -45,7 +44,11 @@ public class ScoreManager : MonoBehaviour
 
     private void Start()
     {
-        ChronoManager.Instance.ChronoEnded += CalculateScore;
+        if(ChronoManager.Instance != null)
+        {
+            ChronoManager.Instance.ChronoEnded += CalculateScore;
+        }
+        CheckBestScore();
     }
 
     public void AddPS(int _psWin)
@@ -70,7 +73,7 @@ public class ScoreManager : MonoBehaviour
     public void CalculateScore()
     {
         FinalScore = Mathf.Round((TotalPS * _psImportance) + (_totalEmployee * _employeeImportance) + (_totalRoomLevelMax * _roomLevelMaxImportance));
-        
+
         ShowScore?.Invoke(FinalScore);
         CheckStars();
     }
@@ -91,7 +94,21 @@ public class ScoreManager : MonoBehaviour
         {
             numberOfStars = 3;
         }
-        
+
         ShowStars?.Invoke(numberOfStars);
+    }
+
+    public void CheckBestScore()
+    {
+        Scene _actualScene = SceneManager.GetActiveScene();
+
+        if (FinalScore > PlayerPrefs.GetFloat("BestScore"))
+        {
+            PlayerPrefs.SetFloat("BestScore", FinalScore);
+        }
+        if (PlayerPrefs.GetFloat("BestScore") > 0 && _actualScene.name == "Menu")
+        {
+            ShowBestScore?.Invoke(PlayerPrefs.GetFloat("BestScore"));
+        }
     }
 }
