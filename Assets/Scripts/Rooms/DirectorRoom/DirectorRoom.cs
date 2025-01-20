@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Recorder.OutputPath;
 
 public class DirectorRoom : MonoBehaviour, IRoomBehaviour
 {
