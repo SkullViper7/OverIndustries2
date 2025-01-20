@@ -13,6 +13,7 @@ public class ScoreUI : MonoBehaviour
     private void Start()
     {
         ScoreManager.Instance.ShowScore += ShowScore;
+        ScoreManager.Instance.ShowBestScore += ShowBestScore;
         ScoreManager.Instance.ShowPS += ShowPS;
         ScoreManager.Instance.ShowStars += ShowStars;
 
@@ -39,5 +40,11 @@ public class ScoreUI : MonoBehaviour
         {
             _starsList[i].SetActive(true);
         }
+    }
+
+    public void ShowBestScore(float bestScore)
+    {
+        _scorePopUp.SetActive(true);
+        _scoreText.text = bestScore.ToString();
     }
 }
