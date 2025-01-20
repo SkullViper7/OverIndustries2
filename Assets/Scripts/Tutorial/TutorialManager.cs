@@ -294,8 +294,12 @@ public class TutorialManager : MonoBehaviour
                     OnTutorialImageHide?.Invoke();
                     OnTutorialHideBackground?.Invoke();
 
-                    _roomResearch.GetComponent<ResearchRoom>().ResearchValidate += ConditionIsMet;
-                    if (_isConditionIsMet) { _isConditionIsMet = false; _canContinue = true; }
+                    //_roomResearch.GetComponent<ResearchRoom>().ResearchValidate += ConditionIsMet;
+                    //if (_isConditionIsMet)
+                    //{
+                        //_isConditionIsMet = false;
+                        _canContinue = true;
+                    //}
                     break;
                 case 17:
                     OnTutorialImageHide?.Invoke();
