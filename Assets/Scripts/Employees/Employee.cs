@@ -248,9 +248,12 @@ public class Employee : MonoBehaviour
     /// <param name="collider"></param>
     public void OnTriggerEnter(Collider collider)
     {
-        if (collider.name == _actualWayPoint.name)
+        if (_actualWayPoint != null)
         {
-            SetIntercatAnimation(_actualWayPoint.GetComponent<InteractAnimation>());
+            if (collider.name == _actualWayPoint.name)
+            {
+                SetIntercatAnimation(_actualWayPoint.GetComponent<InteractAnimation>());
+            }
         }
     }
 
