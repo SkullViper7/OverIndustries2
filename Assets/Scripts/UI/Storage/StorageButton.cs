@@ -46,28 +46,11 @@ public class StorageButton : MonoBehaviour
     /// </summary>
     public ObjectData ObjectData { get; private set; }
 
-    /// <summary>
-    /// Amount of items attached to this button.
-    /// </summary>
-    private int _amount;
-
     public event Action<StorageButton> ButtonClicked;
 
     private void Awake()
     {
         _button = GetComponent<Button>();
-        _image = GetComponent<Image>();
-
-        _button.interactable = false;
-        ComponentData = null;
-        ObjectData = null;
-        _picto.enabled = false;
-        _picto.sprite = null;
-        _amount = 0;
-        _amountTxt.text = "";
-        _amountTxt.enabled = false;
-        _image.sprite = _noItem;
-
         _button.onClick.AddListener(SelectButton);
     }
 
@@ -129,7 +112,7 @@ public class StorageButton : MonoBehaviour
         ObjectData = null;
         _picto.enabled = false;
         _picto.sprite = null;
-        _amount = 0;
+        _picto.sprite = null;
         _amountTxt.text = "";
         _amountTxt.enabled = false;
         _image.sprite = _noItem;

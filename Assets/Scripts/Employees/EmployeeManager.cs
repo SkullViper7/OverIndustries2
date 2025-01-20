@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class EmployeeManager : MonoBehaviour
@@ -75,5 +77,37 @@ public class EmployeeManager : MonoBehaviour
     public void AddNewEmployee(Employee newEmployee)
     {
         Employees.Add(newEmployee);
+    }
+
+    /// <summary>
+    /// Called to sort employees by ascending or descending order of their names.
+    /// </summary>
+    /// <param name="inAscendingOrder"></param>
+    public void SortByName(bool inAscendingOrder)
+    {
+        if (inAscendingOrder)
+        {
+            Employees = Employees.OrderBy(employee => employee.EmployeeName, StringComparer.OrdinalIgnoreCase).ToList();
+        }
+        else
+        {
+            Employees = Employees.OrderByDescending(employee => employee.EmployeeName, StringComparer.OrdinalIgnoreCase).ToList();
+        }
+    }
+
+    /// <summary>
+    /// Called to sort employees by ascending or descending order of their jobs.
+    /// </summary>
+    /// <param name="inAscendingOrder"></param>
+    public void SortByJob(bool inAscendingOrder)
+    {
+        if (inAscendingOrder)
+        {
+            Employees = Employees.OrderBy(employee => employee.EmployeeJob[0].JobName, StringComparer.OrdinalIgnoreCase).ToList();
+        }
+        else
+        {
+            Employees = Employees.OrderByDescending(employee => employee.EmployeeJob[0].JobName, StringComparer.OrdinalIgnoreCase).ToList();
+        }
     }
 }

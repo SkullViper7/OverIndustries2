@@ -137,15 +137,6 @@ public class RoomInfoPopUp : MonoBehaviour
     [SerializeField]
     private Image _employeeImage;
 
-    [SerializeField]
-    private Sprite _deliveryEmployee;
-    [SerializeField]
-    private Sprite _machiningEmployee;
-    [SerializeField]
-    private Sprite _assemblyEmployee;
-    [SerializeField]
-    private Sprite _researchEmployee;
-
     /// <summary>
     /// The text of the employee needed.
     /// </summary>
@@ -292,7 +283,7 @@ public class RoomInfoPopUp : MonoBehaviour
         _capacity.SetActive(true);
 
         _employeeTxt.text = deliveryRoom.DeliveryRoomData.JobNeeded.JobName;
-        _employeeImage.sprite = _deliveryEmployee;
+        _employeeImage.sprite = deliveryRoom.DeliveryRoomData.JobNeeded.JobPicto;
         _employee.SetActive(true);
 
         _employeesInRoomTxt.text = _currentRoomSelected.EmployeeAssign.Count.ToString() + "/" + _currentRoomSelected.RoomData.Capacity.ToString();
@@ -331,7 +322,7 @@ public class RoomInfoPopUp : MonoBehaviour
             _capacity.SetActive(true);
 
             _employeeTxt.text = machiningRoom.CurrentComponentManufactured.JobNeeded.JobName;
-            _employeeImage.sprite = _machiningEmployee;
+            _employeeImage.sprite = machiningRoom.CurrentComponentManufactured.JobNeeded.JobPicto;
             _employee.SetActive(true);
 
             _employeesInRoomTxt.text = _currentRoomSelected.EmployeeAssign.Count.ToString() + "/" + _currentRoomSelected.RoomData.Capacity.ToString();
@@ -376,7 +367,7 @@ public class RoomInfoPopUp : MonoBehaviour
             _capacity.SetActive(true);
 
             _employeeTxt.text = assemblyRoom.CurrentObjectManufactured.JobNeeded.JobName;
-            _employeeImage.sprite = _assemblyEmployee;
+            _employeeImage.sprite = assemblyRoom.CurrentObjectManufactured.JobNeeded.JobPicto;
             _employee.SetActive(true);
         }
         else
@@ -447,7 +438,7 @@ public class RoomInfoPopUp : MonoBehaviour
         _nameLvl.text = _currentRoomSelected.RoomData.Name + " (Niveau " + _currentRoomSelected.CurrentLvl.ToString() + ")";
 
         _employeeTxt.text = researchRoom.ResearchRoomData.JobNeeded.JobName;
-        _employeeImage.sprite = _researchEmployee;
+        _employeeImage.sprite = researchRoom.ResearchRoomData.JobNeeded.JobPicto;
         _employee.SetActive(true);
         _employeesInRoomTxt.text = _currentRoomSelected.EmployeeAssign.Count.ToString() + "/" + _currentRoomSelected.RoomData.Capacity.ToString();
         _employeesInRoom.SetActive(true);

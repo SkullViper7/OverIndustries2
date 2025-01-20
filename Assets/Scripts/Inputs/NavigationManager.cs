@@ -4,6 +4,10 @@ using UnityEngine.InputSystem;
 
 public class NavigationManager : MonoBehaviour
 {
+    // Singleton
+    private static NavigationManager _instance = null;
+    public static NavigationManager Instance => _instance;
+
     [Header("Scrolling")]
     [SerializeField, Range(1f, 10f)]
     private float _scrollSpeed = 1f;
@@ -50,6 +54,17 @@ public class NavigationManager : MonoBehaviour
 
     void Awake()
     {
+        // Singleton
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+        else
+        {
+            _instance = this;
+        }
+
         _camera = Camera.main.GetComponent<Camera>();
     }
 
@@ -243,6 +258,33 @@ public class NavigationManager : MonoBehaviour
         _camera.transform.position = newPosition;
 
         _initialDistance = pinchDelta;
+    }
+
+    /// <summary>
+    /// Called to launch a zoom on a room.
+    /// </summary>
+    /// <param name="room"> The room selected. </param>
+    public void AutoZoom(Room room)
+    {
+        CancelSequence();
+
+        // Calculate cente of the room
+        Vector2 centerPosition = new Vector2(room.transform.position.x + ((room.RoomData.Size * 3) / 2), room.transform.position.y + 2);
+
+        float maxTime = 0.5f;
+        Vector3 maxZoomPosition = new Vector3(centerPosition.x, centerPosition.y, _minZoom);
+        Vector3 zoomPosition = new Vector3(centerPosition.x, centerPosition.y, CalculateCameraZPositionForWidth(room.RoomData.Size));
+
+        // Calculate proportional time of the sequence
+        float time = ((zoomPosition - _camera.transform.position).magnitude * maxTime) / ((zoomPosition - maxZoomPosition).magnitude);
+        time = Mathf.Clamp(time, 0f, maxTime);
+
+        _zoomOrZoomOutSequence = DOTween.Sequence();
+        _zoomOrZoomOutSequence.Append(_camera.transform.DOMove(zoomPosition, time)).SetEase(Ease.InExpo).OnComplete(() =>
+        {
+            _isZoomedOnARoom = true;
+            CancelSequence();
+        });
     }
 
     /// <summary>

@@ -113,11 +113,6 @@ public class ItemToProductPopUp : MonoBehaviour
     [SerializeField]
     private Image _employeeImage;
 
-    [SerializeField]
-    private Sprite _machiningEmployee;
-    [SerializeField]
-    private Sprite _assemblyEmployee;
-
     /// <summary>
     /// The text of the employee needed.
     /// </summary>
@@ -224,7 +219,7 @@ public class ItemToProductPopUp : MonoBehaviour
         _componentCostCell.SetActive(true);
 
         _employeeTxt.text = _currentComponentData.JobNeeded.JobName;
-        _employeeImage.sprite = _machiningEmployee;
+        _employeeImage.sprite = _currentComponentData.JobNeeded.JobPicto;
         _employee.SetActive(true);
 
         _validationButton.onClick.AddListener(LaunchComponentProduction);
@@ -308,7 +303,7 @@ public class ItemToProductPopUp : MonoBehaviour
         _objectRecipeCell.SetActive(true);
 
         _employeeTxt.text = _currentObjectData.JobNeeded.JobName;
-        _employeeImage.sprite = _assemblyEmployee;
+        _employeeImage.sprite = _currentObjectData.JobNeeded.JobPicto;
         _employee.SetActive(true);
 
         _validationButton.onClick.AddListener(LaunchObjectProduction);

@@ -58,6 +58,32 @@ public class InteractionManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Called to select an employee manually.
+    /// </summary>
+    /// <param name="employee"> Employee to select. </param>
+    public void SelectEmployee(Employee employee)
+    {
+        if (CurrentRoomSelected != null)
+        {
+            CurrentRoomSelected = null;
+            RoomUnselected?.Invoke();
+        }
+
+        if (CurrentEmployeeSelected != null)
+        {
+            CurrentEmployeeSelected.IsSelected = false;
+            CurrentEmployeeSelected.SetRoutineParameter();
+            CurrentEmployeeSelected = null;
+            EmployeeUnselected?.Invoke();
+        }
+
+        CurrentEmployeeSelected = employee;
+        CurrentEmployeeSelected.IsSelected = true;
+        CurrentEmployeeSelected.StopRoutine();
+        EmployeeSelected?.Invoke(CurrentEmployeeSelected);
+    }
+
+    /// <summary>
     /// Casts a ray from the camera to the touch position and triggers interaction with any IInteractable object hit.
     /// </summary>
     private void FindTarget()

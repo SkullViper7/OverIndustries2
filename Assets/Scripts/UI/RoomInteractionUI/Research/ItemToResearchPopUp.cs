@@ -161,11 +161,6 @@ public class ItemToResearchPopUp : MonoBehaviour
     [SerializeField]
     private Image _employeeImage;
 
-    [SerializeField]
-    private Sprite _machiningEmployee;
-    [SerializeField]
-    private Sprite _assemblyEmployee;
-
     /// <summary>
     /// The text of the employee needed.
     /// </summary>
@@ -264,7 +259,7 @@ public class ItemToResearchPopUp : MonoBehaviour
         }
 
         _employeeTxt.text = _currentComponentData.JobNeeded.JobName;
-        _employeeImage.sprite = _machiningEmployee;
+        _employeeImage.sprite = _currentComponentData.JobNeeded.JobPicto;
         _employee.SetActive(true);
 
         // Display specific data
@@ -327,7 +322,7 @@ public class ItemToResearchPopUp : MonoBehaviour
         }
 
         _employeeTxt.text = _currentObjectData.JobNeeded.JobName;
-        _employeeImage.sprite = _assemblyEmployee;
+        _employeeImage.sprite = _currentObjectData.JobNeeded.JobPicto;
         _employee.SetActive(true);
 
         // Display specific data
