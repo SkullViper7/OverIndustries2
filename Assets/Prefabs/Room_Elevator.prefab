@@ -326,16 +326,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OuterPointSet: 1
-  OuterPoint: {x: 3, y: 0.81541944, z: -4}
-  OuterPointDistance: 94.95927
+  OuterPoint: {x: 0, y: 1.87, z: -5}
+  OuterPointDistance: 5
   isHollow: 0
   InnerPointSet: 1
-  InnerPoint: {x: 3, y: 0.81541944, z: -4}
-  InnerPointDistance: 94.95927
+  InnerPoint: {x: 0, y: 1.87, z: -5}
+  InnerPointDistance: 5
   InnerPointInside: 0
   boxCollider: {fileID: 7875006739384860300}
-  center: {x: 1.5, y: 2, z: -2}
-  size: {x: 3, y: 4, z: 4}
+  center: {x: 1.5, y: 2, z: -2.5}
+  size: {x: 3, y: 4, z: 5}
 --- !u!65 &7875006739384860300
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -355,8 +355,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 3, y: 4, z: 4}
-  m_Center: {x: 1.5, y: 2, z: -2}
+  m_Size: {x: 3, y: 4, z: 5}
+  m_Center: {x: 1.5, y: 2, z: -2.5}
 --- !u!1 &7805159906572866144
 GameObject:
   m_ObjectHideFlags: 0
@@ -449,7 +449,7 @@ Transform:
   m_GameObject: {fileID: 8546967270324394110}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3, y: 0.81541944, z: -4}
+  m_LocalPosition: {x: 0, y: 1.87, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -504,7 +504,7 @@ MonoBehaviour:
   zone: {fileID: 0}
   fade: 1
   fadeMinDistance: 0
-  fadeMaxDistance: 2
+  fadeMaxDistance: 3
   fadeCurve:
     serializedVersion: 2
     m_Curve:
