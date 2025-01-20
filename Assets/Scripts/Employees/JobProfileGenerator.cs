@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Jobs.LowLevel.Unsafe;
 using UnityEngine;
 
 public class JobProfileGenerator : MonoBehaviour
@@ -89,6 +90,19 @@ public class JobProfileGenerator : MonoBehaviour
         _numberOfJob = 1;
         RandomOtherJob(_numberOfJob);
 
+    }
+    
+    /// <summary>
+    /// Generate random name
+    /// </summary>
+    public void GenerateMaintenanceProfile(Employee employee)
+    {
+        _employeeGenerate = employee;
+
+        //Random Name
+        int n = Random.Range(0, RandomNameList.Count);
+        _name = RandomNameList[n];
+        _employeeGenerate.EmployeeName = _name;
     }
 
     /// <summary>

@@ -15,11 +15,6 @@ public class EventManager : MonoBehaviour
     private ChronoManager _chronoManager;
 
     /// <summary>
-    /// Get all event
-    /// </summary>
-    [SerializeField] private GameObject _eventParent;
-
-    /// <summary>
     /// Time Difference between 2 event
     /// </summary>
     [SerializeField] private int _timeEnterEvent;
@@ -28,7 +23,7 @@ public class EventManager : MonoBehaviour
     /// <summary>
     /// List of all event
     /// </summary>
-    private List<GameObject> _eventList = new List<GameObject>();
+    [SerializeField] private List<GameObject> _eventList;
 
     public EventData ActualEvent { get; private set; }
     public bool CurrentEvent { get; private set; }
@@ -55,11 +50,6 @@ public class EventManager : MonoBehaviour
     public void Start()
     {
         ChronoManager.Instance.NewMinute += RandomEvent;
-
-        for (int i = 0; i < _eventParent.transform.childCount; i++)
-        {
-            _eventList.Add(_eventParent.transform.GetChild(i).gameObject);
-        }
     }
 
     /// <summary>
@@ -68,14 +58,19 @@ public class EventManager : MonoBehaviour
     /// <param name="_minute"></param>
     public void RandomEvent(int _minute)
     {
-        Debug.Log("random event");
+        //if (!CurrentEvent && (_minute - _lastEvent > _timeEnterEvent))
+        //{
+        //    _eventNumber = Random.Range(0, _eventList.Count);
+        //    _eventList[_eventNumber].gameObject.SetActive(true);
+        //}
 
-        if (!CurrentEvent && (_minute - _lastEvent > _timeEnterEvent))
+        if (!CurrentEvent && _minute <= 15)
         {
             _eventNumber = Random.Range(0, _eventList.Count);
             _eventList[_eventNumber].gameObject.SetActive(true);
         }
     }
+
 
     /// <summary>
     /// Check if event condition are completed

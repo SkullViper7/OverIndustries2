@@ -15,6 +15,7 @@ public class DirectorRoom : MonoBehaviour, IRoomBehaviour
     //Reference for create employee
     public int PoolEmployeeID { get; private set; }
     private GameObject _newEmployee;
+    public bool HasMaintenanceTechnician;
 
     //Value number of jobs
     //public int PourcentageHasTwoJob {  get; private set; }
@@ -74,7 +75,7 @@ public class DirectorRoom : MonoBehaviour, IRoomBehaviour
     /// </summary>
     public void CreateEmployee()
     {
-        if(EmployeeManager.Instance.Employees.Count != EmployeeManager.Instance.Capacity)
+        if (EmployeeManager.Instance.Employees.Count != EmployeeManager.Instance.Capacity)
         {
             if (RoomMain.EmployeeAssign.Count < RoomMain.RoomData.Capacity)
             {
@@ -83,6 +84,21 @@ public class DirectorRoom : MonoBehaviour, IRoomBehaviour
 
                 for (int i = 0; RecrutementList.Count < 5; i++)
                 {
+                    ////generate maintenace techincian
+                    //if (EmployeeManager.Instance.Employees.Count > 5 && !HasMaintenanceTechnician)
+                    //{
+                    //    Debug.Log("maintenance");
+                    //    _newEmployee = Instantiate(DirectorRoomData.MaintenanceTechnician);
+                    //    RecrutementList.Add(_newEmployee);
+
+                    //    _jobProfileGenerator.GenerateMaintenanceProfile(_newEmployee.GetComponent<Employee>());
+                    //}
+                    //if (EmployeeManager.Instance.Employees.Count > 12 && HasMaintenanceTechnician)
+                    //{
+                    //    HasMaintenanceTechnician = false;
+                    //}
+
+                    //generate employee for production room
                     if (RecrutementList.Count < 3)
                     {
                         _newEmployee = ObjectPoolManager.Instance.GetObjectInPool(PoolEmployeeID);
@@ -90,6 +106,8 @@ public class DirectorRoom : MonoBehaviour, IRoomBehaviour
 
                         _jobProfileGenerator.GenerateOtherProfile(_newEmployee.GetComponent<Employee>());
                     }
+
+                    //generate all other employee
                     else
                     {
                         _newEmployee = ObjectPoolManager.Instance.GetObjectInPool(PoolEmployeeID);
@@ -97,7 +115,6 @@ public class DirectorRoom : MonoBehaviour, IRoomBehaviour
 
                         _jobProfileGenerator.GenerateProductProfile(_newEmployee.GetComponent<Employee>());
                     }
-
                 }
             }
         }
@@ -109,7 +126,7 @@ public class DirectorRoom : MonoBehaviour, IRoomBehaviour
         UIManager.Instance.AssignEmployeeWarningUI.gameObject.SetActive(true);
         UIManager.Instance.AssignEmployeeWarningUI.ShowWarningMessage(RoomMain);
     }
-    
+
     public void EmployeeCapacity()
     {
         UIManager.Instance.OpenUI();

@@ -44,6 +44,12 @@ public class DirectorRoomData : ScriptableObject, IRoomBehaviourData
     /// </summary>
     [SerializeField, Tooltip("employee prefab")]
     private GameObject _employee;
+    
+    /// <summary>
+    /// Employee prefab for create employee
+    /// </summary>
+    [SerializeField, Tooltip("employee prefab")]
+    private GameObject _maintenanceTechnician;
 
     /// <summary>
     /// Time to wait before create a new employee
@@ -91,6 +97,11 @@ public class DirectorRoomData : ScriptableObject, IRoomBehaviourData
     /// Employee prefab for create employee
     /// </summary>
     public GameObject Employee { get { return _employee; } }
+    
+    /// <summary>
+    /// Employee prefab for create employee
+    /// </summary>
+    public GameObject MaintenanceTechnician { get { return _maintenanceTechnician; } }
 
     /// <summary>
     /// Time to wait before create a new employee
